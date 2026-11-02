@@ -143,6 +143,19 @@ test('the Sources dialog turns a source off and on: the strip, its commands and 
   sharedSet(SOURCES_STATE,{v:1,hidden:['gitlab','not-a-source',7]});assert.deepEqual([...hiddenSources(sharedGet)],['gitlab'],'unknown entries are ignored');
   sharedSet(SOURCES_STATE,null);assert.equal(nav.timers.length,0,'the strip follows shared state without a timer');await f.teardown();
 });
+test('Classic shows one button per source after the view swap: it opens the panel on that source and the shown one closes it',async t=>{
+  sharedSet(SOURCES_STATE,null);
+  const f=await fixture(t,{tree:classic('jira',true),name:'mission-control-classic'}),bar=f.mount({view:'topbar',swapTo:'mission-control',panel:true});
+  let tree=bar.render();for(const s of SOURCES)assert.match(label(findElement(tree,'quick-'+s.id)),new RegExp('Open '+s.label+' in the work panel'));
+  let n=f.effects.length;trigger(bar.render(),'quick-gitlab','on_click',{},bar.cx);
+  assert.deepEqual(f.commands(f.since(n)),[['layout.select',{stack:'mc-work-stack',child:'gitlab'}],['layout.show',{id:'mc-work-panel'}]],'opens the panel on GitLab issues');
+  assert.match(label(findElement(bar.render(),'quick-gitlab')),/Hide GitLab issues/);
+  n=f.effects.length;trigger(bar.render(),'quick-gitlab','on_click',{},bar.cx);
+  assert.deepEqual(f.commands(f.since(n)),[['layout.hide',{id:'mc-work-panel'}]],'the shown source closes the panel');
+  sharedSet(SOURCES_STATE,{v:1,hidden:['gitlab']});assert.equal(present(bar.render(),'quick-gitlab'),false,'a source that is off has no button');assert.equal(present(bar.render(),'quick-jira'),true);
+  sharedSet(SOURCES_STATE,null);await f.teardown();
+  const o=await fixture(t),top=o.mount({view:'topbar',swapTo:'mission-control-classic'});assert.equal(present(top.render(),'quick-sources'),false,'the overview keeps its own navigation strip instead');await o.teardown();
+});
 test('the tab bar gear opens the Sources dialog, and the sources command does the same',async t=>{
   const f=await fixture(t),bar=f.mount({view:'topbar',swapTo:'mission-control-classic'});let n=f.effects.length;
   trigger(bar.render(),'mc-sources','on_click',{},bar.cx);

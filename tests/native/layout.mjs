@@ -99,6 +99,7 @@ export const EXPECTATIONS=Object.freeze({
   classicStart:'Classic starts terminal-first under one topmost Mission Control tab bar with its work panel hidden',
   footerClassic:'Settings and Add machine sit at the bottom-left of the 220 px rail and open Herdr’s own Settings and machine dialogs',
   panelOpens:'The bar’s panel control opens the Classic work panel on its first source',
+  quickSources:'In Classic the source buttons after the view swap open the work panel on their source, and the shown source’s button closes it',
   classicIcons:'The Classic panel draws all six local source icons inside the panel',
   classicSeparated:'In Classic, Jira, GitHub issues, pull requests, GitLab issues, merge requests and previous sessions each show only their own view without a repeated heading',
   classicGitlabStart:'A pinned GitLab issue start in the Classic panel runs the chosen tool in a workspace-plus-issue worktree created from the focused linked checkout',
@@ -508,6 +509,8 @@ export default async function layoutNative(runtime){
       const label=LAYOUT_LABELS[view===LAYOUTS.overview?LAYOUTS.classic:LAYOUTS.overview],hit=await pick(label,(n,o)=>inTop(n)&&n.frame.x>o.window.width/2,{only:true,description:'view swap control '+label});
       const f=hit.node.frame,left=f.x-G.swapGap-G.swapIcon-G.swapPadX,top=(G.topbar-G.control)/2,rects={swap:{x:left,y:top,width:f.x+f.width+G.swapPadX-left,height:G.control}};
       (view===LAYOUTS.classic?['sources','panel','reopen-agent','reopen-tab','plus']:['sources','reopen-agent','reopen-tab','plus']).forEach((name,index)=>{const right=left-G.controlGap-index*(G.control+G.controlGap);rects[name]={x:right-G.control,y:top,width:G.control,height:G.control};});
+      // Classic's source buttons follow the swap, 2 px apart.
+      if(view===LAYOUTS.classic){const start=rects.swap.x+rects.swap.width+G.controlGap;SOURCES.forEach((source,index)=>{rects['quick-'+source.id]={x:start+index*(G.control+2),y:top,width:G.control,height:G.control};});}
       return {observation:hit.observation,rects,label:hit};
     };
     const panelOpen=async()=>{
@@ -599,6 +602,14 @@ export default async function layoutNative(runtime){
     await click('Settings',inFooter,{only:true,control:'Footer Settings'});await until(()=>overlays().includes('frame-settings'),'Herdr Settings',20000);await closeOverlay();
     expect(machineDialog,'footerClassic');
     expect(await ensurePanel()&&Boolean(await separated('jira')),'panelOpens');
+    {
+      // Classic's source buttons: one opens the panel on its source; the shown source's button closes the panel.
+      let c=await controls();await clickRect(c.rects['quick-gitlab'],c.observation,'Open GitLab issues in the work panel');
+      const opened=await until(async()=>(await panelOpen())&&(await shared())[STATE_KEYS.nav]?.source==='gitlab'?true:null,'GitLab issues opened from its tab-bar button',30000).catch(()=>false);
+      c=await controls();await clickRect(c.rects['quick-gitlab'],c.observation,'Hide GitLab issues');
+      const closed=await until(async()=>!(await panelOpen())?true:null,'work panel closed by the shown source button',30000).catch(()=>false);
+      expect(Boolean(opened&&closed&&await ensurePanel()),'quickSources');
+    }
     expect(await iconsDrawn(),'classicIcons');
     let allSeparated=true;for(const id of ['github','pulls','merges','sessions','jira','gitlab'])allSeparated=Boolean(await selectSource(id))&&allSeparated;
     expect(allSeparated,'classicSeparated');

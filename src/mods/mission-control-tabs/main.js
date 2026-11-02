@@ -18,7 +18,7 @@ import {TabNameService} from '../../shared/tab-service.js';
 import {ReopenController} from '../../shared/reopen.js';
 import {displayLabel,folderName,NAME_LIMITS} from '../../shared/tab-names.js';
 import {colors,icon,iconButton,safeArtworkPath} from '../../shared/ui.js';
-import {NODES,SOURCES,NAV_STATE,NAV_TIMING,SOURCES_STATE,layoutContract,scopeOf,selectSource,swapView,togglePanel,restoreView,renderNavigation,renderSwap,renderPanelToggle,hiddenSources,setSourceShown,sourceState} from './navigation.js';
+import {NODES,SOURCES,NAV_STATE,NAV_TIMING,SOURCES_STATE,layoutContract,scopeOf,selectSource,swapView,togglePanel,restoreView,renderNavigation,renderSwap,renderPanelToggle,hiddenSources,setSourceShown,sourceState,renderSourceButtons} from './navigation.js';
 
 export const MOD='mission-control-tabs';
 /** Versioned shared keys: a context-menu request for the bar, and key-command de-duplication across copies. */
@@ -154,6 +154,7 @@ export default class MissionControlTabs extends View {
     if(!space){herdr.notify({title:'New agent',body:'Select a space first.',level:'info'});return null;}
     return openLaunchDialog(MOD,herdr,{view,spaceId:space.id,machine:space.machine??null});
   }
+  openSource(id){const r=selectSource(id,{contract:this.contract(),sharedFn:herdr.shared,setSharedFn:herdr.setShared,runFn:herdr.run,reveal:true});if(!r.ok)herdr.notify({title:'Work sources',body:r.message,level:'warning'});return r;}
   openSources(){herdr.openOverlay({mod:MOD,kind:'popup',width:300,height:318,props:{view:'sources'}});}
   swap(){const r=swapView({contract:this.contract(),focused:herdr.focused?.()??null,sharedFn:herdr.shared,setSharedFn:herdr.setShared,runFn:herdr.run});if(!r.ok)herdr.notify({title:'Switch view',body:r.message,level:'warning'});return r;}
   togglePanel(){const r=togglePanel({contract:this.contract(),runFn:herdr.run});if(!r.ok)herdr.notify({title:'Work panel',body:r.message,level:'warning'});return r;}
@@ -250,6 +251,7 @@ export default class MissionControlTabs extends View {
     let zoom=1;try{zoom=Number(herdr.settings()?.zoom)||1;}catch{}
     this.pickRequest(cx);
     const ctx={t,space,machine,primaries:primaryPanes(tabs,herdr.panes()||[])},previews=this.previews(),panel=renderPanelToggle(MOD,contract,{onToggle:()=>this.togglePanel()});
+    const quick=renderSourceButtons(MOD,contract,{hidden:hiddenSources(herdr.shared),onPick:(id,shown)=>shown?this.togglePanel():this.openSource(id)});
     const plus=iconButton(MOD,'mc-new','plus',space?`New agent or terminal in ${space.name||'this space'}`:'Select a space to start an agent',()=>this.openMenu(space),{disabled:!space,size:26});
     return h_flex().id('mc-tabs').size_full().min_w(0).pl(lightsPadding({win:w,tree,zoom})).pr(8).gap(4).items_center().bg(t.chrome).border_b(1).border_color(t.border).text_color(t.foreground)
       .on_size_change((size,eventCx)=>{if(size?.width!==this.width){this.width=size?.width??null;eventCx.notify();}})
@@ -261,6 +263,7 @@ export default class MissionControlTabs extends View {
       .when(Boolean(panel),el=>el.child(panel))
       .child(iconButton(MOD,'mc-sources','settings','Mission Control sources: choose which work sources to show',()=>this.openSources(),{size:26}))
       .child(renderSwap(MOD,contract,{compact:!(this.width>=TOPBAR_WIDE),onSwap:()=>this.swap()}))
+      .when(Boolean(quick),el=>el.child(quick))
       .when(w?.buttons===true,el=>el.child(this.windowButtons(t,w)));
   }
   navigation(){

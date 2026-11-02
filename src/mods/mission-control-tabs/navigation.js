@@ -209,6 +209,18 @@ export function renderNavigation({mod,contract,width=null,scope=null,spaceName=n
   if(panel)root=root.child(iconButton(mod,'hide-work-panel','close','Hide work panel',(_e,cx)=>onHide?.(cx),{size:24}));
   return root;
 }
+/**
+ * Classic's source buttons after the view swap, each with its service's icon: one opens the work panel on its
+ * source, and the source already shown closes the panel. Sources that are off or not in the layout are left out.
+ */
+export function renderSourceButtons(mod,contract,{hidden=new Set(),onPick}={}){
+  if(!contract?.panel||!contract.stack)return null;
+  const open=contract.panel.hidden!==true,items=SOURCES.filter(s=>sourceState(contract,s.id,hidden).enabled).map(s=>{
+    const shown=open&&contract.active===s.id,label=shown?`Hide ${s.label}`:`Open ${s.label} in the work panel`;
+    return iconButton(mod,'quick-'+s.id,s.icon,label,(_e,cx)=>onPick?.(s.id,shown,cx),{active:shown,size:26});
+  });
+  return items.length?h_flex().id('quick-sources').flex_none().gap(2).items_center().role('tab_list').accessibility_label('Work panel sources').children(items):null;
+}
 /** The one swap control for the top bar; disabled with its reason outside a Mission Control view. */
 export function renderSwap(mod,contract,{compact=true,onSwap}={}){
   const t=colors(),s=contract.swap,hint=s.enabled?'Switch to '+s.label:'View swap unavailable: '+s.reason;
