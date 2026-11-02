@@ -2,6 +2,10 @@
 
 Mission Control adds two native layouts and a set of self-contained mods to the Herdr desktop app for people who run many repository spaces and coding agents across several machines.
 
+[![Mission Control overview: Spaces and Agents rail, six work sources with a Jira board, and the active tab's terminal below](mission-control/preview.png)](mission-control/preview.png)
+
+*The Mission Control overview, captured from the native layout gate with synthetic spaces, agents and tracker data.*
+
 - **Mission Control** (`mission-control`) is an overview: a Spaces/Agents rail on the left, six work sources (Jira, GitHub issues, Pull requests, GitLab issues, Merge requests, Previous sessions) in the main area, and the active tab's terminals below.
 - **Classic** (`mission-control-classic`) is terminal-first: the same rail and terminals, with the same six sources in a side panel that starts closed.
 
@@ -11,20 +15,20 @@ Both layouts share one topmost tab bar with automatic tab naming, an agent menu,
 
 ## Packages
 
-Each package is a complete folder in this repository.
+Each package is a complete folder in this repository with its own `RECIPE.md` and native `preview.png`, as Herdr's sharing rules ask. Click a screenshot for full size.
 
-| Folder | Kind | Contents | In the layout bundle |
-| --- | --- | --- | --- |
-| `mission-control/` | Layout bundle | Both layouts, their Settings previews and the mods they reference | — |
-| `mission-control-tabs/` | Standalone mod | Topmost tab bar, automatic names, own agent menu, Reopen buttons, view swap, six-source navigation | Yes |
-| `mission-control-spaces/` | Standalone mod | Spaces sidebar, space context menu, Settings / Add machine footer | Yes |
-| `mission-control-agents/` | Standalone mod | Agents list with tool icons, context and quota readings, Priority / Spaces grouping | Yes |
-| `mission-control-jira/` | Standalone mod | Jira board, setup and launch dialogs (one runtime mod) | Yes |
-| `mission-control-github/` | Standalone mod | GitHub issues and pull requests views, setup and launch dialogs | Yes |
-| `mission-control-gitlab/` | Standalone mod | GitLab issues and merge-request views, setup and launch dialogs | Yes |
-| `mission-control-sessions/` | Standalone mod | Previous agent sessions per space, exact resume | Yes |
-| `mission-control-agent-menu/` | Standalone mod | The agent menu on its own | No: the tabs mod compiles in the same menu |
-| `mission-control-reopen/` | Standalone mod | A bottom Reopen bar and popup | No: the tab bar has its own Reopen buttons |
+| Folder | Screenshot | Kind | Contents | In the layout bundle |
+| --- | --- | --- | --- | --- |
+| [`mission-control/`](mission-control/RECIPE.md) | <a href="mission-control/preview.png"><img src="mission-control/preview.png" width="240" alt="mission-control screenshot"></a> | Layout bundle | Both layouts, their Settings previews and the mods they reference | — |
+| [`mission-control-tabs/`](mission-control-tabs/RECIPE.md) | <a href="mission-control-tabs/preview.png"><img src="mission-control-tabs/preview.png" width="240" alt="mission-control-tabs screenshot"></a> | Standalone mod | Topmost tab bar, automatic names, own agent menu, Reopen buttons, view swap, six-source navigation | Yes |
+| [`mission-control-spaces/`](mission-control-spaces/RECIPE.md) | <a href="mission-control-spaces/preview.png"><img src="mission-control-spaces/preview.png" width="240" alt="mission-control-spaces screenshot"></a> | Standalone mod | Spaces sidebar, space context menu, Settings / Add machine footer | Yes |
+| [`mission-control-agents/`](mission-control-agents/RECIPE.md) | <a href="mission-control-agents/preview.png"><img src="mission-control-agents/preview.png" width="240" alt="mission-control-agents screenshot"></a> | Standalone mod | Agents list with tool icons, context and quota readings, Priority / Spaces grouping | Yes |
+| [`mission-control-jira/`](mission-control-jira/RECIPE.md) | <a href="mission-control-jira/preview.png"><img src="mission-control-jira/preview.png" width="240" alt="mission-control-jira screenshot"></a> | Standalone mod | Jira board, setup and launch dialogs (one runtime mod) | Yes |
+| [`mission-control-github/`](mission-control-github/RECIPE.md) | <a href="mission-control-github/preview.png"><img src="mission-control-github/preview.png" width="240" alt="mission-control-github screenshot"></a> | Standalone mod | GitHub issues and pull requests views, setup and launch dialogs | Yes |
+| [`mission-control-gitlab/`](mission-control-gitlab/RECIPE.md) | <a href="mission-control-gitlab/preview.png"><img src="mission-control-gitlab/preview.png" width="240" alt="mission-control-gitlab screenshot"></a> | Standalone mod | GitLab issues and merge-request views, setup and launch dialogs | Yes |
+| [`mission-control-sessions/`](mission-control-sessions/RECIPE.md) | <a href="mission-control-sessions/preview.png"><img src="mission-control-sessions/preview.png" width="240" alt="mission-control-sessions screenshot"></a> | Standalone mod | Previous agent sessions per space, exact resume | Yes |
+| [`mission-control-agent-menu/`](mission-control-agent-menu/RECIPE.md) | <a href="mission-control-agent-menu/preview.png"><img src="mission-control-agent-menu/preview.png" width="240" alt="mission-control-agent-menu screenshot"></a> | Standalone mod | The agent menu on its own | No: the tabs mod compiles in the same menu |
+| [`mission-control-reopen/`](mission-control-reopen/RECIPE.md) | <a href="mission-control-reopen/preview.png"><img src="mission-control-reopen/preview.png" width="240" alt="mission-control-reopen screenshot"></a> | Standalone mod | A bottom Reopen bar and popup | No: the tab bar has its own Reopen buttons |
 
 The optional `mission-control-accounts` mod (Claude Code / Codex account profiles) is **not built**. Only its feasibility probe exists ([docs/account-profile-capabilities.md](docs/account-profile-capabilities.md)); neither layout depends on it.
 
