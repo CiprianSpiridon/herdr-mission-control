@@ -1545,6 +1545,10 @@ function observedArgv(raw, expected, task) {
   const shell = args[0];
   return typeof shell === "string" && (shell.startsWith("/") || !shell.includes("/")) && /^(?:sh|bash|zsh|dash|ksh)$/.test(shell.split("/").pop()) && WRAPPERS[args[1]] === args[2] && args[3] === shell && accepted.includes(JSON.stringify(args.slice(4)));
 }
+function shellHoldsForeground(raw) {
+  const args = Array.isArray(raw?.argv) ? raw.argv : [];
+  return args[1] === "-lic" && WRAPPERS["-lic"] === args[2] && Number.isSafeInteger(raw.pid) && raw.foreground?.pid === raw.pid;
+}
 async function inspect(io, r, ack) {
   const listing = await io.exec("herdr-app", ["ls"]);
   if (listing.code !== 0) fail8("ACK_UNVERIFIED", "Cannot inspect the acknowledged tab");
@@ -1693,6 +1697,11 @@ async function launch(input, io) {
         else await io.exec("sleep", ["0.15"]);
         actual = await inspect(io, r, record.ack);
         if (!actual.exists) break;
+      }
+      for (let attempt = 0; actual.exists && shellHoldsForeground(actual.raw) && attempt < 40; attempt++) {
+        if (io.delay) await io.delay(150);
+        else await io.exec("sleep", ["0.15"]);
+        actual = await inspect(io, r, record.ack);
       }
       if (!actual.exists || !actual.identity.foregroundPid) fail8("BINDING_NOT_READY", "Agent started; exact foreground identity is still unavailable. Retry only its binding commit.", { tabId: record.ack.tab, terminalId: record.ack.terminal });
       const expected = buildArguments(caps, { options: r.options, ...record.proofKind === "resume-argv" ? { resumeSessionId: record.sessionProposal.sessionId } : { newSessionId: record.sessionProposal.sessionId } });

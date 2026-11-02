@@ -891,6 +891,10 @@ var bytes2 = (value) => {
 var fail5 = (code, message) => {
   throw Object.assign(Error(message), { code });
 };
+var claudeForeground = (raw) => {
+  const argv = Array.isArray(raw?.foreground?.argv) ? raw.foreground.argv.slice(0, 4) : [];
+  return argv.some((a) => typeof a === "string" && (/(^|\/)claude$/.test(a) || a.includes("/@anthropic-ai/claude-code/")));
+};
 var sameScope = (scope, source) => scope && ["machine", "provider", "providerRoot", "credentialScope"].every((k) => scope[k] === source[k]);
 var TelemetryBridge = class {
   constructor(mod, api = herdr, { clock = () => Date.now() } = {}) {
@@ -1059,6 +1063,27 @@ var TelemetryBridge = class {
       }
     }
   }
+  /** Read-only: Claude Code's own records for these foreground PIDs, accepted only for the live process that wrote them. */
+  async adopt(source, processes) {
+    const unique = /* @__PURE__ */ new Map();
+    for (const p of processes) if (!unique.has(p.pid)) unique.set(p.pid, { pid: p.pid, notBefore: p.notBefore });
+    const request = { v: 1, operation: "adopt", source, pids: [...unique.values()].slice(0, 64) }, asked = new Set(request.pids.map((p) => p.pid)), serialized = JSON.stringify(request);
+    if (bytes2(serialized) > 65536) fail5("REQUEST_TOO_LARGE", "The adoption request exceeds its bounded size.");
+    const code = await this.collector();
+    if (this.closed) fail5("CLOSED", "Telemetry view was closed.");
+    const result = await this.io.exec("python3", ["-c", code, serialized], { on: source.machine });
+    if (result.code !== 0 || typeof result.stdout !== "string" || bytes2(result.stdout) > 65536) fail5("HOST_UNAVAILABLE", "The destination machine could not run its read-only Python collector.");
+    let response;
+    try {
+      response = JSON.parse(result.stdout);
+    } catch {
+      fail5("INVALID_RESPONSE", "The adoption response is not valid JSON.");
+    }
+    if (response?.v !== 1 || !sameScope(response.scope, source) || !Array.isArray(response.adopt)) fail5("SCOPE_MISMATCH", "The adoption response belongs to a different host/provider/profile.");
+    const found = /* @__PURE__ */ new Map(), UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    for (const row of response.adopt) if (row && asked.has(row.pid) && typeof row.sessionId === "string" && UUID.test(row.sessionId)) found.set(row.pid, row.sessionId);
+    return found;
+  }
   async full(address, machine2) {
     const local = localTerminalAddress(address, machine2), result = await this.io.exec("hc", ["get", local, "--json"], { on: machine2 });
     if (result.code !== 0 || typeof result.stdout !== "string" || bytes2(result.stdout) > 1048576) fail5("TERMINAL_UNAVAILABLE", "The exact terminal generation is unavailable on its machine.");
@@ -1115,7 +1140,7 @@ var TelemetryBridge = class {
         const bound = await this.bindings.readCommitted(actual.terminal);
         if (this.closed) return;
         const source = bound ? sources.find((s) => usageSourceKey(s) === JSON.stringify([bound.session.machine, bound.session.provider, bound.session.providerRoot, bound.session.credentialScope])) : null;
-        const state2 = { ...actual, session: bound?.session || null, requestId: bound?.requestId || null, sourceId: source?.id || null, reason: !bound ? "No committed exact provider session binding." : !source ? "This session usage source is disabled or unavailable." : null };
+        const state2 = { ...actual, session: bound?.session || null, requestId: bound?.requestId || null, sourceId: source?.id || null, unbound: !bound, reason: !bound ? "No committed exact provider session binding." : !source ? "This session usage source is disabled or unavailable." : null };
         if (!source) state2.session = null;
         this.agentStates.set(agent.address, state2);
         if (source) {
@@ -1123,6 +1148,37 @@ var TelemetryBridge = class {
           groups.get(source.id).identities.set(sessionKey(bound.session), bound.session);
         }
         for (const [id, record] of Object.entries(snapshot.proposals)) if (record.state === "committed" && record.ack.terminal.machine === machine2 && record.ack.terminal.address === actual.terminal.address && terminalKey(record.ack.terminal) !== terminalKey(actual.terminal)) await this.bindings.invalidate(id, "Terminal generation or foreground PID changed");
+      }
+      const unbound = agents2.map((agent) => [agent, this.agentStates.get(agent.address)]).filter(([, state2]) => state2?.unbound && Number.isSafeInteger(state2.terminal?.foregroundPid) && Number.isSafeInteger(state2.terminal?.createdMs) && claudeForeground(state2.raw));
+      if (unbound.length) {
+        const hits = /* @__PURE__ */ new Map();
+        for (const source of sources.filter((s) => s.provider === "claude")) {
+          if (this.closed) return;
+          let found;
+          try {
+            found = await this.adopt(source, unbound.map(([, state2]) => ({ pid: state2.terminal.foregroundPid, notBefore: state2.terminal.createdMs })));
+          } catch {
+            continue;
+          }
+          for (const [pid, sessionId] of found) {
+            if (!hits.has(pid)) hits.set(pid, []);
+            hits.get(pid).push({ source, sessionId });
+          }
+        }
+        for (const [, state2] of unbound) {
+          const found = hits.get(state2.terminal.foregroundPid) || [];
+          if (found.length !== 1) {
+            if (found.length) state2.reason = "Several Claude Code profiles claim this process; no session is chosen.";
+            continue;
+          }
+          const { source, sessionId } = found[0];
+          state2.session = { machine: machine2, provider: "claude", credentialScope: source.credentialScope, providerRoot: source.providerRoot, sessionId };
+          state2.sourceId = source.id;
+          state2.adopted = true;
+          state2.reason = null;
+          if (!groups.has(source.id)) groups.set(source.id, { source, identities: /* @__PURE__ */ new Map() });
+          groups.get(source.id).identities.set(sessionKey(state2.session), state2.session);
+        }
       }
       for (const group of groups.values()) try {
         await this.scanSource(group.source, [...group.identities.values()], { force });
@@ -1145,7 +1201,7 @@ var TelemetryBridge = class {
         }
         const bound = await this.bindings.readCommitted(actual.terminal);
         if (this.closed) return;
-        if (terminalKey(actual.terminal) !== terminalKey(state2.terminal) || !bound || sessionKey(bound.session) !== sessionKey(state2.session)) {
+        if (terminalKey(actual.terminal) !== terminalKey(state2.terminal) || !state2.adopted && (!bound || sessionKey(bound.session) !== sessionKey(state2.session))) {
           if (state2.requestId) await this.bindings.invalidate(state2.requestId, "Terminal identity changed during usage collection");
           state2.session = null;
           state2.reason = "Terminal identity changed while collecting usage.";
@@ -1706,8 +1762,8 @@ var MissionControlAgents = class extends View {
     return v_flex2().id("usage-source-form").size_full().p(18).gap(12).bg(t.surface).text_size(12).child(this.sourceHeader(this.props.fresh ? "Add metadata profile" : "Edit usage source")).child(label(providerName(this.form.provider) + " · " + (this.form.machine || "This Mac"), { muted: true, size: 11 })).child(v_flex2().flex_1().min_h(0).overflow_y_scrollbar().gap(13).child(this.field("source-profile", "Profile name", this.profile)).child(this.field("source-provider-root", "Provider root", this.providerRoot)).child(this.pathRows("Session roots", "roots", this.rootInputs)).child(this.pathRows("Sanitized cache roots (optional)", "cache", this.cacheInputs))).when(Boolean(this.error), (e) => e.child(div2().text_size(11).text_color(t.blocked).child(this.error))).child(textButton("save-usage-source", this.busy ? "Saving…" : "Save source", (_e, cx) => this.saveSource(cx), { primary: true, disabled: this.busy }));
   }
   reading(labelText, value) {
-    const t = colors(), available = value.state === "available" && Number.isFinite(value.percent), text6 = available ? (value.estimated ? "~" : "") + Math.round(value.percent) + "%" : value.state === "stale" ? "Stale" : "Unavailable";
-    return h_flex2().flex_1().min_w(0).gap(4).items_center().text_size(9).tooltip(value.scope || value.reason).child(div2().text_color(t.dim).child(labelText)).child(div2().truncate().text_color(available && value.percent < 15 ? t.blocked : t.muted).child(text6));
+    const t = colors(), known = (value.state === "available" || value.state === "stale") && Number.isFinite(value.percent), stale = value.state === "stale", text6 = known ? (value.estimated ? "~" : "") + Math.round(value.percent) + "%" : stale ? "Stale" : "Unavailable";
+    return h_flex2().flex_1().min_w(0).gap(4).items_center().text_size(9).tooltip(value.scope || value.reason).child(div2().text_color(t.dim).child(labelText)).child(div2().truncate().text_color(known && !stale && value.percent < 15 ? t.blocked : known && stale ? t.dim : t.muted).child(text6));
   }
   row(row) {
     const t = colors(), active = row.focused || herdr2.focused()?.agent === row.address;

@@ -4,688 +4,688 @@
   "code": null,
   "error": null,
   "cleanupError": null,
-  "completedMs": 1793545139049,
-  "nonce": "0eea507829a0b16591308ec2",
+  "completedMs": 1793594313602,
+  "nonce": "55425756870424b5424e87ec",
   "isolation": {
     "method": "private-ownership-v2",
     "existingInstancesQueried": false,
     "context": {
-      "root": "/private/tmp/mcqa-ON5Zun",
-      "nonce": "0eea507829a0b16591308ec2",
-      "session": "mcqa-0eea507829a0b16591308ec2",
+      "root": "/private/tmp/mcqa-UPezF1",
+      "nonce": "55425756870424b5424e87ec",
+      "session": "mcqa-55425756870424b5424e87ec",
       "uid": 502,
-      "createdMs": 1793544961636,
+      "createdMs": 1793594105991,
       "directory": {
         "dev": "16777233",
-        "ino": "810367373",
+        "ino": "815587626",
         "uid": 502,
         "mode": 448,
-        "birthMs": 1793544961636
+        "birthMs": 1793594105991
       },
       "selectors": {
-        "HOME": "/private/tmp/mcqa-ON5Zun/h",
-        "USERPROFILE": "/private/tmp/mcqa-ON5Zun/h",
-        "TMPDIR": "/private/tmp/mcqa-ON5Zun/t",
-        "XDG_CONFIG_HOME": "/private/tmp/mcqa-ON5Zun/c",
-        "XDG_DATA_HOME": "/private/tmp/mcqa-ON5Zun/d",
-        "XDG_STATE_HOME": "/private/tmp/mcqa-ON5Zun/s",
-        "XDG_CACHE_HOME": "/private/tmp/mcqa-ON5Zun/k",
-        "XDG_RUNTIME_DIR": "/private/tmp/mcqa-ON5Zun/r",
-        "HERDR_APP_HOME": "/private/tmp/mcqa-ON5Zun/app",
-        "HC_SESSION": "mcqa-0eea507829a0b16591308ec2"
+        "HOME": "/private/tmp/mcqa-UPezF1/h",
+        "USERPROFILE": "/private/tmp/mcqa-UPezF1/h",
+        "TMPDIR": "/private/tmp/mcqa-UPezF1/t",
+        "XDG_CONFIG_HOME": "/private/tmp/mcqa-UPezF1/c",
+        "XDG_DATA_HOME": "/private/tmp/mcqa-UPezF1/d",
+        "XDG_STATE_HOME": "/private/tmp/mcqa-UPezF1/s",
+        "XDG_CACHE_HOME": "/private/tmp/mcqa-UPezF1/k",
+        "XDG_RUNTIME_DIR": "/private/tmp/mcqa-UPezF1/r",
+        "HERDR_APP_HOME": "/private/tmp/mcqa-UPezF1/app",
+        "HC_SESSION": "mcqa-55425756870424b5424e87ec"
       }
     },
     "core": {
-      "id": "923780f6ee0027b0f326dc52bc1f2fcd",
+      "id": "a2095392cab5457fb4d78c9c8c172d89",
       "process": {
-        "pid": 83438,
+        "pid": 1510,
         "uid": 502,
-        "startedMs": 1793544961000,
+        "startedMs": 1793594106000,
         "executable": "/Users/ciprian/.local/bin/herdr-core",
-        "fingerprint": "51f8e8a41c09e54e98e50394d9066fcff96944a68d13e51b2e74109a8c8dac69"
+        "fingerprint": "8c9e408432ccff014f42122520d260f20ee138e3e4afb470697b64cacfda9379"
       },
       "socket": {
-        "path": "/private/tmp/mcqa-ON5Zun/r/herdr-core/mcqa-0eea507829a0b16591308ec2.sock",
+        "path": "/private/tmp/mcqa-UPezF1/r/herdr-core/mcqa-55425756870424b5424e87ec.sock",
         "dev": "16777233",
-        "ino": "810367390",
+        "ino": "815587651",
         "uid": 502,
         "mode": 493,
         "ownerPids": [
-          83438
+          1510
         ]
       },
       "holder": {
         "process": {
-          "pid": 83604,
+          "pid": 1740,
           "uid": 502,
-          "startedMs": 1793544962000,
+          "startedMs": 1793594107000,
           "executable": "/Users/ciprian/.local/bin/herdr-core",
-          "fingerprint": "c1da8f4e7c2fd7e2520fc8cbd0af2b8a1c2362607af6b42bf4d82ce318f62d86"
+          "fingerprint": "5e0cd5bc483284c50f977b518d101c29f187ecfc8eef5eb12d10e67692de59ad"
         },
         "socket": {
-          "path": "/private/tmp/mcqa-ON5Zun/r/herdr-core/mcqa-0eea507829a0b16591308ec2.holder.ce01152e.sock",
+          "path": "/private/tmp/mcqa-UPezF1/r/herdr-core/mcqa-55425756870424b5424e87ec.holder.a0572f81.sock",
           "dev": "16777233",
-          "ino": "810367464",
+          "ino": "815587805",
           "uid": 502,
           "mode": 493,
           "ownerPids": [
-            83604
+            1740
           ]
         }
       }
     },
     "app": {
       "process": {
-        "pid": 83921,
+        "pid": 2589,
         "uid": 502,
-        "startedMs": 1793544964000,
+        "startedMs": 1793594111000,
         "executable": "/Applications/Herdr.app/Contents/MacOS/Herdr",
-        "fingerprint": "0ecb8b69e62e44a176cd43354c63bdd5de8302ceeda55c0bf9f48cf914d51ff8"
+        "fingerprint": "3352a5c621087937cdce5884d6faaf3761033054e97f15865319fd45c009ddda"
       },
       "socket": {
-        "path": "/private/tmp/mcqa-ON5Zun/app/herdr-app.sock",
+        "path": "/private/tmp/mcqa-UPezF1/app/herdr-app.sock",
         "dev": "16777233",
-        "ino": "810368042",
+        "ino": "815588711",
         "uid": 502,
         "mode": 493,
         "ownerPids": [
-          83921
+          2589
         ]
       }
     },
     "commandAudit": [
       {
         "sequence": 1,
-        "at": 1793544961645,
+        "at": 1793594106052,
         "kind": "hc",
         "command": "server start",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "boot",
         "result": "ok"
       },
       {
         "sequence": 2,
-        "at": 1793544961689,
+        "at": 1793594106116,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "boot",
         "result": "ok"
       },
       {
         "sequence": 3,
-        "at": 1793544961802,
+        "at": 1793594106288,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 4,
-        "at": 1793544962325,
+        "at": 1793594106996,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 5,
-        "at": 1793544962383,
+        "at": 1793594107076,
         "kind": "hc",
         "command": "run",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 6,
-        "at": 1793544962474,
+        "at": 1793594107222,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 7,
-        "at": 1793544962645,
+        "at": 1793594107478,
         "kind": "hc",
         "command": "ls",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 8,
-        "at": 1793544962709,
+        "at": 1793594107566,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 9,
-        "at": 1793544962822,
+        "at": 1793594107720,
         "kind": "hc",
         "command": "get t1",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 10,
-        "at": 1793544962952,
+        "at": 1793594107995,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 11,
-        "at": 1793544963412,
+        "at": 1793594109913,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 12,
-        "at": 1793544963530,
+        "at": 1793594110062,
         "kind": "app",
-        "command": "check /private/tmp/mcqa-ON5Zun/app/mods/mission-control-jira",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "command": "check /private/tmp/mcqa-UPezF1/app/mods/mission-control-jira",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 13,
-        "at": 1793544964797,
+        "at": 1793594111599,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 14,
-        "at": 1793544965575,
+        "at": 1793594112272,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 15,
-        "at": 1793544965755,
+        "at": 1793594112450,
         "kind": "app",
         "command": "status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 16,
-        "at": 1793544965825,
+        "at": 1793594112514,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 17,
-        "at": 1793544965996,
+        "at": 1793594112684,
         "kind": "app",
         "command": "ls",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 18,
-        "at": 1793544966061,
+        "at": 1793594112752,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 19,
-        "at": 1793544966181,
+        "at": 1793594112889,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 20,
-        "at": 1793544966243,
+        "at": 1793594112952,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 21,
-        "at": 1793544966418,
+        "at": 1793594113124,
         "kind": "app",
         "command": "layout.switch",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 22,
-        "at": 1793544966502,
+        "at": 1793594113207,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 23,
-        "at": 1793544966684,
+        "at": 1793594113370,
         "kind": "app",
         "command": "status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 24,
-        "at": 1793544966760,
+        "at": 1793594113429,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 25,
-        "at": 1793544966931,
+        "at": 1793594113591,
         "kind": "app",
         "command": "status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 26,
-        "at": 1793544971360,
+        "at": 1793594117864,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 27,
-        "at": 1793544971522,
+        "at": 1793594118026,
         "kind": "app",
         "command": "space.rename",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 28,
-        "at": 1793544971585,
+        "at": 1793594118089,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 29,
-        "at": 1793544971749,
+        "at": 1793594118251,
         "kind": "app",
         "command": "space.new",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 30,
-        "at": 1793544973480,
+        "at": 1793594120011,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 31,
-        "at": 1793544973645,
+        "at": 1793594120176,
         "kind": "app",
         "command": "space.select",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 32,
-        "at": 1793545009728,
+        "at": 1793594158878,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 33,
-        "at": 1793545009843,
+        "at": 1793594158991,
         "kind": "hc",
         "command": "get t3",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 34,
-        "at": 1793545009902,
+        "at": 1793594159053,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 35,
-        "at": 1793545010016,
+        "at": 1793594159171,
         "kind": "hc",
         "command": "ls",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 36,
-        "at": 1793545012839,
+        "at": 1793594164199,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 37,
-        "at": 1793545012948,
+        "at": 1793594164313,
         "kind": "hc",
         "command": "ls",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 38,
-        "at": 1793545018681,
+        "at": 1793594166632,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 39,
-        "at": 1793545018797,
+        "at": 1793594166746,
         "kind": "hc",
         "command": "ls",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 40,
-        "at": 1793545024193,
+        "at": 1793594190130,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 41,
-        "at": 1793545024302,
+        "at": 1793594190235,
         "kind": "hc",
         "command": "get t4",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 42,
-        "at": 1793545042107,
+        "at": 1793594193942,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 43,
-        "at": 1793545042275,
+        "at": 1793594194117,
         "kind": "app",
         "command": "status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 44,
-        "at": 1793545042577,
+        "at": 1793594194424,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 45,
-        "at": 1793545042740,
+        "at": 1793594194589,
         "kind": "app",
         "command": "status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 46,
-        "at": 1793545042802,
+        "at": 1793594194653,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 47,
-        "at": 1793545042962,
+        "at": 1793594194818,
         "kind": "app",
         "command": "space.select",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 48,
-        "at": 1793545048950,
+        "at": 1793594207808,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 49,
-        "at": 1793545049114,
+        "at": 1793594207978,
         "kind": "app",
         "command": "status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 50,
-        "at": 1793545122766,
+        "at": 1793594287298,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 51,
-        "at": 1793545122934,
+        "at": 1793594287469,
         "kind": "app",
         "command": "status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 52,
-        "at": 1793545123098,
+        "at": 1793594287635,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 53,
-        "at": 1793545123267,
+        "at": 1793594287809,
         "kind": "app",
         "command": "status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 54,
-        "at": 1793545137786,
+        "at": 1793594312305,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 55,
-        "at": 1793545137954,
+        "at": 1793594312480,
         "kind": "app",
         "command": "status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 56,
-        "at": 1793545138021,
+        "at": 1793594312551,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 57,
-        "at": 1793545138246,
+        "at": 1793594312780,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "cleanup",
         "result": "ok"
       },
       {
         "sequence": 58,
-        "at": 1793545138415,
+        "at": 1793594312956,
         "kind": "app",
         "command": "status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "cleanup",
         "result": "ok"
       },
       {
         "sequence": 59,
-        "at": 1793545138479,
+        "at": 1793594313021,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "cleanup",
         "result": "ok"
       },
       {
         "sequence": 60,
-        "at": 1793545138647,
+        "at": 1793594313193,
         "kind": "app",
         "command": "app.quit",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "cleanup",
         "result": "ok"
       },
       {
         "sequence": 61,
-        "at": 1793545138764,
+        "at": 1793594313310,
         "kind": "app",
         "command": "verify exit",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "cleanup",
         "result": "ok"
       },
       {
         "sequence": 62,
-        "at": 1793545138820,
+        "at": 1793594313366,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "cleanup",
         "result": "ok"
       },
       {
         "sequence": 63,
-        "at": 1793545138935,
+        "at": 1793594313482,
         "kind": "hc",
         "command": "server stop",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "cleanup",
         "result": "ok"
       },
       {
         "sequence": 64,
-        "at": 1793545139011,
+        "at": 1793594313557,
         "kind": "hc",
         "command": "verify exit",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "cleanup",
         "result": "ok"
       },
       {
         "sequence": 65,
-        "at": 1793545139015,
+        "at": 1793594313560,
         "kind": "hc",
         "command": "verify exit",
-        "selectorSha256": "c49dfff0602c74a55a896aaf5079420074398bf8de0b422529d2a9f4a1141dd3",
+        "selectorSha256": "66940c47e661505e007c9fa8a54dca9c6a826bdd990d99d0d301ffe868978fd5",
         "phase": "cleanup",
         "result": "ok"
       }
     ]
   },
-  "privateCoreId": "923780f6ee0027b0f326dc52bc1f2fcd",
-  "privateCorePid": 83438,
-  "privateHolderPid": 83604,
-  "appPid": 83921,
-  "launcherPid": 83921,
+  "privateCoreId": "a2095392cab5457fb4d78c9c8c172d89",
+  "privateCorePid": 1510,
+  "privateHolderPid": 1740,
+  "appPid": 2589,
+  "launcherPid": 2589,
   "launcherExitCode": 0,
   "assertions": [
     {
@@ -836,19 +836,19 @@
   "inputActions": [
     {
       "kind": "window-bind",
-      "pid": 83921,
-      "windowId": 12543
+      "pid": 2589,
+      "windowId": 14571
     },
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "x": 513.4723841116279,
       "y": 494.938875194132,
       "control": "Done",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-14.png",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-14.png",
         "sha256": "09693d72636fd36daacf44c7142362a256e8ca74effc7a0fe2d7c9795dc600d3",
         "width": 2560,
         "height": 1520
@@ -857,13 +857,13 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "x": 328.7325581395349,
       "y": 494.938875398533,
       "control": "All",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-17.png",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-17.png",
         "sha256": "61e15cf9308eb707fdce01217a2d68469d79239b90e11a315840a22e06621c5c",
         "width": 2560,
         "height": 1520
@@ -872,13 +872,13 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "x": 527.9069777099339,
       "y": 457.75,
       "control": "Search issues",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-18.png",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-18.png",
         "sha256": "08990111236411abbb2cb8b510e8df5acf1acec1c1b8ab0044617a9fc6f0202d",
         "width": 2560,
         "height": 1520
@@ -886,64 +886,64 @@
     },
     {
       "kind": "key",
-      "pid": 83921,
+      "pid": 2589,
       "key": "cmd-a"
     },
     {
       "kind": "key",
-      "pid": 83921,
+      "pid": 2589,
       "key": "backspace"
     },
     {
       "kind": "key",
-      "pid": 83921,
+      "pid": 2589,
       "key": "s"
     },
     {
       "kind": "key",
-      "pid": 83921,
+      "pid": 2589,
       "key": "e"
     },
     {
       "kind": "key",
-      "pid": 83921,
+      "pid": 2589,
       "key": "t"
     },
     {
       "kind": "key",
-      "pid": 83921,
+      "pid": 2589,
       "key": "t"
     },
     {
       "kind": "key",
-      "pid": 83921,
+      "pid": 2589,
       "key": "i"
     },
     {
       "kind": "key",
-      "pid": 83921,
+      "pid": 2589,
       "key": "n"
     },
     {
       "kind": "key",
-      "pid": 83921,
+      "pid": 2589,
       "key": "g"
     },
     {
       "kind": "key",
-      "pid": 83921,
+      "pid": 2589,
       "key": "s"
     },
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "x": 374.64244180501896,
       "y": 494.9388753799511,
       "control": "To do",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-21.png",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-21.png",
         "sha256": "eb0f5b6e24761043bd7146c5c3471f3ad3b95781626ec81f47db28e40f5f613b",
         "width": 2560,
         "height": 1520
@@ -952,13 +952,13 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "x": 328.0450581395349,
       "y": 494.938875398533,
       "control": "All",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-23.png",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-23.png",
         "sha256": "b39053173d771f409859c358f069e81d407afe44c30e28b1c91d898e2670eb68",
         "width": 2560,
         "height": 1520
@@ -967,38 +967,38 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
-      "x": 511.16279128504203,
-      "y": 456.8459654877206,
+      "pid": 2589,
+      "windowId": 14571,
+      "x": 510.2325573333334,
+      "y": 457.7750612485737,
       "control": "settings",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-24.png",
-        "sha256": "c98d000d620789e43ccef4667b694fc366f66455f1fb022e87be1dc173d3b47a",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-24.png",
+        "sha256": "0925e2b1cb13e145199b4b2eca46c3fc44e0d4e5ecffe31aa86155780b7deec2",
         "width": 2560,
         "height": 1520
       }
     },
     {
       "kind": "key",
-      "pid": 83921,
+      "pid": 2589,
       "key": "cmd-a"
     },
     {
       "kind": "key",
-      "pid": 83921,
+      "pid": 2589,
       "key": "backspace"
     },
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "x": 525.6102911443741,
       "y": 637.9557924807472,
       "control": "Start WEB-142 with claude",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-26.png",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-26.png",
         "sha256": "6c689b48e000918270ad5d8033c680938a01f008f1b3ff33807c6f936a63bd2e",
         "width": 2560,
         "height": 1520
@@ -1007,13 +1007,13 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "x": 525.686046565867,
       "y": 638.3337408787368,
       "control": "Start WEB-142 with claude",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-29.png",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-28.png",
         "sha256": "2e8725c97d952981da62d64cf913b93c0bae70c5d18b1fe4c55b88b11a27d7e2",
         "width": 2560,
         "height": 1520
@@ -1022,14 +1022,14 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
-      "x": 552.686046565867,
-      "y": 638.3337408787368,
+      "pid": 2589,
+      "windowId": 14571,
+      "x": 552.6860472170297,
+      "y": 638.3337407664711,
       "control": "Start WEB-142 with codex",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-30.png",
-        "sha256": "2e8725c97d952981da62d64cf913b93c0bae70c5d18b1fe4c55b88b11a27d7e2",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-29.png",
+        "sha256": "e059fccf26af6dc4e4e0a8e855ef05b07e5cf36f281a846d2fb480ecd8433187",
         "width": 2560,
         "height": 1520
       }
@@ -1037,14 +1037,14 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
-      "x": 418.1395347921135,
-      "y": 487.506112350986,
+      "pid": 2589,
+      "windowId": 14571,
+      "x": 418.1395349746115,
+      "y": 487.5061124077507,
       "control": "All spaces",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-32.png",
-        "sha256": "26b38e7a41913a887b500d24121a87f954baa98c8361540a79baa0cfedcad897",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-32.png",
+        "sha256": "e0ad67dcf4be4b7e2f5c173dce8273a78c7a94bd11a3c573aa04cedac10572c9",
         "width": 2560,
         "height": 1520
       }
@@ -1052,13 +1052,13 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "x": 552.6860457574788,
       "y": 759.116136852731,
       "control": "Start OPS-142 with codex",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-37.png",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-37.png",
         "sha256": "6d0de91af185608c02b79e00af96241aa8fa58d79204034c8e700049c120b798",
         "width": 2560,
         "height": 1520
@@ -1067,14 +1067,14 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "x": 908.9883713346459,
       "y": 638.3337407656295,
       "control": "Start WEB-156 with grok",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-38.png",
-        "sha256": "16bf4295aad2d89e547ccae712213cf2f05d0a58d74480dd0e2ac8f9c3e193ee",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-38.png",
+        "sha256": "5bc3ee0ec1eea283833188dcfa3ba3d7c9abc9105d2d613d106d5bee8c2462b6",
         "width": 2560,
         "height": 1520
       }
@@ -1082,13 +1082,13 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "x": 1263.430231799762,
       "y": 638.3337407656295,
       "control": "Launch options WEB-168",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-39.png",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-39.png",
         "sha256": "8c214ae45b566576543ed8dff01006eaed206baf31c78a1d896b21c602b2b07f",
         "width": 2560,
         "height": 1520
@@ -1096,19 +1096,19 @@
     },
     {
       "kind": "key",
-      "pid": 83921,
+      "pid": 2589,
       "key": "escape"
     },
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "x": 348.37209390437636,
       "y": 457.75,
       "control": "This space",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-41.png",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-41.png",
         "sha256": "23729c627b06060fdaac5ac6a841e32613014f6efaa94d4fb7d411ffb63b4fc9",
         "width": 2560,
         "height": 1520
@@ -1117,13 +1117,13 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "x": 1274,
       "y": 411,
       "control": "Agent shortcuts",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-44.png",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-44.png",
         "sha256": "922f488fe8c0858fb055dacc40db454a84d05b691f3c84ab33824bc14feed754",
         "width": 2560,
         "height": 1520
@@ -1132,14 +1132,14 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "x": 1106,
-      "y": 766.2347186035452,
+      "y": 766.2347189653007,
       "control": "Unpin Grok",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-46.png",
-        "sha256": "5288c6e5c10a18514dc62eb66c4cacc6799c3109095b0a467676b3e6b4a3bf9d",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-46.png",
+        "sha256": "98a62457d4c9126fe453c407a3119502093968b88772b4d6b62840a29415a5f8",
         "width": 2560,
         "height": 1520
       }
@@ -1147,34 +1147,34 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "x": 1149.302324503232,
       "y": 1024.5232272444987,
       "control": "Save shortcuts",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-47.png",
-        "sha256": "a82053400d93f8cd13fa7482ee166e2200b25db6c84aa4042ec4fbbc91b1dc8c",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-47.png",
+        "sha256": "f94ebc93f19f03ee41b86eb551d629ae417fd67862869f5c3ed7818c5e28e3fa",
         "width": 2560,
         "height": 1520
       }
     },
     {
       "kind": "key",
-      "pid": 83921,
+      "pid": 2589,
       "key": "escape"
     },
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "x": 1241,
       "y": 457.75,
       "control": "Refresh issues",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-48.png",
-        "sha256": "8256653607238d9637bee0add9c7df6ff546128083e3d2819857d0dae6371cec",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-48.png",
+        "sha256": "d6a25e01dfc34fcc5ee35e7ee568a91e2c8b0f2ffbd538eedec3850bcf1e4846",
         "width": 2560,
         "height": 1520
       }
@@ -1182,13 +1182,13 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "x": 1241,
       "y": 457.75,
       "control": "Refresh issues",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-50.png",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-50.png",
         "sha256": "8684d73a2c5c3880d5c2e16f95eba3821bdfd52abb8563f28a940583aad028d1",
         "width": 2560,
         "height": 1520
@@ -1197,13 +1197,13 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "x": 1241,
       "y": 457.75,
       "control": "Refresh issues",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-55.png",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-55.png",
         "sha256": "52a709d9cd976c164e7d4560a5fba2f6b261559f67eeaae646c59b58299ed0c7",
         "width": 2560,
         "height": 1520
@@ -1212,13 +1212,13 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "x": 1241,
       "y": 457.75,
       "control": "Refresh issues",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-57.png",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-57.png",
         "sha256": "8684d73a2c5c3880d5c2e16f95eba3821bdfd52abb8563f28a940583aad028d1",
         "width": 2560,
         "height": 1520
@@ -1227,14 +1227,14 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "x": 1241,
       "y": 457.75,
       "control": "Refresh issues",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-61.png",
-        "sha256": "050f1a37a34ba1f06574146373a426f324879228c8a78d4046b0fa94ceb421be",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-61.png",
+        "sha256": "47ee612748adbb6598b46f9d8c9b1ad55bfc6598fc66f6c5a3fdc3fab53e4502",
         "width": 2560,
         "height": 1520
       }
@@ -1242,13 +1242,13 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "x": 1241,
       "y": 457.75,
       "control": "Refresh issues",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-65.png",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-64.png",
         "sha256": "c61d15294d71d4bdf7322c8d54d2ed243f6426832e7e37b1b8a5459e205b5477",
         "width": 2560,
         "height": 1520
@@ -1257,13 +1257,13 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "x": 1272,
       "y": 457.75,
       "control": "Integration settings",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-68.png",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-67.png",
         "sha256": "f7e6730d68e742b4da2bacac0a379415aaf6b2e6cebc5846b49c9034b37aba2f",
         "width": 2560,
         "height": 1520
@@ -1272,14 +1272,14 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "x": 762.3255799868246,
       "y": 575.8832519498777,
       "control": "Duplicate profile",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-70.png",
-        "sha256": "1b6e4d8f262b1b3b7359bcc87a1432b237d46280b02533a89bf07367660be60e",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-69.png",
+        "sha256": "4d249abbe1337bf35c4c330cec0cd4437e50c704be0e8fa69e07171aaecb9efd",
         "width": 2560,
         "height": 1520
       }
@@ -1287,30 +1287,30 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "x": 711.2646902552815,
       "y": 758.4219987411134
     },
     {
       "kind": "key",
-      "pid": 83921,
+      "pid": 2589,
       "key": "cmd-a"
     },
     {
       "kind": "key",
-      "pid": 83921,
+      "pid": 2589,
       "key": "backspace"
     },
     {
       "kind": "native-text",
-      "pid": 83921,
+      "pid": 2589,
       "control": "Profile ID",
       "characters": 15,
       "multiline": false,
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-71.png",
-        "sha256": "4f3c3adb4e4241d0ad3f7cc69f7d3fd0ccb5001752be416758a0109616864963",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-70.png",
+        "sha256": "60ba3ba47af1350d5f69a6fdef7959cbd0be61a6360b2e5453283d43b926b07a",
         "width": 2560,
         "height": 1520
       }
@@ -1318,30 +1318,30 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "x": 711.2790701218643,
       "y": 1009.2176036815891
     },
     {
       "kind": "key",
-      "pid": 83921,
+      "pid": 2589,
       "key": "cmd-a"
     },
     {
       "kind": "key",
-      "pid": 83921,
+      "pid": 2589,
       "key": "backspace"
     },
     {
       "kind": "native-text",
-      "pid": 83921,
+      "pid": 2589,
       "control": "Cloud ID (scoped tokens / service accounts)",
       "characters": 12,
       "multiline": false,
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-72.png",
-        "sha256": "58235adfc76901afbc1b65557e9b77caba7d9ec6f40f5b8fd4c710d5fb6a3c0e",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-71.png",
+        "sha256": "44e2119fde06d74d89cc2b9cdf8e5da8684382834201ec55d1a6ee3aeefca7c0",
         "width": 2560,
         "height": 1520
       }
@@ -1349,35 +1349,35 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "x": 1211.627905605939,
       "y": 1080.25,
       "control": "Save connection",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-73.png",
-        "sha256": "8c792236b0f537635e7da58f3b2a95548c226365dfb0a5adaf53dc68e840f399",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-72.png",
+        "sha256": "32c3d58c3ac25491fec0dc71f378318ebe4cdefaf338c569e403fa81c1ed90ec",
         "width": 2560,
         "height": 1520
       }
     },
     {
       "kind": "scroll",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "deltaY": 1500
     },
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "x": 855.3488374884431,
       "y": 903.75,
       "control": "MCP HTTPS",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-76.png",
-        "sha256": "a16683d4a1d22929bedb826216ab147e3ea98f58e313d705f7ff91d82251b9a0",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-75.png",
+        "sha256": "b2e498509a1494b081aa9c8cdb773123bc33550caabdc54ec7ba8bded0986d30",
         "width": 2560,
         "height": 1520
       }
@@ -1385,14 +1385,14 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "x": 736.2790708175554,
       "y": 946.4792175295843,
       "control": "Email + token",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-77.png",
-        "sha256": "8b69b78b277abfa721dc74afd529ad001b1ced0932106626d559503960e540a3",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-76.png",
+        "sha256": "38213f525773d19da7180320f91156732ec20f4d82e340c47ee995b4e41aac7c",
         "width": 2560,
         "height": 1520
       }
@@ -1400,30 +1400,30 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "x": 711.279077795649,
       "y": 827.114914322683
     },
     {
       "kind": "key",
-      "pid": 83921,
+      "pid": 2589,
       "key": "cmd-a"
     },
     {
       "kind": "key",
-      "pid": 83921,
+      "pid": 2589,
       "key": "backspace"
     },
     {
       "kind": "native-text",
-      "pid": 83921,
+      "pid": 2589,
       "control": "Canonical Jira base URL",
       "characters": 23,
       "multiline": false,
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-78.png",
-        "sha256": "f6aa75080ca2c89a2ed29669a7362464d552f74ea2dc5b54cbf0d480d48f9f77",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-77.png",
+        "sha256": "c6c4f59a515a95a299b0c6a6aaae2f62c3254fb831137786a40b62ae0ada2bb4",
         "width": 2560,
         "height": 1520
       }
@@ -1431,67 +1431,67 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "x": 711.2790709701502,
       "y": 1009.2176036815891
     },
     {
       "kind": "key",
-      "pid": 83921,
+      "pid": 2589,
       "key": "cmd-a"
     },
     {
       "kind": "key",
-      "pid": 83921,
+      "pid": 2589,
       "key": "backspace"
     },
     {
       "kind": "native-text",
-      "pid": 83921,
+      "pid": 2589,
       "control": "HTTPS MCP endpoint",
       "characters": 27,
       "multiline": false,
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-79.png",
-        "sha256": "5dc7b6d59b0b3b5a9036a4246c3daa8219ff2f4399d47bd1e2d09117e2e2d967",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-78.png",
+        "sha256": "626f24dc61c4d06fc717999380daebac73634143802a67a222a66df1a5e20ca6",
         "width": 2560,
         "height": 1520
       }
     },
     {
       "kind": "scroll",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "deltaY": -350
     },
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "x": 711.2790669409219,
       "y": 726.9999999207215
     },
     {
       "kind": "key",
-      "pid": 83921,
+      "pid": 2589,
       "key": "cmd-a"
     },
     {
       "kind": "key",
-      "pid": 83921,
+      "pid": 2589,
       "key": "backspace"
     },
     {
       "kind": "native-text",
-      "pid": 83921,
+      "pid": 2589,
       "control": "Email environment variable",
       "characters": 17,
       "multiline": false,
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-81.png",
-        "sha256": "f506806a3729c35b018d8f91ac76ae62537f650815b8e22a0c9fbb0063c8387a",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-80.png",
+        "sha256": "d607f584b71a409340376c2572901755e5bc00abc105481084e3b7db18b31f43",
         "width": 2560,
         "height": 1520
       }
@@ -1499,30 +1499,30 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "x": 711.2790737590452,
       "y": 795.5256722379233
     },
     {
       "kind": "key",
-      "pid": 83921,
+      "pid": 2589,
       "key": "cmd-a"
     },
     {
       "kind": "key",
-      "pid": 83921,
+      "pid": 2589,
       "key": "backspace"
     },
     {
       "kind": "native-text",
-      "pid": 83921,
+      "pid": 2589,
       "control": "Token environment variable",
       "characters": 17,
       "multiline": false,
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-82.png",
-        "sha256": "284b002c5e5d15294aeec3cd5f7efaae1f6bd405eee991e48242bd58321a56f8",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-81.png",
+        "sha256": "65e63b09e89bbe0a5ec5a838e0ffd56ea41b7dcb5e301b25bee59308217e00d4",
         "width": 2560,
         "height": 1520
       }
@@ -1530,30 +1530,30 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "x": 711.2790668720118,
       "y": 892.1515892249251
     },
     {
       "kind": "key",
-      "pid": 83921,
+      "pid": 2589,
       "key": "cmd-a"
     },
     {
       "kind": "key",
-      "pid": 83921,
+      "pid": 2589,
       "key": "backspace"
     },
     {
       "kind": "native-text",
-      "pid": 83921,
+      "pid": 2589,
       "control": "Read-only tool, arguments and result mapping",
       "characters": 334,
       "multiline": true,
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-83.png",
-        "sha256": "aa95e47362a3043cb70922f3b27ed6a82f6f70b87ce4baf54189346b2bde5dc1",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-82.png",
+        "sha256": "9974d8cee579d6991a351c90d18f19ce3fe017d9367e405f9be3d13354934cad",
         "width": 2560,
         "height": 1520
       }
@@ -1561,14 +1561,14 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "x": 1211.627905605939,
       "y": 1080.25,
       "control": "Save connection",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-84.png",
-        "sha256": "dc44cc502fca400f4e6ce9f2cd50c12fff26f3a09c71cec12855f89483fafe04",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-83.png",
+        "sha256": "1deecafdf97eae78a43cd38fd6e51a3d0a2d020ded7fda9737d7aa7a80226184",
         "width": 2560,
         "height": 1520
       }
@@ -1576,13 +1576,13 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "x": 1241,
       "y": 457.75,
       "control": "Refresh issues",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-88.png",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-87.png",
         "sha256": "45da00b924767312e595d23628a0e42c68dc31404fcc3ce384d35ad8824301ed",
         "width": 2560,
         "height": 1520
@@ -1591,21 +1591,21 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 83921,
-      "windowId": 12543,
+      "pid": 2589,
+      "windowId": 14571,
       "x": 1002.3255813023254,
       "y": 566.4792175837142,
       "control": "WEB-168",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-91.png",
-        "sha256": "cc129a70d0e3c228857c464bcc519f266311bfe64afc39e6d176e0cf5e45017e",
+        "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-90.png",
+        "sha256": "f7e6730d68e742b4da2bacac0a379415aaf6b2e6cebc5846b49c9034b37aba2f",
         "width": 2560,
         "height": 1520
       }
     },
     {
       "kind": "key",
-      "pid": 83921,
+      "pid": 2589,
       "key": "escape"
     }
   ],
@@ -1613,15 +1613,15 @@
     {
       "label": "jira-observe-1",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-1.png",
-      "sha256": "45cbdf2258d096c07e91c60b6a7165ee696adab5436ee585cbc5a4d0b3e5d1b3",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-1.png",
+      "sha256": "67eb05c250ae2a2bcf4e1318c60fa8a86fc5e3b9c75af35b82ab215e6eafae33",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-2",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-2.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-2.png",
       "sha256": "67eb05c250ae2a2bcf4e1318c60fa8a86fc5e3b9c75af35b82ab215e6eafae33",
       "width": 2560,
       "height": 1520
@@ -1629,7 +1629,7 @@
     {
       "label": "jira-observe-3",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-3.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-3.png",
       "sha256": "67eb05c250ae2a2bcf4e1318c60fa8a86fc5e3b9c75af35b82ab215e6eafae33",
       "width": 2560,
       "height": 1520
@@ -1637,15 +1637,15 @@
     {
       "label": "jira-observe-4",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-4.png",
-      "sha256": "fd8e220d696bd2256968a8a527d6508fcb2c4877e5dbd3ce18ebc90d5ccb61c1",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-4.png",
+      "sha256": "b3422294ed5879ff836d5273e8866e215eb2d4427386375fcab56019bc5b8082",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-5",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-5.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-5.png",
       "sha256": "a86e770bd703f5143d4937f5294b6d93f2c504ebcd45417788781892aacabf19",
       "width": 2560,
       "height": 1520
@@ -1653,7 +1653,7 @@
     {
       "label": "jira-observe-6",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-6.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-6.png",
       "sha256": "7103e5bf15017eed672c30d14e05c0023959b6b67a415de67262c99dce3c011f",
       "width": 2560,
       "height": 1520
@@ -1661,7 +1661,7 @@
     {
       "label": "jira-observe-7",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-7.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-7.png",
       "sha256": "c0ca63d88f4843bc640cb9c5151e4004792038e104825045c077712898377c94",
       "width": 2560,
       "height": 1520
@@ -1669,7 +1669,7 @@
     {
       "label": "jira-observe-8",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-8.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-8.png",
       "sha256": "09693d72636fd36daacf44c7142362a256e8ca74effc7a0fe2d7c9795dc600d3",
       "width": 2560,
       "height": 1520
@@ -1677,7 +1677,7 @@
     {
       "label": "jira-observe-9",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-9.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-9.png",
       "sha256": "09693d72636fd36daacf44c7142362a256e8ca74effc7a0fe2d7c9795dc600d3",
       "width": 2560,
       "height": 1520
@@ -1685,15 +1685,15 @@
     {
       "label": "jira-observe-10",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-10.png",
-      "sha256": "c0ca63d88f4843bc640cb9c5151e4004792038e104825045c077712898377c94",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-10.png",
+      "sha256": "09693d72636fd36daacf44c7142362a256e8ca74effc7a0fe2d7c9795dc600d3",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-11",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-11.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-11.png",
       "sha256": "c0ca63d88f4843bc640cb9c5151e4004792038e104825045c077712898377c94",
       "width": 2560,
       "height": 1520
@@ -1701,7 +1701,7 @@
     {
       "label": "jira-observe-12",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-12.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-12.png",
       "sha256": "09693d72636fd36daacf44c7142362a256e8ca74effc7a0fe2d7c9795dc600d3",
       "width": 2560,
       "height": 1520
@@ -1709,7 +1709,7 @@
     {
       "label": "jira-observe-13",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-13.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-13.png",
       "sha256": "09693d72636fd36daacf44c7142362a256e8ca74effc7a0fe2d7c9795dc600d3",
       "width": 2560,
       "height": 1520
@@ -1717,7 +1717,7 @@
     {
       "label": "jira-observe-14",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-14.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-14.png",
       "sha256": "09693d72636fd36daacf44c7142362a256e8ca74effc7a0fe2d7c9795dc600d3",
       "width": 2560,
       "height": 1520
@@ -1725,15 +1725,15 @@
     {
       "label": "jira-observe-15",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-15.png",
-      "sha256": "817f74f5d610bffafe190f04b761d98fa3e41a2bda0da5078d1ea29bc739f3c0",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-15.png",
+      "sha256": "61e15cf9308eb707fdce01217a2d68469d79239b90e11a315840a22e06621c5c",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-16",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-16.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-16.png",
       "sha256": "61e15cf9308eb707fdce01217a2d68469d79239b90e11a315840a22e06621c5c",
       "width": 2560,
       "height": 1520
@@ -1741,7 +1741,7 @@
     {
       "label": "jira-observe-17",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-17.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-17.png",
       "sha256": "61e15cf9308eb707fdce01217a2d68469d79239b90e11a315840a22e06621c5c",
       "width": 2560,
       "height": 1520
@@ -1749,7 +1749,7 @@
     {
       "label": "jira-observe-18",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-18.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-18.png",
       "sha256": "08990111236411abbb2cb8b510e8df5acf1acec1c1b8ab0044617a9fc6f0202d",
       "width": 2560,
       "height": 1520
@@ -1757,7 +1757,7 @@
     {
       "label": "jira-observe-19",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-19.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-19.png",
       "sha256": "eb0f5b6e24761043bd7146c5c3471f3ad3b95781626ec81f47db28e40f5f613b",
       "width": 2560,
       "height": 1520
@@ -1765,7 +1765,7 @@
     {
       "label": "jira-observe-20",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-20.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-20.png",
       "sha256": "8909460ba743f29f05f3aa09da617ec568d96381594648ac3629fb541a90a6e5",
       "width": 2560,
       "height": 1520
@@ -1773,7 +1773,7 @@
     {
       "label": "jira-observe-21",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-21.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-21.png",
       "sha256": "eb0f5b6e24761043bd7146c5c3471f3ad3b95781626ec81f47db28e40f5f613b",
       "width": 2560,
       "height": 1520
@@ -1781,15 +1781,15 @@
     {
       "label": "jira-observe-22",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-22.png",
-      "sha256": "5e1f9640f65f7e9bf7cf5478960ff114d04339db2f21ef3e010480690aa53b5e",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-22.png",
+      "sha256": "b39053173d771f409859c358f069e81d407afe44c30e28b1c91d898e2670eb68",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-23",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-23.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-23.png",
       "sha256": "b39053173d771f409859c358f069e81d407afe44c30e28b1c91d898e2670eb68",
       "width": 2560,
       "height": 1520
@@ -1797,15 +1797,15 @@
     {
       "label": "jira-observe-24",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-24.png",
-      "sha256": "c98d000d620789e43ccef4667b694fc366f66455f1fb022e87be1dc173d3b47a",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-24.png",
+      "sha256": "0925e2b1cb13e145199b4b2eca46c3fc44e0d4e5ecffe31aa86155780b7deec2",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-25",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-25.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-25.png",
       "sha256": "3cef354846df696b27adacf17059a0fc6daab7fdfbe43c8cc43712742a46bfac",
       "width": 2560,
       "height": 1520
@@ -1813,7 +1813,7 @@
     {
       "label": "jira-observe-26",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-26.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-26.png",
       "sha256": "6c689b48e000918270ad5d8033c680938a01f008f1b3ff33807c6f936a63bd2e",
       "width": 2560,
       "height": 1520
@@ -1821,39 +1821,39 @@
     {
       "label": "jira-observe-27",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-27.png",
-      "sha256": "6a5936f4cf53540c34dca72036aa6355095a8906803ad351e8c753fd9277d7dc",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-27.png",
+      "sha256": "2e8725c97d952981da62d64cf913b93c0bae70c5d18b1fe4c55b88b11a27d7e2",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-28",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-28.png",
-      "sha256": "e059fccf26af6dc4e4e0a8e855ef05b07e5cf36f281a846d2fb480ecd8433187",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-28.png",
+      "sha256": "2e8725c97d952981da62d64cf913b93c0bae70c5d18b1fe4c55b88b11a27d7e2",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-29",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-29.png",
-      "sha256": "2e8725c97d952981da62d64cf913b93c0bae70c5d18b1fe4c55b88b11a27d7e2",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-29.png",
+      "sha256": "e059fccf26af6dc4e4e0a8e855ef05b07e5cf36f281a846d2fb480ecd8433187",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-30",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-30.png",
-      "sha256": "2e8725c97d952981da62d64cf913b93c0bae70c5d18b1fe4c55b88b11a27d7e2",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-30.png",
+      "sha256": "ed4189741d83465ab9d08c778e7c46f3cb3aaceefcca2e4a0515c23f2f2f886f",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-31",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-31.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-31.png",
       "sha256": "26b38e7a41913a887b500d24121a87f954baa98c8361540a79baa0cfedcad897",
       "width": 2560,
       "height": 1520
@@ -1861,23 +1861,23 @@
     {
       "label": "jira-observe-32",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-32.png",
-      "sha256": "26b38e7a41913a887b500d24121a87f954baa98c8361540a79baa0cfedcad897",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-32.png",
+      "sha256": "e0ad67dcf4be4b7e2f5c173dce8273a78c7a94bd11a3c573aa04cedac10572c9",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-33",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-33.png",
-      "sha256": "9c5612a896480f49482e508394ac962ca5de612334aa6105d206237fad4c06c7",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-33.png",
+      "sha256": "6fa80a7741bc06f74e536ca96c419c8ffaf1af70e0e51f0c7d02e8e78236f5b9",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-34",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-34.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-34.png",
       "sha256": "c24cb47bf5357454c37f9e02d79a69875b8446843b7e272a2ab1ad816ae1f71c",
       "width": 2560,
       "height": 1520
@@ -1885,7 +1885,7 @@
     {
       "label": "jira-observe-35",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-35.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-35.png",
       "sha256": "6d0de91af185608c02b79e00af96241aa8fa58d79204034c8e700049c120b798",
       "width": 2560,
       "height": 1520
@@ -1893,7 +1893,7 @@
     {
       "label": "jira-observe-36",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-36.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-36.png",
       "sha256": "6d0de91af185608c02b79e00af96241aa8fa58d79204034c8e700049c120b798",
       "width": 2560,
       "height": 1520
@@ -1901,7 +1901,7 @@
     {
       "label": "jira-observe-37",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-37.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-37.png",
       "sha256": "6d0de91af185608c02b79e00af96241aa8fa58d79204034c8e700049c120b798",
       "width": 2560,
       "height": 1520
@@ -1909,15 +1909,15 @@
     {
       "label": "jira-observe-38",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-38.png",
-      "sha256": "16bf4295aad2d89e547ccae712213cf2f05d0a58d74480dd0e2ac8f9c3e193ee",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-38.png",
+      "sha256": "5bc3ee0ec1eea283833188dcfa3ba3d7c9abc9105d2d613d106d5bee8c2462b6",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-39",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-39.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-39.png",
       "sha256": "8c214ae45b566576543ed8dff01006eaed206baf31c78a1d896b21c602b2b07f",
       "width": 2560,
       "height": 1520
@@ -1925,15 +1925,15 @@
     {
       "label": "jira-observe-40",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-40.png",
-      "sha256": "de774e86430138c33faae9fb0d642727beb273e8bc99cc11f656afe23583b911",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-40.png",
+      "sha256": "4873b6af3e8e2714c829fa93027e1a298a332b9c2669801b5ad438704fd29720",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-41",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-41.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-41.png",
       "sha256": "23729c627b06060fdaac5ac6a841e32613014f6efaa94d4fb7d411ffb63b4fc9",
       "width": 2560,
       "height": 1520
@@ -1941,7 +1941,7 @@
     {
       "label": "jira-observe-42",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-42.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-42.png",
       "sha256": "1cf4c184ae35f88382e4ce8a3053023c82249ad4cd7251da3b1a4cf8794e3c24",
       "width": 2560,
       "height": 1520
@@ -1949,7 +1949,7 @@
     {
       "label": "jira-observe-43",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-43.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-43.png",
       "sha256": "d8f330d9c440c03826d5f6f1b91cbada764eaba82ac2fc56ba4b3f9c698d2073",
       "width": 2560,
       "height": 1520
@@ -1957,7 +1957,7 @@
     {
       "label": "jira-observe-44",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-44.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-44.png",
       "sha256": "922f488fe8c0858fb055dacc40db454a84d05b691f3c84ab33824bc14feed754",
       "width": 2560,
       "height": 1520
@@ -1965,39 +1965,39 @@
     {
       "label": "jira-observe-45",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-45.png",
-      "sha256": "0b4dcdac121bb7beb2de8686ec03bf4f91ce20e2ed59a30d4447acd7b6f09d96",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-45.png",
+      "sha256": "98a62457d4c9126fe453c407a3119502093968b88772b4d6b62840a29415a5f8",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-46",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-46.png",
-      "sha256": "5288c6e5c10a18514dc62eb66c4cacc6799c3109095b0a467676b3e6b4a3bf9d",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-46.png",
+      "sha256": "98a62457d4c9126fe453c407a3119502093968b88772b4d6b62840a29415a5f8",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-47",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-47.png",
-      "sha256": "a82053400d93f8cd13fa7482ee166e2200b25db6c84aa4042ec4fbbc91b1dc8c",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-47.png",
+      "sha256": "f94ebc93f19f03ee41b86eb551d629ae417fd67862869f5c3ed7818c5e28e3fa",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-48",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-48.png",
-      "sha256": "8256653607238d9637bee0add9c7df6ff546128083e3d2819857d0dae6371cec",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-48.png",
+      "sha256": "d6a25e01dfc34fcc5ee35e7ee568a91e2c8b0f2ffbd538eedec3850bcf1e4846",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-49",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-49.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-49.png",
       "sha256": "0471d1390be7292e5042de9b54c76cdba69a0144d4d2bcdf7653ea3946b7e300",
       "width": 2560,
       "height": 1520
@@ -2005,7 +2005,7 @@
     {
       "label": "jira-observe-50",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-50.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-50.png",
       "sha256": "8684d73a2c5c3880d5c2e16f95eba3821bdfd52abb8563f28a940583aad028d1",
       "width": 2560,
       "height": 1520
@@ -2013,15 +2013,15 @@
     {
       "label": "jira-observe-51",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-51.png",
-      "sha256": "0471d1390be7292e5042de9b54c76cdba69a0144d4d2bcdf7653ea3946b7e300",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-51.png",
+      "sha256": "6a1d82e5ecb8a02edc1e1f9f057e5eaf83ae4e2feea259b01212b5b383da9c47",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-52",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-52.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-52.png",
       "sha256": "62c8996dccea1c1ac868527a3cdb9d5d19db9abf54dfe747302aeaaf709d10c7",
       "width": 2560,
       "height": 1520
@@ -2029,7 +2029,7 @@
     {
       "label": "jira-observe-53",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-53.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-53.png",
       "sha256": "52a709d9cd976c164e7d4560a5fba2f6b261559f67eeaae646c59b58299ed0c7",
       "width": 2560,
       "height": 1520
@@ -2037,7 +2037,7 @@
     {
       "label": "jira-observe-54",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-54.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-54.png",
       "sha256": "52a709d9cd976c164e7d4560a5fba2f6b261559f67eeaae646c59b58299ed0c7",
       "width": 2560,
       "height": 1520
@@ -2045,7 +2045,7 @@
     {
       "label": "jira-observe-55",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-55.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-55.png",
       "sha256": "52a709d9cd976c164e7d4560a5fba2f6b261559f67eeaae646c59b58299ed0c7",
       "width": 2560,
       "height": 1520
@@ -2053,7 +2053,7 @@
     {
       "label": "jira-observe-56",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-56.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-56.png",
       "sha256": "13df4ab8e25f1e7371e096b3996812a55bd0f395e618902f9e5dc2d12297b24c",
       "width": 2560,
       "height": 1520
@@ -2061,7 +2061,7 @@
     {
       "label": "jira-observe-57",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-57.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-57.png",
       "sha256": "8684d73a2c5c3880d5c2e16f95eba3821bdfd52abb8563f28a940583aad028d1",
       "width": 2560,
       "height": 1520
@@ -2069,7 +2069,7 @@
     {
       "label": "jira-observe-58",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-58.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-58.png",
       "sha256": "01de5978df6492f6caf07baadf40aac53db25b7f8a20c3014156f50eede0d4bb",
       "width": 2560,
       "height": 1520
@@ -2077,7 +2077,7 @@
     {
       "label": "jira-observe-59",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-59.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-59.png",
       "sha256": "e8454dd50118e70f36bb493ebd1ee39e54e69856f25cc91aff51153b72bd5eb0",
       "width": 2560,
       "height": 1520
@@ -2085,7 +2085,7 @@
     {
       "label": "jira-observe-60",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-60.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-60.png",
       "sha256": "050f1a37a34ba1f06574146373a426f324879228c8a78d4046b0fa94ceb421be",
       "width": 2560,
       "height": 1520
@@ -2093,207 +2093,207 @@
     {
       "label": "jira-observe-61",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-61.png",
-      "sha256": "050f1a37a34ba1f06574146373a426f324879228c8a78d4046b0fa94ceb421be",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-61.png",
+      "sha256": "47ee612748adbb6598b46f9d8c9b1ad55bfc6598fc66f6c5a3fdc3fab53e4502",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-62",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-62.png",
-      "sha256": "01de5978df6492f6caf07baadf40aac53db25b7f8a20c3014156f50eede0d4bb",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-62.png",
+      "sha256": "c61d15294d71d4bdf7322c8d54d2ed243f6426832e7e37b1b8a5459e205b5477",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-63",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-63.png",
-      "sha256": "51acc166f69d9d943d1667fb990efd33f6daead801d0d907e6472f24dbf9a9ef",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-63.png",
+      "sha256": "c61d15294d71d4bdf7322c8d54d2ed243f6426832e7e37b1b8a5459e205b5477",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-64",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-64.png",
-      "sha256": "51acc166f69d9d943d1667fb990efd33f6daead801d0d907e6472f24dbf9a9ef",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-64.png",
+      "sha256": "c61d15294d71d4bdf7322c8d54d2ed243f6426832e7e37b1b8a5459e205b5477",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-65",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-65.png",
-      "sha256": "c61d15294d71d4bdf7322c8d54d2ed243f6426832e7e37b1b8a5459e205b5477",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-65.png",
+      "sha256": "01de5978df6492f6caf07baadf40aac53db25b7f8a20c3014156f50eede0d4bb",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-66",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-66.png",
-      "sha256": "01de5978df6492f6caf07baadf40aac53db25b7f8a20c3014156f50eede0d4bb",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-66.png",
+      "sha256": "f7e6730d68e742b4da2bacac0a379415aaf6b2e6cebc5846b49c9034b37aba2f",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-67",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-67.png",
-      "sha256": "cc129a70d0e3c228857c464bcc519f266311bfe64afc39e6d176e0cf5e45017e",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-67.png",
+      "sha256": "f7e6730d68e742b4da2bacac0a379415aaf6b2e6cebc5846b49c9034b37aba2f",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-68",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-68.png",
-      "sha256": "f7e6730d68e742b4da2bacac0a379415aaf6b2e6cebc5846b49c9034b37aba2f",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-68.png",
+      "sha256": "4d249abbe1337bf35c4c330cec0cd4437e50c704be0e8fa69e07171aaecb9efd",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-69",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-69.png",
-      "sha256": "1b6e4d8f262b1b3b7359bcc87a1432b237d46280b02533a89bf07367660be60e",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-69.png",
+      "sha256": "4d249abbe1337bf35c4c330cec0cd4437e50c704be0e8fa69e07171aaecb9efd",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-70",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-70.png",
-      "sha256": "1b6e4d8f262b1b3b7359bcc87a1432b237d46280b02533a89bf07367660be60e",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-70.png",
+      "sha256": "60ba3ba47af1350d5f69a6fdef7959cbd0be61a6360b2e5453283d43b926b07a",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-71",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-71.png",
-      "sha256": "4f3c3adb4e4241d0ad3f7cc69f7d3fd0ccb5001752be416758a0109616864963",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-71.png",
+      "sha256": "44e2119fde06d74d89cc2b9cdf8e5da8684382834201ec55d1a6ee3aeefca7c0",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-72",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-72.png",
-      "sha256": "58235adfc76901afbc1b65557e9b77caba7d9ec6f40f5b8fd4c710d5fb6a3c0e",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-72.png",
+      "sha256": "32c3d58c3ac25491fec0dc71f378318ebe4cdefaf338c569e403fa81c1ed90ec",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-73",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-73.png",
-      "sha256": "8c792236b0f537635e7da58f3b2a95548c226365dfb0a5adaf53dc68e840f399",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-73.png",
+      "sha256": "cccd832c706ee545ebaf16d2f89c1608a135ef876e45f1658be6824b5b6f0a6a",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-74",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-74.png",
-      "sha256": "71355941b0f110a436d327cb90b9963d6aa2fb0f1dea7f6437e86429e7c30650",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-74.png",
+      "sha256": "cccd832c706ee545ebaf16d2f89c1608a135ef876e45f1658be6824b5b6f0a6a",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-75",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-75.png",
-      "sha256": "71355941b0f110a436d327cb90b9963d6aa2fb0f1dea7f6437e86429e7c30650",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-75.png",
+      "sha256": "b2e498509a1494b081aa9c8cdb773123bc33550caabdc54ec7ba8bded0986d30",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-76",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-76.png",
-      "sha256": "a16683d4a1d22929bedb826216ab147e3ea98f58e313d705f7ff91d82251b9a0",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-76.png",
+      "sha256": "38213f525773d19da7180320f91156732ec20f4d82e340c47ee995b4e41aac7c",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-77",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-77.png",
-      "sha256": "8b69b78b277abfa721dc74afd529ad001b1ced0932106626d559503960e540a3",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-77.png",
+      "sha256": "c6c4f59a515a95a299b0c6a6aaae2f62c3254fb831137786a40b62ae0ada2bb4",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-78",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-78.png",
-      "sha256": "f6aa75080ca2c89a2ed29669a7362464d552f74ea2dc5b54cbf0d480d48f9f77",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-78.png",
+      "sha256": "626f24dc61c4d06fc717999380daebac73634143802a67a222a66df1a5e20ca6",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-79",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-79.png",
-      "sha256": "5dc7b6d59b0b3b5a9036a4246c3daa8219ff2f4399d47bd1e2d09117e2e2d967",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-79.png",
+      "sha256": "866e05b4cd424a0ee7f8bdcba4860d6acd550c69e8ade7465dc4e0a6fd21b798",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-80",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-80.png",
-      "sha256": "7eb4c123d651aa64a56d52444b594381bfbe56282d0043a0422ea37ce1c561ab",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-80.png",
+      "sha256": "d607f584b71a409340376c2572901755e5bc00abc105481084e3b7db18b31f43",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-81",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-81.png",
-      "sha256": "f506806a3729c35b018d8f91ac76ae62537f650815b8e22a0c9fbb0063c8387a",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-81.png",
+      "sha256": "65e63b09e89bbe0a5ec5a838e0ffd56ea41b7dcb5e301b25bee59308217e00d4",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-82",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-82.png",
-      "sha256": "284b002c5e5d15294aeec3cd5f7efaae1f6bd405eee991e48242bd58321a56f8",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-82.png",
+      "sha256": "9974d8cee579d6991a351c90d18f19ce3fe017d9367e405f9be3d13354934cad",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-83",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-83.png",
-      "sha256": "aa95e47362a3043cb70922f3b27ed6a82f6f70b87ce4baf54189346b2bde5dc1",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-83.png",
+      "sha256": "1deecafdf97eae78a43cd38fd6e51a3d0a2d020ded7fda9737d7aa7a80226184",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-84",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-84.png",
-      "sha256": "dc44cc502fca400f4e6ce9f2cd50c12fff26f3a09c71cec12855f89483fafe04",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-84.png",
+      "sha256": "01de5978df6492f6caf07baadf40aac53db25b7f8a20c3014156f50eede0d4bb",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-85",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-85.png",
-      "sha256": "47ee612748adbb6598b46f9d8c9b1ad55bfc6598fc66f6c5a3fdc3fab53e4502",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-85.png",
+      "sha256": "81e8d358f171567849d5368fdcf3137ec91f7532d7a49d3da1f8da02a02442e6",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-86",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-86.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-86.png",
       "sha256": "81e8d358f171567849d5368fdcf3137ec91f7532d7a49d3da1f8da02a02442e6",
       "width": 2560,
       "height": 1520
@@ -2301,47 +2301,39 @@
     {
       "label": "jira-observe-87",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-87.png",
-      "sha256": "81e8d358f171567849d5368fdcf3137ec91f7532d7a49d3da1f8da02a02442e6",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-87.png",
+      "sha256": "45da00b924767312e595d23628a0e42c68dc31404fcc3ce384d35ad8824301ed",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-88",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-88.png",
-      "sha256": "45da00b924767312e595d23628a0e42c68dc31404fcc3ce384d35ad8824301ed",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-88.png",
+      "sha256": "01de5978df6492f6caf07baadf40aac53db25b7f8a20c3014156f50eede0d4bb",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-89",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-89.png",
-      "sha256": "01de5978df6492f6caf07baadf40aac53db25b7f8a20c3014156f50eede0d4bb",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-89.png",
+      "sha256": "cc129a70d0e3c228857c464bcc519f266311bfe64afc39e6d176e0cf5e45017e",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-90",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-90.png",
-      "sha256": "cc129a70d0e3c228857c464bcc519f266311bfe64afc39e6d176e0cf5e45017e",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-90.png",
+      "sha256": "f7e6730d68e742b4da2bacac0a379415aaf6b2e6cebc5846b49c9034b37aba2f",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "jira-observe-91",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-91.png",
-      "sha256": "cc129a70d0e3c228857c464bcc519f266311bfe64afc39e6d176e0cf5e45017e",
-      "width": 2560,
-      "height": 1520
-    },
-    {
-      "label": "jira-observe-92",
-      "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-observe-92.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-observe-91.png",
       "sha256": "b8abf3812cf52c779a097f2e3cd808295ab4271f7f28ac6047820ce0a422fd9a",
       "width": 2560,
       "height": 1520
@@ -2349,7 +2341,7 @@
     {
       "label": "jira-preview",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-0eea507829a0b16591308ec2/jira-preview.png",
+      "path": ".browse/sessions/mission-control-native-55425756870424b5424e87ec/jira-preview.png",
       "sha256": "b8abf3812cf52c779a097f2e3cd808295ab4271f7f28ac6047820ce0a422fd9a",
       "width": 2560,
       "height": 1520
@@ -2434,7 +2426,7 @@
           "assets/settings.svg": "c0d3295d7dc3261c7f6e9e6eb4217b044b834d680215ac1e38f9c1efb11b2dc9",
           "assets/spaces.svg": "01d3d618b27ef141c8251358657d7533abef2bbc40b447f53728c768fa4a593b",
           "backend.mjs": "c72b4fa83b4e9832396506b08249580ef75c163edb029a510ef530ebb5d20bdb",
-          "main.js": "d99c8eb538a7e64d94141107ff6333de1b2017fdaee9acc7029a1cc828546584",
+          "main.js": "edba20a405832755ecb86377ee23e19e325abc14ab189e15e42ff522f91ab660",
           "mod.json": "f7b04abc6f30875216f1541f03dd8f170d855b20db26100a04053a859e19cf9f",
           "NOTICE.md": "0198466ae99bc329095ee701eb15beae660c1e0473d06f8df961caa5cecb79c7"
         },
@@ -2711,7 +2703,7 @@
           "src/shared/issue-board.js": "de9f082291faaa5da7067dfc3b4d3c2c5b2e22b4558d363dd9bad2275cfca570",
           "src/shared/launch-dialog.js": "5155469f382d117b8425ce00b7f5463679d42168a293b35aa79afecf2a4b9fc6",
           "src/shared/launch-preferences.js": "c70132d68a264054de91a25704c44c7f6c6cb2e380c93f6807842bdca5558fd9",
-          "src/shared/launch.js": "66cc52240b4c3563edfe2a52f83400d98581c4e08dfab188703b09fd7d7d8b55",
+          "src/shared/launch.js": "aa3801d2c8503eafc757ad02c619574f563684db080148963e035ded410e1368",
           "src/shared/name-ownership.js": "24f4e7060bffdb1559e76091039fc1b1e076095d72cc8b44c14596d8a37ae784",
           "src/shared/session-bindings.js": "8ce735273c2d4e8ee9e63bed0036276d8afa69fc92f40c22fa30ddd10c815d99",
           "src/shared/session-identity.js": "9cb414ff020c4c49c66018f8146f41261975790a4d4349da18f278f60131617e",

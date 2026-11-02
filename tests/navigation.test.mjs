@@ -5,7 +5,7 @@ import sync from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import Tabs,{MOD,COMMANDS} from '../src/mods/mission-control-tabs/main.js';
-import {NAV_STATE,NODES,SOURCES,SOURCE_IDS,LAYOUT_PAIR,NAV_METRICS,NAV_TIMING,findNode,layoutContract,sourceState,scopeOf,readNavState,selectSource,swapView,togglePanel,restoreView,navigationMode,navigationWidth,navigationMinWidth}
+import {SOURCES_STATE,hiddenSources,setSourceShown,NAV_STATE,NODES,SOURCES,SOURCE_IDS,LAYOUT_PAIR,NAV_METRICS,NAV_TIMING,findNode,layoutContract,sourceState,scopeOf,readNavState,selectSource,swapView,togglePanel,restoreView,navigationMode,navigationWidth,navigationMinWidth}
   from '../src/mods/mission-control-tabs/navigation.js';
 // The recorder's shared store is module state; setShared/shared are its public accessors.
 import {injectNative,context,trigger,findElement,Element,setShared as sharedSet,shared as sharedGet} from './support/native-recording.mjs';
@@ -31,6 +31,7 @@ const label=el=>calls(el,'accessibility_label').map(a=>a[0]).join('\n');
 const artwork=node=>{const out=[];walk(node,el=>{if(el.kind==='svg'||el.kind==='image')out.push(el.value);});return out;};
 const strings=node=>{const out=[];walk(node,el=>{for(const v of el.nodes)if(typeof v==='string')out.push(v);});return out;};
 const clickable=el=>Boolean(el.handlers.on_click);
+const present=(node,id)=>{let found=false;walk(node,el=>{if(el.semanticId===id||calls(el,'id').some(a=>a[0]===id))found=true;});return found;};
 
 async function fixture(t,{tree=overview(),name='mission-control',names=NAMES}={}){
   const dir=await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(),'mc-nav-'))),home=path.join(dir,'app'),repo=path.join(dir,'repo');
@@ -123,6 +124,31 @@ test('a source control selects one content panel and the choice is shared throug
   await f.teardown();
 });
 
+test('the Sources dialog turns a source off and on: the strip, its commands and the shown source all follow',async t=>{
+  const f=await fixture(t);sharedSet(SOURCES_STATE,null);const nav=f.mount({view:'navigation'}),dialog=f.mount({view:'sources'});
+  let tree=dialog.render();for(const s of SOURCES)assert.match(label(findElement(tree,'source-row-'+s.id)),new RegExp(s.label+': on'));
+  assert.ok(findElement(nav.render(),'source-gitlab'),'every source is on by default');
+  trigger(dialog.render(),'source-row-gitlab','on_click',{},dialog.cx);
+  assert.deepEqual(sharedGet(SOURCES_STATE),{v:1,hidden:['gitlab']});assert.match(label(findElement(dialog.render(),'source-row-gitlab')),/GitLab issues: off/);
+  assert.equal(present(nav.render(),'source-gitlab'),false,'a source that is off leaves the strip');assert.equal(present(nav.render(),'source-merges'),true,'its sibling source stays');
+  let n=f.effects.length;assert.equal(selectSource('gitlab',{contract:layoutContract({tree:f.world.tree,name:'mission-control',names:NAMES}),sharedFn:sharedGet,setSharedFn:sharedSet,runFn:f.run}).code,'SOURCE_OFF');
+  assert.deepEqual(f.commands(f.since(n)),[],'a source command for a source that is off selects nothing');
+  // Turning off the source on screen shows the first source still on.
+  n=f.effects.length;trigger(dialog.render(),'source-row-jira','on_click',{},dialog.cx);
+  assert.deepEqual(f.commands(f.since(n)),[['layout.select',{stack:'mc-work-stack',child:'github'}]]);assert.deepEqual(sharedGet(SOURCES_STATE).hidden,['jira','gitlab']);
+  for(const s of SOURCES)if(!hiddenSources(sharedGet).has(s.id))setSourceShown(s.id,false,{sharedFn:sharedGet,setSharedFn:sharedSet});
+  assert.match(strings(findElement(nav.render(),'source-caption')).join(' '),/Every work source is turned off/);
+  for(const s of SOURCES)trigger(dialog.render(),'source-row-'+s.id,'on_click',{},dialog.cx);
+  assert.deepEqual(sharedGet(SOURCES_STATE),{v:1,hidden:[]});assert.ok(findElement(nav.render(),'source-gitlab'),'turned back on, it returns');
+  sharedSet(SOURCES_STATE,{v:1,hidden:['gitlab','not-a-source',7]});assert.deepEqual([...hiddenSources(sharedGet)],['gitlab'],'unknown entries are ignored');
+  sharedSet(SOURCES_STATE,null);assert.equal(nav.timers.length,0,'the strip follows shared state without a timer');await f.teardown();
+});
+test('the tab bar gear opens the Sources dialog, and the sources command does the same',async t=>{
+  const f=await fixture(t),bar=f.mount({view:'topbar',swapTo:'mission-control-classic'});let n=f.effects.length;
+  trigger(bar.render(),'mc-sources','on_click',{},bar.cx);
+  const open=f.since(n).filter(e=>e[0]==='overlay');assert.equal(open.length,1);assert.deepEqual(open[0][1].props,{view:'sources'});assert.equal(open[0][1].mod,MOD);
+  assert.ok(COMMANDS.includes('sources'));await f.teardown();
+});
 test('the one-button swap runs layout.switch only, keeps every source and its scope, and loses no selected work',async t=>{
   for(const source of SOURCE_IDS){
     const f=await fixture(t,{tree:overview(source)});const tab=f.addTab('Logs');

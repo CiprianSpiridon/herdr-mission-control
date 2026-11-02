@@ -148,7 +148,8 @@ end tell`],{json:false});
     const remoteLaunch=await until(async()=>{const journal=JSON.parse(await fs.readFile(path.join(home,'mission-control/launches.json'),'utf8'));return Object.values(journal.requests).find(r=>r.state==='complete'&&r.request.machine==='qa-server');},'named-machine native agent launch');
     runtime.expect(remoteLaunch.request.spaceId===remote.id&&remoteLaunch.request.repoRoot===server.repo&&server.hc(['get',localTerminalAddress(remoteLaunch.ack.terminal,'qa-server'),'--json']).cwd===server.repo,'Named-machine launch actually belongs to the separate core/repository');
     selectA();await search('missing');await until(()=>has('No matching spaces.'),'native empty search');runtime.expect(await has('Add machine'),'Empty search retains the native footer');
-    await search('client');await runtime.frame('spaces-preview').then(frame=>fs.copyFile(path.resolve(frame.path),path.resolve(MOD,'preview.png')));
+    // The published preview shows the whole list, not a one-result search.
+    await search('');await until(async()=>!(await has('No matching spaces.')),'full space list',20000);await runtime.frame('spaces-preview').then(frame=>fs.copyFile(path.resolve(frame.path),path.resolve(MOD,'preview.png')));
     runtime.expect(runtime.app(['status']).errors.length===0,'No native errors across Spaces interactions');
     runtime.expect((await fs.readdir(path.join(home,'mods'))).filter(n=>n.startsWith('mission-control-')).join(',')===MOD,'Only the standalone Spaces custom mod is installed');
   }catch(error){try{await runtime.frame('spaces-failure');const directory=path.resolve('.browse/sessions',`mission-control-native-${runtime.nonce}`);await fs.writeFile(path.join(directory,'native-console.txt'),runtime.appStdout+'\n'+runtime.appStderr);await fs.writeFile(path.join(directory,'failure-status.json'),JSON.stringify(runtime.app(['status']),null,2));}catch{}throw error;}

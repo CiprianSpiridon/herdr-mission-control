@@ -149,7 +149,8 @@ export class NativeDriver {
     verified(this.owner);
     // browse-ax types into whatever app is in front; never type until the owned app is.
     if (['type', 'press'].includes(args[0])) command(await ensureNativeDriver(), ['focus', String(this.owner.pid)]);
-    const result = JSON.parse(command(await resolveBridgePath(), ['--pid', String(this.owner.pid), ...args]));
+    // Accessibility reads of a large native tree can take longer than 20 s; give them room before failing.
+    const result = JSON.parse(command(await resolveBridgePath(), ['--pid', String(this.owner.pid), ...args], { timeout: 45000 }));
     // browse-ax can exit cleanly without writing a frame; capture the owned window by its ID instead.
     if (args[0] === 'screenshot' && args.length === 2 && !await exists(args[1])) {
       const { frame } = await this.pointerTarget({ x: 1, y: 1, width: 2, height: 2 });

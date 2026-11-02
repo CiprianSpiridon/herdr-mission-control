@@ -26,6 +26,8 @@ const ID=/^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$/;
 
 /** Versioned shared key: {v:1, source, scope, swap?:{id,from,to,at,space,tab,applied}}. */
 export const NAV_STATE='mission-control-tabs-nav-v1';
+/** Which work sources the person turned off (Herdr keeps shared state across restarts). The mods stay installed. */
+export const SOURCES_STATE='mission-control-tabs-sources-v1';
 export const NODES=freeze({main:'mc-main',panel:'mc-work-panel',stack:'mc-work-stack'});
 /** The six distinct work sources, in navigation order, with the exact block content each stack child uses. */
 export const SOURCES=freeze([
@@ -38,6 +40,19 @@ export const SOURCES=freeze([
 ]);
 export const SOURCE_IDS=freeze(SOURCES.map(s=>s.id));
 const BY_ID=new Map(SOURCES.map(s=>[s.id,s]));
+/** The turned-off source ids, ignoring anything unknown or malformed. */
+export function hiddenSources(sharedFn){
+  let v=null;try{v=typeof sharedFn==='function'?sharedFn(SOURCES_STATE):null;}catch{}
+  return new Set(plain(v)&&v.v===1&&Array.isArray(v.hidden)?v.hidden.filter(id=>BY_ID.has(id)):[]);
+}
+/** Turns one source on or off; turning off the shown source shows the first one still on. */
+export function setSourceShown(id,shown,{contract,sharedFn,setSharedFn,runFn}={}){
+  if(!BY_ID.has(id))return freeze({ok:false,code:'UNKNOWN_SOURCE',message:'Unknown source.'});
+  const hidden=hiddenSources(sharedFn);if(shown)hidden.delete(id);else hidden.add(id);
+  setSharedFn(SOURCES_STATE,{v:1,hidden:SOURCE_IDS.filter(x=>hidden.has(x))});
+  if(!shown&&contract?.active===id){const next=SOURCES.find(s=>!hidden.has(s.id)&&sourceState(contract,s.id,hidden).enabled);if(next&&runFn)runFn('layout.select',{stack:NODES.stack,child:next.id});}
+  return freeze({ok:true,source:id,shown:Boolean(shown)});
+}
 export const LAYOUT_PAIR=freeze({'mission-control':'mission-control-classic','mission-control-classic':'mission-control'});
 export const LAYOUT_LABELS=freeze({'mission-control':'Mission Control','mission-control-classic':'Classic view'});
 /** A swap restores focus only right after it, and never twice. */
@@ -78,8 +93,9 @@ export function layoutContract({tree=null,name=null,names=[],props={}}={}){
     panel:plain(panel)?{hidden:panel.hidden===true}:null,panelControl:Boolean(panel)||props?.panel===true,swap});
 }
 /** Per-source availability for the navigation strip. */
-export function sourceState(contract,id){
+export function sourceState(contract,id,hidden=null){
   if(!BY_ID.has(id))return {enabled:false,reason:'Unknown source.'};
+  if(hidden?.has(id))return {enabled:false,hidden:true,reason:'Turned off in Mission Control sources (the gear in the tab bar).'};
   if(!contract?.stack)return {enabled:false,reason:'Unavailable: '+(contract?.stackReason||'this layout has no work stack (mc-work-stack).')};
   if(!contract.children.includes(id))return {enabled:false,reason:'Not in this layout.'};
   return {enabled:true,reason:null};
@@ -105,7 +121,7 @@ const randomId=()=>'swap-'+Date.now().toString(36)+'-'+Math.random().toString(36
 
 /** Selects one work source: layout.select on mc-work-stack (and shows the Classic panel when asked). */
 export function selectSource(id,{contract,sharedFn,setSharedFn,runFn,reveal=false}={}){
-  const state=sourceState(contract,id);if(!state.enabled)return freeze({ok:false,code:BY_ID.has(id)?contract?.stack?'SOURCE_MISSING':'NO_WORK_STACK':'UNKNOWN_SOURCE',message:state.reason});
+  const state=sourceState(contract,id,hiddenSources(sharedFn));if(!state.enabled)return freeze({ok:false,code:state.hidden?'SOURCE_OFF':BY_ID.has(id)?contract?.stack?'SOURCE_MISSING':'NO_WORK_STACK':'UNKNOWN_SOURCE',message:state.reason});
   const commands=[];
   if(contract.active!==id){runFn('layout.select',{stack:NODES.stack,child:id});commands.push('layout.select');}
   if(reveal&&contract.panel?.hidden){runFn('layout.show',{id:NODES.panel});commands.push('layout.show');}
@@ -148,18 +164,18 @@ export function restoreView({contract,sharedFn,setSharedFn,runFn,focused=null,sp
 /** Estimated widths (logical px) of the strip in each presentation; charPx matches NAME_LIMITS. */
 export const NAV_METRICS=freeze({charPx:7,icon:14,gap:2,pad:12,full:{px:10,gap:6},short:{px:8,gap:5},button:26,minButton:18,hide:30,caption:110});
 /** Natural width of a presentation; icon-only buttons may shrink to minButton (navigationMinWidth). */
-export function navigationWidth(mode,{panel=false,button=NAV_METRICS.button}={}){
-  const m=NAV_METRICS,n=SOURCES.length;let items;
+export function navigationWidth(mode,{panel=false,button=NAV_METRICS.button,sources=SOURCES}={}){
+  const m=NAV_METRICS,n=sources.length;let items;
   if(mode==='icons')items=n*button;
-  else{const p=mode==='full'?m.full:m.short,chars=SOURCES.reduce((a,s)=>a+Array.from(mode==='full'?s.label:s.short).length,0);items=chars*m.charPx+n*(2*p.px+m.icon+p.gap);}
-  return items+(n-1)*m.gap+m.pad+(panel?m.hide:0);
+  else{const p=mode==='full'?m.full:m.short,chars=sources.reduce((a,s)=>a+Array.from(mode==='full'?s.label:s.short).length,0);items=chars*m.charPx+n*(2*p.px+m.icon+p.gap);}
+  return items+Math.max(0,n-1)*m.gap+m.pad+(panel?m.hide:0);
 }
 /** The narrowest strip that still shows every source control whole. */
 export const navigationMinWidth=({panel=false}={})=>navigationWidth('icons',{panel,button:NAV_METRICS.minButton});
 /** Six labelled sources when they fit, short labels next, accessible icon-only controls otherwise. */
-export function navigationMode(width,{panel=false}={}){
+export function navigationMode(width,{panel=false,sources=SOURCES}={}){
   if(!Number.isFinite(width)||width<=0)return 'icons';
-  for(const mode of ['full','short'])if(navigationWidth(mode,{panel})<=width)return mode;
+  for(const mode of ['full','short'])if(navigationWidth(mode,{panel,sources})<=width)return mode;
   return 'icons';
 }
 
@@ -177,13 +193,14 @@ function sourceButton(mod,source,{mode,selected,state,onSelect}){
  * The work-navigation strip. The selected source is the heading (the embedded views run with
  * hideHeader); the caption keeps only the useful scope/space metadata, when it fits.
  */
-export function renderNavigation({mod,contract,width=null,scope=null,spaceName=null,onSelect,onHide,onSize}){
-  const t=colors(),panel=Boolean(contract.panel),mode=navigationMode(width,{panel});
-  const room=Number.isFinite(width)?width-navigationWidth(mode,{panel}):0;
-  const caption=!contract.stack?'Work sources unavailable: '+contract.stackReason:contract.active?scope==='all'?'All spaces':['This space',spaceName].filter(Boolean).join(' · '):null;
+export function renderNavigation({mod,contract,width=null,scope=null,spaceName=null,hidden=new Set(),onSelect,onHide,onSize}){
+  const t=colors(),panel=Boolean(contract.panel),shown=SOURCES.filter(s=>!hidden.has(s.id)),mode=navigationMode(width,{panel,sources:shown});
+  const room=Number.isFinite(width)?width-navigationWidth(mode,{panel,sources:shown}):0;
+  const caption=!contract.stack?'Work sources unavailable: '+contract.stackReason:!shown.length?'Every work source is turned off. Turn one on with the gear in the tab bar.':contract.active&&!hidden.has(contract.active)?scope==='all'?'All spaces':['This space',spaceName].filter(Boolean).join(' · '):null;
   let group=h_flex().id('work-sources').flex_1().min_w(0).h_full().gap(NAV_METRICS.gap).items_center()
-    .children(SOURCES.map(s=>sourceButton(mod,s,{mode,selected:contract.active===s.id,state:sourceState(contract,s.id),onSelect})));
-  if(mode!=='icons'){
+    .children(shown.map(s=>sourceButton(mod,s,{mode,selected:contract.active===s.id,state:sourceState(contract,s.id,hidden),onSelect})));
+  if(!shown.length)group=group.child(div().id('source-caption').min_w(0).px(6).truncate().text_size(10.5).text_color(t.dim).tooltip(caption).child(caption));
+  else if(mode!=='icons'){
     group=group.child(div().flex_1().min_w(0));
     if(caption&&(!contract.stack||room>=NAV_METRICS.caption))group=group.child(div().id('source-caption').min_w(0).truncate().text_size(10.5).text_color(contract.stack?t.dim:t.blocked).tooltip(caption).child(caption));
   }

@@ -4,2209 +4,2227 @@
   "code": null,
   "error": null,
   "cleanupError": null,
-  "completedMs": 1793547745521,
-  "nonce": "c04719f42b454abd721ca9d4",
+  "completedMs": 1793590335297,
+  "nonce": "b8fd768fe894b5fad54a9624",
   "isolation": {
     "method": "private-ownership-v2",
     "existingInstancesQueried": false,
     "context": {
-      "root": "/private/tmp/mcqa-zRQbAN",
-      "nonce": "c04719f42b454abd721ca9d4",
-      "session": "mcqa-c04719f42b454abd721ca9d4",
+      "root": "/private/tmp/mcqa-eFPEUI",
+      "nonce": "b8fd768fe894b5fad54a9624",
+      "session": "mcqa-b8fd768fe894b5fad54a9624",
       "uid": 502,
-      "createdMs": 1793547492991,
+      "createdMs": 1793590063783,
       "directory": {
         "dev": "16777233",
-        "ino": "810407540",
+        "ino": "815076811",
         "uid": 502,
         "mode": 448,
-        "birthMs": 1793547492991
+        "birthMs": 1793590063783
       },
       "selectors": {
-        "HOME": "/private/tmp/mcqa-zRQbAN/h",
-        "USERPROFILE": "/private/tmp/mcqa-zRQbAN/h",
-        "TMPDIR": "/private/tmp/mcqa-zRQbAN/t",
-        "XDG_CONFIG_HOME": "/private/tmp/mcqa-zRQbAN/c",
-        "XDG_DATA_HOME": "/private/tmp/mcqa-zRQbAN/d",
-        "XDG_STATE_HOME": "/private/tmp/mcqa-zRQbAN/s",
-        "XDG_CACHE_HOME": "/private/tmp/mcqa-zRQbAN/k",
-        "XDG_RUNTIME_DIR": "/private/tmp/mcqa-zRQbAN/r",
-        "HERDR_APP_HOME": "/private/tmp/mcqa-zRQbAN/app",
-        "HC_SESSION": "mcqa-c04719f42b454abd721ca9d4"
+        "HOME": "/private/tmp/mcqa-eFPEUI/h",
+        "USERPROFILE": "/private/tmp/mcqa-eFPEUI/h",
+        "TMPDIR": "/private/tmp/mcqa-eFPEUI/t",
+        "XDG_CONFIG_HOME": "/private/tmp/mcqa-eFPEUI/c",
+        "XDG_DATA_HOME": "/private/tmp/mcqa-eFPEUI/d",
+        "XDG_STATE_HOME": "/private/tmp/mcqa-eFPEUI/s",
+        "XDG_CACHE_HOME": "/private/tmp/mcqa-eFPEUI/k",
+        "XDG_RUNTIME_DIR": "/private/tmp/mcqa-eFPEUI/r",
+        "HERDR_APP_HOME": "/private/tmp/mcqa-eFPEUI/app",
+        "HC_SESSION": "mcqa-b8fd768fe894b5fad54a9624"
       }
     },
     "core": {
-      "id": "5bfc647f16d5ac0465a6bf74890effdc",
+      "id": "e1f2107456883883de9a2744943e53a0",
       "process": {
-        "pid": 2833,
+        "pid": 42282,
         "uid": 502,
-        "startedMs": 1793547493000,
+        "startedMs": 1793590063000,
         "executable": "/Users/ciprian/.local/bin/herdr-core",
-        "fingerprint": "2be0639c4369cf7eb6feacf0c178a71b47152790dc7f1a6012a2e147048dd272"
+        "fingerprint": "7e82f1f0676731479069e596056f4cc57a6b644e6e6c4a6269e394aac0134f2f"
       },
       "socket": {
-        "path": "/private/tmp/mcqa-zRQbAN/r/herdr-core/mcqa-c04719f42b454abd721ca9d4.sock",
+        "path": "/private/tmp/mcqa-eFPEUI/r/herdr-core/mcqa-b8fd768fe894b5fad54a9624.sock",
         "dev": "16777233",
-        "ino": "810407557",
+        "ino": "815076828",
         "uid": 502,
         "mode": 493,
         "ownerPids": [
-          2833
+          42282
         ]
       },
       "holder": {
         "process": {
-          "pid": 3006,
+          "pid": 42450,
           "uid": 502,
-          "startedMs": 1793547493000,
+          "startedMs": 1793590064000,
           "executable": "/Users/ciprian/.local/bin/herdr-core",
-          "fingerprint": "a0d4379053218811b6b6f5e15d4c74a1458c35e8865fa48ca83f9d7ee04cacd8"
+          "fingerprint": "1bb7ae5ac9bc6c97e125e781ac5b8d578a03b5fede7588df4a865f5bad231bef"
         },
         "socket": {
-          "path": "/private/tmp/mcqa-zRQbAN/r/herdr-core/mcqa-c04719f42b454abd721ca9d4.holder.0d97912f.sock",
+          "path": "/private/tmp/mcqa-eFPEUI/r/herdr-core/mcqa-b8fd768fe894b5fad54a9624.holder.6d87de6e.sock",
           "dev": "16777233",
-          "ino": "810407626",
+          "ino": "815076898",
           "uid": 502,
           "mode": 493,
           "ownerPids": [
-            3006
+            42450
           ]
         }
       }
     },
     "app": {
       "process": {
-        "pid": 4459,
+        "pid": 43918,
         "uid": 502,
-        "startedMs": 1793547514000,
+        "startedMs": 1793590083000,
         "executable": "/Applications/Herdr.app/Contents/MacOS/Herdr",
-        "fingerprint": "e3e83ee08d955a08a80551e689ed1f2b134fe4f6f4aeed2bd7eda5cfe44c8776"
+        "fingerprint": "705ae031ae84a329b31eeef9136db3831db92a2d8145eac4d6520bfd5c7d126e"
       },
       "socket": {
-        "path": "/private/tmp/mcqa-zRQbAN/app/herdr-app.sock",
+        "path": "/private/tmp/mcqa-eFPEUI/app/herdr-app.sock",
         "dev": "16777233",
-        "ino": "810408728",
+        "ino": "815077958",
         "uid": 502,
         "mode": 493,
         "ownerPids": [
-          4459
+          43918
         ]
       }
     },
     "commandAudit": [
       {
         "sequence": 1,
-        "at": 1793547493002,
+        "at": 1793590063794,
         "kind": "hc",
         "command": "server start",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "boot",
         "result": "ok"
       },
       {
         "sequence": 2,
-        "at": 1793547493048,
+        "at": 1793590063838,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "boot",
         "result": "ok"
       },
       {
         "sequence": 3,
-        "at": 1793547493168,
+        "at": 1793590063960,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 4,
-        "at": 1793547493625,
+        "at": 1793590064322,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 5,
-        "at": 1793547493681,
+        "at": 1793590064382,
         "kind": "hc",
         "command": "run",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 6,
-        "at": 1793547493777,
+        "at": 1793590064480,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 7,
-        "at": 1793547493940,
+        "at": 1793590064654,
         "kind": "hc",
         "command": "ls",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 8,
-        "at": 1793547494000,
+        "at": 1793590064717,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 9,
-        "at": 1793547494117,
+        "at": 1793590064834,
         "kind": "hc",
         "command": "get t1",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 10,
-        "at": 1793547495160,
+        "at": 1793590065823,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 11,
-        "at": 1793547495272,
+        "at": 1793590065932,
         "kind": "hc",
         "command": "machine add",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 12,
-        "at": 1793547514466,
+        "at": 1793590083276,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 13,
-        "at": 1793547514582,
+        "at": 1793590083392,
         "kind": "app",
-        "command": "check /private/tmp/mcqa-zRQbAN/app/mods/mission-control-reopen",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "command": "check /private/tmp/mcqa-eFPEUI/app/mods/mission-control-reopen",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 14,
-        "at": 1793547514786,
+        "at": 1793590083580,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 15,
-        "at": 1793547515451,
+        "at": 1793590084131,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 16,
-        "at": 1793547515618,
+        "at": 1793590084317,
         "kind": "app",
         "command": "status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 17,
-        "at": 1793547515689,
+        "at": 1793590084399,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 18,
-        "at": 1793547515865,
+        "at": 1793590084575,
         "kind": "app",
         "command": "ls",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 19,
-        "at": 1793547515935,
+        "at": 1793590084639,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 20,
-        "at": 1793547516053,
+        "at": 1793590084757,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 21,
-        "at": 1793547516113,
+        "at": 1793590084820,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 22,
-        "at": 1793547516302,
+        "at": 1793590084998,
         "kind": "app",
         "command": "layout.switch",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 23,
-        "at": 1793547516397,
+        "at": 1793590085093,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 24,
-        "at": 1793547516567,
+        "at": 1793590085274,
         "kind": "app",
         "command": "status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 25,
-        "at": 1793547516628,
+        "at": 1793590085341,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 26,
-        "at": 1793547516795,
+        "at": 1793590085514,
         "kind": "app",
         "command": "status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 27,
-        "at": 1793547518388,
+        "at": 1793590086719,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 28,
-        "at": 1793547518557,
+        "at": 1793590086879,
         "kind": "app",
         "command": "ls",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 29,
-        "at": 1793547518624,
+        "at": 1793590086938,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 30,
-        "at": 1793547518797,
+        "at": 1793590087091,
         "kind": "app",
         "command": "space.rename",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 31,
-        "at": 1793547518863,
+        "at": 1793590087151,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 32,
-        "at": 1793547519042,
+        "at": 1793590087308,
         "kind": "app",
         "command": "space.rename",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 33,
-        "at": 1793547519110,
+        "at": 1793590087369,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 34,
-        "at": 1793547519280,
+        "at": 1793590087526,
         "kind": "app",
         "command": "space.select",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 35,
-        "at": 1793547522668,
+        "at": 1793590090281,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 36,
-        "at": 1793547522782,
+        "at": 1793590090389,
         "kind": "hc",
         "command": "ls",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 37,
-        "at": 1793547528207,
+        "at": 1793590095764,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 38,
-        "at": 1793547528375,
+        "at": 1793590095920,
         "kind": "app",
         "command": "status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 39,
-        "at": 1793547530608,
+        "at": 1793590098145,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 40,
-        "at": 1793547530780,
+        "at": 1793590098318,
         "kind": "app",
         "command": "status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 41,
-        "at": 1793547535272,
+        "at": 1793590099447,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 42,
-        "at": 1793547535384,
+        "at": 1793590099563,
         "kind": "hc",
         "command": "ls",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 43,
-        "at": 1793547535687,
+        "at": 1793590099854,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 44,
-        "at": 1793547535857,
+        "at": 1793590100028,
         "kind": "app",
         "command": "status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 45,
-        "at": 1793547535921,
+        "at": 1793590100095,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 46,
-        "at": 1793547536092,
+        "at": 1793590100269,
         "kind": "app",
         "command": "tab.new",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 47,
-        "at": 1793547536168,
+        "at": 1793590100347,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 48,
-        "at": 1793547536285,
+        "at": 1793590100463,
         "kind": "hc",
         "command": "get t2",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 49,
-        "at": 1793547536450,
+        "at": 1793590100628,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 50,
-        "at": 1793547536563,
+        "at": 1793590100748,
         "kind": "hc",
         "command": "get t2",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 51,
-        "at": 1793547536727,
+        "at": 1793590100913,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 52,
-        "at": 1793547536843,
+        "at": 1793590101028,
         "kind": "hc",
         "command": "get t2",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 53,
-        "at": 1793547536908,
+        "at": 1793590101093,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 54,
-        "at": 1793547537070,
+        "at": 1793590101259,
         "kind": "app",
         "command": "tab.new",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 55,
-        "at": 1793547537644,
+        "at": 1793590101782,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 56,
-        "at": 1793547537809,
+        "at": 1793590101999,
         "kind": "app",
         "command": "tab.new",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 57,
-        "at": 1793547537889,
+        "at": 1793590102078,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 58,
-        "at": 1793547538056,
+        "at": 1793590102257,
         "kind": "app",
         "command": "space.select",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 59,
-        "at": 1793547538122,
+        "at": 1793590102330,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 60,
-        "at": 1793547538295,
+        "at": 1793590102508,
         "kind": "app",
         "command": "tab.select",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 61,
-        "at": 1793547538361,
+        "at": 1793590102577,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 62,
-        "at": 1793547538534,
+        "at": 1793590102792,
         "kind": "app",
         "command": "pane.focus",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 63,
-        "at": 1793547538601,
+        "at": 1793590102855,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 64,
-        "at": 1793547538787,
+        "at": 1793590103020,
         "kind": "app",
         "command": "ls",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 65,
-        "at": 1793547538854,
+        "at": 1793590103091,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 66,
-        "at": 1793547539041,
+        "at": 1793590103268,
         "kind": "app",
         "command": "pane.split",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 67,
-        "at": 1793547539120,
+        "at": 1793590103347,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 68,
-        "at": 1793547539298,
+        "at": 1793590103519,
         "kind": "app",
         "command": "tab.new",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 69,
-        "at": 1793547540719,
+        "at": 1793590105337,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 70,
-        "at": 1793547540891,
+        "at": 1793590105514,
         "kind": "app",
         "command": "space.select",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 71,
-        "at": 1793547540955,
+        "at": 1793590105582,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 72,
-        "at": 1793547541124,
+        "at": 1793590105760,
         "kind": "app",
         "command": "tab.select",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 73,
-        "at": 1793547546284,
+        "at": 1793590107338,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 74,
-        "at": 1793547546449,
+        "at": 1793590107511,
         "kind": "app",
         "command": "status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 75,
-        "at": 1793547547957,
+        "at": 1793590108944,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 76,
-        "at": 1793547548127,
+        "at": 1793590109106,
         "kind": "app",
         "command": "status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 77,
-        "at": 1793547552813,
+        "at": 1793590130942,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 78,
-        "at": 1793547552980,
+        "at": 1793590131097,
         "kind": "app",
         "command": "status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 79,
-        "at": 1793547554778,
+        "at": 1793590131583,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 80,
-        "at": 1793547554943,
+        "at": 1793590131757,
         "kind": "app",
         "command": "space.select",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 81,
-        "at": 1793547555006,
+        "at": 1793590131823,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 82,
-        "at": 1793547555168,
+        "at": 1793590131996,
         "kind": "app",
         "command": "tab.select",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 83,
-        "at": 1793547561971,
+        "at": 1793590138810,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 84,
-        "at": 1793547562088,
+        "at": 1793590138915,
         "kind": "hc",
         "command": "read t3",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 85,
-        "at": 1793547562152,
+        "at": 1793590138971,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 86,
-        "at": 1793547562322,
+        "at": 1793590139124,
         "kind": "app",
         "command": "space.select",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 87,
-        "at": 1793547562385,
+        "at": 1793590139186,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 88,
-        "at": 1793547562551,
+        "at": 1793590139346,
         "kind": "app",
         "command": "tab.select",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 89,
-        "at": 1793547565991,
+        "at": 1793590140763,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 90,
-        "at": 1793547566168,
+        "at": 1793590140942,
         "kind": "app",
         "command": "status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 91,
-        "at": 1793547567645,
+        "at": 1793590142308,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 92,
-        "at": 1793547567811,
+        "at": 1793590142485,
         "kind": "app",
         "command": "ls",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 93,
-        "at": 1793547573399,
+        "at": 1793590148182,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 94,
-        "at": 1793547573564,
+        "at": 1793590148357,
         "kind": "app",
         "command": "space.select",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 95,
-        "at": 1793547573629,
+        "at": 1793590148424,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 96,
-        "at": 1793547573800,
+        "at": 1793590148603,
         "kind": "app",
         "command": "tab.select",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 97,
-        "at": 1793547575821,
+        "at": 1793590150285,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 98,
-        "at": 1793547575984,
+        "at": 1793590150449,
         "kind": "app",
         "command": "status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 99,
-        "at": 1793547577490,
+        "at": 1793590151845,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 100,
-        "at": 1793547577682,
+        "at": 1793590152022,
         "kind": "app",
         "command": "ls",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 101,
-        "at": 1793547583476,
+        "at": 1793590158233,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 102,
-        "at": 1793547583645,
+        "at": 1793590158406,
         "kind": "app",
         "command": "space.select",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 103,
-        "at": 1793547583712,
+        "at": 1793590158473,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 104,
-        "at": 1793547583889,
+        "at": 1793590158641,
         "kind": "app",
         "command": "tab.select",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 105,
-        "at": 1793547587670,
+        "at": 1793590164118,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 106,
-        "at": 1793547587843,
+        "at": 1793590164270,
         "kind": "app",
         "command": "status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 107,
-        "at": 1793547590344,
+        "at": 1793590165684,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 108,
-        "at": 1793547590512,
+        "at": 1793590165860,
         "kind": "app",
         "command": "ls",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 109,
-        "at": 1793547603958,
+        "at": 1793590180587,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 110,
-        "at": 1793547604127,
+        "at": 1793590180740,
         "kind": "app",
         "command": "status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 111,
-        "at": 1793547606359,
+        "at": 1793590182959,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 112,
-        "at": 1793547606527,
+        "at": 1793590183124,
         "kind": "app",
         "command": "status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 113,
-        "at": 1793547609833,
+        "at": 1793590186254,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 114,
-        "at": 1793547610004,
+        "at": 1793590186416,
         "kind": "app",
         "command": "status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 115,
-        "at": 1793547622508,
+        "at": 1793590199339,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 116,
-        "at": 1793547622679,
+        "at": 1793590199513,
         "kind": "app",
         "command": "status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 117,
-        "at": 1793547624902,
+        "at": 1793590201740,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 118,
-        "at": 1793547625072,
+        "at": 1793590201916,
         "kind": "app",
         "command": "status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 119,
-        "at": 1793547638705,
+        "at": 1793590216219,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 120,
-        "at": 1793547638876,
+        "at": 1793590216377,
         "kind": "app",
         "command": "status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 121,
-        "at": 1793547638942,
+        "at": 1793590216437,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 122,
-        "at": 1793547639110,
+        "at": 1793590216606,
         "kind": "app",
         "command": "ls",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 123,
-        "at": 1793547639175,
+        "at": 1793590216670,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 124,
-        "at": 1793547639336,
+        "at": 1793590216839,
         "kind": "app",
         "command": "ls",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 125,
-        "at": 1793547640728,
+        "at": 1793590217797,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 126,
-        "at": 1793547640900,
+        "at": 1793590217970,
         "kind": "app",
         "command": "ls",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 127,
-        "at": 1793547643976,
+        "at": 1793590221039,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 128,
-        "at": 1793547644143,
+        "at": 1793590221199,
         "kind": "app",
         "command": "ls",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 129,
-        "at": 1793547644382,
+        "at": 1793590221418,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 130,
-        "at": 1793547644547,
+        "at": 1793590221578,
         "kind": "app",
         "command": "ls",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 131,
-        "at": 1793547647549,
+        "at": 1793590225466,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 132,
-        "at": 1793547647734,
+        "at": 1793590225631,
         "kind": "app",
         "command": "ls",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 133,
-        "at": 1793547650571,
+        "at": 1793590228438,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 134,
-        "at": 1793547650737,
+        "at": 1793590228607,
         "kind": "app",
         "command": "ls",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 135,
-        "at": 1793547650806,
+        "at": 1793590228666,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 136,
-        "at": 1793547650984,
+        "at": 1793590228824,
         "kind": "app",
         "command": "ls",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 137,
-        "at": 1793547651050,
+        "at": 1793590228884,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 138,
-        "at": 1793547651164,
+        "at": 1793590228994,
         "kind": "hc",
         "command": "get t6",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 139,
-        "at": 1793547655639,
+        "at": 1793590234385,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 140,
-        "at": 1793547655809,
+        "at": 1793590234563,
         "kind": "app",
         "command": "ls",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 141,
-        "at": 1793547657417,
+        "at": 1793590240227,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 142,
-        "at": 1793547657598,
+        "at": 1793590240402,
         "kind": "app",
         "command": "ls",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 143,
-        "at": 1793547657667,
+        "at": 1793590240467,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 144,
-        "at": 1793547657838,
+        "at": 1793590240643,
         "kind": "app",
         "command": "ls",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 145,
-        "at": 1793547659411,
+        "at": 1793590242216,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 146,
-        "at": 1793547659526,
+        "at": 1793590242337,
         "kind": "hc",
         "command": "get t7",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 147,
-        "at": 1793547659587,
+        "at": 1793590242398,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 148,
-        "at": 1793547659701,
+        "at": 1793590242513,
         "kind": "hc",
         "command": "read t7",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 149,
-        "at": 1793547661084,
+        "at": 1793590244276,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 150,
-        "at": 1793547661247,
+        "at": 1793590244445,
         "kind": "app",
         "command": "status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 151,
-        "at": 1793547663436,
+        "at": 1793590246605,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 152,
-        "at": 1793547663598,
+        "at": 1793590246776,
         "kind": "app",
         "command": "status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 153,
-        "at": 1793547663662,
+        "at": 1793590246841,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 154,
-        "at": 1793547663828,
+        "at": 1793590247001,
         "kind": "app",
         "command": "space.select",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 155,
-        "at": 1793547663891,
+        "at": 1793590247061,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 156,
-        "at": 1793547664057,
+        "at": 1793590247225,
         "kind": "app",
         "command": "tab.select",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 157,
-        "at": 1793547670219,
+        "at": 1793590248627,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 158,
-        "at": 1793547670390,
+        "at": 1793590248801,
         "kind": "app",
         "command": "status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 159,
-        "at": 1793547671802,
+        "at": 1793590250170,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 160,
-        "at": 1793547671967,
+        "at": 1793590250347,
         "kind": "app",
         "command": "ls",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 161,
-        "at": 1793547678270,
+        "at": 1793590257054,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 162,
-        "at": 1793547678437,
+        "at": 1793590257236,
         "kind": "app",
         "command": "tab.new",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 163,
-        "at": 1793547678512,
+        "at": 1793590257314,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 164,
-        "at": 1793547678624,
+        "at": 1793590257429,
         "kind": "hc",
         "command": "get t8",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 165,
-        "at": 1793547678788,
+        "at": 1793590257598,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 166,
-        "at": 1793547678904,
+        "at": 1793590257720,
         "kind": "hc",
         "command": "get t8",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 167,
-        "at": 1793547678973,
+        "at": 1793590257883,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 168,
-        "at": 1793547679141,
-        "kind": "app",
-        "command": "space.select",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "at": 1793590258005,
+        "kind": "hc",
+        "command": "get t8",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 169,
-        "at": 1793547679205,
+        "at": 1793590258071,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 170,
-        "at": 1793547679374,
+        "at": 1793590258249,
         "kind": "app",
-        "command": "tab.select",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "command": "space.select",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 171,
-        "at": 1793547679438,
+        "at": 1793590258314,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 172,
-        "at": 1793547679607,
+        "at": 1793590258486,
         "kind": "app",
-        "command": "ls",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "command": "tab.select",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 173,
-        "at": 1793547681814,
+        "at": 1793590258547,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 174,
-        "at": 1793547681981,
+        "at": 1793590258708,
         "kind": "app",
-        "command": "status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "command": "ls",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 175,
-        "at": 1793547683563,
+        "at": 1793590261505,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 176,
-        "at": 1793547683738,
+        "at": 1793590261675,
         "kind": "app",
-        "command": "ls",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "command": "status",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 177,
-        "at": 1793547683802,
+        "at": 1793590263254,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 178,
-        "at": 1793547683974,
+        "at": 1793590263425,
         "kind": "app",
-        "command": "status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "command": "ls",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 179,
-        "at": 1793547684039,
+        "at": 1793590263487,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 180,
-        "at": 1793547684206,
+        "at": 1793590263650,
         "kind": "app",
-        "command": "space.select",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "command": "status",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 181,
-        "at": 1793547684272,
+        "at": 1793590263715,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 182,
-        "at": 1793547684443,
+        "at": 1793590263881,
         "kind": "app",
-        "command": "tab.select",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "command": "space.select",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 183,
-        "at": 1793547687000,
+        "at": 1793590263946,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 184,
-        "at": 1793547687170,
+        "at": 1793590264120,
         "kind": "app",
-        "command": "status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "command": "tab.select",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 185,
-        "at": 1793547689244,
+        "at": 1793590271488,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 186,
-        "at": 1793547689413,
+        "at": 1793590271660,
         "kind": "app",
-        "command": "ls",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "command": "status",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 187,
-        "at": 1793547697637,
+        "at": 1793590274561,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 188,
-        "at": 1793547697808,
+        "at": 1793590274750,
         "kind": "app",
-        "command": "status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "command": "ls",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 189,
-        "at": 1793547700045,
+        "at": 1793590284870,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 190,
-        "at": 1793547700220,
+        "at": 1793590285034,
         "kind": "app",
         "command": "status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 191,
-        "at": 1793547700855,
+        "at": 1793590287259,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 192,
-        "at": 1793547701025,
+        "at": 1793590287427,
         "kind": "app",
-        "command": "ls",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "command": "status",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 193,
-        "at": 1793547703031,
+        "at": 1793590288060,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 194,
-        "at": 1793547703207,
+        "at": 1793590288243,
         "kind": "app",
         "command": "ls",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 195,
-        "at": 1793547712771,
+        "at": 1793590290229,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 196,
-        "at": 1793547712935,
+        "at": 1793590290410,
         "kind": "app",
-        "command": "status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "command": "ls",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 197,
-        "at": 1793547712998,
+        "at": 1793590291850,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 198,
-        "at": 1793547713161,
+        "at": 1793590292019,
         "kind": "app",
-        "command": "ls",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "command": "status",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 199,
-        "at": 1793547713225,
+        "at": 1793590292086,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 200,
-        "at": 1793547713341,
-        "kind": "hc",
-        "command": "get t9",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "at": 1793590292258,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 201,
-        "at": 1793547713402,
+        "at": 1793590292325,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 202,
-        "at": 1793547713575,
-        "kind": "app",
-        "command": "space.select",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "at": 1793590292439,
+        "kind": "hc",
+        "command": "get t9",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 203,
-        "at": 1793547713642,
+        "at": 1793590292501,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 204,
-        "at": 1793547713811,
+        "at": 1793590292679,
         "kind": "app",
-        "command": "tab.select",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "command": "space.select",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 205,
-        "at": 1793547718335,
+        "at": 1793590292745,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 206,
-        "at": 1793547718499,
+        "at": 1793590292928,
         "kind": "app",
-        "command": "status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "command": "tab.select",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 207,
-        "at": 1793547719943,
+        "at": 1793590305827,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 208,
-        "at": 1793547720129,
+        "at": 1793590306002,
         "kind": "app",
-        "command": "ls",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "command": "status",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 209,
-        "at": 1793547724706,
+        "at": 1793590307381,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 210,
-        "at": 1793547724882,
+        "at": 1793590307553,
         "kind": "app",
         "command": "ls",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 211,
-        "at": 1793547729185,
+        "at": 1793590313448,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 212,
-        "at": 1793547729348,
+        "at": 1793590313632,
         "kind": "app",
         "command": "ls",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 213,
-        "at": 1793547733921,
+        "at": 1793590317028,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 214,
-        "at": 1793547734092,
+        "at": 1793590317197,
         "kind": "app",
         "command": "ls",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 215,
-        "at": 1793547739368,
+        "at": 1793590321743,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 216,
-        "at": 1793547739536,
+        "at": 1793590321923,
         "kind": "app",
-        "command": "status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "command": "ls",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 217,
-        "at": 1793547741817,
+        "at": 1793590323241,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 218,
-        "at": 1793547741989,
+        "at": 1793590323429,
         "kind": "app",
         "command": "status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 219,
-        "at": 1793547743436,
+        "at": 1793590325671,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 220,
-        "at": 1793547743604,
+        "at": 1793590325850,
         "kind": "app",
         "command": "status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 221,
-        "at": 1793547743669,
+        "at": 1793590333163,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 222,
-        "at": 1793547743837,
+        "at": 1793590333354,
         "kind": "app",
         "command": "status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 223,
-        "at": 1793547743902,
+        "at": 1793590333423,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 224,
-        "at": 1793547744014,
-        "kind": "hc",
-        "command": "machine rm",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "at": 1793590333583,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 225,
-        "at": 1793547744493,
+        "at": 1793590333649,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 226,
-        "at": 1793547744722,
+        "at": 1793590333769,
         "kind": "hc",
-        "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
-        "phase": "cleanup",
+        "command": "machine rm",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
+        "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 227,
-        "at": 1793547744896,
-        "kind": "app",
-        "command": "status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
-        "phase": "cleanup",
+        "at": 1793590334240,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
+        "phase": "owned",
         "result": "ok"
       },
       {
         "sequence": 228,
-        "at": 1793547744960,
+        "at": 1793590334481,
         "kind": "hc",
         "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "cleanup",
         "result": "ok"
       },
       {
         "sequence": 229,
-        "at": 1793547745131,
+        "at": 1793590334653,
         "kind": "app",
-        "command": "app.quit",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "command": "status",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "cleanup",
         "result": "ok"
       },
       {
         "sequence": 230,
-        "at": 1793547745247,
-        "kind": "app",
-        "command": "verify exit",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "at": 1793590334715,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "cleanup",
         "result": "ok"
       },
       {
         "sequence": 231,
-        "at": 1793547745303,
-        "kind": "hc",
-        "command": "server status",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "at": 1793590334890,
+        "kind": "app",
+        "command": "app.quit",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "cleanup",
         "result": "ok"
       },
       {
         "sequence": 232,
-        "at": 1793547745420,
-        "kind": "hc",
-        "command": "server stop",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "at": 1793590335006,
+        "kind": "app",
+        "command": "verify exit",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "cleanup",
         "result": "ok"
       },
       {
         "sequence": 233,
-        "at": 1793547745490,
+        "at": 1793590335064,
         "kind": "hc",
-        "command": "verify exit",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "command": "server status",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "cleanup",
         "result": "ok"
       },
       {
         "sequence": 234,
-        "at": 1793547745493,
+        "at": 1793590335182,
+        "kind": "hc",
+        "command": "server stop",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 235,
+        "at": 1793590335257,
         "kind": "hc",
         "command": "verify exit",
-        "selectorSha256": "ed3a563d9a77f6d008fd4b139db5ef7be1239e81c71ac524da07fdfdcd68ae18",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 236,
+        "at": 1793590335260,
+        "kind": "hc",
+        "command": "verify exit",
+        "selectorSha256": "923b400349fcf57be14f51de2505cb0cec1b211a6a168982d16b2afabcb7c1a8",
         "phase": "cleanup",
         "result": "ok"
       }
     ]
   },
-  "privateCoreId": "5bfc647f16d5ac0465a6bf74890effdc",
-  "privateCorePid": 2833,
-  "privateHolderPid": 3006,
-  "appPid": 4459,
-  "launcherPid": 4459,
+  "privateCoreId": "e1f2107456883883de9a2744943e53a0",
+  "privateCorePid": 42282,
+  "privateHolderPid": 42450,
+  "appPid": 43918,
+  "launcherPid": 43918,
   "launcherExitCode": 0,
   "assertions": [
     {
@@ -2349,20 +2367,20 @@
   "inputActions": [
     {
       "kind": "window-bind",
-      "pid": 4459,
-      "windowId": 12660
+      "pid": 43918,
+      "windowId": 14113
     },
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 4459,
-      "windowId": 12660,
+      "pid": 43918,
+      "windowId": 14113,
       "x": 365.1162777058913,
       "y": 1067.2616132269106,
       "control": "Reopen tab copy 1",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-4.png",
-        "sha256": "0f8497168ceffa8d6a2ff10a4e412c491b2b572cb61c33d003c7c719ae7f70aa",
+        "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-4.png",
+        "sha256": "460df5f9bf01a659784ec3dc3759ccf263bf8ef8987af1a10e246a914f7c30c3",
         "width": 2560,
         "height": 1520
       }
@@ -2370,14 +2388,14 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 4459,
-      "windowId": 12660,
+      "pid": 43918,
+      "windowId": 14113,
       "x": 453.488370576174,
       "y": 1068.1907085977937,
       "control": "Reopen agent copy 1",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-6.png",
-        "sha256": "ffe442394c48ec76d85edd4699cd403167228188f97bd713e830693b20736156",
+        "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-6.png",
+        "sha256": "9be968337fab6ec3d939ad8873091708c790eb7dd322f7cb77864b3af09c366f",
         "width": 2560,
         "height": 1520
       }
@@ -2385,34 +2403,34 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 4459,
-      "windowId": 12660,
+      "pid": 43918,
+      "windowId": 14113,
       "x": 1529.9374999833942,
       "y": 1067.25,
       "control": "Closed tabs and recovery",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-8.png",
-        "sha256": "0f8497168ceffa8d6a2ff10a4e412c491b2b572cb61c33d003c7c719ae7f70aa",
+        "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-8.png",
+        "sha256": "9be968337fab6ec3d939ad8873091708c790eb7dd322f7cb77864b3af09c366f",
         "width": 2560,
         "height": 1520
       }
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "escape"
     },
     {
       "kind": "pointer",
       "button": "right",
-      "pid": 4459,
-      "windowId": 12660,
+      "pid": 43918,
+      "windowId": 14113,
       "x": 494.41860584910023,
       "y": 371.369192890052,
       "control": "Tab menu agent setup",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-12.png",
-        "sha256": "1cd200700501ed6fa7f27b5f78ade65d38bbdb40638047b36f61348c8a768941",
+        "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-12.png",
+        "sha256": "45267d606ff5797fa3227cb2438faba907a2695c65d9204677c56558abffba4f",
         "width": 2560,
         "height": 1520
       }
@@ -2420,13 +2438,13 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 4459,
-      "windowId": 12660,
+      "pid": 43918,
+      "windowId": 14113,
       "x": 555.8139539914146,
       "y": 392.73838623874536,
       "control": "Rename tab agent setup",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-14.png",
+        "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-14.png",
         "sha256": "b8949aec38a2fbefcf83b05a9155d8c06a719958a794b303f5f92ce9ca88e3ff",
         "width": 2560,
         "height": 1520
@@ -2434,69 +2452,69 @@
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "cmd-a"
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "l"
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "o"
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "g"
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "i"
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "n"
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "space"
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "f"
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "i"
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "x"
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "enter"
     },
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 4459,
-      "windowId": 12660,
+      "pid": 43918,
+      "windowId": 14113,
       "x": 632,
       "y": 735,
       "control": "Shell pane",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-17.png",
+        "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-17.png",
         "sha256": "241cba223d5c677eee2fea4b0612853c920795007f75e8ebab54fa507cdeebd4",
         "width": 2560,
         "height": 1520
@@ -2504,140 +2522,140 @@
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "c"
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "d"
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "enter"
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "p"
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "w"
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "d"
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "enter"
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "e"
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "c"
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "h"
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "o"
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "space"
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "r"
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "e"
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "o"
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "p"
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "e"
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "n"
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "m"
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "a"
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "r"
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "k"
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "e"
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "r"
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "enter"
     },
     {
       "kind": "pointer",
       "button": "right",
-      "pid": 4459,
-      "windowId": 12660,
-      "x": 481.94331256824927,
-      "y": 371.4327629523227,
+      "pid": 43918,
+      "windowId": 14113,
+      "x": 481.94331370778417,
+      "y": 371.4327628361859,
       "control": "Tab menu login fix",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-20.png",
-        "sha256": "5f0ee65b263d0b7af306b185954660ed25ab7ba522703397bc16e0a71c2238e4",
+        "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-19.png",
+        "sha256": "15214e918c6fb43ddb80d96fe140adf1e938e5a65c67a7c82a2fae19816cb0ec",
         "width": 2560,
         "height": 1520
       }
@@ -2645,14 +2663,14 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 4459,
-      "windowId": 12660,
+      "pid": 43918,
+      "windowId": 14113,
       "x": 537.2093029147286,
       "y": 463.34963318989406,
       "control": "Close tab login fix",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-22.png",
-        "sha256": "5d81a7a70f447e3fb8ddff088bd79597c17125050d4aca69c1d402c073ed988f",
+        "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-21.png",
+        "sha256": "13664651c7dff8af4c5062ceee9ddd643f50a16f1c8b8b0fffdbca501dee8346",
         "width": 2560,
         "height": 1520
       }
@@ -2660,13 +2678,13 @@
     {
       "kind": "pointer",
       "button": "right",
-      "pid": 4459,
-      "windowId": 12660,
+      "pid": 43918,
+      "windowId": 14113,
       "x": 488.83720794496566,
       "y": 370.44009729175156,
       "control": "Tab menu api review",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-24.png",
+        "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-23.png",
         "sha256": "1aaaa3f4704c5ee5b381194efaf60cea55e2e9aeefc34842bb9ced9594d56a7e",
         "width": 2560,
         "height": 1520
@@ -2675,14 +2693,14 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 4459,
-      "windowId": 12660,
+      "pid": 43918,
+      "windowId": 14113,
       "x": 542.2325565250544,
       "y": 462.4584352078239,
       "control": "Close tab api review",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-26.png",
-        "sha256": "cfb1df4942388c4bacbf13e94ba5da8ce7c5f9817643e8dac2a874848f85b91e",
+        "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-25.png",
+        "sha256": "55fa8ef2b346881e25f96658970cd49bcc9485ab44145b7575125527b271ab9a",
         "width": 2560,
         "height": 1520
       }
@@ -2690,14 +2708,14 @@
     {
       "kind": "pointer",
       "button": "right",
-      "pid": 4459,
-      "windowId": 12660,
+      "pid": 43918,
+      "windowId": 14113,
       "x": 498.49999814813964,
       "y": 371.4327628361859,
       "control": "Tab menu release notes",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-28.png",
-        "sha256": "0ad5958d74afe38057a8cff7ea62a5e9f81c63da3b8ed88c65323e753d1c1463",
+        "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-27.png",
+        "sha256": "7922d37111b169344c98ca85f226ba9053b013fe1e4826efa575ba502cca4950",
         "width": 2560,
         "height": 1520
       }
@@ -2705,14 +2723,14 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 4459,
-      "windowId": 12660,
-      "x": 548.3720937984496,
+      "pid": 43918,
+      "windowId": 14113,
+      "x": 549.3023263255814,
       "y": 463.34963318989406,
       "control": "Close tab release notes",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-31.png",
-        "sha256": "a185ae6a27c1a73dc1d9fb74d3111248d23054b944f8a8b12f448501d75b1ea2",
+        "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-29.png",
+        "sha256": "77a2b5e8279ac6312ad2a71f14e35c68938e505c622ff7d44ed0f713a8dd326d",
         "width": 2560,
         "height": 1520
       }
@@ -2720,13 +2738,13 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 4459,
-      "windowId": 12660,
+      "pid": 43918,
+      "windowId": 14113,
       "x": 1529.9374999833942,
       "y": 1067.25,
       "control": "Closed tabs and recovery",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-33.png",
+        "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-31.png",
         "sha256": "eae1b7b33d83190aeff7aa36174cfecc4709379127cb9ec8777445fda938c214",
         "width": 2560,
         "height": 1520
@@ -2734,20 +2752,20 @@
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "escape"
     },
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 4459,
-      "windowId": 12660,
+      "pid": 43918,
+      "windowId": 14113,
       "x": 453.4883708488678,
       "y": 1068.1907089755491,
       "control": "Reopen agent copy 1",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-40.png",
-        "sha256": "4994f8cfcb37fafa8d599e5d657499fbf74c7945bd5a12360e259530fe372e91",
+        "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-38.png",
+        "sha256": "eae1b7b33d83190aeff7aa36174cfecc4709379127cb9ec8777445fda938c214",
         "width": 2560,
         "height": 1520
       }
@@ -2755,13 +2773,13 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 4459,
-      "windowId": 12660,
+      "pid": 43918,
+      "windowId": 14113,
       "x": 1529.9374999833942,
       "y": 1067.25,
       "control": "Closed tabs and recovery",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-43.png",
+        "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-41.png",
         "sha256": "0d20418a7175a8f72ba3852962a0d920e1e6bed2f6c779d937128cb5f3db8915",
         "width": 2560,
         "height": 1520
@@ -2770,13 +2788,13 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 4459,
-      "windowId": 12660,
+      "pid": 43918,
+      "windowId": 14113,
       "x": 1299.0697682474881,
       "y": 1004.0831296242696,
       "control": "Recently closed api review",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-46.png",
+        "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-44.png",
         "sha256": "4943b83405eaab0bfbd4dcae7eba37af7b5fe3efb39f48e2ba95fa2a29af707e",
         "width": 2560,
         "height": 1520
@@ -2785,39 +2803,39 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 4459,
-      "windowId": 12660,
-      "x": 1293.4883748270972,
-      "y": 1082.1008556295844,
+      "pid": 43918,
+      "windowId": 14113,
+      "x": 1292.5581384139223,
+      "y": 1082.1008556837817,
       "control": "Import older history",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-50.png",
-        "sha256": "4794e98fb711a6311e8031239d3eaba90c1a57e3bf379d141f1d2235a6c8b142",
+        "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-48.png",
+        "sha256": "79710d6f516749505c7ab1e5317dffbdfa7426a91986d3f6dd3798bcaf74e2a0",
         "width": 2560,
         "height": 1520
       }
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "escape"
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "ctrl-shift-y"
     },
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 4459,
-      "windowId": 12660,
+      "pid": 43918,
+      "windowId": 14113,
       "x": 453.48837146854083,
       "y": 1068.0971880472698,
       "control": "Reopen agent copy 1",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-54.png",
-        "sha256": "c132485e2815e5aa69f9fd73e626984d46e008ae7bbb61d69ea26d5070ea4e49",
+        "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-52.png",
+        "sha256": "161b891634be70112e1d98288bdba623398b441279a5d7196b47695801f3fbaf",
         "width": 2560,
         "height": 1520
       }
@@ -2825,14 +2843,14 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 4459,
-      "windowId": 12660,
-      "x": 365.11627997437216,
-      "y": 1068.25,
+      "pid": 43918,
+      "windowId": 14113,
+      "x": 365.11628075441774,
+      "y": 1067.2616132254311,
       "control": "Reopen tab copy 1",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-56.png",
-        "sha256": "e70a6ef2a359ac99f10d0b9142965f146abd5c30fd0ab76d49ab93f77b19b71f",
+        "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-54.png",
+        "sha256": "dc8d312e95d8d9b448980bfcea8bc5c13b8c60f7eae83c26f4d786874027d851",
         "width": 2560,
         "height": 1520
       }
@@ -2840,34 +2858,34 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 4459,
-      "windowId": 12660,
+      "pid": 43918,
+      "windowId": 14113,
       "x": 1559.7478189302326,
       "y": 1067.25,
       "control": "Reopen help",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-58.png",
-        "sha256": "3725b2401734f9e46c3bf65fd7aecdfa20cfa5748f34e8ee13d8210e4eb2ec9f",
+        "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-56.png",
+        "sha256": "ecd618558990a2a5e42e9a806bf7fa2731f1e50fe63c5441ce460f34736097fa",
         "width": 2560,
         "height": 1520
       }
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "escape"
     },
     {
       "kind": "pointer",
       "button": "right",
-      "pid": 4459,
-      "windowId": 12660,
+      "pid": 43918,
+      "windowId": 14113,
       "x": 595.8139526830352,
       "y": 371.43276296006513,
       "control": "Tab menu login fix",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-63.png",
-        "sha256": "17ad65225c0b6268853d3a33af289ec4a1654d04d7e7153381142285adeb473b",
+        "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-61.png",
+        "sha256": "ec33a58d0276d589863fedc29cd2b3425f7fe19ee2418c292c4513806e144dcc",
         "width": 2560,
         "height": 1520
       }
@@ -2875,14 +2893,14 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 4459,
-      "windowId": 12660,
+      "pid": 43918,
+      "windowId": 14113,
       "x": 649.9985457367676,
       "y": 464.3875305809291,
       "control": "Close tab login fix",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-65.png",
-        "sha256": "014dbb9b1028ae851f6b9f990f702ff3073d3e2175015b0a9fc0d5796af879cb",
+        "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-63.png",
+        "sha256": "82349e589e8718321415c8cc3ebc47655b0f33f45da510f231ad9b157aee5157",
         "width": 2560,
         "height": 1520
       }
@@ -2890,14 +2908,14 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 4459,
-      "windowId": 12660,
+      "pid": 43918,
+      "windowId": 14113,
       "x": 453.48837146854083,
       "y": 1068.0971880472698,
       "control": "Reopen agent copy 1",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-67.png",
-        "sha256": "817ed86913e0807ef6cf1d5e8eb488ba46d302a98f22e9554f96816f38ee91ac",
+        "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-65.png",
+        "sha256": "8da3d91e7df42c20a379d6cf689e7906f329675ba4b7ddabbf4655d78f19cfba",
         "width": 2560,
         "height": 1520
       }
@@ -2905,14 +2923,14 @@
     {
       "kind": "pointer",
       "button": "right",
-      "pid": 4459,
-      "windowId": 12660,
+      "pid": 43918,
+      "windowId": 14113,
       "x": 493.48837031424966,
       "y": 371.3691933012012,
       "control": "Tab menu scratch pad",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-69.png",
-        "sha256": "6da20663b441b098b62badf07f2cc3491234c2fb8953da5e64bc0c2578605065",
+        "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-67.png",
+        "sha256": "9ce6bbd5f9d6efff6d3ccda57abbeee43aafaf50f3fbeb6e3fefcd4ddc8db717",
         "width": 2560,
         "height": 1520
       }
@@ -2920,14 +2938,14 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 4459,
-      "windowId": 12660,
+      "pid": 43918,
+      "windowId": 14113,
       "x": 545.5813948837209,
       "y": 463.34963334474327,
       "control": "Close tab scratch pad",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-72.png",
-        "sha256": "16c370d98b9065661aba72e66b08505de6975f3230637cc912d2198469a0c72a",
+        "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-70.png",
+        "sha256": "1c3cafece9dd1f7287d3cb18b9f0c86e72882404b232adb1d6c146598a20ed82",
         "width": 2560,
         "height": 1520
       }
@@ -2935,14 +2953,14 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 4459,
-      "windowId": 12660,
+      "pid": 43918,
+      "windowId": 14113,
       "x": 1529.9374999833942,
       "y": 1067.25,
       "control": "Closed tabs and recovery",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-74.png",
-        "sha256": "1466083f10f46e63696eda86fd5d43397295d1668b810524c3ed93dd1f2eb2c1",
+        "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-72.png",
+        "sha256": "44e5bbc320505841f01b5c29a8f3bee4749cfcef5e39aa87f96578b93521ed18",
         "width": 2560,
         "height": 1520
       }
@@ -2950,14 +2968,14 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 4459,
-      "windowId": 12660,
+      "pid": 43918,
+      "windowId": 14113,
       "x": 1321.395350410639,
       "y": 899.0495108630807,
       "control": "Popup Reopen last tab",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-77.png",
-        "sha256": "187545fac4d3a80464e476926bec692f71b26b83f88e78a588aa51a5a6597ec3",
+        "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-75.png",
+        "sha256": "783e228b6c02a71a33c73de343f5e65b1966cc1c3b4b0247125ad7d1514ae452",
         "width": 2560,
         "height": 1520
       }
@@ -2965,14 +2983,14 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 4459,
-      "windowId": 12660,
-      "x": 1266.5116284341086,
+      "pid": 43918,
+      "windowId": 14113,
+      "x": 1270.2325587906978,
       "y": 981.7848409519152,
       "control": "Retry reopen",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-80.png",
-        "sha256": "195bd92f773009ed7b85f01f6d05e79d68b7836fb765eb915b74d5696524b253",
+        "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-78.png",
+        "sha256": "7bb082f629e093e1c0dc0f1526f282e9b68bbcd09bfe2aa4de0a7d5794db3d4b",
         "width": 2560,
         "height": 1520
       }
@@ -2980,14 +2998,14 @@
     {
       "kind": "pointer",
       "button": "right",
-      "pid": 4459,
-      "windowId": 12660,
+      "pid": 43918,
+      "windowId": 14113,
       "x": 497.2093019087752,
       "y": 372.25,
       "control": "Tab menu release notes",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-83.png",
-        "sha256": "f168cc516898715ddc682f7f9d0ede996f9fb1d8c7f8f1f3a224005b7098b92d",
+        "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-80.png",
+        "sha256": "7698bcfcecf11037f10b4d033d98042c407e0befea01ec8b3f80aba85644c18f",
         "width": 2560,
         "height": 1520
       }
@@ -2995,14 +3013,14 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 4459,
-      "windowId": 12660,
+      "pid": 43918,
+      "windowId": 14113,
       "x": 550.2325587906976,
       "y": 465.2078238989405,
       "control": "Close tab release notes",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-85.png",
-        "sha256": "35d16b6bdd5a8b8e2b5064e9474db7e4f47b5b78465702d798f8937d9288a98f",
+        "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-82.png",
+        "sha256": "d93131932b647b9abdaef9322d45555369838eacd765b2ce382667e895bb055b",
         "width": 2560,
         "height": 1520
       }
@@ -3010,14 +3028,14 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 4459,
-      "windowId": 12660,
+      "pid": 43918,
+      "windowId": 14113,
       "x": 453.4883714536397,
       "y": 1067.25,
       "control": "Reopen agent copy 1",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-87.png",
-        "sha256": "494cc422835231a95f22f25a581bc1236c44764ddf199b7f8168ef5f23109103",
+        "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-84.png",
+        "sha256": "b6ed00ba2481d43e4c1a532397ddcfb93dbc27086328fcec9b1e0ce52a9f6cff",
         "width": 2560,
         "height": 1520
       }
@@ -3025,14 +3043,14 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 4459,
-      "windowId": 12660,
-      "x": 365.11627997437216,
-      "y": 1068.25,
+      "pid": 43918,
+      "windowId": 14113,
+      "x": 365.11628075441774,
+      "y": 1067.2616132254311,
       "control": "Reopen tab repeated 1",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-89.png",
-        "sha256": "494cc422835231a95f22f25a581bc1236c44764ddf199b7f8168ef5f23109103",
+        "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-86.png",
+        "sha256": "b6ed00ba2481d43e4c1a532397ddcfb93dbc27086328fcec9b1e0ce52a9f6cff",
         "width": 2560,
         "height": 1520
       }
@@ -3040,14 +3058,14 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 4459,
-      "windowId": 12660,
-      "x": 365.11627997437216,
-      "y": 1068.25,
+      "pid": 43918,
+      "windowId": 14113,
+      "x": 365.11628075441774,
+      "y": 1067.2616132254311,
       "control": "Reopen tab repeated 2",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-89.png",
-        "sha256": "494cc422835231a95f22f25a581bc1236c44764ddf199b7f8168ef5f23109103",
+        "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-86.png",
+        "sha256": "b6ed00ba2481d43e4c1a532397ddcfb93dbc27086328fcec9b1e0ce52a9f6cff",
         "width": 2560,
         "height": 1520
       }
@@ -3055,21 +3073,21 @@
     {
       "kind": "pointer",
       "button": "left",
-      "pid": 4459,
-      "windowId": 12660,
+      "pid": 43918,
+      "windowId": 14113,
       "x": 1529.9374999833942,
       "y": 1067.25,
       "control": "Closed tabs and recovery",
       "observation": {
-        "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-91.png",
-        "sha256": "75fe58ecdc956092ac511b3be9c51163786b1f1e8227907be09391fcf936f08a",
+        "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-88.png",
+        "sha256": "5c151fbb12811a979ae95467b8eba529889f336a29900d8b0fa0bbbe4f7a7a6e",
         "width": 2560,
         "height": 1520
       }
     },
     {
       "kind": "key",
-      "pid": 4459,
+      "pid": 43918,
       "key": "escape"
     }
   ],
@@ -3077,103 +3095,103 @@
     {
       "label": "reopen-observe-1",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-1.png",
-      "sha256": "0f8497168ceffa8d6a2ff10a4e412c491b2b572cb61c33d003c7c719ae7f70aa",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-1.png",
+      "sha256": "460df5f9bf01a659784ec3dc3759ccf263bf8ef8987af1a10e246a914f7c30c3",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-2",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-2.png",
-      "sha256": "0f8497168ceffa8d6a2ff10a4e412c491b2b572cb61c33d003c7c719ae7f70aa",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-2.png",
+      "sha256": "460df5f9bf01a659784ec3dc3759ccf263bf8ef8987af1a10e246a914f7c30c3",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-3",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-3.png",
-      "sha256": "0f8497168ceffa8d6a2ff10a4e412c491b2b572cb61c33d003c7c719ae7f70aa",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-3.png",
+      "sha256": "460df5f9bf01a659784ec3dc3759ccf263bf8ef8987af1a10e246a914f7c30c3",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-4",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-4.png",
-      "sha256": "0f8497168ceffa8d6a2ff10a4e412c491b2b572cb61c33d003c7c719ae7f70aa",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-4.png",
+      "sha256": "460df5f9bf01a659784ec3dc3759ccf263bf8ef8987af1a10e246a914f7c30c3",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-5",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-5.png",
-      "sha256": "ffe442394c48ec76d85edd4699cd403167228188f97bd713e830693b20736156",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-5.png",
+      "sha256": "9be968337fab6ec3d939ad8873091708c790eb7dd322f7cb77864b3af09c366f",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-6",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-6.png",
-      "sha256": "ffe442394c48ec76d85edd4699cd403167228188f97bd713e830693b20736156",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-6.png",
+      "sha256": "9be968337fab6ec3d939ad8873091708c790eb7dd322f7cb77864b3af09c366f",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-7",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-7.png",
-      "sha256": "ffe442394c48ec76d85edd4699cd403167228188f97bd713e830693b20736156",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-7.png",
+      "sha256": "460df5f9bf01a659784ec3dc3759ccf263bf8ef8987af1a10e246a914f7c30c3",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-8",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-8.png",
-      "sha256": "0f8497168ceffa8d6a2ff10a4e412c491b2b572cb61c33d003c7c719ae7f70aa",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-8.png",
+      "sha256": "9be968337fab6ec3d939ad8873091708c790eb7dd322f7cb77864b3af09c366f",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-9",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-9.png",
-      "sha256": "f08475866636dc78cbc9179a8dfe47090c3d604370b4e5e540730f4bf4fa360c",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-9.png",
+      "sha256": "9312909dd34ec8c0b36976863531b5b4f9a644c17e4e90aec09e38ed2734489a",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-10",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-10.png",
-      "sha256": "f08475866636dc78cbc9179a8dfe47090c3d604370b4e5e540730f4bf4fa360c",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-10.png",
+      "sha256": "9312909dd34ec8c0b36976863531b5b4f9a644c17e4e90aec09e38ed2734489a",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-11",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-11.png",
-      "sha256": "1cd200700501ed6fa7f27b5f78ade65d38bbdb40638047b36f61348c8a768941",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-11.png",
+      "sha256": "45267d606ff5797fa3227cb2438faba907a2695c65d9204677c56558abffba4f",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-12",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-12.png",
-      "sha256": "1cd200700501ed6fa7f27b5f78ade65d38bbdb40638047b36f61348c8a768941",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-12.png",
+      "sha256": "45267d606ff5797fa3227cb2438faba907a2695c65d9204677c56558abffba4f",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-13",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-13.png",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-13.png",
       "sha256": "b8949aec38a2fbefcf83b05a9155d8c06a719958a794b303f5f92ce9ca88e3ff",
       "width": 2560,
       "height": 1520
@@ -3181,7 +3199,7 @@
     {
       "label": "reopen-observe-14",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-14.png",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-14.png",
       "sha256": "b8949aec38a2fbefcf83b05a9155d8c06a719958a794b303f5f92ce9ca88e3ff",
       "width": 2560,
       "height": 1520
@@ -3189,7 +3207,7 @@
     {
       "label": "reopen-observe-15",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-15.png",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-15.png",
       "sha256": "21ec3d60c9066869c800326c4145cd29d395de7b363bcb2cf5a83b046dc7597a",
       "width": 2560,
       "height": 1520
@@ -3197,15 +3215,15 @@
     {
       "label": "reopen-observe-16",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-16.png",
-      "sha256": "21ec3d60c9066869c800326c4145cd29d395de7b363bcb2cf5a83b046dc7597a",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-16.png",
+      "sha256": "e740390f9aca66498b6ad885fac1e94f0d828301ae52b34b8f3b6381a62d74f7",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-17",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-17.png",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-17.png",
       "sha256": "241cba223d5c677eee2fea4b0612853c920795007f75e8ebab54fa507cdeebd4",
       "width": 2560,
       "height": 1520
@@ -3213,7 +3231,7 @@
     {
       "label": "reopen-observe-18",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-18.png",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-18.png",
       "sha256": "15214e918c6fb43ddb80d96fe140adf1e938e5a65c67a7c82a2fae19816cb0ec",
       "width": 2560,
       "height": 1520
@@ -3221,23 +3239,23 @@
     {
       "label": "reopen-observe-19",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-19.png",
-      "sha256": "5f0ee65b263d0b7af306b185954660ed25ab7ba522703397bc16e0a71c2238e4",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-19.png",
+      "sha256": "15214e918c6fb43ddb80d96fe140adf1e938e5a65c67a7c82a2fae19816cb0ec",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-20",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-20.png",
-      "sha256": "5f0ee65b263d0b7af306b185954660ed25ab7ba522703397bc16e0a71c2238e4",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-20.png",
+      "sha256": "13664651c7dff8af4c5062ceee9ddd643f50a16f1c8b8b0fffdbca501dee8346",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-21",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-21.png",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-21.png",
       "sha256": "13664651c7dff8af4c5062ceee9ddd643f50a16f1c8b8b0fffdbca501dee8346",
       "width": 2560,
       "height": 1520
@@ -3245,31 +3263,31 @@
     {
       "label": "reopen-observe-22",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-22.png",
-      "sha256": "5d81a7a70f447e3fb8ddff088bd79597c17125050d4aca69c1d402c073ed988f",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-22.png",
+      "sha256": "107cee97dd98e8d06428532cc7c4e6615dd7da3f6590ec0f6bc191c67c5c161c",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-23",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-23.png",
-      "sha256": "107cee97dd98e8d06428532cc7c4e6615dd7da3f6590ec0f6bc191c67c5c161c",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-23.png",
+      "sha256": "1aaaa3f4704c5ee5b381194efaf60cea55e2e9aeefc34842bb9ced9594d56a7e",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-24",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-24.png",
-      "sha256": "1aaaa3f4704c5ee5b381194efaf60cea55e2e9aeefc34842bb9ced9594d56a7e",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-24.png",
+      "sha256": "55fa8ef2b346881e25f96658970cd49bcc9485ab44145b7575125527b271ab9a",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-25",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-25.png",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-25.png",
       "sha256": "55fa8ef2b346881e25f96658970cd49bcc9485ab44145b7575125527b271ab9a",
       "width": 2560,
       "height": 1520
@@ -3277,71 +3295,71 @@
     {
       "label": "reopen-observe-26",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-26.png",
-      "sha256": "cfb1df4942388c4bacbf13e94ba5da8ce7c5f9817643e8dac2a874848f85b91e",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-26.png",
+      "sha256": "7922d37111b169344c98ca85f226ba9053b013fe1e4826efa575ba502cca4950",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-27",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-27.png",
-      "sha256": "0ad5958d74afe38057a8cff7ea62a5e9f81c63da3b8ed88c65323e753d1c1463",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-27.png",
+      "sha256": "7922d37111b169344c98ca85f226ba9053b013fe1e4826efa575ba502cca4950",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-28",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-28.png",
-      "sha256": "0ad5958d74afe38057a8cff7ea62a5e9f81c63da3b8ed88c65323e753d1c1463",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-28.png",
+      "sha256": "77a2b5e8279ac6312ad2a71f14e35c68938e505c622ff7d44ed0f713a8dd326d",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-29",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-29.png",
-      "sha256": "b97e2a8958c59bbbab293ebe9a47700b95375b0d66d2b368ef86b2a409a72016",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-29.png",
+      "sha256": "77a2b5e8279ac6312ad2a71f14e35c68938e505c622ff7d44ed0f713a8dd326d",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-30",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-30.png",
-      "sha256": "a185ae6a27c1a73dc1d9fb74d3111248d23054b944f8a8b12f448501d75b1ea2",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-30.png",
+      "sha256": "eae1b7b33d83190aeff7aa36174cfecc4709379127cb9ec8777445fda938c214",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-31",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-31.png",
-      "sha256": "a185ae6a27c1a73dc1d9fb74d3111248d23054b944f8a8b12f448501d75b1ea2",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-31.png",
+      "sha256": "eae1b7b33d83190aeff7aa36174cfecc4709379127cb9ec8777445fda938c214",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-32",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-32.png",
-      "sha256": "eae1b7b33d83190aeff7aa36174cfecc4709379127cb9ec8777445fda938c214",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-32.png",
+      "sha256": "cd9e2a646b1872b922d496524f65e6eeba6ee75fb2ec06fad662cea66428aeaa",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-33",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-33.png",
-      "sha256": "eae1b7b33d83190aeff7aa36174cfecc4709379127cb9ec8777445fda938c214",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-33.png",
+      "sha256": "cd9e2a646b1872b922d496524f65e6eeba6ee75fb2ec06fad662cea66428aeaa",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-34",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-34.png",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-34.png",
       "sha256": "cd9e2a646b1872b922d496524f65e6eeba6ee75fb2ec06fad662cea66428aeaa",
       "width": 2560,
       "height": 1520
@@ -3349,7 +3367,7 @@
     {
       "label": "reopen-observe-35",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-35.png",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-35.png",
       "sha256": "cd9e2a646b1872b922d496524f65e6eeba6ee75fb2ec06fad662cea66428aeaa",
       "width": 2560,
       "height": 1520
@@ -3357,23 +3375,7 @@
     {
       "label": "reopen-observe-36",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-36.png",
-      "sha256": "cd9e2a646b1872b922d496524f65e6eeba6ee75fb2ec06fad662cea66428aeaa",
-      "width": 2560,
-      "height": 1520
-    },
-    {
-      "label": "reopen-observe-37",
-      "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-37.png",
-      "sha256": "cd9e2a646b1872b922d496524f65e6eeba6ee75fb2ec06fad662cea66428aeaa",
-      "width": 2560,
-      "height": 1520
-    },
-    {
-      "label": "reopen-observe-38",
-      "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-38.png",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-36.png",
       "sha256": "cd9e2a646b1872b922d496524f65e6eeba6ee75fb2ec06fad662cea66428aeaa",
       "width": 2560,
       "height": 1520
@@ -3381,55 +3383,71 @@
     {
       "label": "reopen-preview",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-preview.png",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-preview.png",
       "sha256": "cd9e2a646b1872b922d496524f65e6eeba6ee75fb2ec06fad662cea66428aeaa",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "reopen-observe-37",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-37.png",
+      "sha256": "4994f8cfcb37fafa8d599e5d657499fbf74c7945bd5a12360e259530fe372e91",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "reopen-observe-38",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-38.png",
+      "sha256": "eae1b7b33d83190aeff7aa36174cfecc4709379127cb9ec8777445fda938c214",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-39",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-39.png",
-      "sha256": "4994f8cfcb37fafa8d599e5d657499fbf74c7945bd5a12360e259530fe372e91",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-39.png",
+      "sha256": "75916fea3109f536a8cd101e14f6c76c67e34845996255f5e324dc02d9c5aee4",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-40",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-40.png",
-      "sha256": "4994f8cfcb37fafa8d599e5d657499fbf74c7945bd5a12360e259530fe372e91",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-40.png",
+      "sha256": "0d20418a7175a8f72ba3852962a0d920e1e6bed2f6c779d937128cb5f3db8915",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-41",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-41.png",
-      "sha256": "75916fea3109f536a8cd101e14f6c76c67e34845996255f5e324dc02d9c5aee4",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-41.png",
+      "sha256": "0d20418a7175a8f72ba3852962a0d920e1e6bed2f6c779d937128cb5f3db8915",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-42",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-42.png",
-      "sha256": "0d20418a7175a8f72ba3852962a0d920e1e6bed2f6c779d937128cb5f3db8915",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-42.png",
+      "sha256": "4943b83405eaab0bfbd4dcae7eba37af7b5fe3efb39f48e2ba95fa2a29af707e",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-43",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-43.png",
-      "sha256": "0d20418a7175a8f72ba3852962a0d920e1e6bed2f6c779d937128cb5f3db8915",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-43.png",
+      "sha256": "4943b83405eaab0bfbd4dcae7eba37af7b5fe3efb39f48e2ba95fa2a29af707e",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-44",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-44.png",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-44.png",
       "sha256": "4943b83405eaab0bfbd4dcae7eba37af7b5fe3efb39f48e2ba95fa2a29af707e",
       "width": 2560,
       "height": 1520
@@ -3437,392 +3455,368 @@
     {
       "label": "reopen-observe-45",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-45.png",
-      "sha256": "4943b83405eaab0bfbd4dcae7eba37af7b5fe3efb39f48e2ba95fa2a29af707e",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-45.png",
+      "sha256": "657cd9482eefcb1e5bcfbba1c03ecd2b1eddb93b93d52290dca4d0a70ce9e366",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-46",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-46.png",
-      "sha256": "4943b83405eaab0bfbd4dcae7eba37af7b5fe3efb39f48e2ba95fa2a29af707e",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-46.png",
+      "sha256": "79710d6f516749505c7ab1e5317dffbdfa7426a91986d3f6dd3798bcaf74e2a0",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-47",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-47.png",
-      "sha256": "a7184b0e7feae5a24eb9e85e2c3366b1b73875c6d956f6cc5292aa976cf8845f",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-47.png",
+      "sha256": "79710d6f516749505c7ab1e5317dffbdfa7426a91986d3f6dd3798bcaf74e2a0",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-48",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-48.png",
-      "sha256": "0377f0a9c6dc324dc54305a0809ba9b776c378164684bf08cb1e2e197a3de7cb",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-48.png",
+      "sha256": "79710d6f516749505c7ab1e5317dffbdfa7426a91986d3f6dd3798bcaf74e2a0",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-49",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-49.png",
-      "sha256": "4794e98fb711a6311e8031239d3eaba90c1a57e3bf379d141f1d2235a6c8b142",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-49.png",
+      "sha256": "c7232255b5b2f2c178cb966e566575a245e5770a38c37ee2ed0b3f5f2ccdeb1d",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-50",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-50.png",
-      "sha256": "4794e98fb711a6311e8031239d3eaba90c1a57e3bf379d141f1d2235a6c8b142",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-50.png",
+      "sha256": "161b891634be70112e1d98288bdba623398b441279a5d7196b47695801f3fbaf",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-51",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-51.png",
-      "sha256": "89954b18f6959933c2f8ee228dc861e0cf5f7c3b698c35b1232fd96caa81c812",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-51.png",
+      "sha256": "161b891634be70112e1d98288bdba623398b441279a5d7196b47695801f3fbaf",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-52",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-52.png",
-      "sha256": "c132485e2815e5aa69f9fd73e626984d46e008ae7bbb61d69ea26d5070ea4e49",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-52.png",
+      "sha256": "161b891634be70112e1d98288bdba623398b441279a5d7196b47695801f3fbaf",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-53",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-53.png",
-      "sha256": "c132485e2815e5aa69f9fd73e626984d46e008ae7bbb61d69ea26d5070ea4e49",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-53.png",
+      "sha256": "dc8d312e95d8d9b448980bfcea8bc5c13b8c60f7eae83c26f4d786874027d851",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-54",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-54.png",
-      "sha256": "c132485e2815e5aa69f9fd73e626984d46e008ae7bbb61d69ea26d5070ea4e49",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-54.png",
+      "sha256": "dc8d312e95d8d9b448980bfcea8bc5c13b8c60f7eae83c26f4d786874027d851",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-55",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-55.png",
-      "sha256": "e70a6ef2a359ac99f10d0b9142965f146abd5c30fd0ab76d49ab93f77b19b71f",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-55.png",
+      "sha256": "ecd618558990a2a5e42e9a806bf7fa2731f1e50fe63c5441ce460f34736097fa",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-56",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-56.png",
-      "sha256": "e70a6ef2a359ac99f10d0b9142965f146abd5c30fd0ab76d49ab93f77b19b71f",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-56.png",
+      "sha256": "ecd618558990a2a5e42e9a806bf7fa2731f1e50fe63c5441ce460f34736097fa",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-57",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-57.png",
-      "sha256": "3725b2401734f9e46c3bf65fd7aecdfa20cfa5748f34e8ee13d8210e4eb2ec9f",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-57.png",
+      "sha256": "7372edc6820f76123a46c68c18df796629b5c13f2459700b8c39b602332db24b",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-58",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-58.png",
-      "sha256": "3725b2401734f9e46c3bf65fd7aecdfa20cfa5748f34e8ee13d8210e4eb2ec9f",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-58.png",
+      "sha256": "7372edc6820f76123a46c68c18df796629b5c13f2459700b8c39b602332db24b",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-59",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-59.png",
-      "sha256": "3b8c601e10e462b96f78620a1d11e3eca838f9e051ea360e84d17312f65e0b82",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-59.png",
+      "sha256": "28063674dd7febcbfe68d85325d0b3c51cfbe66a046943a20024f0f5501df7d9",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-60",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-60.png",
-      "sha256": "3b8c601e10e462b96f78620a1d11e3eca838f9e051ea360e84d17312f65e0b82",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-60.png",
+      "sha256": "ec33a58d0276d589863fedc29cd2b3425f7fe19ee2418c292c4513806e144dcc",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-61",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-61.png",
-      "sha256": "688719f86d20f8acd47c2f6d70f7056a16b050dddf753cf5cd74e7fa68d6c303",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-61.png",
+      "sha256": "ec33a58d0276d589863fedc29cd2b3425f7fe19ee2418c292c4513806e144dcc",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-62",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-62.png",
-      "sha256": "17ad65225c0b6268853d3a33af289ec4a1654d04d7e7153381142285adeb473b",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-62.png",
+      "sha256": "82349e589e8718321415c8cc3ebc47655b0f33f45da510f231ad9b157aee5157",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-63",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-63.png",
-      "sha256": "17ad65225c0b6268853d3a33af289ec4a1654d04d7e7153381142285adeb473b",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-63.png",
+      "sha256": "82349e589e8718321415c8cc3ebc47655b0f33f45da510f231ad9b157aee5157",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-64",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-64.png",
-      "sha256": "014dbb9b1028ae851f6b9f990f702ff3073d3e2175015b0a9fc0d5796af879cb",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-64.png",
+      "sha256": "8da3d91e7df42c20a379d6cf689e7906f329675ba4b7ddabbf4655d78f19cfba",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-65",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-65.png",
-      "sha256": "014dbb9b1028ae851f6b9f990f702ff3073d3e2175015b0a9fc0d5796af879cb",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-65.png",
+      "sha256": "8da3d91e7df42c20a379d6cf689e7906f329675ba4b7ddabbf4655d78f19cfba",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-66",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-66.png",
-      "sha256": "2da955943b480b9956696500391caeb18bc2072f3f42e61cc7d1334bca199d23",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-66.png",
+      "sha256": "9ce6bbd5f9d6efff6d3ccda57abbeee43aafaf50f3fbeb6e3fefcd4ddc8db717",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-67",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-67.png",
-      "sha256": "817ed86913e0807ef6cf1d5e8eb488ba46d302a98f22e9554f96816f38ee91ac",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-67.png",
+      "sha256": "9ce6bbd5f9d6efff6d3ccda57abbeee43aafaf50f3fbeb6e3fefcd4ddc8db717",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-68",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-68.png",
-      "sha256": "6da20663b441b098b62badf07f2cc3491234c2fb8953da5e64bc0c2578605065",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-68.png",
+      "sha256": "3006be30760bd4282eab2d1b5903c5eb1cee8a60b713456b348c369d75c560f0",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-69",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-69.png",
-      "sha256": "6da20663b441b098b62badf07f2cc3491234c2fb8953da5e64bc0c2578605065",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-69.png",
+      "sha256": "1c3cafece9dd1f7287d3cb18b9f0c86e72882404b232adb1d6c146598a20ed82",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-70",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-70.png",
-      "sha256": "0a83f7ea313ec94ef4f63dd07c52dd73c8b27534f61f095b473b46d899ccc10a",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-70.png",
+      "sha256": "1c3cafece9dd1f7287d3cb18b9f0c86e72882404b232adb1d6c146598a20ed82",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-71",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-71.png",
-      "sha256": "16c370d98b9065661aba72e66b08505de6975f3230637cc912d2198469a0c72a",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-71.png",
+      "sha256": "44e5bbc320505841f01b5c29a8f3bee4749cfcef5e39aa87f96578b93521ed18",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-72",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-72.png",
-      "sha256": "16c370d98b9065661aba72e66b08505de6975f3230637cc912d2198469a0c72a",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-72.png",
+      "sha256": "44e5bbc320505841f01b5c29a8f3bee4749cfcef5e39aa87f96578b93521ed18",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-73",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-73.png",
-      "sha256": "1466083f10f46e63696eda86fd5d43397295d1668b810524c3ed93dd1f2eb2c1",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-73.png",
+      "sha256": "783e228b6c02a71a33c73de343f5e65b1966cc1c3b4b0247125ad7d1514ae452",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-74",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-74.png",
-      "sha256": "1466083f10f46e63696eda86fd5d43397295d1668b810524c3ed93dd1f2eb2c1",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-74.png",
+      "sha256": "783e228b6c02a71a33c73de343f5e65b1966cc1c3b4b0247125ad7d1514ae452",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-75",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-75.png",
-      "sha256": "187545fac4d3a80464e476926bec692f71b26b83f88e78a588aa51a5a6597ec3",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-75.png",
+      "sha256": "783e228b6c02a71a33c73de343f5e65b1966cc1c3b4b0247125ad7d1514ae452",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-76",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-76.png",
-      "sha256": "187545fac4d3a80464e476926bec692f71b26b83f88e78a588aa51a5a6597ec3",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-76.png",
+      "sha256": "7bb082f629e093e1c0dc0f1526f282e9b68bbcd09bfe2aa4de0a7d5794db3d4b",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-77",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-77.png",
-      "sha256": "187545fac4d3a80464e476926bec692f71b26b83f88e78a588aa51a5a6597ec3",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-77.png",
+      "sha256": "7bb082f629e093e1c0dc0f1526f282e9b68bbcd09bfe2aa4de0a7d5794db3d4b",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-78",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-78.png",
-      "sha256": "901995fada81781f8ab7df0bab8c3a1597aafb8b23f35c5b2d7181d7d8d13768",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-78.png",
+      "sha256": "7bb082f629e093e1c0dc0f1526f282e9b68bbcd09bfe2aa4de0a7d5794db3d4b",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-79",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-79.png",
-      "sha256": "901995fada81781f8ab7df0bab8c3a1597aafb8b23f35c5b2d7181d7d8d13768",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-79.png",
+      "sha256": "7698bcfcecf11037f10b4d033d98042c407e0befea01ec8b3f80aba85644c18f",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-80",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-80.png",
-      "sha256": "195bd92f773009ed7b85f01f6d05e79d68b7836fb765eb915b74d5696524b253",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-80.png",
+      "sha256": "7698bcfcecf11037f10b4d033d98042c407e0befea01ec8b3f80aba85644c18f",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-81",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-81.png",
-      "sha256": "62cde5b43df05024d7d435c426dcb8147486847c6f80921a6d1aa47664166c3d",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-81.png",
+      "sha256": "d93131932b647b9abdaef9322d45555369838eacd765b2ce382667e895bb055b",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-82",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-82.png",
-      "sha256": "f168cc516898715ddc682f7f9d0ede996f9fb1d8c7f8f1f3a224005b7098b92d",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-82.png",
+      "sha256": "d93131932b647b9abdaef9322d45555369838eacd765b2ce382667e895bb055b",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-83",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-83.png",
-      "sha256": "f168cc516898715ddc682f7f9d0ede996f9fb1d8c7f8f1f3a224005b7098b92d",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-83.png",
+      "sha256": "b6ed00ba2481d43e4c1a532397ddcfb93dbc27086328fcec9b1e0ce52a9f6cff",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-84",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-84.png",
-      "sha256": "35d16b6bdd5a8b8e2b5064e9474db7e4f47b5b78465702d798f8937d9288a98f",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-84.png",
+      "sha256": "b6ed00ba2481d43e4c1a532397ddcfb93dbc27086328fcec9b1e0ce52a9f6cff",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-85",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-85.png",
-      "sha256": "35d16b6bdd5a8b8e2b5064e9474db7e4f47b5b78465702d798f8937d9288a98f",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-85.png",
+      "sha256": "b6ed00ba2481d43e4c1a532397ddcfb93dbc27086328fcec9b1e0ce52a9f6cff",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-86",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-86.png",
-      "sha256": "494cc422835231a95f22f25a581bc1236c44764ddf199b7f8168ef5f23109103",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-86.png",
+      "sha256": "b6ed00ba2481d43e4c1a532397ddcfb93dbc27086328fcec9b1e0ce52a9f6cff",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-87",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-87.png",
-      "sha256": "494cc422835231a95f22f25a581bc1236c44764ddf199b7f8168ef5f23109103",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-87.png",
+      "sha256": "5c151fbb12811a979ae95467b8eba529889f336a29900d8b0fa0bbbe4f7a7a6e",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-88",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-88.png",
-      "sha256": "494cc422835231a95f22f25a581bc1236c44764ddf199b7f8168ef5f23109103",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-88.png",
+      "sha256": "5c151fbb12811a979ae95467b8eba529889f336a29900d8b0fa0bbbe4f7a7a6e",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-89",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-89.png",
-      "sha256": "494cc422835231a95f22f25a581bc1236c44764ddf199b7f8168ef5f23109103",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-89.png",
+      "sha256": "29e5c125a417bb0d25966b46f5ddfe6253cc8b0098e42f9218012472d7405864",
       "width": 2560,
       "height": 1520
     },
     {
       "label": "reopen-observe-90",
       "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-90.png",
-      "sha256": "75fe58ecdc956092ac511b3be9c51163786b1f1e8227907be09391fcf936f08a",
-      "width": 2560,
-      "height": 1520
-    },
-    {
-      "label": "reopen-observe-91",
-      "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-91.png",
-      "sha256": "75fe58ecdc956092ac511b3be9c51163786b1f1e8227907be09391fcf936f08a",
-      "width": 2560,
-      "height": 1520
-    },
-    {
-      "label": "reopen-observe-92",
-      "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-92.png",
-      "sha256": "d88a2c906ffaf7c7a79b6cf24a1d529ec20c7f97ea2ff0f4c23742807544dd35",
-      "width": 2560,
-      "height": 1520
-    },
-    {
-      "label": "reopen-observe-93",
-      "capture": "macos-window-server",
-      "path": ".browse/sessions/mission-control-native-c04719f42b454abd721ca9d4/reopen-observe-93.png",
-      "sha256": "d88a2c906ffaf7c7a79b6cf24a1d529ec20c7f97ea2ff0f4c23742807544dd35",
+      "path": ".browse/sessions/mission-control-native-b8fd768fe894b5fad54a9624/reopen-observe-90.png",
+      "sha256": "29e5c125a417bb0d25966b46f5ddfe6253cc8b0098e42f9218012472d7405864",
       "width": 2560,
       "height": 1520
     }
@@ -4081,7 +4075,7 @@
           "assets/folder.svg": "3a46023f1ff23f2112b9e0955ad32690139e8f1c071ccfdbcae8e85295365f66",
           "assets/more.svg": "a82bebdebdd8c147ef583c00b87788c4a196e04fce2a5e4a10f0ccbc432fdbe4",
           "assets/sessions.svg": "40c70935bd80015005b85b9b42368e4dfdf44ac6a3392e2f6b7fd18a59159d9d",
-          "main.js": "0d28ca1055e49c36f7d5c166ec98098d176073dfb02c08d81d183c761102df1b",
+          "main.js": "8d67004b2d26f91a72cdfbed15d005e428b5c064b7176689f63b73fead73bc21",
           "mod.json": "14e0279462825e2065511e316da0bba789bc0f882173171af624acac22fb78c2",
           "NOTICE.md": "a8b5d717cd75101e42be39e0b87f0ee6c4d07e8c49d4e51334431195c2ae0ce0"
         },
@@ -4092,7 +4086,7 @@
           "src/shared/closed-tabs.js": "dfd23b0a384fe8312426675dcd0b56e6ea5ecda811e55b481832ffa151c9db3e",
           "src/shared/config.js": "2cea2d16c0faed2eef2f8105b0adc0c6098cf556a84297249b5bd9895eddf9a7",
           "src/shared/launch-preferences.js": "c70132d68a264054de91a25704c44c7f6c6cb2e380c93f6807842bdca5558fd9",
-          "src/shared/launch.js": "66cc52240b4c3563edfe2a52f83400d98581c4e08dfab188703b09fd7d7d8b55",
+          "src/shared/launch.js": "aa3801d2c8503eafc757ad02c619574f563684db080148963e035ded410e1368",
           "src/shared/name-ownership.js": "24f4e7060bffdb1559e76091039fc1b1e076095d72cc8b44c14596d8a37ae784",
           "src/shared/reopen.js": "1417e9aacdff787b3c10c7b7e15c6d47d7e02945c73971047e3b906e4ed4de8b",
           "src/shared/resume.js": "8b8dbb58d08888d72929d29af3f5fd9854197cb34067d88c6a72fa3212f2eda8",

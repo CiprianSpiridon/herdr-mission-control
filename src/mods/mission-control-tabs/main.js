@@ -18,14 +18,14 @@ import {TabNameService} from '../../shared/tab-service.js';
 import {ReopenController} from '../../shared/reopen.js';
 import {displayLabel,folderName,NAME_LIMITS} from '../../shared/tab-names.js';
 import {colors,icon,iconButton,safeArtworkPath} from '../../shared/ui.js';
-import {NODES,SOURCES,NAV_STATE,NAV_TIMING,layoutContract,scopeOf,selectSource,swapView,togglePanel,restoreView,renderNavigation,renderSwap,renderPanelToggle} from './navigation.js';
+import {NODES,SOURCES,NAV_STATE,NAV_TIMING,SOURCES_STATE,layoutContract,scopeOf,selectSource,swapView,togglePanel,restoreView,renderNavigation,renderSwap,renderPanelToggle,hiddenSources,setSourceShown,sourceState} from './navigation.js';
 
 export const MOD='mission-control-tabs';
 /** Versioned shared keys: a context-menu request for the bar, and key-command de-duplication across copies. */
 export const REQUEST_EVENT='mission-control-tabs-request-v1',COMMAND_EVENT='mission-control-tabs-command-v1';
-export const VIEWS=Object.freeze(['topbar','navigation','menu','launch','settings','context']);
+export const VIEWS=Object.freeze(['topbar','navigation','menu','launch','settings','context','sources']);
 /** keys.json actions: "mission-control-tabs.<command>". None is bound by default. */
-export const COMMANDS=Object.freeze(['new','settings','reopen-tab','reopen-agent','swap','panel','rename','automatic-name','close',...SOURCES.map(s=>'source-'+s.id)]);
+export const COMMANDS=Object.freeze(['new','settings','sources','reopen-tab','reopen-agent','swap','panel','rename','automatic-name','close',...SOURCES.map(s=>'source-'+s.id)]);
 /** Every in-flight flag is a timestamp with a staleness bound: an interrupted task never clears its own. */
 export const TIMING=Object.freeze({tickMs:1000,tickStaleMs:20000,pressMs:6000,closeMs:10000,reopenStaleMs:95000,requestMs:5000,namesMs:60000,wheelMs:160,commandMs:750,reopenReadMs:2000});
 export const STATUS=Object.freeze({working:'Working',blocked:'Needs input',done:'Done',idle:'Idle'});
@@ -80,7 +80,9 @@ export default class MissionControlTabs extends View {
   init(_props,cx){
     this.props=herdr.props()||{};this.role=viewRole(this.props);this.closed=false;this.jobs=[];this.timers=[];this.width=null;this.instance=Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8);
     if(DIALOG_VIEWS.has(this.role)){this.dialog=new LaunchDialog(MOD,this.props,herdr);this.dialog.init(cx);return;}
+    // setShared re-renders every mod, so the strip follows a changed source choice without a timer.
     if(this.role==='navigation')return this.restore();
+    if(this.role==='sources')return;
     if(this.role!=='topbar')return;
     Object.assign(this,{press:null,ticking:0,reopening:0,closing:new Map(),handled:new Set(),picking:null,namesAt:0,wheelAt:0,labels:new Map(),labelGen:0,previewMemo:null,home:safeHome(),service:null,reopen:null,error:null});
     try{
@@ -140,6 +142,7 @@ export default class MissionControlTabs extends View {
     const space=this.activeSpace(),tab=(space?.tabs||[]).find(t=>t?.active);
     if(command==='new')return this.openMenu(space);
     if(command==='settings')return this.openMenu(space,'settings');
+    if(command==='sources')return this.openSources();
     if(command==='reopen-tab'||command==='reopen-agent')return this.reopenLast(command==='reopen-agent'?'agent':'tab',cx,{fromKey:true});
     if(command==='swap')return this.swap();
     if(command==='panel')return this.togglePanel();
@@ -151,6 +154,7 @@ export default class MissionControlTabs extends View {
     if(!space){herdr.notify({title:'New agent',body:'Select a space first.',level:'info'});return null;}
     return openLaunchDialog(MOD,herdr,{view,spaceId:space.id,machine:space.machine??null});
   }
+  openSources(){herdr.openOverlay({mod:MOD,kind:'popup',width:300,height:318,props:{view:'sources'}});}
   swap(){const r=swapView({contract:this.contract(),focused:herdr.focused?.()??null,sharedFn:herdr.shared,setSharedFn:herdr.setShared,runFn:herdr.run});if(!r.ok)herdr.notify({title:'Switch view',body:r.message,level:'warning'});return r;}
   togglePanel(){const r=togglePanel({contract:this.contract(),runFn:herdr.run});if(!r.ok)herdr.notify({title:'Work panel',body:r.message,level:'warning'});return r;}
   closeTab(id,cx){
@@ -255,12 +259,13 @@ export default class MissionControlTabs extends View {
       .child(plus)
       .when(Boolean(previews),el=>el.child(this.reopenButton('reopen-tab','refresh','tab',previews.tab)).child(this.reopenButton('reopen-agent','agent','agent',previews.agent)))
       .when(Boolean(panel),el=>el.child(panel))
+      .child(iconButton(MOD,'mc-sources','settings','Mission Control sources: choose which work sources to show',()=>this.openSources(),{size:26}))
       .child(renderSwap(MOD,contract,{compact:!(this.width>=TOPBAR_WIDE),onSwap:()=>this.swap()}))
       .when(w?.buttons===true,el=>el.child(this.windowButtons(t,w)));
   }
   navigation(){
     const contract=this.contract(),space=this.activeSpace();
-    return renderNavigation({mod:MOD,contract,width:this.width,scope:contract.active?scopeOf(contract.active,herdr.shared):null,spaceName:space?.name??null,
+    return renderNavigation({mod:MOD,contract,width:this.width,scope:contract.active?scopeOf(contract.active,herdr.shared):null,spaceName:space?.name??null,hidden:hiddenSources(herdr.shared),
       onSelect:id=>{const r=selectSource(id,{contract:this.contract(),sharedFn:herdr.shared,setSharedFn:herdr.setShared,runFn:herdr.run});if(!r.ok)herdr.notify({title:'Work sources',body:r.message,level:'warning'});},
       onHide:()=>togglePanel({contract:this.contract(),runFn:herdr.run}),
       onSize:(size,cx)=>{if(size?.width!==this.width){this.width=size?.width??null;cx.notify();}}});
@@ -285,8 +290,25 @@ export default class MissionControlTabs extends View {
         herdr.setShared(REQUEST_EVENT,{v:1,id:randomId('close'),action:'close',tabId:tab.id,spaceId:space.id,machine:space.machine??null,at:Date.now(),owner:this.instance});this.closeOverlay();
       }));
   }
+  /** One switch per work source. A source that is off leaves the navigation strip and the Classic panel; its mod stays installed. */
+  sourcesPanel(){
+    const t=colors(),hidden=hiddenSources(herdr.shared),contract=this.contract();
+    const row=s=>{
+      const on=!hidden.has(s.id),present=sourceState(contract,s.id).enabled,label=`${s.label}: ${on?'on':'off'}`+(present?'':' (not in this layout)');
+      const knob=div().size(12).rounded_full().bg(on?t.foreground:t.muted);
+      const toggle=h_flex().id('source-switch-'+s.id).w(30).h(16).px(2).flex_none().items_center().rounded_full().bg(on?t.accent:t.border).when(on,el=>el.justify_end()).child(knob);
+      return h_flex().id('source-row-'+s.id).h(34).px(8).gap(10).items_center().rounded(6).role('menu_item').tooltip(label).accessibility_label(label).cursor_pointer().hover(st=>st.bg(t.hover))
+        .on_click((_e,cx)=>{cx.stop_propagation();setSourceShown(s.id,!on,{contract:this.contract(),sharedFn:herdr.shared,setSharedFn:herdr.setShared,runFn:herdr.run});cx.notify();})
+        .child(icon(MOD,s.icon,15).text_color(on?t.foreground:t.dim)).child(div().flex_1().min_w(0).truncate().text_color(on?t.foreground:t.muted).child(s.label)).child(toggle);
+    };
+    return v_flex().id('mc-sources').size_full().p(8).gap(2).bg(t.surface).text_size(12.5).text_color(t.foreground).role('menu').accessibility_label('Mission Control sources')
+      .child(div().id('mc-sources-title').px(8).pt(2).text_size(12.5).text_color(t.foreground).child('Work sources'))
+      .child(div().id('mc-sources-note').px(8).pb(4).text_size(10.5).text_color(t.dim).child('Sources you turn off leave the navigation and the Classic panel. Their mods stay installed.'))
+      .children(SOURCES.map(row));
+  }
   render(cx){
     if(this.dialog)return this.dialog.render(cx);
+    if(this.role==='sources')return this.sourcesPanel();
     if(this.role==='topbar')return this.topbar(cx);
     if(this.role==='navigation')return this.navigation();
     if(this.role==='context')return this.contextMenu();

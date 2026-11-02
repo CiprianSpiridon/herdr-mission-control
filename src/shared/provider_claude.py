@@ -16,6 +16,10 @@ def claude_cache(entry, readers):
         session = identity["sessionId"]
         context = raw.get("session_contexts", {}).get(session) if isinstance(raw.get("session_contexts"), dict) else None
         percent = claude_number(context.get("used_percent")) if isinstance(context, dict) else None
+        # Newer snapshots date each session's reading by that session's own last activity, which is
+        # when its status line last reported the percentage. A global fetch time never dates it.
+        activity = context.get("cache") if isinstance(context, dict) else None
+        context_at = int(activity["last_activity_unix"] * 1000) if isinstance(activity, dict) and activity.get("session_id") == session and claude_number(activity.get("last_activity_unix")) is not None else None
         context = {"usedTokens": None, "windowTokens": None, "compactionLimitTokens": None, "reportedUsedPercent": percent} if percent is not None and percent <= 100 else None
         quota = None
         # Legacy profile/credential scopes and global windows never establish
@@ -29,9 +33,8 @@ def claude_cache(entry, readers):
                 proven = isinstance(digest, str) and len(digest) == 64 and all(c in "0123456789abcdef" for c in digest)
                 quota = {"proof": {"kind": "session-account-digest" if proven else "session-report", "machine": readers.source.get("machine"), "credentialScope": readers.source["credentialScope"], "accountId": digest if proven else None, "poolId": None}, "windows": windows}
         if context is not None or quota is not None:
-            # This merged schema has per-window quota dates, but no per-session
-            # context date. A global fetched_at must not freshen old context.
-            result.append(readers.available(entry, session, "legacy-claude-statusline", None, context, quota))
+            # Quota windows carry their own dates; context is dated only by its own session's activity.
+            result.append(readers.available(entry, session, "legacy-claude-statusline", context_at if context is not None else None, context, quota))
     return result
 
 

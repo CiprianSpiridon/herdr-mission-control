@@ -64,6 +64,11 @@ function observedArgv(raw,expected,task){
   const shell=args[0];
   return typeof shell==='string'&&(shell.startsWith('/')||!shell.includes('/'))&&/^(?:sh|bash|zsh|dash|ksh)$/.test(shell.split('/').pop())&&WRAPPERS[args[1]]===args[2]&&args[3]===shell&&accepted.includes(JSON.stringify(args.slice(4)));
 }
+/** The local login-shell wrapper still in the foreground itself, before its program's job takes over. */
+function shellHoldsForeground(raw){
+  const args=Array.isArray(raw?.argv)?raw.argv:[];
+  return args[1]==='-lic'&&WRAPPERS['-lic']===args[2]&&Number.isSafeInteger(raw.pid)&&raw.foreground?.pid===raw.pid;
+}
 async function inspect(io,r,ack){
   const listing=await io.exec('herdr-app',['ls']);if(listing.code!==0)fail('ACK_UNVERIFIED','Cannot inspect the acknowledged tab');
   let world;try{world=JSON.parse(listing.stdout);}catch{fail('ACK_UNVERIFIED','Invalid app-world response');}
@@ -151,6 +156,11 @@ export async function launch(input,io){
     if(record.sessionProposal){
       for(let attempt=0;!actual.identity.foregroundPid&&attempt<10;attempt++){
         if(io.delay)await io.delay(150);else await io.exec('sleep',['0.15']);actual=await inspect(io,r,record.ack);if(!actual.exists)break;
+      }
+      // Herdr 0.1.11 starts a local tab in an interactive /bin/sh that runs the program as its own foreground job.
+      // Until that job holds the foreground, the shell's PID would be bound and then invalidated as soon as the agent starts.
+      for(let attempt=0;actual.exists&&shellHoldsForeground(actual.raw)&&attempt<40;attempt++){
+        if(io.delay)await io.delay(150);else await io.exec('sleep',['0.15']);actual=await inspect(io,r,record.ack);
       }
       if(!actual.exists||!actual.identity.foregroundPid)fail('BINDING_NOT_READY','Agent started; exact foreground identity is still unavailable. Retry only its binding commit.',{tabId:record.ack.tab,terminalId:record.ack.terminal});
       const expected=buildArguments(caps,{options:r.options,...(record.proofKind==='resume-argv'?{resumeSessionId:record.sessionProposal.sessionId}:{newSessionId:record.sessionProposal.sessionId})});

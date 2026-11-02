@@ -107,7 +107,7 @@ def collector_identity(value, source):
 
 
 def collector_request(request):
-    if not isinstance(request, dict) or request.get("v") != 1 or request.get("operation") not in ("list", "observe"):
+    if not isinstance(request, dict) or request.get("v") != 1 or request.get("operation") not in ("list", "observe", "adopt"):
         collector_fail("INVALID_REQUEST", "Unsupported collector version or operation.")
     source = request.get("source")
     if not isinstance(source, dict) or source.get("v") != 1 or source.get("provider") not in COLLECTOR_PROVIDERS:
@@ -433,10 +433,106 @@ class CollectorReaders:
         return base64.urlsafe_b64encode(json.dumps({"v": 1, "scope": self.scope_digest, "snapshot": self.snapshot_digest, "offset": offset, "item": self.item_offset}, separators=(",", ":")).encode()).decode()
 
 
+COLLECTOR_UUID = "0123456789abcdef-"
+
+
+def collector_session_id(value):
+    """A provider-written conversation UUID, never a guessed or partial one."""
+    return isinstance(value, str) and len(value) == 36 and all(c in COLLECTOR_UUID for c in value.lower()) and [len(p) for p in value.split("-")] == [8, 4, 4, 4, 12]
+
+
+def collector_alive(pid):
+    try:
+        os.kill(pid, 0)
+        return True
+    except PermissionError:
+        return True
+    except OSError:
+        return False
+
+
+def collector_adopt(request, source):
+    """Map running Claude Code processes to their exact conversations from Claude Code's own PID records.
+
+    Reads only <providerRoot>/sessions/<pid>.json (never key, auth or job-state files) and runs nothing.
+    Claude Code rewrites its record whenever a process starts, so a record is accepted only when it names
+    this PID and its recorded start falls inside the terminal's life (notBefore is the terminal's creation).
+    A client attached to a background job follows parkedJobId to exactly one record of that job."""
+    import sys
+    if source["provider"] != "claude":
+        collector_fail("UNSUPPORTED_ADOPTION", "Only Claude Code writes exact process-to-session records.")
+    asked = request.get("pids")
+    if not isinstance(asked, list) or not 1 <= len(asked) <= 64 or any(not isinstance(a, dict) or type(a.get("pid")) is not int or not 1 < a["pid"] < 2 ** 31 or type(a.get("notBefore")) is not int or a["notBefore"] < 0 for a in asked):
+        collector_fail("INVALID_REQUEST", "Pass one to 64 foreground processes with their terminal creation times.")
+    pids = [a["pid"] for a in asked]
+    if len(set(pids)) != len(pids):
+        collector_fail("INVALID_REQUEST", "Each foreground process is asked about once.")
+    not_before = {a["pid"]: a["notBefore"] for a in asked}
+    domain = {"darwin": "darwin"}.get(sys.platform, "linux" if sys.platform.startswith("linux") else None)
+    now = int(time.time() * 1000)
+    results = {pid: {"pid": pid, "code": "NO_RECORD"} for pid in pids}
+    try:
+        root_fd = collector_open_directory(source["providerRoot"])
+    except OSError:
+        return [results[p] for p in pids]
+    records = {}
+    try:
+        try:
+            dir_fd = os.open("sessions", os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=root_fd)
+        except OSError:
+            return [results[p] for p in pids]
+        try:
+            names = [n for n in os.listdir(dir_fd) if n.endswith(".json") and n[:-5].isdigit()][:1024]
+            for name in names:
+                try:
+                    fd = os.open(name, os.O_RDONLY | os.O_NOFOLLOW, dir_fd=dir_fd)
+                except OSError:
+                    continue
+                try:
+                    info = os.fstat(fd)
+                    if not stat.S_ISREG(info.st_mode) or info.st_size > 65536:
+                        continue
+                    raw = os.read(fd, 65537)
+                finally:
+                    os.close(fd)
+                try:
+                    record = json.loads(raw.decode("utf-8"))
+                except (ValueError, UnicodeError):
+                    continue
+                if isinstance(record, dict) and record.get("pid") == int(name[:-5]) and record.get("pidDomain") == domain:
+                    records[record["pid"]] = record
+        finally:
+            os.close(dir_fd)
+    finally:
+        os.close(root_fd)
+    for pid in pids:
+        record = records.get(pid)
+        if record is None:
+            continue
+        started = record.get("startedAt")
+        if record.get("kind") != "interactive" or type(started) not in (int, float) or not not_before[pid] - 5000 <= started <= now + 60000:
+            results[pid] = {"pid": pid, "code": "PROCESS_MISMATCH"}
+            continue
+        parked = record.get("parkedJobId")
+        if parked is None:
+            results[pid] = {"pid": pid, "sessionId": record["sessionId"], "via": "pid-record"} if collector_session_id(record.get("sessionId")) else {"pid": pid, "code": "INVALID_RECORD"}
+            continue
+        if not isinstance(parked, str) or not 4 <= len(parked) <= 64 or not all(c in COLLECTOR_UUID for c in parked.lower()):
+            results[pid] = {"pid": pid, "code": "INVALID_RECORD"}
+            continue
+        jobs = [r for r in records.values() if r.get("kind") == "bg" and collector_session_id(r.get("sessionId")) and (r["sessionId"] == parked or r["sessionId"].startswith(parked + "-"))]
+        live = [r for r in jobs if collector_alive(r["pid"])]
+        chosen = live if len(live) == 1 else jobs if len(jobs) == 1 else []
+        results[pid] = {"pid": pid, "sessionId": chosen[0]["sessionId"], "via": "parked-job"} if chosen else {"pid": pid, "code": "AMBIGUOUS_JOB" if jobs else "JOB_UNAVAILABLE"}
+    return [results[p] for p in pids]
+
+
 def run_collector(request, registry, clock=time.monotonic):
     source = {}
     try:
         source, roots, limit = collector_request(request)
+        if request["operation"] == "adopt":
+            return {"v": 1, "scope": collector_scope(source), "adopt": collector_adopt(request, source)}
         if source["provider"] not in registry:
             collector_fail("UNSUPPORTED_PARSER", "No verified parser is installed for this provider.")
         readers = CollectorReaders(request, source, roots, limit, clock)

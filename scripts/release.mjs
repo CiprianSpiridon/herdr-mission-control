@@ -328,7 +328,7 @@ function historyBlobs(git) {
 const failure = (gate, error) => ({ v: 1, kind: 'mission-control-release', ok: false, gate, code: error.code ?? 'RELEASE_FAILED', error: redact(error.message, 1200), completedMs: Date.now() });
 
 /** Publish explicitly staged deliverables to a public GitHub repository and record only a fully verified result. */
-export async function publish({ root = PROJECT_ROOT, paths, repo, remote = 'origin', branch, message = 'Publish Mission Control packages', description = 'Mission Control layouts and standalone mods for the Herdr app',
+export async function publish({ root = PROJECT_ROOT, paths, repo, remote = 'origin', branch, message = 'Publish Mission Control packages', description = 'Herdr layouts + mods for running many coding agents across repos and machines: Spaces/Agents rail with context & quota, Jira/GitHub/GitLab boards and PR/MR lists that start Claude Code or Codex in the right worktree, session resume, Reopen last tab/agent, auto-named tabs. Overview and terminal-first Classic views; every mod also standalone.',
   receiptPath = path.join(PROJECT_ROOT, 'evidence/release.json'), init = false, git: gitBin = 'git', gh: ghBin = 'gh', env = process.env, reconcile = defaultReconcile, log = () => {} } = {}) {
   let gate = 'preflight';
   try {

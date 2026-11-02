@@ -1172,6 +1172,10 @@ function observedArgv(raw, expected, task) {
   const shell = args[0];
   return typeof shell === "string" && (shell.startsWith("/") || !shell.includes("/")) && /^(?:sh|bash|zsh|dash|ksh)$/.test(shell.split("/").pop()) && WRAPPERS[args[1]] === args[2] && args[3] === shell && accepted.includes(JSON.stringify(args.slice(4)));
 }
+function shellHoldsForeground(raw) {
+  const args = Array.isArray(raw?.argv) ? raw.argv : [];
+  return args[1] === "-lic" && WRAPPERS["-lic"] === args[2] && Number.isSafeInteger(raw.pid) && raw.foreground?.pid === raw.pid;
+}
 async function inspect(io, r, ack2) {
   const listing = await io.exec("herdr-app", ["ls"]);
   if (listing.code !== 0) fail7("ACK_UNVERIFIED", "Cannot inspect the acknowledged tab");
@@ -1320,6 +1324,11 @@ async function launch(input, io) {
         else await io.exec("sleep", ["0.15"]);
         actual = await inspect(io, r, record2.ack);
         if (!actual.exists) break;
+      }
+      for (let attempt = 0; actual.exists && shellHoldsForeground(actual.raw) && attempt < 40; attempt++) {
+        if (io.delay) await io.delay(150);
+        else await io.exec("sleep", ["0.15"]);
+        actual = await inspect(io, r, record2.ack);
       }
       if (!actual.exists || !actual.identity.foregroundPid) fail7("BINDING_NOT_READY", "Agent started; exact foreground identity is still unavailable. Retry only its binding commit.", { tabId: record2.ack.tab, terminalId: record2.ack.terminal });
       const expected = buildArguments(caps, { options: r.options, ...record2.proofKind === "resume-argv" ? { resumeSessionId: record2.sessionProposal.sessionId } : { newSessionId: record2.sessionProposal.sessionId } });
@@ -4192,6 +4201,7 @@ var plain4 = (v) => v !== null && typeof v === "object" && !Array.isArray(v);
 var LAYOUT_NAME = /^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/;
 var ID = /^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$/;
 var NAV_STATE = "mission-control-tabs-nav-v1";
+var SOURCES_STATE = "mission-control-tabs-sources-v1";
 var NODES = freeze6({ main: "mc-main", panel: "mc-work-panel", stack: "mc-work-stack" });
 var SOURCES2 = freeze6([
   { id: "jira", label: "Jira", short: "Jira", icon: "jira", mod: "mission-control-jira", props: { view: "panel", hideHeader: true }, scopeKey: "mission-control-jira-ui-v1" },
@@ -4203,6 +4213,26 @@ var SOURCES2 = freeze6([
 ]);
 var SOURCE_IDS = freeze6(SOURCES2.map((s) => s.id));
 var BY_ID = new Map(SOURCES2.map((s) => [s.id, s]));
+function hiddenSources(sharedFn) {
+  let v = null;
+  try {
+    v = typeof sharedFn === "function" ? sharedFn(SOURCES_STATE) : null;
+  } catch {
+  }
+  return new Set(plain4(v) && v.v === 1 && Array.isArray(v.hidden) ? v.hidden.filter((id2) => BY_ID.has(id2)) : []);
+}
+function setSourceShown(id2, shown, { contract, sharedFn, setSharedFn, runFn } = {}) {
+  if (!BY_ID.has(id2)) return freeze6({ ok: false, code: "UNKNOWN_SOURCE", message: "Unknown source." });
+  const hidden = hiddenSources(sharedFn);
+  if (shown) hidden.delete(id2);
+  else hidden.add(id2);
+  setSharedFn(SOURCES_STATE, { v: 1, hidden: SOURCE_IDS.filter((x) => hidden.has(x)) });
+  if (!shown && contract?.active === id2) {
+    const next = SOURCES2.find((s) => !hidden.has(s.id) && sourceState(contract, s.id, hidden).enabled);
+    if (next && runFn) runFn("layout.select", { stack: NODES.stack, child: next.id });
+  }
+  return freeze6({ ok: true, source: id2, shown: Boolean(shown) });
+}
 var LAYOUT_PAIR = freeze6({ "mission-control": "mission-control-classic", "mission-control-classic": "mission-control" });
 var LAYOUT_LABELS = freeze6({ "mission-control": "Mission Control", "mission-control-classic": "Classic view" });
 var NAV_TIMING = freeze6({ swapRestoreMs: 15e3 });
@@ -4243,8 +4273,9 @@ function layoutContract({ tree = null, name: name2 = null, names = [], props: pr
     swap
   });
 }
-function sourceState(contract, id2) {
+function sourceState(contract, id2, hidden = null) {
   if (!BY_ID.has(id2)) return { enabled: false, reason: "Unknown source." };
+  if (hidden?.has(id2)) return { enabled: false, hidden: true, reason: "Turned off in Mission Control sources (the gear in the tab bar)." };
   if (!contract?.stack) return { enabled: false, reason: "Unavailable: " + (contract?.stackReason || "this layout has no work stack (mc-work-stack).") };
   if (!contract.children.includes(id2)) return { enabled: false, reason: "Not in this layout." };
   return { enabled: true, reason: null };
@@ -4280,8 +4311,8 @@ var write = (setSharedFn, state) => {
 };
 var randomId3 = () => "swap-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 10);
 function selectSource(id2, { contract, sharedFn, setSharedFn, runFn, reveal = false } = {}) {
-  const state = sourceState(contract, id2);
-  if (!state.enabled) return freeze6({ ok: false, code: BY_ID.has(id2) ? contract?.stack ? "SOURCE_MISSING" : "NO_WORK_STACK" : "UNKNOWN_SOURCE", message: state.reason });
+  const state = sourceState(contract, id2, hiddenSources(sharedFn));
+  if (!state.enabled) return freeze6({ ok: false, code: state.hidden ? "SOURCE_OFF" : BY_ID.has(id2) ? contract?.stack ? "SOURCE_MISSING" : "NO_WORK_STACK" : "UNKNOWN_SOURCE", message: state.reason });
   const commands = [];
   if (contract.active !== id2) {
     runFn("layout.select", { stack: NODES.stack, child: id2 });
@@ -4331,19 +4362,19 @@ function restoreView({ contract, sharedFn, setSharedFn, runFn, focused: focused2
   return freeze6({ commands });
 }
 var NAV_METRICS = freeze6({ charPx: 7, icon: 14, gap: 2, pad: 12, full: { px: 10, gap: 6 }, short: { px: 8, gap: 5 }, button: 26, minButton: 18, hide: 30, caption: 110 });
-function navigationWidth(mode, { panel = false, button = NAV_METRICS.button } = {}) {
-  const m = NAV_METRICS, n = SOURCES2.length;
+function navigationWidth(mode, { panel = false, button = NAV_METRICS.button, sources = SOURCES2 } = {}) {
+  const m = NAV_METRICS, n = sources.length;
   let items;
   if (mode === "icons") items = n * button;
   else {
-    const p = mode === "full" ? m.full : m.short, chars2 = SOURCES2.reduce((a, s) => a + Array.from(mode === "full" ? s.label : s.short).length, 0);
+    const p = mode === "full" ? m.full : m.short, chars2 = sources.reduce((a, s) => a + Array.from(mode === "full" ? s.label : s.short).length, 0);
     items = chars2 * m.charPx + n * (2 * p.px + m.icon + p.gap);
   }
-  return items + (n - 1) * m.gap + m.pad + (panel ? m.hide : 0);
+  return items + Math.max(0, n - 1) * m.gap + m.pad + (panel ? m.hide : 0);
 }
-function navigationMode(width, { panel = false } = {}) {
+function navigationMode(width, { panel = false, sources = SOURCES2 } = {}) {
   if (!Number.isFinite(width) || width <= 0) return "icons";
-  for (const mode of ["full", "short"]) if (navigationWidth(mode, { panel }) <= width) return mode;
+  for (const mode of ["full", "short"]) if (navigationWidth(mode, { panel, sources }) <= width) return mode;
   return "icons";
 }
 function sourceButton(mod, source, { mode, selected, state, onSelect }) {
@@ -4357,12 +4388,13 @@ function sourceButton(mod, source, { mode, selected, state, onSelect }) {
   el = el.child(icon(mod, source.icon, NAV_METRICS.icon).text_color(selected && state.enabled ? t.accent : state.enabled ? t.muted : t.dim));
   return mode === "icons" ? el : el.child(div3().child(mode === "full" ? source.label : source.short));
 }
-function renderNavigation({ mod, contract, width = null, scope = null, spaceName = null, onSelect, onHide, onSize }) {
-  const t = colors(), panel = Boolean(contract.panel), mode = navigationMode(width, { panel });
-  const room = Number.isFinite(width) ? width - navigationWidth(mode, { panel }) : 0;
-  const caption = !contract.stack ? "Work sources unavailable: " + contract.stackReason : contract.active ? scope === "all" ? "All spaces" : ["This space", spaceName].filter(Boolean).join(" · ") : null;
-  let group = h_flex3().id("work-sources").flex_1().min_w(0).h_full().gap(NAV_METRICS.gap).items_center().children(SOURCES2.map((s) => sourceButton(mod, s, { mode, selected: contract.active === s.id, state: sourceState(contract, s.id), onSelect })));
-  if (mode !== "icons") {
+function renderNavigation({ mod, contract, width = null, scope = null, spaceName = null, hidden = /* @__PURE__ */ new Set(), onSelect, onHide, onSize }) {
+  const t = colors(), panel = Boolean(contract.panel), shown = SOURCES2.filter((s) => !hidden.has(s.id)), mode = navigationMode(width, { panel, sources: shown });
+  const room = Number.isFinite(width) ? width - navigationWidth(mode, { panel, sources: shown }) : 0;
+  const caption = !contract.stack ? "Work sources unavailable: " + contract.stackReason : !shown.length ? "Every work source is turned off. Turn one on with the gear in the tab bar." : contract.active && !hidden.has(contract.active) ? scope === "all" ? "All spaces" : ["This space", spaceName].filter(Boolean).join(" · ") : null;
+  let group = h_flex3().id("work-sources").flex_1().min_w(0).h_full().gap(NAV_METRICS.gap).items_center().children(shown.map((s) => sourceButton(mod, s, { mode, selected: contract.active === s.id, state: sourceState(contract, s.id, hidden), onSelect })));
+  if (!shown.length) group = group.child(div3().id("source-caption").min_w(0).px(6).truncate().text_size(10.5).text_color(t.dim).tooltip(caption).child(caption));
+  else if (mode !== "icons") {
     group = group.child(div3().flex_1().min_w(0));
     if (caption && (!contract.stack || room >= NAV_METRICS.caption)) group = group.child(div3().id("source-caption").min_w(0).truncate().text_size(10.5).text_color(contract.stack ? t.dim : t.blocked).tooltip(caption).child(caption));
   }
@@ -4392,8 +4424,8 @@ function renderPanelToggle(mod, contract, { onToggle } = {}) {
 var MOD = "mission-control-tabs";
 var REQUEST_EVENT = "mission-control-tabs-request-v1";
 var COMMAND_EVENT = "mission-control-tabs-command-v1";
-var VIEWS = Object.freeze(["topbar", "navigation", "menu", "launch", "settings", "context"]);
-var COMMANDS = Object.freeze(["new", "settings", "reopen-tab", "reopen-agent", "swap", "panel", "rename", "automatic-name", "close", ...SOURCES2.map((s) => "source-" + s.id)]);
+var VIEWS = Object.freeze(["topbar", "navigation", "menu", "launch", "settings", "context", "sources"]);
+var COMMANDS = Object.freeze(["new", "settings", "sources", "reopen-tab", "reopen-agent", "swap", "panel", "rename", "automatic-name", "close", ...SOURCES2.map((s) => "source-" + s.id)]);
 var TIMING = Object.freeze({ tickMs: 1e3, tickStaleMs: 2e4, pressMs: 6e3, closeMs: 1e4, reopenStaleMs: 95e3, requestMs: 5e3, namesMs: 6e4, wheelMs: 160, commandMs: 750, reopenReadMs: 2e3 });
 var STATUS = Object.freeze({ working: "Working", blocked: "Needs input", done: "Done", idle: "Idle" });
 var ICONS = Object.freeze(["agent", "branch", "close", "folder", "github", "gitlab", "jira", "layout", "more", "panel", "pin", "plus", "priority", "pull-request", "refresh", "search", "sessions", "settings"]);
@@ -4480,6 +4512,7 @@ var MissionControlTabs = class extends View {
       return;
     }
     if (this.role === "navigation") return this.restore();
+    if (this.role === "sources") return;
     if (this.role !== "topbar") return;
     Object.assign(this, { press: null, ticking: 0, reopening: 0, closing: /* @__PURE__ */ new Map(), handled: /* @__PURE__ */ new Set(), picking: null, namesAt: 0, wheelAt: 0, labels: /* @__PURE__ */ new Map(), labelGen: 0, previewMemo: null, home: safeHome(), service: null, reopen: null, error: null });
     try {
@@ -4603,6 +4636,7 @@ var MissionControlTabs = class extends View {
     const space = this.activeSpace(), tab = (space?.tabs || []).find((t) => t?.active);
     if (command === "new") return this.openMenu(space);
     if (command === "settings") return this.openMenu(space, "settings");
+    if (command === "sources") return this.openSources();
     if (command === "reopen-tab" || command === "reopen-agent") return this.reopenLast(command === "reopen-agent" ? "agent" : "tab", cx, { fromKey: true });
     if (command === "swap") return this.swap();
     if (command === "panel") return this.togglePanel();
@@ -4622,6 +4656,9 @@ var MissionControlTabs = class extends View {
       return null;
     }
     return openLaunchDialog(MOD, herdr, { view, spaceId: space.id, machine: space.machine ?? null });
+  }
+  openSources() {
+    herdr.openOverlay({ mod: MOD, kind: "popup", width: 300, height: 318, props: { view: "sources" } });
   }
   swap() {
     const r = swapView({ contract: this.contract(), focused: herdr.focused?.() ?? null, sharedFn: herdr.shared, setSharedFn: herdr.setShared, runFn: herdr.run });
@@ -4778,7 +4815,7 @@ var MissionControlTabs = class extends View {
       this.press = null;
     }).on_hover((hovered) => {
       if (!hovered) this.press = null;
-    }).on_scroll_wheel((event) => this.wheel(event)).child(h_flex4().id("mc-tab-strip").flex_1().min_w(0).h_full().gap(3).items_center().overflow_x_scroll().role("tab_list").accessibility_label(space ? "Tabs in " + (space.name || "this space") : "Tabs").children(tabs.map((tab, i) => this.tabItem(tab, i, ctx)))).child(plus).when(Boolean(previews), (el) => el.child(this.reopenButton("reopen-tab", "refresh", "tab", previews.tab)).child(this.reopenButton("reopen-agent", "agent", "agent", previews.agent))).when(Boolean(panel), (el) => el.child(panel)).child(renderSwap(MOD, contract, { compact: !(this.width >= TOPBAR_WIDE), onSwap: () => this.swap() })).when(w?.buttons === true, (el) => el.child(this.windowButtons(t, w)));
+    }).on_scroll_wheel((event) => this.wheel(event)).child(h_flex4().id("mc-tab-strip").flex_1().min_w(0).h_full().gap(3).items_center().overflow_x_scroll().role("tab_list").accessibility_label(space ? "Tabs in " + (space.name || "this space") : "Tabs").children(tabs.map((tab, i) => this.tabItem(tab, i, ctx)))).child(plus).when(Boolean(previews), (el) => el.child(this.reopenButton("reopen-tab", "refresh", "tab", previews.tab)).child(this.reopenButton("reopen-agent", "agent", "agent", previews.agent))).when(Boolean(panel), (el) => el.child(panel)).child(iconButton(MOD, "mc-sources", "settings", "Mission Control sources: choose which work sources to show", () => this.openSources(), { size: 26 })).child(renderSwap(MOD, contract, { compact: !(this.width >= TOPBAR_WIDE), onSwap: () => this.swap() })).when(w?.buttons === true, (el) => el.child(this.windowButtons(t, w)));
   }
   navigation() {
     const contract = this.contract(), space = this.activeSpace();
@@ -4788,6 +4825,7 @@ var MissionControlTabs = class extends View {
       width: this.width,
       scope: contract.active ? scopeOf(contract.active, herdr.shared) : null,
       spaceName: space?.name ?? null,
+      hidden: hiddenSources(herdr.shared),
       onSelect: (id2) => {
         const r = selectSource(id2, { contract: this.contract(), sharedFn: herdr.shared, setSharedFn: herdr.setShared, runFn: herdr.run });
         if (!r.ok) herdr.notify({ title: "Work sources", body: r.message, level: "warning" });
@@ -4830,8 +4868,24 @@ var MissionControlTabs = class extends View {
       this.closeOverlay();
     }));
   }
+  /** One switch per work source. A source that is off leaves the navigation strip and the Classic panel; its mod stays installed. */
+  sourcesPanel() {
+    const t = colors(), hidden = hiddenSources(herdr.shared), contract = this.contract();
+    const row = (s) => {
+      const on = !hidden.has(s.id), present = sourceState(contract, s.id).enabled, label2 = `${s.label}: ${on ? "on" : "off"}` + (present ? "" : " (not in this layout)");
+      const knob = div4().size(12).rounded_full().bg(on ? t.foreground : t.muted);
+      const toggle = h_flex4().id("source-switch-" + s.id).w(30).h(16).px(2).flex_none().items_center().rounded_full().bg(on ? t.accent : t.border).when(on, (el) => el.justify_end()).child(knob);
+      return h_flex4().id("source-row-" + s.id).h(34).px(8).gap(10).items_center().rounded(6).role("menu_item").tooltip(label2).accessibility_label(label2).cursor_pointer().hover((st) => st.bg(t.hover)).on_click((_e, cx) => {
+        cx.stop_propagation();
+        setSourceShown(s.id, !on, { contract: this.contract(), sharedFn: herdr.shared, setSharedFn: herdr.setShared, runFn: herdr.run });
+        cx.notify();
+      }).child(icon(MOD, s.icon, 15).text_color(on ? t.foreground : t.dim)).child(div4().flex_1().min_w(0).truncate().text_color(on ? t.foreground : t.muted).child(s.label)).child(toggle);
+    };
+    return v_flex3().id("mc-sources").size_full().p(8).gap(2).bg(t.surface).text_size(12.5).text_color(t.foreground).role("menu").accessibility_label("Mission Control sources").child(div4().id("mc-sources-title").px(8).pt(2).text_size(12.5).text_color(t.foreground).child("Work sources")).child(div4().id("mc-sources-note").px(8).pb(4).text_size(10.5).text_color(t.dim).child("Sources you turn off leave the navigation and the Classic panel. Their mods stay installed.")).children(SOURCES2.map(row));
+  }
   render(cx) {
     if (this.dialog) return this.dialog.render(cx);
+    if (this.role === "sources") return this.sourcesPanel();
     if (this.role === "topbar") return this.topbar(cx);
     if (this.role === "navigation") return this.navigation();
     if (this.role === "context") return this.contextMenu();

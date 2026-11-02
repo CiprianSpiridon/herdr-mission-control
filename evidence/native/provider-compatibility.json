@@ -2,18 +2,18 @@
   "v": 1,
   "kind": "installed-provider-compatibility",
   "evidenceKind": "live-installed-metadata",
-  "generatedAt": "2026-10-31T17:19:18.123Z",
+  "generatedAt": "2026-11-02T02:51:14.405Z",
   "probeSourceSha256": "ec189eeeeab8947321d059b86a7775eed4fd93ef855b54aed07e272eaafe208a",
-  "collectorSourceSha256": "ea812325e4b24b38cf1d59a5b523c98f7519e73ef53fa72b875bd50420d7dff8",
-  "collectorBytes": 40424,
+  "collectorSourceSha256": "4c115854b6539dfed86d9c373f9ff86a2a07f0c5219d1bd4bafefcc17afce167",
+  "collectorBytes": 45863,
   "platform": "darwin",
   "pythonVersion": "3.14.6",
-  "bindingStoreStatus": "absent",
+  "bindingStoreStatus": "validated",
   "providers": [
     {
       "provider": "codex",
       "cliVersion": "0.166.0",
-      "sourceMode": "standard",
+      "sourceMode": "configured",
       "sourcesRead": 1,
       "disabledSources": 0,
       "schemaStatus": "observed-compatible",
@@ -26,7 +26,7 @@
         "usedTokens",
         "windowTokens"
       ],
-      "reportedQuotaObservations": 12,
+      "reportedQuotaObservations": 9,
       "activeExactBindings": 0,
       "measuredActiveContext": 0,
       "measuredActiveQuota": 0,
@@ -37,15 +37,15 @@
     {
       "provider": "claude",
       "cliVersion": "2.1.316",
-      "sourceMode": "standard",
+      "sourceMode": "configured",
       "sourcesRead": 1,
       "disabledSources": 0,
       "schemaStatus": "observed-compatible",
       "formats": [
         "claude-project-jsonl"
       ],
-      "observedSessions": 6,
-      "unavailableObservations": 2,
+      "observedSessions": 7,
+      "unavailableObservations": 0,
       "reportedContextFields": [
         "usedTokens"
       ],
@@ -60,7 +60,7 @@
     {
       "provider": "grok",
       "cliVersion": "1.0.70",
-      "sourceMode": "standard",
+      "sourceMode": "configured",
       "sourcesRead": 1,
       "disabledSources": 0,
       "schemaStatus": "observed-compatible",
@@ -68,8 +68,8 @@
         "grok-build-summary",
         "grok-build-updates"
       ],
-      "observedSessions": 5,
-      "unavailableObservations": 40,
+      "observedSessions": 6,
+      "unavailableObservations": 38,
       "reportedContextFields": [],
       "reportedQuotaObservations": 0,
       "activeExactBindings": 0,

@@ -11,6 +11,8 @@ export const REFRESH_STALE_MS=90000;
 
 const bytes=value=>{let size=0;for(const character of value){const n=character.codePointAt(0);size+=n<128?1:n<2048?2:n<65536?3:4;}return size;};
 const fail=(code,message)=>{throw Object.assign(Error(message),{code});};
+/** Herdr reports Claude Code's foreground command as `claude` (or a path to it, or its npm package). */
+const claudeForeground=raw=>{const argv=Array.isArray(raw?.foreground?.argv)?raw.foreground.argv.slice(0,4):[];return argv.some(a=>typeof a==='string'&&(/(^|\/)claude$/.test(a)||a.includes('/@anthropic-ai/claude-code/')));};
 const sameScope=(scope,source)=>scope&&['machine','provider','providerRoot','credentialScope'].every(k=>scope[k]===source[k]);
 
 export class TelemetryBridge{
@@ -96,6 +98,20 @@ export class TelemetryBridge{
       }catch(error){if(ticket.cancelled)return;throw error;}finally{this.sources.release(ticket);}
     }
   }
+  /** Read-only: Claude Code's own records for these foreground PIDs, accepted only for the live process that wrote them. */
+  async adopt(source,processes){
+    const unique=new Map();for(const p of processes)if(!unique.has(p.pid))unique.set(p.pid,{pid:p.pid,notBefore:p.notBefore});
+    const request={v:1,operation:'adopt',source,pids:[...unique.values()].slice(0,64)},asked=new Set(request.pids.map(p=>p.pid)),serialized=JSON.stringify(request);
+    if(bytes(serialized)>65536)fail('REQUEST_TOO_LARGE','The adoption request exceeds its bounded size.');
+    const code=await this.collector();if(this.closed)fail('CLOSED','Telemetry view was closed.');
+    const result=await this.io.exec('python3',['-c',code,serialized],{on:source.machine});
+    if(result.code!==0||typeof result.stdout!=='string'||bytes(result.stdout)>65536)fail('HOST_UNAVAILABLE','The destination machine could not run its read-only Python collector.');
+    let response;try{response=JSON.parse(result.stdout);}catch{fail('INVALID_RESPONSE','The adoption response is not valid JSON.');}
+    if(response?.v!==1||!sameScope(response.scope,source)||!Array.isArray(response.adopt))fail('SCOPE_MISMATCH','The adoption response belongs to a different host/provider/profile.');
+    const found=new Map(),UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    for(const row of response.adopt)if(row&&asked.has(row.pid)&&typeof row.sessionId==='string'&&UUID.test(row.sessionId))found.set(row.pid,row.sessionId);
+    return found;
+  }
   async full(address,machine){
     const local=localTerminalAddress(address,machine),result=await this.io.exec('hc',['get',local,'--json'],{on:machine});
     if(result.code!==0||typeof result.stdout!=='string'||bytes(result.stdout)>1048576)fail('TERMINAL_UNAVAILABLE','The exact terminal generation is unavailable on its machine.');
@@ -128,16 +144,31 @@ export class TelemetryBridge{
         const bound=await this.bindings.readCommitted(actual.terminal);
         if(this.closed)return;
         const source=bound?sources.find(s=>usageSourceKey(s)===JSON.stringify([bound.session.machine,bound.session.provider,bound.session.providerRoot,bound.session.credentialScope])):null;
-        const state={...actual,session:bound?.session||null,requestId:bound?.requestId||null,sourceId:source?.id||null,reason:!bound?'No committed exact provider session binding.':!source?'This session usage source is disabled or unavailable.':null};
+        const state={...actual,session:bound?.session||null,requestId:bound?.requestId||null,sourceId:source?.id||null,unbound:!bound,reason:!bound?'No committed exact provider session binding.':!source?'This session usage source is disabled or unavailable.':null};
         if(!source)state.session=null;
         this.agentStates.set(agent.address,state);
         if(source){if(!groups.has(source.id))groups.set(source.id,{source,identities:new Map()});groups.get(source.id).identities.set(sessionKey(bound.session),bound.session);}
         // A restart has a different terminalKey even if its address is reused.
         for(const[id,record]of Object.entries(snapshot.proposals))if(record.state==='committed'&&record.ack.terminal.machine===machine&&record.ack.terminal.address===actual.terminal.address&&terminalKey(record.ack.terminal)!==terminalKey(actual.terminal))await this.bindings.invalidate(id,'Terminal generation or foreground PID changed');
       }
+      // Agents started outside Mission Control: Claude Code's own PID records name their exact conversations.
+      const unbound=agents.map(agent=>[agent,this.agentStates.get(agent.address)]).filter(([,state])=>state?.unbound&&Number.isSafeInteger(state.terminal?.foregroundPid)&&Number.isSafeInteger(state.terminal?.createdMs)&&claudeForeground(state.raw));
+      if(unbound.length){
+        const hits=new Map();
+        for(const source of sources.filter(s=>s.provider==='claude')){
+          if(this.closed)return;let found;try{found=await this.adopt(source,unbound.map(([,state])=>({pid:state.terminal.foregroundPid,notBefore:state.terminal.createdMs})));}catch{continue;}
+          for(const[pid,sessionId]of found){if(!hits.has(pid))hits.set(pid,[]);hits.get(pid).push({source,sessionId});}
+        }
+        for(const[,state]of unbound){
+          const found=hits.get(state.terminal.foregroundPid)||[];if(found.length!==1){if(found.length)state.reason='Several Claude Code profiles claim this process; no session is chosen.';continue;}
+          const {source,sessionId}=found[0];
+          state.session={machine,provider:'claude',credentialScope:source.credentialScope,providerRoot:source.providerRoot,sessionId};state.sourceId=source.id;state.adopted=true;state.reason=null;
+          if(!groups.has(source.id))groups.set(source.id,{source,identities:new Map()});groups.get(source.id).identities.set(sessionKey(state.session),state.session);
+        }
+      }
       for(const group of groups.values())try{await this.scanSource(group.source,[...group.identities.values()],{force});}catch(error){for(const state of this.agentStates.values())if(state.sourceId===group.source.id){state.session=null;state.reason='This provider metadata source or Python helper is unavailable.';}}
       // Recheck the full raw generation and durable mapping after asynchronous IO.
-      for(const agent of agents){if(this.closed)return;const state=this.agentStates.get(agent.address);if(!state?.session)continue;let actual;try{actual=await this.full(agent.address,machine);}catch{this.agentStates.set(agent.address,{session:null,reason:'This agent\u2019s terminal is no longer available.'});continue;}const bound=await this.bindings.readCommitted(actual.terminal);if(this.closed)return;if(terminalKey(actual.terminal)!==terminalKey(state.terminal)||!bound||sessionKey(bound.session)!==sessionKey(state.session)){if(state.requestId)await this.bindings.invalidate(state.requestId,'Terminal identity changed during usage collection');state.session=null;state.reason='Terminal identity changed while collecting usage.';}}
+      for(const agent of agents){if(this.closed)return;const state=this.agentStates.get(agent.address);if(!state?.session)continue;let actual;try{actual=await this.full(agent.address,machine);}catch{this.agentStates.set(agent.address,{session:null,reason:'This agent\u2019s terminal is no longer available.'});continue;}const bound=await this.bindings.readCommitted(actual.terminal);if(this.closed)return;if(terminalKey(actual.terminal)!==terminalKey(state.terminal)||!state.adopted&&(!bound||sessionKey(bound.session)!==sessionKey(state.session))){if(state.requestId)await this.bindings.invalidate(state.requestId,'Terminal identity changed during usage collection');state.session=null;state.reason='Terminal identity changed while collecting usage.';}}
     }catch(error){if(this.closed)return;const tag=[error?.code,error?.name].find(v=>typeof v==='string'&&/^[A-Za-z_]{2,40}$/.test(v)),code=tag?' ('+tag+')':'';for(const agent of agents)this.agentStates.set(agent.address,{session:null,reason:'Host, Python helper, source or exact terminal identity is unavailable'+code+'.'});}
   }
   refresh(agents=this.io.agents(),{force=false}={}){

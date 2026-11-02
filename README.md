@@ -164,11 +164,11 @@ All private settings live in `appHome()/mission-control/config.json` (normally `
 | --- | --- | --- | --- |
 | Tabs | `config.json`, `tab-names.json`, `names.json`, `closed.json`, `launches.json`, `session-bindings.json` | `hc`, `herdr-app do/ls`, `git`, `python3`, `test`, `mkdir`, `sleep`, agent help/version probes and the chosen agent | None of its own |
 | Spaces | `config.json`, launch journal, session bindings, names | `git`, `python3`, `hc`, `herdr-app`, agent probes, `mkdir`, `sleep`, local `open` (Finder) | None of its own |
-| Agents | `config.json`, session bindings, names; provider session metadata under configured roots (defaults `~/.codex/sessions`, `~/.codex/archived_sessions`, `~/.claude/projects`, `~/.grok/sessions`), read-only | `hc`, `python3`, tool discovery, `mkdir` | None |
+| Agents | `config.json`, session bindings, names; provider session metadata under configured roots (defaults `~/.codex/sessions`, `~/.codex/archived_sessions`, `~/.claude/projects`, `~/.grok/sessions`), read-only; Claude Code's own process records `<claude root>/sessions/<pid>.json` (read-only, only the foreground PID's record and its job's record; never the `.key` files beside them) | `hc`, `python3`, tool discovery, `mkdir` | None |
 | Jira | `config.json`, launch/session/name journals | local Node.js 22+, configured Jira CLI or stdio MCP, `git`, `python3`, the chosen agent | The configured Jira HTTPS origin, the Atlassian gateway when a `cloudId` routes there, or the configured HTTPS MCP endpoint |
 | GitHub | `config.json`, launch/session/name journals | local Node.js 22+, optional `gh auth token`, `git`, `python3`, the chosen agent | The selected GitHub API origin only |
 | GitLab | `config.json`, launch/session/name journals | local Node.js 22+, `git`, `python3`, the chosen agent | The configured GitLab origin only |
-| Sessions | `config.json`, `launches.json`, `session-bindings.json`, `names.json`; provider history under the same default roots, read-only | `python3`, `git`, `hc`, `herdr-app`, `mkdir`, `sleep`, agent probes and exact resume | None |
+| Sessions | `config.json`, `launches.json`, `session-bindings.json`, `names.json`; provider history under the same default roots, read-only; Claude Code's own process records `<claude root>/sessions/<pid>.json` (read-only, only the foreground PID's record and its job's record; never the `.key` files beside them) | `python3`, `git`, `hc`, `herdr-app`, `mkdir`, `sleep`, agent probes and exact resume | None |
 | Agent menu | `config.json`, launch journal, session bindings, names | `git`, `python3`, `hc get`, `herdr-app do/ls`, agent probes, `mkdir`, `sleep` | None of its own |
 | Reopen | `closed.json`, `session-bindings.json`, `names.json`, `launches.json`; reads `config.json` | `hc`, `python3`, `git`, `test`, `herdr-app do/ls`, `mkdir`, `sleep`, agent probes and exact resume | None |
 
@@ -181,7 +181,7 @@ Remote machines are reached only through Herdr's configured machine transport. A
 - **No account switching.** There is no seamless switching of a running agent's account. The optional accounts mod is deferred. Resume never switches accounts; with several enabled profiles for one tool on a host it cannot tell which login the CLI will use.
 - **Exact-ID resume only.** Resume and Reopen last agent use an exact session ID with a flag the installed tool's own help verified: Claude Code `--resume <id>`, Codex `resume <id>`, Grok only when its help lists `--resume`. `--last` and `--continue` are never used. Anything else is shown as unsupported and starts nothing.
 - **No split-pane restore.** Reopen brings back the main terminal only; split geometry, extra panes and mod panes are not restored. A shell returns in the folder it started in, and its old command is never replayed.
-- **Honest readings.** Context remaining and quota appear only when a provider reports them for an exactly bound session; otherwise they read Unavailable or Stale. Quota is shared between agents only with evidence of the same account and host. In this release only agents started from Mission Control (its agent menu, a card's tool button or a resume) have such a binding; agents started any other way read Unavailable.
+- **Honest readings.** Context remaining and quota appear only when a provider reports them for an exactly bound session; otherwise they read Unavailable or Stale. Quota is shared between agents only with evidence of the same account and host. Agents started from Mission Control (its agent menu, a card's tool button or a resume) are bound as they start. A Claude Code agent started any other way is adopted from Claude Code's own process record (`~/.claude/sessions/<pid>.json`) when that record names the terminal's foreground process and started during the terminal's life; a client attached to a background job reads that job's conversation. Codex and Grok agents started outside Mission Control stay Unavailable: those tools leave no exact process-to-session link. Claude Code reports context only through its status line, so its percentage comes from a status-line snapshot (`claude-statusline.json`, for example the one herdr-agent-usage writes) listed in the Claude source's `cacheRoots`. An idle agent keeps its last value, dimmed, with its age in the tooltip.
 - **No OAuth login or refresh.** Tokens come from existing environment variables, or from existing `gh` storage for GitHub.
 - **Bounds.** Boards keep at most 1,000 records or 7 MiB per scope, read 50 records per page and run at most four helper jobs at once.
 - **Local helpers.** Jira CLI and stdio MCP adapters run on this computer even for a remote repository; a remote integration needs an HTTPS MCP endpoint.
@@ -197,7 +197,7 @@ Remote machines are reached only through Herdr's configured machine transport. A
 ## Evidence status
 
 <!-- evidence-status:begin -->
-Derived from `.ulpi/execution.json` and the receipts under `evidence/native/` on 2026-11-02. The ledger records 89 of 90 required tasks and 3 of 3 optional account-feasibility tasks complete. A gate counts as passed only when its receipt passes `validateNativeIsolationReceipt` at the current harness and its package test matches the current manifest, artifact, source and preview bytes.
+Derived from `.ulpi/execution.json` and the receipts under `evidence/native/` on 2026-11-02. The ledger records 90 of 90 required tasks and 3 of 3 optional account-feasibility tasks complete. A gate counts as passed only when its receipt passes `validateNativeIsolationReceipt` at the current harness and its package test matches the current manifest, artifact, source and preview bytes.
 
 Every native gate below ran on herdr-app 0.1.11 with hc 0.1.16, in a private, task-owned Herdr app and core with PID-bound native input; the user's own Herdr was never queried or changed.
 
@@ -214,16 +214,16 @@ Every native gate below ran on herdr-app 0.1.11 with hc 0.1.16, in a private, ta
 
 | Mod | Task | Evidence | Status |
 | --- | --- | --- | --- |
-| Agent menu | TASK-018 | `evidence/native/agent-menu.json` | Passed (30 assertions, 21 native inputs, 2026-11-01) |
-| Spaces | TASK-022 | `evidence/native/spaces.json` | Passed (28 assertions, 139 native inputs, 2026-11-01) |
-| Agents | TASK-030 | `evidence/native/agents.json` | Passed (110 assertions, 61 native inputs, 2026-11-01) |
-| Jira | TASK-040 | `evidence/native/jira.json` | Passed (36 assertions, 76 native inputs, 2026-11-01) |
-| GitHub | TASK-048 | `evidence/native/github.json` | Passed (45 assertions, 279 native inputs, 2026-11-01) |
-| GitLab | TASK-091 | `evidence/native/gitlab.json` | Passed (42 assertions, 237 native inputs, 2026-11-01) |
-| Sessions | TASK-053 | `evidence/native/sessions.json` | Passed (41 assertions, 52 native inputs, 2026-11-01) |
-| Reopen | TASK-058 | `evidence/native/reopen.json` | Passed (34 assertions, 76 native inputs, 2026-11-01) |
-| Tabs | TASK-064 | `evidence/native/tabs.json` | Passed (53 assertions, 144 native inputs, 2026-11-01) |
-| Both layouts integrated | TASK-007 | `evidence/native/layout.json` | Passed (51 assertions, 172 native inputs, 2026-11-01) |
+| Agent menu | TASK-018 | `evidence/native/agent-menu.json` | Passed (30 assertions, 21 native inputs, 2026-11-02) |
+| Spaces | TASK-022 | `evidence/native/spaces.json` | Passed (28 assertions, 133 native inputs, 2026-11-02) |
+| Agents | TASK-030 | `evidence/native/agents.json` | Passed (110 assertions, 61 native inputs, 2026-11-02) |
+| Jira | TASK-040 | `evidence/native/jira.json` | Passed (36 assertions, 76 native inputs, 2026-11-02) |
+| GitHub | TASK-048 | `evidence/native/github.json` | Passed (46 assertions, 220 native inputs, 2026-11-02) |
+| GitLab | TASK-091 | `evidence/native/gitlab.json` | Passed (42 assertions, 297 native inputs, 2026-11-02) |
+| Sessions | TASK-053 | `evidence/native/sessions.json` | Passed (41 assertions, 52 native inputs, 2026-11-02) |
+| Reopen | TASK-058 | `evidence/native/reopen.json` | Passed (34 assertions, 76 native inputs, 2026-11-02) |
+| Tabs | TASK-064 | `evidence/native/tabs.json` | Passed (55 assertions, 178 native inputs, 2026-11-02) |
+| Both layouts integrated | TASK-007 | `evidence/native/layout.json` | Passed (51 assertions, 172 native inputs, 2026-11-02) |
 
 ### Packages, installation and release
 
@@ -237,7 +237,7 @@ Every native gate below ran on herdr-app 0.1.11 with hc 0.1.16, in a private, ta
 | Tabs package | TASK-065 | Passed |
 | Layout bundle | TASK-009 | Passed |
 | Installation | TASK-010 | Passed: installed and verified in a real Herdr 0.1.11 window (receipt kept private) |
-| Public release | TASK-011 | Published to https://github.com/CiprianSpiridon/herdr-mission-control with the `herdr-layout` and `herdr-mod` topics; formal release receipt pending |
+| Public release | TASK-011 | Passed |
 | Optional accounts | TASK-066 / 067 / 068 | Feasibility complete; launch-routing gate passed for local new launches; decision **DEFER** (`docs/account-switching-decision.md`); mod not built |
 <!-- evidence-status:end -->
 

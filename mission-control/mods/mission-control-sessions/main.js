@@ -800,6 +800,10 @@ var bytes2 = (value) => {
 var fail5 = (code, message) => {
   throw Object.assign(Error(message), { code });
 };
+var claudeForeground = (raw) => {
+  const argv = Array.isArray(raw?.foreground?.argv) ? raw.foreground.argv.slice(0, 4) : [];
+  return argv.some((a) => typeof a === "string" && (/(^|\/)claude$/.test(a) || a.includes("/@anthropic-ai/claude-code/")));
+};
 var sameScope = (scope, source) => scope && ["machine", "provider", "providerRoot", "credentialScope"].every((k) => scope[k] === source[k]);
 var TelemetryBridge = class {
   constructor(mod, api = herdr, { clock = () => Date.now() } = {}) {
@@ -968,6 +972,27 @@ var TelemetryBridge = class {
       }
     }
   }
+  /** Read-only: Claude Code's own records for these foreground PIDs, accepted only for the live process that wrote them. */
+  async adopt(source, processes) {
+    const unique = /* @__PURE__ */ new Map();
+    for (const p of processes) if (!unique.has(p.pid)) unique.set(p.pid, { pid: p.pid, notBefore: p.notBefore });
+    const request = { v: 1, operation: "adopt", source, pids: [...unique.values()].slice(0, 64) }, asked = new Set(request.pids.map((p) => p.pid)), serialized = JSON.stringify(request);
+    if (bytes2(serialized) > 65536) fail5("REQUEST_TOO_LARGE", "The adoption request exceeds its bounded size.");
+    const code = await this.collector();
+    if (this.closed) fail5("CLOSED", "Telemetry view was closed.");
+    const result = await this.io.exec("python3", ["-c", code, serialized], { on: source.machine });
+    if (result.code !== 0 || typeof result.stdout !== "string" || bytes2(result.stdout) > 65536) fail5("HOST_UNAVAILABLE", "The destination machine could not run its read-only Python collector.");
+    let response;
+    try {
+      response = JSON.parse(result.stdout);
+    } catch {
+      fail5("INVALID_RESPONSE", "The adoption response is not valid JSON.");
+    }
+    if (response?.v !== 1 || !sameScope(response.scope, source) || !Array.isArray(response.adopt)) fail5("SCOPE_MISMATCH", "The adoption response belongs to a different host/provider/profile.");
+    const found = /* @__PURE__ */ new Map(), UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    for (const row of response.adopt) if (row && asked.has(row.pid) && typeof row.sessionId === "string" && UUID.test(row.sessionId)) found.set(row.pid, row.sessionId);
+    return found;
+  }
   async full(address, machine2) {
     const local = localTerminalAddress(address, machine2), result = await this.io.exec("hc", ["get", local, "--json"], { on: machine2 });
     if (result.code !== 0 || typeof result.stdout !== "string" || bytes2(result.stdout) > 1048576) fail5("TERMINAL_UNAVAILABLE", "The exact terminal generation is unavailable on its machine.");
@@ -1024,7 +1049,7 @@ var TelemetryBridge = class {
         const bound = await this.bindings.readCommitted(actual.terminal);
         if (this.closed) return;
         const source = bound ? sources.find((s) => usageSourceKey(s) === JSON.stringify([bound.session.machine, bound.session.provider, bound.session.providerRoot, bound.session.credentialScope])) : null;
-        const state = { ...actual, session: bound?.session || null, requestId: bound?.requestId || null, sourceId: source?.id || null, reason: !bound ? "No committed exact provider session binding." : !source ? "This session usage source is disabled or unavailable." : null };
+        const state = { ...actual, session: bound?.session || null, requestId: bound?.requestId || null, sourceId: source?.id || null, unbound: !bound, reason: !bound ? "No committed exact provider session binding." : !source ? "This session usage source is disabled or unavailable." : null };
         if (!source) state.session = null;
         this.agentStates.set(agent.address, state);
         if (source) {
@@ -1032,6 +1057,37 @@ var TelemetryBridge = class {
           groups.get(source.id).identities.set(sessionKey(bound.session), bound.session);
         }
         for (const [id, record] of Object.entries(snapshot.proposals)) if (record.state === "committed" && record.ack.terminal.machine === machine2 && record.ack.terminal.address === actual.terminal.address && terminalKey(record.ack.terminal) !== terminalKey(actual.terminal)) await this.bindings.invalidate(id, "Terminal generation or foreground PID changed");
+      }
+      const unbound = agents.map((agent) => [agent, this.agentStates.get(agent.address)]).filter(([, state]) => state?.unbound && Number.isSafeInteger(state.terminal?.foregroundPid) && Number.isSafeInteger(state.terminal?.createdMs) && claudeForeground(state.raw));
+      if (unbound.length) {
+        const hits = /* @__PURE__ */ new Map();
+        for (const source of sources.filter((s) => s.provider === "claude")) {
+          if (this.closed) return;
+          let found;
+          try {
+            found = await this.adopt(source, unbound.map(([, state]) => ({ pid: state.terminal.foregroundPid, notBefore: state.terminal.createdMs })));
+          } catch {
+            continue;
+          }
+          for (const [pid, sessionId] of found) {
+            if (!hits.has(pid)) hits.set(pid, []);
+            hits.get(pid).push({ source, sessionId });
+          }
+        }
+        for (const [, state] of unbound) {
+          const found = hits.get(state.terminal.foregroundPid) || [];
+          if (found.length !== 1) {
+            if (found.length) state.reason = "Several Claude Code profiles claim this process; no session is chosen.";
+            continue;
+          }
+          const { source, sessionId } = found[0];
+          state.session = { machine: machine2, provider: "claude", credentialScope: source.credentialScope, providerRoot: source.providerRoot, sessionId };
+          state.sourceId = source.id;
+          state.adopted = true;
+          state.reason = null;
+          if (!groups.has(source.id)) groups.set(source.id, { source, identities: /* @__PURE__ */ new Map() });
+          groups.get(source.id).identities.set(sessionKey(state.session), state.session);
+        }
       }
       for (const group of groups.values()) try {
         await this.scanSource(group.source, [...group.identities.values()], { force });
@@ -1054,7 +1110,7 @@ var TelemetryBridge = class {
         }
         const bound = await this.bindings.readCommitted(actual.terminal);
         if (this.closed) return;
-        if (terminalKey(actual.terminal) !== terminalKey(state.terminal) || !bound || sessionKey(bound.session) !== sessionKey(state.session)) {
+        if (terminalKey(actual.terminal) !== terminalKey(state.terminal) || !state.adopted && (!bound || sessionKey(bound.session) !== sessionKey(state.session))) {
           if (state.requestId) await this.bindings.invalidate(state.requestId, "Terminal identity changed during usage collection");
           state.session = null;
           state.reason = "Terminal identity changed while collecting usage.";
@@ -1843,6 +1899,10 @@ function observedArgv(raw, expected, task) {
   const shell = args[0];
   return typeof shell === "string" && (shell.startsWith("/") || !shell.includes("/")) && /^(?:sh|bash|zsh|dash|ksh)$/.test(shell.split("/").pop()) && WRAPPERS[args[1]] === args[2] && args[3] === shell && accepted.includes(JSON.stringify(args.slice(4)));
 }
+function shellHoldsForeground(raw) {
+  const args = Array.isArray(raw?.argv) ? raw.argv : [];
+  return args[1] === "-lic" && WRAPPERS["-lic"] === args[2] && Number.isSafeInteger(raw.pid) && raw.foreground?.pid === raw.pid;
+}
 async function inspect(io, r, ack) {
   const listing = await io.exec("herdr-app", ["ls"]);
   if (listing.code !== 0) fail9("ACK_UNVERIFIED", "Cannot inspect the acknowledged tab");
@@ -1991,6 +2051,11 @@ async function launch(input, io) {
         else await io.exec("sleep", ["0.15"]);
         actual = await inspect(io, r, record.ack);
         if (!actual.exists) break;
+      }
+      for (let attempt = 0; actual.exists && shellHoldsForeground(actual.raw) && attempt < 40; attempt++) {
+        if (io.delay) await io.delay(150);
+        else await io.exec("sleep", ["0.15"]);
+        actual = await inspect(io, r, record.ack);
       }
       if (!actual.exists || !actual.identity.foregroundPid) fail9("BINDING_NOT_READY", "Agent started; exact foreground identity is still unavailable. Retry only its binding commit.", { tabId: record.ack.tab, terminalId: record.ack.terminal });
       const expected = buildArguments(caps, { options: r.options, ...record.proofKind === "resume-argv" ? { resumeSessionId: record.sessionProposal.sessionId } : { newSessionId: record.sessionProposal.sessionId } });

@@ -347,7 +347,7 @@ test('rendering many tabs stays cheap: labels are computed once per name change'
 });
 
 test('roles dispatch from one module and the manifest stays standalone',async()=>{
-  assert.deepEqual(VIEWS,['topbar','navigation','menu','launch','settings','context']);
+  assert.deepEqual(VIEWS,['topbar','navigation','menu','launch','settings','context','sources']);
   assert.equal(viewRole({}),'topbar');assert.equal(viewRole({overlay:'o'}),'menu');assert.equal(viewRole({view:'navigation'}),'navigation');assert.equal(viewRole({view:'x'}),'unknown');
   const manifest=JSON.parse(await fs.readFile(path.join(root,'src/mods',MOD,'mod.json'),'utf8')),catalog=JSON.parse(await fs.readFile(path.join(root,'src/assets/icons.json'),'utf8'));
   assert.equal(manifest.place,'none','no second strip is docked into a layout that already has one');assert.deepEqual(manifest.overlay,{kind:'dialog',width:560,height:660});

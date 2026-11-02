@@ -13,7 +13,7 @@ async function fixture(t){
  const root=await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(),'mc-launch-'))),repo=path.join(root,'repo');await fs.mkdir(repo);
  for(const args of [['init','-q','-b','main'],['config','user.name','QA'],['config','user.email','qa@example.invalid'],['commit','--allow-empty','-qm','Initial']])assert.equal((await child('git',['-C',repo,...args])).code,0);
  t.after(()=>fs.rm(root,{recursive:true,force:true}));
- let count=0,now=1000,malformed=false,failCommit=false,appendTask=false,extraArg=null,prefix=['/bin/zsh','-lic','"$@"; exec "$0" -li','/bin/zsh'];const effects=[],calls=[],raws=new Map(),world={spaces:[{id:'space-A',name:'client-portal',machine:null,folder:repo,tabs:[]}]};
+ let count=0,now=1000,malformed=false,failCommit=false,appendTask=false,extraArg=null,shellFirst=0,prefix=['/bin/zsh','-lic','"$@"; exec "$0" -li','/bin/zsh'];const effects=[],calls=[],raws=new Map(),world={spaces:[{id:'space-A',name:'client-portal',machine:null,folder:repo,tabs:[]}]};
  const tools=['claude','codex','grok'].map(key=>({key,name:key,run:['qa-'+key],installed:true}));
  const io={appHome:root,clock:()=>now,spaces:()=>world.spaces,knownAgents:async()=>tools,run:(...args)=>effects.push(args),sessionSource:async provider=>({providerRoot:root+'/.providers/'+provider,credentialScope:'fixture'}),delay:async()=>{},
   capabilities:{get:async tool=>parseCapabilities(tool,{help:tool.key==='claude'?'Claude Code\nUsage: claude [options] [prompt]\n --session-id <uuid>\n --resume [value]\n --model <model>\n --append-system-prompt <prompt>':tool.key==='grok'?'Grok Build TUI\nUsage: grok [OPTIONS] [PROMPT]\n --session-id <SESSION_ID>\n --resume [<SESSION_ID_OR_TITLE>]\n --model <MODEL>':'Codex CLI\nUsage: codex [OPTIONS] [PROMPT]\n --no-daemon\n --model <MODEL>',resumeHelp:'Usage: codex resume [OPTIONS] [SESSION_ID] [PROMPT]'})},
@@ -27,14 +27,18 @@ async function fixture(t){
    if(cmd==='herdr-app'&&args[0]==='do'){
     assert.equal(args[1],'tab.new');const input=JSON.parse(args[2]),space=world.spaces.find(s=>s.id===input.space);assert.ok(space);count++;
     const tab='tab-'+count,address='t'+count;space.tabs.push({id:tab,name:input.name,named:true,terminals:[{terminal:address}]});
-    raws.set(address,{address,created_ms:100+count,foreground:{pid:500+count},argv:[...prefix,...input.argv,...(appendTask&&input.task?[input.task]:[]),...(extraArg?[extraArg]:[])],labels:{'herdr.space':space.id,'herdr.tab':tab}});
+    raws.set(address,{address,created_ms:100+count,pid:400+count,shellReads:shellFirst,foreground:{pid:500+count},argv:[...prefix,...input.argv,...(appendTask&&input.task?[input.task]:[]),...(extraArg?[extraArg]:[])],labels:{'herdr.space':space.id,'herdr.tab':tab}});
     return {code:0,stdout:malformed?'not-json':JSON.stringify({space:space.id,tab,terminal:address})};
    }
    if(cmd==='herdr-app'&&args[0]==='ls')return {code:0,stdout:JSON.stringify(world)};
-   if(cmd==='hc'&&args[0]==='get')return {code:0,stdout:JSON.stringify(raws.get(args[1]))};
+   if(cmd==='hc'&&args[0]==='get'){
+    // The wrapper shell holds the foreground for its first reads, as Herdr 0.1.11's /bin/sh does before its job starts.
+    const raw=raws.get(args[1]);if(raw?.shellReads>0){raw.shellReads--;const {shellReads,...shown}=raw;return {code:0,stdout:JSON.stringify({...shown,foreground:{pid:raw.pid}})};}
+    const {shellReads,...shown}=raw||{};return {code:0,stdout:JSON.stringify(raw?shown:undefined)};
+   }
    assert.equal(options.on??null,null);return child(cmd,args,options);
   }};
- return {root,repo,io,world,raws,effects,calls,count:()=>count,setTime:n=>now=n,malform:()=>malformed=true,failCommit:()=>failCommit=true,setShell:(path,repeat=path)=>prefix=[path,'-lic','"$@"; exec "$0" -li',repeat],setPrefix:value=>prefix=value,appendTask:()=>appendTask=true,extraArg:value=>extraArg=value};
+ return {root,repo,io,world,raws,effects,calls,count:()=>count,setTime:n=>now=n,malform:()=>malformed=true,failCommit:()=>failCommit=true,setShell:(path,repeat=path)=>prefix=[path,'-lic','"$@"; exec "$0" -li',repeat],setPrefix:value=>prefix=value,shellFirst:n=>shellFirst=n,appendTask:()=>appendTask=true,extraArg:value=>extraArg=value};
 }
 const request=(repo,id='A')=>({requestId:id,idempotencyKey:id,originId:'origin-'+id,spaceId:'space-A',machine:null,repoRoot:repo,checkoutRoot:repo,toolKey:'claude',worktree:false});
 const issue=()=>({kind:'jira',connectionId:'work',site:'https://jira.example.invalid',id:'10001',key:'WEB-142',title:'Fix login redirect',url:'https://jira.example.invalid/browse/WEB-142',body:'Steps to reproduce; `$(this is task data)`'});
@@ -98,4 +102,11 @@ test('native launch IO selects exactly one explicit enabled profile and never gu
  await fs.writeFile(file,JSON.stringify(config));assert.deepEqual(await io.sessionSource('claude',null),{providerRoot:'/profiles/work/.claude',credentialScope:'work'});assert.equal(await io.sessionSource('claude','server'),null);
  config.usageSources.personal={...config.usageSources.work,providerRoot:'/profiles/personal/.claude',credentialScope:'personal'};await fs.writeFile(file,JSON.stringify(config));assert.equal(await io.sessionSource('claude',null),null);
  config.usageSources.work.enabled=false;config.usageSources.personal.enabled=false;await fs.writeFile(file,JSON.stringify(config));assert.equal(await io.sessionSource('claude',null),null);
+});
+
+test('a local login-shell tab binds its program, not the wrapper shell that briefly holds the foreground',async t=>{
+ const f=await fixture(t);f.setShell('/bin/sh');f.shellFirst(3);
+ const r=await launch(request(f.repo,'shell-first'),f.io);assert.equal(r.ok,true,JSON.stringify(r));
+ const store=JSON.parse(sync.readFileSync(f.root+'/mission-control/session-bindings.json','utf8')),bound=Object.values(store.proposals).find(x=>x.state==='committed');
+ assert.ok(bound,'the binding is committed');assert.equal(bound.ack.terminal.foregroundPid,500+f.count(),'the agent, not the shell (pid '+(400+f.count())+'), is bound');
 });

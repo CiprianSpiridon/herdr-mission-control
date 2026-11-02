@@ -1475,7 +1475,7 @@
       "log": ".harness/inspect-docs.log",
       "result": "README Requirements, status, capability limits (Herdr 0.1.11 launch shape), GitLab provenance and the generated evidence-status block updated from current receipts; NOTICE reconciled against the Jira build manifest (17 compiled packages, exact versions) and every other manifest (repository source only). No claim of authenticated live Jira/GitHub/GitLab, account switching, split restore or --last/--continue resume. Install section leads with the herdr.dev and clone-and-install paths.",
       "completedAt": "2026-11-01T17:57:48.323Z",
-      "readmeSha256": "cca546f05c5135cbfeacd970277d66a84d993f7bfdf487fcd25c7ef429eb9831",
+      "readmeSha256": "0b28a72a1f63176c6388911f9f59fd24b71b009cb6549f24fd4f6432e699c7fe",
       "noticeSha256": "4b018c21a9806cb83c02be2999a989765802f6eca9dfaabb1987446a08e3b0d5",
       "licenseSha256": "ae7008060919f4835ebe97eba0f5ecbc9dd7aa06121b3cbaea15b0243351e2d6"
     },
@@ -1512,6 +1512,26 @@
       },
       "result": "Installed the layout bundle into the user’s real Herdr 0.1.11 (after the user restarted into the update): 198 new files, no collisions or key changes, all seven mods passed herdr-app check, layout.switch to mission-control, no new app errors, 57/57 terminals still running, Settings preview paths resolve. Rollback receipt kept private (evidence/native/install.json is excluded from publishing).",
       "completedAt": "2026-11-02T02:24:48.521Z"
+    },
+    "TASK-011": {
+      "validation": "node --test tests/release.test.mjs && node scripts/release.mjs verify --receipt evidence/release.json",
+      "tests": 14,
+      "passed": 13,
+      "skipped": 1,
+      "exitCode": 0,
+      "log": ".harness/release.log",
+      "receiptSha256": "84f3e5070cbecd0391edc511458e446526580a19a2ea544de8c321cbc1f2e576",
+      "repository": "https://github.com/CiprianSpiridon/herdr-mission-control",
+      "commit": "6447a70c1a27015baf03782c96c2457cc3f93f79",
+      "branch": "main",
+      "topics": [
+        "herdr-layout",
+        "herdr-mod"
+      ],
+      "packages": 10,
+      "files": 763,
+      "result": "Public repo verified through the GitHub API at the single clean root commit 6447a70 (it replaced the first push e37f1df at the user’s request, so the plans and published review files no longer name the inspiration repositories). Both discovery topics, all ten package folders, and their recipe and preview links verified.",
+      "completedAt": "2026-11-02T02:32:15.693Z"
     }
   },
   "active": "TASK-091 (blocked: native input permission); TASK-051/052 and TASK-055..057 source",
@@ -2307,11 +2327,11 @@
     "boundary": "Only synthetic providers/tool actors and positively owned app/core resources; no existing Herdr IPC."
   },
   "completionCounts": {
-    "required": 89,
+    "required": 90,
     "requiredTotal": 90,
     "feasibility": 3,
     "feasibilityTotal": 3,
-    "totalCompleted": 92
+    "totalCompleted": 93
   },
   "nextIndependentTask": {
     "task": "TASK-067",
@@ -2563,5 +2583,66 @@
     "native-input": "User will grant Herdr.app macOS Accessibility; a watcher starts native gates when it flips (2026-11-01).",
     "work-folder": "Publish work/ with recorded third-party notices."
   },
-  "nativeForegroundNote": "Native gates need the Mac unlocked, awake and untouched (no app or desktop switching) for a whole run. Runs from 09:58-10:25 on 2026-11-01 failed with no visible windows, hit-test and focus errors, and the session was locked/asleep 10:28-11:51 (CGSSessionScreenIsLocked=Yes at 11:54). Earlier runs on the idle, unlocked Mac passed (GitLab x3, five compatibility packages, account-profile)."
+  "nativeForegroundNote": "Native gates need the Mac unlocked, awake and untouched (no app or desktop switching) for a whole run. Runs from 09:58-10:25 on 2026-11-01 failed with no visible windows, hit-test and focus errors, and the session was locked/asleep 10:28-11:51 (CGSSessionScreenIsLocked=Yes at 11:54). Earlier runs on the idle, unlocked Mac passed (GitLab x3, five compatibility packages, account-profile).",
+  "revalidations": [
+    {
+      "at": "2026-11-02T05:43:31.592Z",
+      "reason": "Post-release fixes: Claude Code agent adoption and dated status-line context (telemetry.js, collector.py, provider_claude.py), Mission Control sources gear (tabs), and binding the program instead of the Herdr 0.1.11 wrapper shell (launch.js). Every package gate re-ran at the current harness.",
+      "receipts": {
+        "agent-menu": {
+          "ok": true,
+          "assertions": 30,
+          "sha256": "b02fe6461e7fca38d461cecedae07aaeea38b714fdb905d9329b5c0f5f132c8e"
+        },
+        "spaces": {
+          "ok": true,
+          "assertions": 28,
+          "sha256": "97665f70be36cb4cd414229140fa1ad6cdc7645f586ee10992a8cbd465facf77"
+        },
+        "agents": {
+          "ok": true,
+          "assertions": 110,
+          "sha256": "95f5be072c1bbf0f8320108627da17b387b4a5fc4a5b399a722b3540209a3249"
+        },
+        "jira": {
+          "ok": true,
+          "assertions": 36,
+          "sha256": "3b6867774cac5e97f837391117f3f079a175f9fd136d013869de1163dbc16c60"
+        },
+        "github": {
+          "ok": true,
+          "assertions": 46,
+          "sha256": "ab36e6c3831cafeaad36ce706afd012fa84e9ae32c0c168e656eb239fe17d4d8"
+        },
+        "gitlab": {
+          "ok": true,
+          "assertions": 42,
+          "sha256": "bca036b5a3ca54389b63bc440e0704f815055ace9d767d3e8674fcaa9a25d029"
+        },
+        "sessions": {
+          "ok": true,
+          "assertions": 41,
+          "sha256": "b014f0f5efb6c3eee6aef895b15782b35a9105b94134161eb12483886224bc4c"
+        },
+        "reopen": {
+          "ok": true,
+          "assertions": 34,
+          "sha256": "8969fa2ead1b1b02d19e350afc326f69123fdf2c6aadf13d29a50b4a6a03be12"
+        },
+        "tabs": {
+          "ok": true,
+          "assertions": 55,
+          "sha256": "f1d6ded4d839891ed5a38dad81e0ef2db59c993ed90cb7505ba9fceb9bebef77"
+        },
+        "layout": {
+          "ok": true,
+          "assertions": 51,
+          "sha256": "181a9ad8cb933876019fd4ca0e49664a9b9c96fd2d5956c298f8a5de7a12a29b"
+        }
+      },
+      "compatibility": "9ff2f3d381b6077b9dfbbd63ed99653bda3bcf276d5d55db21ff08ff45e9d70d",
+      "providerCompatibility": "7e7f64f9497ce02edc83762b6dc076b7907ef4b60142e481d3d76b4c3bfd2e94",
+      "packageTests": "29/29"
+    }
+  ]
 }

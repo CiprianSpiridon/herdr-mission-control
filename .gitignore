@@ -25,3 +25,5 @@ coverage/
 evidence/private/
 evidence/native/install.json
 .ulpi/execution.private.json
+# Archived plan snapshots stay local; only the review ledger and round records are published.
+evidence/reviews/*/

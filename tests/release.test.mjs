@@ -143,7 +143,7 @@ test('publish stages only explicit deliverables, creates a public repo, pushes, 
   assert.equal(receipt.packages[1].url, `https://github.com/acme/herdr-mission-control/tree/${receipt.commit}/mission-control-alpha`);
   assert.deepEqual(Object.keys(receipt.reviews), ['mission-control', 'mission-control-alpha']);
   const calls = (await f.state()).calls;
-  assert.deepEqual(calls.find(c => c[1] === 'create'), ['repo', 'create', 'acme/herdr-mission-control', '--public', '--description', 'Mission Control layouts and standalone mods for the Herdr app']);
+  assert.deepEqual(calls.find(c => c[1] === 'create'), ['repo', 'create', 'acme/herdr-mission-control', '--public', '--description', 'Herdr layouts + mods for running many coding agents across repos and machines: Spaces/Agents rail with context & quota, Jira/GitHub/GitLab boards and PR/MR lists that start Claude Code or Codex in the right worktree, session resume, Reopen last tab/agent, auto-named tabs. Overview and terminal-first Classic views; every mod also standalone.']);
   assert.deepEqual(calls.find(c => c[1] === 'edit'), ['repo', 'edit', 'acme/herdr-mission-control', '--add-topic', 'herdr-layout', '--add-topic', 'herdr-mod']);
   assert.ok(!calls.some(c => c.includes('--show-token') || c[1] === 'token'), 'Authentication material is never requested');
   assert.ok(calls.some(c => c[0] === 'api' && c.at(-1).startsWith('repos/acme/herdr-mission-control/contents/mission-control/RECIPE.md?ref=')));

@@ -507,7 +507,7 @@ export default async function layoutNative(runtime){
     const controls=async()=>{
       const label=LAYOUT_LABELS[view===LAYOUTS.overview?LAYOUTS.classic:LAYOUTS.overview],hit=await pick(label,(n,o)=>inTop(n)&&n.frame.x>o.window.width/2,{only:true,description:'view swap control '+label});
       const f=hit.node.frame,left=f.x-G.swapGap-G.swapIcon-G.swapPadX,top=(G.topbar-G.control)/2,rects={swap:{x:left,y:top,width:f.x+f.width+G.swapPadX-left,height:G.control}};
-      (view===LAYOUTS.classic?['panel','reopen-agent','reopen-tab','plus']:['reopen-agent','reopen-tab','plus']).forEach((name,index)=>{const right=left-G.controlGap-index*(G.control+G.controlGap);rects[name]={x:right-G.control,y:top,width:G.control,height:G.control};});
+      (view===LAYOUTS.classic?['sources','panel','reopen-agent','reopen-tab','plus']:['sources','reopen-agent','reopen-tab','plus']).forEach((name,index)=>{const right=left-G.controlGap-index*(G.control+G.controlGap);rects[name]={x:right-G.control,y:top,width:G.control,height:G.control};});
       return {observation:hit.observation,rects,label:hit};
     };
     const panelOpen=async()=>{

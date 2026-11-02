@@ -94,6 +94,7 @@ export const EXPECTATIONS=Object.freeze({
   wideNavigation:'At 1024 px beside a 220 px rail all six work sources show full labels without clipping',
   narrowNavigation:'At 736 px all six work sources stay reachable with short labels',
   narrowSelect:'A short-label source can be selected at 736 px',
+  sourcesToggle:'The tab bar gear opens Mission Control sources; turning GitLab issues off removes it from the strip and turning it on brings it back',
   select:'Clicking a tab selects it',
   wheel:'One wheel gesture over the bar switches exactly one adjacent tab each way',
   reorder:'A real drag from one tab onto another moves it to that position',
@@ -368,9 +369,11 @@ function nativeUI(runtime,{budget=800}={}){
   /** The control rectangles right of the tabs, measured from the observed swap text. */
   const controls=async({bar='top'}={})=>{
     const layout=layoutName(),spec=LAYOUT_UI[layout];if(!spec)throw Error('No bar geometry for layout '+layout);
+    // A tooltip from a hovered bar button can cover the swap label; rest the pointer over the terminal first.
+    {const o=await observe(),p=terminalPoint(layout,o.window);await runtime.driver.hover({x:p.x-2,y:p.y-2,width:4,height:4},{expectedSize:o.window});await delay(400);}
     const region=bar==='top'?inTop:inBottom,hit=await pick(spec.swap,(n,o)=>region(n,o)&&n.frame.x>o.window.width/2,{only:true,description:'swap control '+spec.swap+' ('+bar+')'});
     const f=hit.node.frame,left=f.x-G.swapGap-G.swapIcon-G.swapPadX,top=(bar==='top'?0:hit.observation.window.height-G.topbar)+(G.topbar-G.control)/2;
-    const order=spec.panel?['panel','reopen-agent','reopen-tab','plus']:['reopen-agent','reopen-tab','plus'],rects={};
+    const order=spec.panel?['sources','panel','reopen-agent','reopen-tab','plus']:['sources','reopen-agent','reopen-tab','plus'],rects={};
     order.forEach((name,index)=>{const right=left-G.controlGap-index*(G.control+G.controlGap);rects[name]={x:right-G.control,y:top,width:G.control,height:G.control};});
     rects.swap={x:left,y:top,width:f.x+f.width+G.swapPadX-left,height:G.control};
     return {observation:hit.observation,rects,swapText:hit};
@@ -563,6 +566,20 @@ export default async function tabsNative(runtime){
     await clickHit({observation:narrow.found.sessions.observation,node:narrow.found.sessions.node},'Sessions source (short)');
     await until(async()=>(await navState())?.source==='sessions','Sessions selected at 736 px',20000);{const f=narrow.found.sessions.node.frame,w={expectedSize:narrow.found.sessions.observation.window};await runtime.driver.hover({x:f.x,y:f.y+f.height+40,width:2,height:2},w);await runtime.driver.hover(f,w);}const shownSessions=await visible('Previous sessions (shown)',near(narrow.found.sessions.node.frame),20000);
     expect(Boolean(shownSessions),'narrowSelect');await positionWindow(runtime);await controls();await park();
+
+    console.log('Tabs native: the Sources gear turns a work source off and back on');await progress('sources');
+    {
+      // The popup opens under the gear at the top right; the navigation strip's own labels end well left of it.
+      const inDialogRow=(n,o)=>n.frame.x>o.window.width-340&&n.frame.y>24;
+      let g=await controls();await clickRect(g.rects.sources,g.observation,'Mission Control sources');
+      await until(()=>ui.overlays().includes(MOD),'Sources dialog',20000);await visible('Work sources',inDialogRow,30000);
+      expect(await has('GitLab issues',inNav),'sourcesToggle');
+      await click('GitLab issues',inDialogRow,{control:'GitLab issues switch'});
+      const off=await until(async()=>((await runtime.shared())['mission-control-tabs-sources-v1']?.hidden||[]).includes('gitlab')&&!(await has('GitLab issues',inNav))?true:null,'GitLab issues off and gone from the strip',20000);
+      await click('GitLab issues',inDialogRow,{control:'GitLab issues switch'});
+      const on=await until(async()=>!((await runtime.shared())['mission-control-tabs-sources-v1']?.hidden||[]).includes('gitlab')&&await has('GitLab issues',inNav)?true:null,'GitLab issues back in the strip',20000);
+      expect(off&&on,'sourcesToggle');await runtime.driver.press('escape');await until(()=>!ui.overlays().includes(MOD),'Sources dialog closed',20000);await park();
+    }
 
     console.log('Tabs native: select, wheel, reorder and drags that end elsewhere');await progress('strip interactions');
     await selectTab(K2);expect(focused()===K2,'select');
