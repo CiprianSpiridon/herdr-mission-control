@@ -1,0 +1,27 @@
+{
+  "name": "herdr-mission-control",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Native Herdr layouts and self-contained Mission Control mods",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "node scripts/project.mjs build",
+    "check": "node scripts/project.mjs check",
+    "test": "node --import ./tests/support/native-loader.mjs --test tests/*.test.mjs",
+    "test:python": "python3 -m unittest discover -s tests -p '*_test.py'",
+    "plan:check": "node .ulpi/plans/render.mjs --check",
+    "native": "node scripts/native-harness.mjs",
+    "install:layout": "node scripts/install.mjs",
+    "release": "node scripts/release.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.2"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  }
+}

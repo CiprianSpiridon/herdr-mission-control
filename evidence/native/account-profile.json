@@ -1,0 +1,3726 @@
+{
+  "v": 2,
+  "ok": true,
+  "code": null,
+  "error": null,
+  "cleanupError": null,
+  "completedMs": 1793546695957,
+  "nonce": "7cd464c378080d1b0ca5ac51",
+  "isolation": {
+    "method": "private-ownership-v2",
+    "existingInstancesQueried": false,
+    "context": {
+      "root": "/private/tmp/mcqa-g3U5Ai",
+      "nonce": "7cd464c378080d1b0ca5ac51",
+      "session": "mcqa-7cd464c378080d1b0ca5ac51",
+      "uid": 502,
+      "createdMs": 1793546561680,
+      "directory": {
+        "dev": "16777233",
+        "ino": "810389875",
+        "uid": 502,
+        "mode": 448,
+        "birthMs": 1793546561680
+      },
+      "selectors": {
+        "HOME": "/private/tmp/mcqa-g3U5Ai/h",
+        "USERPROFILE": "/private/tmp/mcqa-g3U5Ai/h",
+        "TMPDIR": "/private/tmp/mcqa-g3U5Ai/t",
+        "XDG_CONFIG_HOME": "/private/tmp/mcqa-g3U5Ai/c",
+        "XDG_DATA_HOME": "/private/tmp/mcqa-g3U5Ai/d",
+        "XDG_STATE_HOME": "/private/tmp/mcqa-g3U5Ai/s",
+        "XDG_CACHE_HOME": "/private/tmp/mcqa-g3U5Ai/k",
+        "XDG_RUNTIME_DIR": "/private/tmp/mcqa-g3U5Ai/r",
+        "HERDR_APP_HOME": "/private/tmp/mcqa-g3U5Ai/app",
+        "HC_SESSION": "mcqa-7cd464c378080d1b0ca5ac51"
+      }
+    },
+    "core": {
+      "id": "1a53f94978b0e8ba2f6d79f5972e7118",
+      "process": {
+        "pid": 86780,
+        "uid": 502,
+        "startedMs": 1793546561000,
+        "executable": "/Users/ciprian/.local/bin/herdr-core",
+        "fingerprint": "e8123e37099f206f1aa9609bb3dbbbeed51176aeba35f161cd0f2c24e18706fc"
+      },
+      "socket": {
+        "path": "/private/tmp/mcqa-g3U5Ai/r/herdr-core/mcqa-7cd464c378080d1b0ca5ac51.sock",
+        "dev": "16777233",
+        "ino": "810389897",
+        "uid": 502,
+        "mode": 493,
+        "ownerPids": [
+          86780
+        ]
+      },
+      "holder": {
+        "process": {
+          "pid": 86953,
+          "uid": 502,
+          "startedMs": 1793546562000,
+          "executable": "/Users/ciprian/.local/bin/herdr-core",
+          "fingerprint": "0a527ee934086f9cfb391b4139fe28100ff67ca77d14d91bdd9549fc390a18c8"
+        },
+        "socket": {
+          "path": "/private/tmp/mcqa-g3U5Ai/r/herdr-core/mcqa-7cd464c378080d1b0ca5ac51.holder.de645747.sock",
+          "dev": "16777233",
+          "ino": "810389993",
+          "uid": 502,
+          "mode": 493,
+          "ownerPids": [
+            86953
+          ]
+        }
+      }
+    },
+    "app": {
+      "process": {
+        "pid": 87297,
+        "uid": 502,
+        "startedMs": 1793546565000,
+        "executable": "/Applications/Herdr.app/Contents/MacOS/Herdr",
+        "fingerprint": "438fee7460ec78f13549cca19a343a8dcd17345f0a651f5a49b4c4d31e044546"
+      },
+      "socket": {
+        "path": "/private/tmp/mcqa-g3U5Ai/app/herdr-app.sock",
+        "dev": "16777233",
+        "ino": "810390546",
+        "uid": 502,
+        "mode": 493,
+        "ownerPids": [
+          87297
+        ]
+      }
+    },
+    "commandAudit": [
+      {
+        "sequence": 1,
+        "at": 1793546561689,
+        "kind": "hc",
+        "command": "server start",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "boot",
+        "result": "ok"
+      },
+      {
+        "sequence": 2,
+        "at": 1793546561733,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "boot",
+        "result": "ok"
+      },
+      {
+        "sequence": 3,
+        "at": 1793546561848,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 4,
+        "at": 1793546562357,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 5,
+        "at": 1793546562418,
+        "kind": "hc",
+        "command": "run",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 6,
+        "at": 1793546562516,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 7,
+        "at": 1793546562689,
+        "kind": "hc",
+        "command": "ls",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 8,
+        "at": 1793546562753,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 9,
+        "at": 1793546562893,
+        "kind": "hc",
+        "command": "get t1",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 10,
+        "at": 1793546564001,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 11,
+        "at": 1793546564119,
+        "kind": "app",
+        "command": "check /private/tmp/mcqa-g3U5Ai/app/mods/mission-control-account-profile-probe",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 12,
+        "at": 1793546564365,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 13,
+        "at": 1793546564482,
+        "kind": "hc",
+        "command": "machine add",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 14,
+        "at": 1793546565436,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 15,
+        "at": 1793546566177,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 16,
+        "at": 1793546566355,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 17,
+        "at": 1793546566425,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 18,
+        "at": 1793546566598,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 19,
+        "at": 1793546566666,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 20,
+        "at": 1793546566781,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 21,
+        "at": 1793546566845,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 22,
+        "at": 1793546567017,
+        "kind": "app",
+        "command": "layout.switch",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 23,
+        "at": 1793546567094,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 24,
+        "at": 1793546567301,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 25,
+        "at": 1793546567365,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 26,
+        "at": 1793546567537,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 27,
+        "at": 1793546567888,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 28,
+        "at": 1793546568004,
+        "kind": "hc",
+        "command": "run",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 29,
+        "at": 1793546568066,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 30,
+        "at": 1793546568181,
+        "kind": "hc",
+        "command": "exec",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 31,
+        "at": 1793546568242,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 32,
+        "at": 1793546568410,
+        "kind": "app",
+        "command": "commands",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 33,
+        "at": 1793546569366,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 34,
+        "at": 1793546569535,
+        "kind": "app",
+        "command": "tab.new",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 35,
+        "at": 1793546569611,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 36,
+        "at": 1793546569726,
+        "kind": "hc",
+        "command": "get t2",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 37,
+        "at": 1793546569940,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 38,
+        "at": 1793546570050,
+        "kind": "hc",
+        "command": "get t2",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 39,
+        "at": 1793546570263,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 40,
+        "at": 1793546570377,
+        "kind": "hc",
+        "command": "get t2",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 41,
+        "at": 1793546570438,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 42,
+        "at": 1793546570608,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 43,
+        "at": 1793546571285,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 44,
+        "at": 1793546571449,
+        "kind": "app",
+        "command": "tab.new",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 45,
+        "at": 1793546571527,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 46,
+        "at": 1793546571633,
+        "kind": "hc",
+        "command": "get t3",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 47,
+        "at": 1793546571849,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 48,
+        "at": 1793546571959,
+        "kind": "hc",
+        "command": "get t3",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 49,
+        "at": 1793546572019,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 50,
+        "at": 1793546572177,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 51,
+        "at": 1793546572244,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 52,
+        "at": 1793546572419,
+        "kind": "app",
+        "command": "tab.new",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 53,
+        "at": 1793546572497,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 54,
+        "at": 1793546572611,
+        "kind": "hc",
+        "command": "get t4",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 55,
+        "at": 1793546572827,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 56,
+        "at": 1793546572941,
+        "kind": "hc",
+        "command": "get t4",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 57,
+        "at": 1793546573003,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 58,
+        "at": 1793546573173,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 59,
+        "at": 1793546574302,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 60,
+        "at": 1793546574467,
+        "kind": "app",
+        "command": "tab.new",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 61,
+        "at": 1793546574544,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 62,
+        "at": 1793546574654,
+        "kind": "hc",
+        "command": "get t5",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 63,
+        "at": 1793546574868,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 64,
+        "at": 1793546574980,
+        "kind": "hc",
+        "command": "get t5",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 65,
+        "at": 1793546575041,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 66,
+        "at": 1793546575260,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 67,
+        "at": 1793546575361,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 68,
+        "at": 1793546575484,
+        "kind": "hc",
+        "command": "get t2",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 69,
+        "at": 1793546575548,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 70,
+        "at": 1793546575664,
+        "kind": "hc",
+        "command": "send",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 71,
+        "at": 1793546580938,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 72,
+        "at": 1793546581053,
+        "kind": "hc",
+        "command": "get t4",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 73,
+        "at": 1793546581135,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 74,
+        "at": 1793546581250,
+        "kind": "hc",
+        "command": "send",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 75,
+        "at": 1793546587239,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 76,
+        "at": 1793546587411,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 77,
+        "at": 1793546588679,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 78,
+        "at": 1793546588847,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 79,
+        "at": 1793546588914,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 80,
+        "at": 1793546589028,
+        "kind": "hc",
+        "command": "get t6",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 81,
+        "at": 1793546589089,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 82,
+        "at": 1793546589258,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 83,
+        "at": 1793546589779,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 84,
+        "at": 1793546589939,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 85,
+        "at": 1793546590960,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 86,
+        "at": 1793546591128,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 87,
+        "at": 1793546591193,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 88,
+        "at": 1793546591314,
+        "kind": "hc",
+        "command": "get t7",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 89,
+        "at": 1793546591374,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 90,
+        "at": 1793546591539,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 91,
+        "at": 1793546592973,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 92,
+        "at": 1793546593133,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 93,
+        "at": 1793546594172,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 94,
+        "at": 1793546594344,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 95,
+        "at": 1793546594410,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 96,
+        "at": 1793546594527,
+        "kind": "hc",
+        "command": "get t8",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 97,
+        "at": 1793546594588,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 98,
+        "at": 1793546594756,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 99,
+        "at": 1793546594974,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 100,
+        "at": 1793546595145,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 101,
+        "at": 1793546596027,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 102,
+        "at": 1793546596197,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 103,
+        "at": 1793546596260,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 104,
+        "at": 1793546596391,
+        "kind": "hc",
+        "command": "get t9",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 105,
+        "at": 1793546596470,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 106,
+        "at": 1793546596641,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 107,
+        "at": 1793546597011,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 108,
+        "at": 1793546597143,
+        "kind": "hc",
+        "command": "get t6",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 109,
+        "at": 1793546597209,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 110,
+        "at": 1793546597380,
+        "kind": "app",
+        "command": "tab.select",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 111,
+        "at": 1793546597444,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 112,
+        "at": 1793546597616,
+        "kind": "app",
+        "command": "pane.focus",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 113,
+        "at": 1793546603276,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 114,
+        "at": 1793546603391,
+        "kind": "hc",
+        "command": "get t7",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 115,
+        "at": 1793546603454,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 116,
+        "at": 1793546603572,
+        "kind": "hc",
+        "command": "send",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 117,
+        "at": 1793546609030,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 118,
+        "at": 1793546609145,
+        "kind": "hc",
+        "command": "run",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 119,
+        "at": 1793546609216,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 120,
+        "at": 1793546609331,
+        "kind": "hc",
+        "command": "get t10",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 121,
+        "at": 1793546609544,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 122,
+        "at": 1793546609658,
+        "kind": "hc",
+        "command": "get t10",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 123,
+        "at": 1793546609722,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 124,
+        "at": 1793546609901,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 125,
+        "at": 1793546610436,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 126,
+        "at": 1793546610550,
+        "kind": "hc",
+        "command": "send",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 127,
+        "at": 1793546615825,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 128,
+        "at": 1793546615945,
+        "kind": "hc",
+        "command": "run",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 129,
+        "at": 1793546616018,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 130,
+        "at": 1793546616143,
+        "kind": "hc",
+        "command": "get t11",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 131,
+        "at": 1793546616209,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 132,
+        "at": 1793546616392,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 133,
+        "at": 1793546616760,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 134,
+        "at": 1793546616875,
+        "kind": "hc",
+        "command": "send",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 135,
+        "at": 1793546622150,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 136,
+        "at": 1793546622267,
+        "kind": "hc",
+        "command": "run",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 137,
+        "at": 1793546622339,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 138,
+        "at": 1793546622458,
+        "kind": "hc",
+        "command": "get t12",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 139,
+        "at": 1793546622675,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 140,
+        "at": 1793546622789,
+        "kind": "hc",
+        "command": "get t12",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 141,
+        "at": 1793546622851,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 142,
+        "at": 1793546623017,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 143,
+        "at": 1793546623079,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 144,
+        "at": 1793546623189,
+        "kind": "hc",
+        "command": "send",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 145,
+        "at": 1793546628461,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 146,
+        "at": 1793546628573,
+        "kind": "hc",
+        "command": "run",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 147,
+        "at": 1793546628649,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 148,
+        "at": 1793546628760,
+        "kind": "hc",
+        "command": "get t13",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 149,
+        "at": 1793546628819,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 150,
+        "at": 1793546628978,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 151,
+        "at": 1793546629039,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 152,
+        "at": 1793546629150,
+        "kind": "hc",
+        "command": "send",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 153,
+        "at": 1793546634684,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 154,
+        "at": 1793546634800,
+        "kind": "hc",
+        "command": "get t10",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 155,
+        "at": 1793546634861,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 156,
+        "at": 1793546634972,
+        "kind": "hc",
+        "command": "send",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 157,
+        "at": 1793546640244,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 158,
+        "at": 1793546640349,
+        "kind": "hc",
+        "command": "get t12",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 159,
+        "at": 1793546640405,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 160,
+        "at": 1793546640512,
+        "kind": "hc",
+        "command": "send",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 161,
+        "at": 1793546645785,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 162,
+        "at": 1793546645900,
+        "kind": "hc",
+        "command": "ls",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 163,
+        "at": 1793546645960,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 164,
+        "at": 1793546646065,
+        "kind": "hc",
+        "command": "run",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "failed"
+      },
+      {
+        "sequence": 165,
+        "at": 1793546646139,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 166,
+        "at": 1793546646250,
+        "kind": "hc",
+        "command": "ls",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 167,
+        "at": 1793546646311,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 168,
+        "at": 1793546646471,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 169,
+        "at": 1793546646534,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 170,
+        "at": 1793546646646,
+        "kind": "hc",
+        "command": "ls",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 171,
+        "at": 1793546646709,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 172,
+        "at": 1793546646875,
+        "kind": "app",
+        "command": "tab.new",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "failed"
+      },
+      {
+        "sequence": 173,
+        "at": 1793546646938,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 174,
+        "at": 1793546647115,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 175,
+        "at": 1793546647189,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 176,
+        "at": 1793546647314,
+        "kind": "hc",
+        "command": "ls",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 177,
+        "at": 1793546647375,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 178,
+        "at": 1793546647544,
+        "kind": "app",
+        "command": "tab.new",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 179,
+        "at": 1793546647622,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 180,
+        "at": 1793546647741,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 181,
+        "at": 1793546647957,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 182,
+        "at": 1793546648074,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 183,
+        "at": 1793546648291,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 184,
+        "at": 1793546648406,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 185,
+        "at": 1793546648623,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 186,
+        "at": 1793546648739,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 187,
+        "at": 1793546648953,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 188,
+        "at": 1793546649063,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 189,
+        "at": 1793546649273,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 190,
+        "at": 1793546649385,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 191,
+        "at": 1793546649597,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 192,
+        "at": 1793546649710,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 193,
+        "at": 1793546649921,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 194,
+        "at": 1793546650043,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 195,
+        "at": 1793546650256,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 196,
+        "at": 1793546650372,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 197,
+        "at": 1793546650586,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 198,
+        "at": 1793546650702,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 199,
+        "at": 1793546650917,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 200,
+        "at": 1793546651031,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 201,
+        "at": 1793546651245,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 202,
+        "at": 1793546651358,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 203,
+        "at": 1793546651573,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 204,
+        "at": 1793546651688,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 205,
+        "at": 1793546651900,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 206,
+        "at": 1793546652019,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 207,
+        "at": 1793546652229,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 208,
+        "at": 1793546652343,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 209,
+        "at": 1793546652555,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 210,
+        "at": 1793546652666,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 211,
+        "at": 1793546652878,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 212,
+        "at": 1793546652989,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 213,
+        "at": 1793546653200,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 214,
+        "at": 1793546653315,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 215,
+        "at": 1793546653532,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 216,
+        "at": 1793546653647,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 217,
+        "at": 1793546653860,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 218,
+        "at": 1793546653975,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 219,
+        "at": 1793546654189,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 220,
+        "at": 1793546654303,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 221,
+        "at": 1793546654518,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 222,
+        "at": 1793546654636,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 223,
+        "at": 1793546654848,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 224,
+        "at": 1793546654960,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 225,
+        "at": 1793546655173,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 226,
+        "at": 1793546655283,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 227,
+        "at": 1793546655496,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 228,
+        "at": 1793546655608,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 229,
+        "at": 1793546655820,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 230,
+        "at": 1793546655933,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 231,
+        "at": 1793546656148,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 232,
+        "at": 1793546656268,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 233,
+        "at": 1793546656484,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 234,
+        "at": 1793546656599,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 235,
+        "at": 1793546656816,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 236,
+        "at": 1793546656929,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 237,
+        "at": 1793546657146,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 238,
+        "at": 1793546657265,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 239,
+        "at": 1793546657483,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 240,
+        "at": 1793546657600,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 241,
+        "at": 1793546657813,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 242,
+        "at": 1793546657928,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 243,
+        "at": 1793546658139,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 244,
+        "at": 1793546658247,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 245,
+        "at": 1793546658459,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 246,
+        "at": 1793546658567,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 247,
+        "at": 1793546658779,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 248,
+        "at": 1793546658895,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 249,
+        "at": 1793546659111,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 250,
+        "at": 1793546659225,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 251,
+        "at": 1793546659441,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 252,
+        "at": 1793546659560,
+        "kind": "hc",
+        "command": "get t15",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 253,
+        "at": 1793546662637,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 254,
+        "at": 1793546662754,
+        "kind": "hc",
+        "command": "ls",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 255,
+        "at": 1793546662816,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 256,
+        "at": 1793546662936,
+        "kind": "hc",
+        "command": "exec",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 257,
+        "at": 1793546663029,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 258,
+        "at": 1793546663143,
+        "kind": "hc",
+        "command": "ls",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 259,
+        "at": 1793546663205,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 260,
+        "at": 1793546663375,
+        "kind": "app",
+        "command": "tab.new",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 261,
+        "at": 1793546663453,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 262,
+        "at": 1793546663567,
+        "kind": "hc",
+        "command": "get t16",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 263,
+        "at": 1793546663783,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 264,
+        "at": 1793546663905,
+        "kind": "hc",
+        "command": "get t16",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 265,
+        "at": 1793546663963,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 266,
+        "at": 1793546664121,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 267,
+        "at": 1793546664643,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 268,
+        "at": 1793546664809,
+        "kind": "app",
+        "command": "tab.new",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 269,
+        "at": 1793546664885,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 270,
+        "at": 1793546664996,
+        "kind": "hc",
+        "command": "get t17",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 271,
+        "at": 1793546665210,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 272,
+        "at": 1793546665320,
+        "kind": "hc",
+        "command": "get t17",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 273,
+        "at": 1793546665382,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 274,
+        "at": 1793546665551,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 275,
+        "at": 1793546665768,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 276,
+        "at": 1793546665943,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 277,
+        "at": 1793546666011,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 278,
+        "at": 1793546666186,
+        "kind": "app",
+        "command": "tab.new",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 279,
+        "at": 1793546691374,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 280,
+        "at": 1793546691488,
+        "kind": "hc",
+        "command": "get t2",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 281,
+        "at": 1793546691549,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 282,
+        "at": 1793546691664,
+        "kind": "hc",
+        "command": "get t3",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 283,
+        "at": 1793546691725,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 284,
+        "at": 1793546691837,
+        "kind": "hc",
+        "command": "get t4",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 285,
+        "at": 1793546691896,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 286,
+        "at": 1793546692001,
+        "kind": "hc",
+        "command": "get t5",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 287,
+        "at": 1793546692057,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 288,
+        "at": 1793546692168,
+        "kind": "hc",
+        "command": "get t6",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 289,
+        "at": 1793546692225,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 290,
+        "at": 1793546692335,
+        "kind": "hc",
+        "command": "get t7",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 291,
+        "at": 1793546692398,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 292,
+        "at": 1793546692507,
+        "kind": "hc",
+        "command": "get t8",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 293,
+        "at": 1793546692567,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 294,
+        "at": 1793546692675,
+        "kind": "hc",
+        "command": "get t9",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 295,
+        "at": 1793546692734,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 296,
+        "at": 1793546692851,
+        "kind": "hc",
+        "command": "get t10",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 297,
+        "at": 1793546692914,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 298,
+        "at": 1793546693028,
+        "kind": "hc",
+        "command": "get t11",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 299,
+        "at": 1793546693093,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 300,
+        "at": 1793546693217,
+        "kind": "hc",
+        "command": "get t12",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 301,
+        "at": 1793546693281,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 302,
+        "at": 1793546693399,
+        "kind": "hc",
+        "command": "get t13",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 303,
+        "at": 1793546693461,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 304,
+        "at": 1793546693576,
+        "kind": "hc",
+        "command": "get t16",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 305,
+        "at": 1793546693638,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 306,
+        "at": 1793546693752,
+        "kind": "hc",
+        "command": "get t17",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 307,
+        "at": 1793546693817,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 308,
+        "at": 1793546693989,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 309,
+        "at": 1793546694222,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 310,
+        "at": 1793546694338,
+        "kind": "hc",
+        "command": "machine rm",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 311,
+        "at": 1793546694810,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 312,
+        "at": 1793546695029,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 313,
+        "at": 1793546695196,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 314,
+        "at": 1793546695259,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 315,
+        "at": 1793546695422,
+        "kind": "app",
+        "command": "app.quit",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 316,
+        "at": 1793546695538,
+        "kind": "app",
+        "command": "verify exit",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 317,
+        "at": 1793546695595,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 318,
+        "at": 1793546695709,
+        "kind": "hc",
+        "command": "server stop",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 319,
+        "at": 1793546695924,
+        "kind": "hc",
+        "command": "verify exit",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 320,
+        "at": 1793546695927,
+        "kind": "hc",
+        "command": "verify exit",
+        "selectorSha256": "c2dc32b999df351eaca5e4013825e46a672a686c89e0402ad12dffa67c4394d0",
+        "phase": "cleanup",
+        "result": "ok"
+      }
+    ]
+  },
+  "privateCoreId": "1a53f94978b0e8ba2f6d79f5972e7118",
+  "privateCorePid": 86780,
+  "privateHolderPid": 86953,
+  "appPid": 87297,
+  "launcherPid": 87297,
+  "launcherExitCode": 0,
+  "assertions": [
+    {
+      "label": "Fresh positively verified private core starts empty",
+      "passed": true
+    },
+    {
+      "label": "Exact nonce sentinel belongs to the verified private core",
+      "passed": true
+    },
+    {
+      "label": "Full sentinel generation and QA ownership verified",
+      "passed": true
+    },
+    {
+      "label": "Profile roots are fresh private directories and no control environment carries CODEX_HOME or CLAUDE_CONFIG_DIR",
+      "passed": true
+    },
+    {
+      "label": "Private probe mod mission-control-account-profile-probe passes herdr-app check in the private app home only",
+      "passed": true
+    },
+    {
+      "label": "Private app uses the original verified core generation",
+      "passed": true
+    },
+    {
+      "label": "No native layout/mod errors",
+      "passed": true
+    },
+    {
+      "label": "Installed help (hc 0.1.16, herdr-app 0.1.11): hc exec --env <K=V> present; hc run --env absent (options --bg --cwd --help --json --keep --label --name --no-notify --no-parent --on --outlive-parent --parent --rm --timeout); env argument on no launch command (tab.new args name,space,folder,argv,task,mod,props); mod exec(command,args,{cwd,on}) has no env option per the reviewed contract",
+      "passed": true
+    },
+    {
+      "label": "Probe mod publishes Herdr live terminals(), including the private sentinel",
+      "passed": true
+    },
+    {
+      "label": "Real PID-bound native input reached the private probe GPUI handler (shared inputs=1) before any profile launch",
+      "passed": true
+    },
+    {
+      "label": "tab.new env argv codex profile A: local core runs toy PID 88135 (/private/tmp/mcqa-g3U5Ai/toy-bin/codex) as terminal t2 in /private/tmp/mcqa-g3U5Ai/fixture-repo with CODEX_HOME=/private/tmp/mcqa-g3U5Ai/profiles/codex-a from argv [\"/usr/bin/env\",\"CODEX_HOME=/private/tmp/mcqa-g3U5Ai/profiles/codex-a\",\"/private/tmp/mcqa-g3U5Ai/toy-bin/codex\"]",
+      "passed": true
+    },
+    {
+      "label": "tab.new env argv codex profile A: Herdr classifies t2 as the codex agent (app codex, status idle), not a shell",
+      "passed": true
+    },
+    {
+      "label": "tab.new env argv codex profile A: task \"qa profile task ncdkmkcj tabnew codex a\" reached toy PID 88135 as the Herdr first message (its last argument)",
+      "passed": true
+    },
+    {
+      "label": "tab.new env argv codex profile B: local core runs toy PID 88239 (/private/tmp/mcqa-g3U5Ai/toy-bin/codex) as terminal t3 in /private/tmp/mcqa-g3U5Ai/fixture-repo with CODEX_HOME=/private/tmp/mcqa-g3U5Ai/profiles/codex-b from argv [\"/usr/bin/env\",\"CODEX_HOME=/private/tmp/mcqa-g3U5Ai/profiles/codex-b\",\"/private/tmp/mcqa-g3U5Ai/toy-bin/codex\"]",
+      "passed": true
+    },
+    {
+      "label": "tab.new env argv codex profile B: Herdr classifies t3 as the codex agent (app codex, status idle), not a shell",
+      "passed": true
+    },
+    {
+      "label": "tab.new env argv codex profile B: task \"qa profile task ncdkmkcj tabnew codex b\" reached toy PID 88239 as the Herdr first message (its last argument)",
+      "passed": true
+    },
+    {
+      "label": "tab.new env argv claude profile A: local core runs toy PID 88339 (/private/tmp/mcqa-g3U5Ai/toy-bin/claude) as terminal t4 in /private/tmp/mcqa-g3U5Ai/fixture-repo with CLAUDE_CONFIG_DIR=/private/tmp/mcqa-g3U5Ai/profiles/claude-a from argv [\"/usr/bin/env\",\"CLAUDE_CONFIG_DIR=/private/tmp/mcqa-g3U5Ai/profiles/claude-a\",\"/private/tmp/mcqa-g3U5Ai/toy-bin/claude\"]",
+      "passed": true
+    },
+    {
+      "label": "tab.new env argv claude profile A: Herdr classifies t4 as the claude agent (app claude-code, status idle), not a shell",
+      "passed": true
+    },
+    {
+      "label": "tab.new env argv claude profile A: task \"qa profile task ncdkmkcj tabnew claude a\" reached toy PID 88339 as the Herdr first message (its last argument)",
+      "passed": true
+    },
+    {
+      "label": "tab.new env argv claude profile B: local core runs toy PID 88489 (/private/tmp/mcqa-g3U5Ai/toy-bin/claude) as terminal t5 in /private/tmp/mcqa-g3U5Ai/fixture-repo with CLAUDE_CONFIG_DIR=/private/tmp/mcqa-g3U5Ai/profiles/claude-b from argv [\"/usr/bin/env\",\"CLAUDE_CONFIG_DIR=/private/tmp/mcqa-g3U5Ai/profiles/claude-b\",\"/private/tmp/mcqa-g3U5Ai/toy-bin/claude\"]",
+      "passed": true
+    },
+    {
+      "label": "tab.new env argv claude profile B: Herdr classifies t5 as the claude agent (app claude-code, status idle), not a shell",
+      "passed": true
+    },
+    {
+      "label": "tab.new env argv claude profile B: task \"qa profile task ncdkmkcj tabnew claude b\" reached toy PID 88489 as the Herdr first message (its last argument)",
+      "passed": true
+    },
+    {
+      "label": "tab.new env argv codex profile A: existing terminal t2 (PID 88135, created 1793546569543) kept CODEX_HOME=/private/tmp/mcqa-g3U5Ai/profiles/codex-a after later profile launches and took hc send input; new launches only, no hot switch",
+      "passed": true
+    },
+    {
+      "label": "tab.new env argv claude profile A: existing terminal t4 (PID 88339, created 1793546572428) kept CLAUDE_CONFIG_DIR=/private/tmp/mcqa-g3U5Ai/profiles/claude-a after later profile launches and took hc send input; new launches only, no hot switch",
+      "passed": true
+    },
+    {
+      "label": "Capability app-tab-new-env-argv: SUPPORTED for new launches; codex A t2/PID 88135 /private/tmp/mcqa-g3U5Ai/profiles/codex-a; codex B t3/PID 88239 /private/tmp/mcqa-g3U5Ai/profiles/codex-b; claude A t4/PID 88339 /private/tmp/mcqa-g3U5Ai/profiles/claude-a; claude B t5/PID 88489 /private/tmp/mcqa-g3U5Ai/profiles/claude-b; A sessions kept their roots after B",
+      "passed": true
+    },
+    {
+      "label": "Observation: knownAgents() reports installed=true for an env wrapper around a missing tool; the wrapper hides a missing provider, so production must verify the wrapped executable itself",
+      "passed": true
+    },
+    {
+      "label": "programs.json run codex profile A (native click): local core runs toy PID 89112 (/private/tmp/mcqa-g3U5Ai/toy-bin/codex) as terminal t6 in /private/tmp/mcqa-g3U5Ai/fixture-repo with CODEX_HOME=/private/tmp/mcqa-g3U5Ai/profiles/codex-a from argv [\"/usr/bin/env\",\"CODEX_HOME=/private/tmp/mcqa-g3U5Ai/profiles/codex-a\",\"/private/tmp/mcqa-g3U5Ai/toy-bin/codex\"]",
+      "passed": true
+    },
+    {
+      "label": "programs.json run codex profile A (native click): Herdr classifies t6 as the codex agent (app codex, status idle), not a shell",
+      "passed": true
+    },
+    {
+      "label": "programs.json run codex profile A (native click): task \"qa profile task click codex 1\" reached toy PID 89112 as the Herdr first message (its last argument)",
+      "passed": true
+    },
+    {
+      "label": "programs.json run claude profile A (native click): local core runs toy PID 89496 (/private/tmp/mcqa-g3U5Ai/toy-bin/claude) as terminal t7 in /private/tmp/mcqa-g3U5Ai/fixture-repo with CLAUDE_CONFIG_DIR=/private/tmp/mcqa-g3U5Ai/profiles/claude-a from argv [\"/usr/bin/env\",\"CLAUDE_CONFIG_DIR=/private/tmp/mcqa-g3U5Ai/profiles/claude-a\",\"/private/tmp/mcqa-g3U5Ai/toy-bin/claude\"]",
+      "passed": true
+    },
+    {
+      "label": "programs.json run claude profile A (native click): Herdr classifies t7 as the claude agent (app claude-code, status idle), not a shell",
+      "passed": true
+    },
+    {
+      "label": "programs.json run claude profile A (native click): task \"qa profile task click claude 2\" reached toy PID 89496 as the Herdr first message (its last argument)",
+      "passed": true
+    },
+    {
+      "label": "programs.json run codex profile B (native click): local core runs toy PID 89864 (/private/tmp/mcqa-g3U5Ai/toy-bin/codex) as terminal t8 in /private/tmp/mcqa-g3U5Ai/fixture-repo with CODEX_HOME=/private/tmp/mcqa-g3U5Ai/profiles/codex-b from argv [\"/usr/bin/env\",\"CODEX_HOME=/private/tmp/mcqa-g3U5Ai/profiles/codex-b\",\"/private/tmp/mcqa-g3U5Ai/toy-bin/codex\"]",
+      "passed": true
+    },
+    {
+      "label": "programs.json run codex profile B (native click): Herdr classifies t8 as the codex agent (app codex, status idle), not a shell",
+      "passed": true
+    },
+    {
+      "label": "programs.json run codex profile B (native click): task \"qa profile task click codex 3\" reached toy PID 89864 as the Herdr first message (its last argument)",
+      "passed": true
+    },
+    {
+      "label": "programs.json run claude profile B (native click): local core runs toy PID 90251 (/private/tmp/mcqa-g3U5Ai/toy-bin/claude) as terminal t9 in /private/tmp/mcqa-g3U5Ai/fixture-repo with CLAUDE_CONFIG_DIR=/private/tmp/mcqa-g3U5Ai/profiles/claude-b from argv [\"/usr/bin/env\",\"CLAUDE_CONFIG_DIR=/private/tmp/mcqa-g3U5Ai/profiles/claude-b\",\"/private/tmp/mcqa-g3U5Ai/toy-bin/claude\"]",
+      "passed": true
+    },
+    {
+      "label": "programs.json run claude profile B (native click): Herdr classifies t9 as the claude agent (app claude-code, status idle), not a shell",
+      "passed": true
+    },
+    {
+      "label": "programs.json run claude profile B (native click): task \"qa profile task click claude 4\" reached toy PID 90251 as the Herdr first message (its last argument)",
+      "passed": true
+    },
+    {
+      "label": "programs.json run codex profile A (native click): existing terminal t6 (PID 89112, created 1793546588624) kept CODEX_HOME=/private/tmp/mcqa-g3U5Ai/profiles/codex-a after later profile launches and took native keyboard input; new launches only, no hot switch",
+      "passed": true
+    },
+    {
+      "label": "programs.json run claude profile A (native click): existing terminal t7 (PID 89496, created 1793546590750) kept CLAUDE_CONFIG_DIR=/private/tmp/mcqa-g3U5Ai/profiles/claude-a after later profile launches and took hc send input; new launches only, no hot switch",
+      "passed": true
+    },
+    {
+      "label": "Capability programs-run-env-wrapper: SUPPORTED for new launches; codex A t6/PID 89112 /private/tmp/mcqa-g3U5Ai/profiles/codex-a; claude A t7/PID 89496 /private/tmp/mcqa-g3U5Ai/profiles/claude-a; codex B t8/PID 89864 /private/tmp/mcqa-g3U5Ai/profiles/codex-b; claude B t9/PID 90251 /private/tmp/mcqa-g3U5Ai/profiles/claude-b; programs.json A->B changed only later launches",
+      "passed": true
+    },
+    {
+      "label": "hc run env argv codex profile A: local core runs toy PID 91629 (/private/tmp/mcqa-g3U5Ai/toy-bin/codex) as terminal t10 in /private/tmp/mcqa-g3U5Ai/fixture-repo with CODEX_HOME=/private/tmp/mcqa-g3U5Ai/profiles/codex-a from argv [\"/usr/bin/env\",\"CODEX_HOME=/private/tmp/mcqa-g3U5Ai/profiles/codex-a\",\"/private/tmp/mcqa-g3U5Ai/toy-bin/codex\"]",
+      "passed": true
+    },
+    {
+      "label": "hc run env argv codex profile A: Herdr classifies t10 as the codex agent (app codex, status idle), not a shell",
+      "passed": true
+    },
+    {
+      "label": "hc run env argv codex profile A: task \"qa profile task ncdkmkcj core codex a\" reached toy PID 91629 through hc send",
+      "passed": true
+    },
+    {
+      "label": "hc run env argv codex profile B: local core runs toy PID 91756 (/private/tmp/mcqa-g3U5Ai/toy-bin/codex) as terminal t11 in /private/tmp/mcqa-g3U5Ai/fixture-repo with CODEX_HOME=/private/tmp/mcqa-g3U5Ai/profiles/codex-b from argv [\"/usr/bin/env\",\"CODEX_HOME=/private/tmp/mcqa-g3U5Ai/profiles/codex-b\",\"/private/tmp/mcqa-g3U5Ai/toy-bin/codex\"]",
+      "passed": true
+    },
+    {
+      "label": "hc run env argv codex profile B: Herdr classifies t11 as the codex agent (app codex, status idle), not a shell",
+      "passed": true
+    },
+    {
+      "label": "hc run env argv codex profile B: task \"qa profile task ncdkmkcj core codex b\" reached toy PID 91756 through hc send",
+      "passed": true
+    },
+    {
+      "label": "hc run env argv claude profile A: local core runs toy PID 91868 (/private/tmp/mcqa-g3U5Ai/toy-bin/claude) as terminal t12 in /private/tmp/mcqa-g3U5Ai/fixture-repo with CLAUDE_CONFIG_DIR=/private/tmp/mcqa-g3U5Ai/profiles/claude-a from argv [\"/usr/bin/env\",\"CLAUDE_CONFIG_DIR=/private/tmp/mcqa-g3U5Ai/profiles/claude-a\",\"/private/tmp/mcqa-g3U5Ai/toy-bin/claude\"]",
+      "passed": true
+    },
+    {
+      "label": "hc run env argv claude profile A: Herdr classifies t12 as the claude agent (app claude-code, status idle), not a shell",
+      "passed": true
+    },
+    {
+      "label": "hc run env argv claude profile A: task \"qa profile task ncdkmkcj core claude a\" reached toy PID 91868 through hc send",
+      "passed": true
+    },
+    {
+      "label": "hc run env argv claude profile B: local core runs toy PID 91984 (/private/tmp/mcqa-g3U5Ai/toy-bin/claude) as terminal t13 in /private/tmp/mcqa-g3U5Ai/fixture-repo with CLAUDE_CONFIG_DIR=/private/tmp/mcqa-g3U5Ai/profiles/claude-b from argv [\"/usr/bin/env\",\"CLAUDE_CONFIG_DIR=/private/tmp/mcqa-g3U5Ai/profiles/claude-b\",\"/private/tmp/mcqa-g3U5Ai/toy-bin/claude\"]",
+      "passed": true
+    },
+    {
+      "label": "hc run env argv claude profile B: Herdr classifies t13 as the claude agent (app claude-code, status idle), not a shell",
+      "passed": true
+    },
+    {
+      "label": "hc run env argv claude profile B: task \"qa profile task ncdkmkcj core claude b\" reached toy PID 91984 through hc send",
+      "passed": true
+    },
+    {
+      "label": "hc run env argv codex profile A: existing terminal t10 (PID 91629, created 1793546609151) kept CODEX_HOME=/private/tmp/mcqa-g3U5Ai/profiles/codex-a after later profile launches and took hc send input; new launches only, no hot switch",
+      "passed": true
+    },
+    {
+      "label": "hc run env argv claude profile A: existing terminal t12 (PID 91868, created 1793546622272) kept CLAUDE_CONFIG_DIR=/private/tmp/mcqa-g3U5Ai/profiles/claude-a after later profile launches and took hc send input; new launches only, no hot switch",
+      "passed": true
+    },
+    {
+      "label": "Capability core-hc-run-env-argv: SUPPORTED for new launches; codex A t10/PID 91629 /private/tmp/mcqa-g3U5Ai/profiles/codex-a; codex B t11/PID 91756 /private/tmp/mcqa-g3U5Ai/profiles/codex-b; claude A t12/PID 91868 /private/tmp/mcqa-g3U5Ai/profiles/claude-a; claude B t13/PID 91984 /private/tmp/mcqa-g3U5Ai/profiles/claude-b",
+      "passed": true
+    },
+    {
+      "label": "Rejected hc run --env created no terminal",
+      "passed": true
+    },
+    {
+      "label": "Gate refuses core-hc-run-env-flag: hc run --env unsupported (absent from installed help) - herdr-core run: {\"error\":{\"hint\":\"check the program name and cwd\",\"kind\":\"spawn_failed\",\"message\":\"cannot start \\\"--env\\\": No such file or directory (os error 2)\"}}",
+      "passed": true
+    },
+    {
+      "label": "Rejected tab.new env argument created no tab or terminal",
+      "passed": true
+    },
+    {
+      "label": "Gate refuses app-tab-new-env-argument: tab.new env argument unsupported (absent from installed help) - Herdr do: { \"error\": \"tab.new: unknown argument(s): env; valid arguments: name, space, folder, argv, task, mod, props\"",
+      "passed": true
+    },
+    {
+      "label": "Gate refuses app-tab-new-assignment-argv: toy launch unsupported (absent from installed help) - tab.new assignment argv codex profile A: foreground bash never became the toy; Herdr shows shell (shell); its task reached no toy",
+      "passed": true
+    },
+    {
+      "label": "hc exec --env created no terminal",
+      "passed": true
+    },
+    {
+      "label": "hc exec --env delivered CODEX_HOME=/private/tmp/mcqa-g3U5Ai/profiles/codex-a to one-shot toy PID 93031 (exit 0) without a terminal",
+      "passed": true
+    },
+    {
+      "label": "Gate refuses core-hc-exec-env: terminal launch unsupported - hc exec --env sets per-process env for one-shot commands only (e.g. a future anonymous status probe); it creates no terminal, agent classification or task routing",
+      "passed": true
+    },
+    {
+      "label": "baseline codex without profile selection: local core runs toy PID 93063 (/private/tmp/mcqa-g3U5Ai/toy-bin/codex) as terminal t16 in /private/tmp/mcqa-g3U5Ai/fixture-repo with CODEX_HOME=unset from argv [\"/private/tmp/mcqa-g3U5Ai/toy-bin/codex\"]",
+      "passed": true
+    },
+    {
+      "label": "baseline codex without profile selection: Herdr classifies t16 as the codex agent (app codex, status idle), not a shell",
+      "passed": true
+    },
+    {
+      "label": "baseline codex without profile selection: task \"qa profile task ncdkmkcj baseline codex\" reached toy PID 93063 as the Herdr first message (its last argument)",
+      "passed": true
+    },
+    {
+      "label": "baseline claude without profile selection: local core runs toy PID 93135 (/private/tmp/mcqa-g3U5Ai/toy-bin/claude) as terminal t17 in /private/tmp/mcqa-g3U5Ai/fixture-repo with CLAUDE_CONFIG_DIR=unset from argv [\"/private/tmp/mcqa-g3U5Ai/toy-bin/claude\"]",
+      "passed": true
+    },
+    {
+      "label": "baseline claude without profile selection: Herdr classifies t17 as the claude agent (app claude-code, status idle), not a shell",
+      "passed": true
+    },
+    {
+      "label": "baseline claude without profile selection: task \"qa profile task ncdkmkcj baseline claude\" reached toy PID 93135 as the Herdr first message (its last argument)",
+      "passed": true
+    },
+    {
+      "label": "Capability baseline-no-selection: SUPPORTED for new launches; codex t16 CODEX_HOME unset; claude t17 CLAUDE_CONFIG_DIR unset",
+      "passed": true
+    },
+    {
+      "label": "Gate refuses app-tab-new-env-argv@qa-server: toy launch unsupported - remote tab.new env argv codex profile R on qa-server: foreground bash never became the toy; Herdr shows codex",
+      "passed": true
+    },
+    {
+      "label": "All 14 observed profile sessions kept their terminal generation and foreground PID through every later launch",
+      "passed": true
+    },
+    {
+      "label": "Toy codex actor /private/tmp/mcqa-g3U5Ai/toy-bin/codex is unchanged (sha256 e581ba9a16f8a210); no provider CLI was launched",
+      "passed": true
+    },
+    {
+      "label": "Toy claude actor /private/tmp/mcqa-g3U5Ai/toy-bin/claude is unchanged (sha256 d7b14cd073211608); no provider CLI was launched",
+      "passed": true
+    },
+    {
+      "label": "Toy codex actor /private/tmp/mcqa-OZqB2s/toy-bin/codex is unchanged (sha256 a067d4f2b6211e70); no provider CLI was launched",
+      "passed": true
+    },
+    {
+      "label": "Toy claude actor /private/tmp/mcqa-OZqB2s/toy-bin/claude is unchanged (sha256 e3632efd29285272); no provider CLI was launched",
+      "passed": true
+    },
+    {
+      "label": "Profile roots hold no auth, credential, token or session file (0 entries in total)",
+      "passed": true
+    },
+    {
+      "label": "Private app/core control environments still carry no profile variable (no global authentication mutation)",
+      "passed": true
+    },
+    {
+      "label": "No native app or mod errors after every profile launch",
+      "passed": true
+    },
+    {
+      "label": "ACCOUNT-PROFILE LAUNCH ROUTING GATE PASS (TASK-067, new launches only): supported app-tab-new-env-argv, programs-run-env-wrapper, core-hc-run-env-argv; remote unsupported (toy launch); refused core-hc-run-env-flag=hc run --env, app-tab-new-env-argument=tab.new env argument, app-tab-new-assignment-argv=toy launch, core-hc-exec-env=terminal launch, app-tab-new-env-argv@qa-server=toy launch. Toy actors only: no login/logout, credential access or copying, paid turn, hot switch or authenticated resume claim",
+      "passed": true
+    },
+    {
+      "label": "Scenario used real native input and captured a native frame",
+      "passed": true
+    }
+  ],
+  "inputActions": [
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 87297,
+      "windowId": 12617,
+      "x": 399.5348849798465,
+      "y": 327.13386318686696,
+      "control": "Check native input",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-7cd464c378080d1b0ca5ac51/profile-observe-1.png",
+        "sha256": "b6afb7abef1a04d30a1fde526e07c3e751fe96474005962e6d74ac098533fe44",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 87297,
+      "windowId": 12617,
+      "x": 400.4651201363094,
+      "y": 371.6149142628361,
+      "control": "Start codex profile",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-7cd464c378080d1b0ca5ac51/profile-observe-2.png",
+        "sha256": "45540467b9b0dc9cfc12467ffebf0e3b3f2b22f6f8d31a0f825fc843a620098b",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 87297,
+      "windowId": 12617,
+      "x": 400.4651186757799,
+      "y": 422.9468217636512,
+      "control": "Start claude profile",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-7cd464c378080d1b0ca5ac51/profile-observe-3.png",
+        "sha256": "4684bbafad99b6587e054bf18d54420d52084c944af8d237ac280f6beff07b99",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 87297,
+      "windowId": 12617,
+      "x": 400.4651201372116,
+      "y": 371.6149142628361,
+      "control": "Start codex profile",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-7cd464c378080d1b0ca5ac51/profile-observe-4.png",
+        "sha256": "a3d40732b3d23e4856c836c1eebf3f96c3d7edaad997b11907f46fabe653f081",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 87297,
+      "windowId": 12617,
+      "x": 400.4651186757799,
+      "y": 422.9468217636512,
+      "control": "Start claude profile",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-7cd464c378080d1b0ca5ac51/profile-observe-5.png",
+        "sha256": "66cfd9e2087d9e69c0ede7e781151067c8924928db3f69d62c3a9a4fab30e5c7",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 87297,
+      "windowId": 12617,
+      "x": 1158,
+      "y": 644,
+      "control": "terminal t6"
+    },
+    {
+      "kind": "key",
+      "pid": 87297,
+      "key": "n"
+    },
+    {
+      "kind": "key",
+      "pid": 87297,
+      "key": "c"
+    },
+    {
+      "kind": "key",
+      "pid": 87297,
+      "key": "d"
+    },
+    {
+      "kind": "key",
+      "pid": 87297,
+      "key": "k"
+    },
+    {
+      "kind": "key",
+      "pid": 87297,
+      "key": "m"
+    },
+    {
+      "kind": "key",
+      "pid": 87297,
+      "key": "k"
+    },
+    {
+      "kind": "key",
+      "pid": 87297,
+      "key": "c"
+    },
+    {
+      "kind": "key",
+      "pid": 87297,
+      "key": "j"
+    },
+    {
+      "kind": "key",
+      "pid": 87297,
+      "key": "space"
+    },
+    {
+      "kind": "key",
+      "pid": 87297,
+      "key": "k"
+    },
+    {
+      "kind": "key",
+      "pid": 87297,
+      "key": "e"
+    },
+    {
+      "kind": "key",
+      "pid": 87297,
+      "key": "p"
+    },
+    {
+      "kind": "key",
+      "pid": 87297,
+      "key": "t"
+    },
+    {
+      "kind": "key",
+      "pid": 87297,
+      "key": "space"
+    },
+    {
+      "kind": "key",
+      "pid": 87297,
+      "key": "c"
+    },
+    {
+      "kind": "key",
+      "pid": 87297,
+      "key": "o"
+    },
+    {
+      "kind": "key",
+      "pid": 87297,
+      "key": "d"
+    },
+    {
+      "kind": "key",
+      "pid": 87297,
+      "key": "e"
+    },
+    {
+      "kind": "key",
+      "pid": 87297,
+      "key": "x"
+    },
+    {
+      "kind": "key",
+      "pid": 87297,
+      "key": "space"
+    },
+    {
+      "kind": "key",
+      "pid": 87297,
+      "key": "3"
+    },
+    {
+      "kind": "key",
+      "pid": 87297,
+      "key": "enter"
+    }
+  ],
+  "frames": [
+    {
+      "label": "account-profile-start",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-7cd464c378080d1b0ca5ac51/account-profile-start.png",
+      "sha256": "b6afb7abef1a04d30a1fde526e07c3e751fe96474005962e6d74ac098533fe44",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "profile-observe-1",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-7cd464c378080d1b0ca5ac51/profile-observe-1.png",
+      "sha256": "b6afb7abef1a04d30a1fde526e07c3e751fe96474005962e6d74ac098533fe44",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "account-profile-tabnew",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-7cd464c378080d1b0ca5ac51/account-profile-tabnew.png",
+      "sha256": "45540467b9b0dc9cfc12467ffebf0e3b3f2b22f6f8d31a0f825fc843a620098b",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "profile-observe-2",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-7cd464c378080d1b0ca5ac51/profile-observe-2.png",
+      "sha256": "45540467b9b0dc9cfc12467ffebf0e3b3f2b22f6f8d31a0f825fc843a620098b",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "profile-observe-3",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-7cd464c378080d1b0ca5ac51/profile-observe-3.png",
+      "sha256": "4684bbafad99b6587e054bf18d54420d52084c944af8d237ac280f6beff07b99",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "profile-observe-4",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-7cd464c378080d1b0ca5ac51/profile-observe-4.png",
+      "sha256": "a3d40732b3d23e4856c836c1eebf3f96c3d7edaad997b11907f46fabe653f081",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "profile-observe-5",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-7cd464c378080d1b0ca5ac51/profile-observe-5.png",
+      "sha256": "66cfd9e2087d9e69c0ede7e781151067c8924928db3f69d62c3a9a4fab30e5c7",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "account-profile-switched",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-7cd464c378080d1b0ca5ac51/account-profile-switched.png",
+      "sha256": "09f39bf28b599aeb1d632354176ca6df6b4825d6462ba14516a3ab23be707715",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "account-profile-final",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-7cd464c378080d1b0ca5ac51/account-profile-final.png",
+      "sha256": "fea816991b4f114b2ea42658553dbe92a81f65013459ad2313efe55449714aa0",
+      "width": 2560,
+      "height": 1520
+    }
+  ],
+  "appCommands": [
+    {
+      "kind": "setup-or-service-command",
+      "command": "layout.switch",
+      "argumentKeys": [
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "tab.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name",
+        "space",
+        "task"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "tab.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name",
+        "space",
+        "task"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "tab.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name",
+        "space",
+        "task"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "tab.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name",
+        "space",
+        "task"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "tab.select",
+      "argumentKeys": [
+        "id"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "pane.focus",
+      "argumentKeys": [
+        "terminal"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "tab.new",
+      "argumentKeys": [
+        "argv",
+        "env",
+        "folder",
+        "name",
+        "space",
+        "task"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "tab.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name",
+        "space",
+        "task"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "tab.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name",
+        "space",
+        "task"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "tab.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name",
+        "space",
+        "task"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "tab.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name",
+        "space",
+        "task"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "app.quit",
+      "argumentKeys": []
+    }
+  ],
+  "packages": [],
+  "appErrors": [],
+  "cleanup": {
+    "attempted": true,
+    "stoppedOnlyOwnedProcesses": true,
+    "existingInstancesQueried": false,
+    "verifiedPrivateCore": true,
+    "verifiedPrivateApp": true,
+    "resourcesRemoved": true,
+    "refused": false
+  },
+  "harnessSourceSha256": "7be8b4073f5a08b52bde177d18f6cd4c64175b23351553d5a991c2067bafd851",
+  "boundary": "Task-owned GPUI app/core with PID-bound native input. Existing instances were not queried. Provider authentication is not proven."
+}

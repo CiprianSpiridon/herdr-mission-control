@@ -1,0 +1,247 @@
+{
+  "id": "root",
+  "type": "column",
+  "titlebar": "none",
+  "traffic_lights": [
+    12,
+    14
+  ],
+  "theme": "graphite",
+  "background": "canvas",
+  "terminal_padding": [
+    14,
+    12
+  ],
+  "preview": "layouts/mission-control.svg",
+  "children": [
+    {
+      "id": "mc-topbar",
+      "type": "block",
+      "size": {
+        "px": 42
+      },
+      "window_drag": true,
+      "content": {
+        "mod": "mission-control-tabs",
+        "props": {
+          "view": "topbar",
+          "swapTo": "mission-control-classic"
+        }
+      }
+    },
+    {
+      "id": "mc-body",
+      "type": "row",
+      "divider": {
+        "width": 1,
+        "color": "border"
+      },
+      "children": [
+        {
+          "id": "sidebar",
+          "type": "column",
+          "size": {
+            "px": 220
+          },
+          "min": 200,
+          "max": 480,
+          "background": "chrome",
+          "resizable": false,
+          "children": [
+            {
+              "id": "mc-rail-lists",
+              "type": "column",
+              "divider": {
+                "width": 1,
+                "color": "border"
+              },
+              "children": [
+                {
+                  "id": "mc-spaces",
+                  "type": "block",
+                  "size": {
+                    "weight": 1
+                  },
+                  "min": 32,
+                  "content": {
+                    "mod": "mission-control-spaces",
+                    "props": {
+                      "view": "list"
+                    }
+                  }
+                },
+                {
+                  "id": "mc-agents",
+                  "type": "block",
+                  "size": {
+                    "weight": 1
+                  },
+                  "min": 32,
+                  "content": {
+                    "mod": "mission-control-agents",
+                    "props": {
+                      "view": "list"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "id": "mc-rail-footer",
+              "type": "block",
+              "size": {
+                "px": 69
+              },
+              "content": {
+                "mod": "mission-control-spaces",
+                "props": {
+                  "view": "footer"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "mc-main",
+          "type": "column",
+          "divider": {
+            "width": 1,
+            "color": "border"
+          },
+          "children": [
+            {
+              "id": "mc-work",
+              "type": "column",
+              "size": {
+                "weight": 3
+              },
+              "min": 160,
+              "resizable": false,
+              "children": [
+                {
+                  "id": "mc-navigation",
+                  "type": "block",
+                  "size": {
+                    "px": 34
+                  },
+                  "content": {
+                    "mod": "mission-control-tabs",
+                    "props": {
+                      "view": "navigation"
+                    }
+                  }
+                },
+                {
+                  "id": "mc-work-stack",
+                  "type": "stack",
+                  "active": "jira",
+                  "children": [
+                    {
+                      "id": "jira",
+                      "type": "block",
+                      "content": {
+                        "mod": "mission-control-jira",
+                        "props": {
+                          "view": "panel",
+                          "hideHeader": true
+                        }
+                      }
+                    },
+                    {
+                      "id": "github",
+                      "type": "block",
+                      "content": {
+                        "mod": "mission-control-github",
+                        "props": {
+                          "view": "issues",
+                          "hideHeader": true
+                        }
+                      }
+                    },
+                    {
+                      "id": "pulls",
+                      "type": "block",
+                      "content": {
+                        "mod": "mission-control-github",
+                        "props": {
+                          "view": "pulls",
+                          "hideHeader": true
+                        }
+                      }
+                    },
+                    {
+                      "id": "gitlab",
+                      "type": "block",
+                      "content": {
+                        "mod": "mission-control-gitlab",
+                        "props": {
+                          "view": "issues",
+                          "hideHeader": true
+                        }
+                      }
+                    },
+                    {
+                      "id": "merges",
+                      "type": "block",
+                      "content": {
+                        "mod": "mission-control-gitlab",
+                        "props": {
+                          "view": "merges",
+                          "hideHeader": true
+                        }
+                      }
+                    },
+                    {
+                      "id": "sessions",
+                      "type": "block",
+                      "content": {
+                        "mod": "mission-control-sessions",
+                        "props": {
+                          "hideHeader": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "mc-terminals",
+              "type": "block",
+              "size": {
+                "weight": 2
+              },
+              "min": 120,
+              "padding": 8,
+              "content": {
+                "tab": "active",
+                "pane": {
+                  "gap": 8,
+                  "radius": 10,
+                  "background": "background",
+                  "lone": true,
+                  "border": {
+                    "width": 1,
+                    "color": "border"
+                  },
+                  "focus": {
+                    "width": 1,
+                    "color": "accent"
+                  },
+                  "header": {
+                    "content": {
+                      "mod": "pane"
+                    },
+                    "height": 30,
+                    "position": "top",
+                    "reveal": "always"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

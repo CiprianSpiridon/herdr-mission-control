@@ -1,0 +1,157 @@
+{
+  "schemaVersion": 1,
+  "verdict": "REJECT",
+  "plans": [
+    {
+      "name": "mission-control",
+      "reviewer": "founder_layout_accounts",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "b54b6dc6fd561439d01aa326afb5c88a59b8003667c9b29fcdb3d2c031199493",
+        "md": "b27b038a6e7d7b4ae411703d8a521b8d4d3e7ec9a028d582ea9888b655433c47"
+      },
+      "findings": []
+    },
+    {
+      "name": "mission-control-accounts",
+      "reviewer": "founder_layout_accounts",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "e48ec756a73430fc79eb2c6763ff36755bc5b14e3a5c85d295d4c9a890f5fe5f",
+        "md": "dcd360258edcea3551c42713e9e855ed5bcd4c054e27f7d3bf61e69c801194f7"
+      },
+      "findings": []
+    },
+    {
+      "name": "mission-control-agent-menu",
+      "reviewer": "founder_menu_spaces_agents",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "c513f04563cff04dc9755354d4570be1a2ee538d7303665b7398fcea0eda0655",
+        "md": "cd235537eea17e712ed913d39da816fd8c62c83c7b8764e2ed38f161d5aec5e9"
+      },
+      "findings": []
+    },
+    {
+      "name": "mission-control-agents",
+      "reviewer": "founder_menu_spaces_agents",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "5c7ba89e24a7ba8bba67c6a44c831b3013bba1a097a115e1b84c52b600c4a090",
+        "md": "ee1659cc7eacff32f9b6114a954673fef6efdc76524e762427179043ddae34db"
+      },
+      "findings": []
+    },
+    {
+      "name": "mission-control-spaces",
+      "reviewer": "founder_menu_spaces_agents",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "f8bb4049b35aeb9ae295dca17e100cb7e49d4fee3261b375b28a64acf8b4f057",
+        "md": "a96964be29bd1c00592fc15a44e0483cc0f6da5bc009a2a890bebe961bd1500c"
+      },
+      "findings": []
+    },
+    {
+      "name": "mission-control-jira",
+      "reviewer": "founder_trackers",
+      "mode": "FULL",
+      "verdict": "REJECT",
+      "blocks": 2,
+      "concerns": 1,
+      "sha256": {
+        "json": "04e1803a6364eb473e7624ccc7074fa96f245d760d8b1a828136350a77cd9cc8",
+        "md": "a380c9f55ec41a2906f34637a775de92e315875364d4ce02033fcde24e69798e"
+      },
+      "findings": [
+        {
+          "id": "JIRA-B1",
+          "class": "BLOCK",
+          "finding": "Existing implemented TASK032/033 paths were Create under a false greenfield premise."
+        },
+        {
+          "id": "JIRA-B2",
+          "class": "BLOCK",
+          "finding": "Both task IDs remained completed, so their revised contract supplement could be skipped."
+        },
+        {
+          "id": "JIRA-C1",
+          "class": "CONCERN",
+          "finding": "Canonical serverInfo.baseUrl vs custom displayUrl was not explicit in setup."
+        }
+      ]
+    },
+    {
+      "name": "mission-control-github",
+      "reviewer": "founder_trackers",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "ae52c45ac11cf7d26a72226292261cd21963adb2089beaa9d7dc4df3698c3366",
+        "md": "2556cd0f63a1eb1a7397c861ee258ff7d1a77513d8c1f81d49140f8541992839"
+      },
+      "findings": []
+    },
+    {
+      "name": "mission-control-tabs",
+      "reviewer": "founder_tabs_history",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "5fefe09706bd4f6619e406319a4d8925244700c00f56c1e1bde3b99f99c42916",
+        "md": "a317d512344d4465cbdca8513a036147e3c17a05328959e07277d8fcc5b1c60c"
+      },
+      "findings": []
+    },
+    {
+      "name": "mission-control-reopen",
+      "reviewer": "founder_tabs_history",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "23991fd3607fec1a1bae4fb1cb5fb4a384ffde64c3f3139b1aa73dd7604d1f20",
+        "md": "bc278db2c3e6a61884a864d709b0798fbe473d50e3078f45171a0f317859a177"
+      },
+      "findings": []
+    },
+    {
+      "name": "mission-control-sessions",
+      "reviewer": "founder_tabs_history",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "ce88641ec3cf5045460c9382f927eda275826586ab7398f37f2d6ddccf2df732",
+        "md": "6cffb3471d8196802f8eee8575d57bdee74881b64dbd6fc14355cdcbd4ac7619"
+      },
+      "findings": []
+    }
+  ],
+  "closedAfterReview": [
+    "JIRA-B1: TASK032/033 current existing paths now Modify; false universal greenfield claim replaced.",
+    "JIRA-B2: both IDs explicitly reopened and removed from completed, old receipts retained under execution.reopened; dependent034/036/037 remain gated.",
+    "JIRA-C1: site explicitly canonical serverInfo.baseUrl; setup probes before saving, preserves prior config on mismatch and explains custom displayUrl."
+  ]
+}

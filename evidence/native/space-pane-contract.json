@@ -1,0 +1,73 @@
+{
+  "focused": {
+    "space": "spf3deebcc1d7f2594a87508ad80161351",
+    "tab": "tbc364835b4d7365eb2047211d65498e26",
+    "terminal": null,
+    "shown": null,
+    "pane": "p5d0e6ec96380b434473aa81c14a645f3",
+    "agent": null,
+    "cwd": null
+  },
+  "props": {
+    "targetSpace": "qa-sp-5d93ef91"
+  },
+  "spaces": [
+    {
+      "id": "qa-sp-5d93ef91",
+      "active": false,
+      "tabs": [
+        {
+          "id": "qa-tab-5d93ef91",
+          "active": false
+        },
+        {
+          "id": "tb3768ad9b370c97cdb52622c86250151d",
+          "active": true
+        }
+      ]
+    },
+    {
+      "id": "spf3deebcc1d7f2594a87508ad80161351",
+      "active": true,
+      "tabs": [
+        {
+          "id": "tb0e72f4427557f099cf806f497eeb306c",
+          "active": false
+        },
+        {
+          "id": "tbc364835b4d7365eb2047211d65498e26",
+          "active": true
+        }
+      ]
+    }
+  ],
+  "panes": [
+    {
+      "pane": "pf89aa31fa52069887377c8de71387b22",
+      "tab": "qa-tab-5d93ef91",
+      "terminal": "t1",
+      "cwd": "/private/tmp/mcqa-vpJkUg/fixture-repo",
+      "focused": false
+    },
+    {
+      "pane": "pef7e6f60d5d83118f32788c744c8172d",
+      "tab": "tb3768ad9b370c97cdb52622c86250151d",
+      "terminal": "t2",
+      "cwd": "/private/tmp/mcqa-vpJkUg/other",
+      "focused": false
+    },
+    {
+      "pane": "p8a89acb1a57ca7f1f07525593084d204",
+      "tab": "tb0e72f4427557f099cf806f497eeb306c",
+      "terminal": "t3",
+      "cwd": "/private/tmp/mcqa-vpJkUg/fixture-repo",
+      "focused": false
+    },
+    {
+      "pane": "p5d0e6ec96380b434473aa81c14a645f3",
+      "tab": "tbc364835b4d7365eb2047211d65498e26",
+      "terminal": null,
+      "focused": true
+    }
+  ]
+}

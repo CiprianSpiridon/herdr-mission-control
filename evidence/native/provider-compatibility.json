@@ -1,0 +1,93 @@
+{
+  "v": 1,
+  "kind": "installed-provider-compatibility",
+  "evidenceKind": "live-installed-metadata",
+  "generatedAt": "2026-10-31T17:19:18.123Z",
+  "probeSourceSha256": "ec189eeeeab8947321d059b86a7775eed4fd93ef855b54aed07e272eaafe208a",
+  "collectorSourceSha256": "ea812325e4b24b38cf1d59a5b523c98f7519e73ef53fa72b875bd50420d7dff8",
+  "collectorBytes": 40424,
+  "platform": "darwin",
+  "pythonVersion": "3.14.6",
+  "bindingStoreStatus": "absent",
+  "providers": [
+    {
+      "provider": "codex",
+      "cliVersion": "0.166.0",
+      "sourceMode": "standard",
+      "sourcesRead": 1,
+      "disabledSources": 0,
+      "schemaStatus": "observed-compatible",
+      "formats": [
+        "codex-rollout-jsonl"
+      ],
+      "observedSessions": 12,
+      "unavailableObservations": 0,
+      "reportedContextFields": [
+        "usedTokens",
+        "windowTokens"
+      ],
+      "reportedQuotaObservations": 12,
+      "activeExactBindings": 0,
+      "measuredActiveContext": 0,
+      "measuredActiveQuota": 0,
+      "sharedAccountQuota": 0,
+      "truncated": true,
+      "compressedObservations": 0
+    },
+    {
+      "provider": "claude",
+      "cliVersion": "2.1.316",
+      "sourceMode": "standard",
+      "sourcesRead": 1,
+      "disabledSources": 0,
+      "schemaStatus": "observed-compatible",
+      "formats": [
+        "claude-project-jsonl"
+      ],
+      "observedSessions": 6,
+      "unavailableObservations": 2,
+      "reportedContextFields": [
+        "usedTokens"
+      ],
+      "reportedQuotaObservations": 0,
+      "activeExactBindings": 0,
+      "measuredActiveContext": 0,
+      "measuredActiveQuota": 0,
+      "sharedAccountQuota": 0,
+      "truncated": true,
+      "compressedObservations": 0
+    },
+    {
+      "provider": "grok",
+      "cliVersion": "1.0.70",
+      "sourceMode": "standard",
+      "sourcesRead": 1,
+      "disabledSources": 0,
+      "schemaStatus": "observed-compatible",
+      "formats": [
+        "grok-build-summary",
+        "grok-build-updates"
+      ],
+      "observedSessions": 5,
+      "unavailableObservations": 40,
+      "reportedContextFields": [],
+      "reportedQuotaObservations": 0,
+      "activeExactBindings": 0,
+      "measuredActiveContext": 0,
+      "measuredActiveQuota": 0,
+      "sharedAccountQuota": 0,
+      "truncated": true,
+      "compressedObservations": 0
+    }
+  ],
+  "status": "PASS",
+  "helperSourceSha256": {
+    "config.js": "2cea2d16c0faed2eef2f8105b0adc0c6098cf556a84297249b5bd9895eddf9a7",
+    "session-identity.js": "9cb414ff020c4c49c66018f8146f41261975790a4d4349da18f278f60131617e",
+    "session-bindings.js": "8ce735273c2d4e8ee9e63bed0036276d8afa69fc92f40c22fa30ddd10c815d99",
+    "usage-sources.js": "e5ed02f02e6c3648e165aed45adb32442334ea5b120c2ec8b9e6db5a1a643699",
+    "provider-observation.js": "17175cb47ad6e80949ffbf279014bba095712fb24fa4471438dc2d9eceeb24b1",
+    "context.js": "02df6dc993bfb321360844265338442b7481027e2ebc1d66c043295099e4295b",
+    "quota.js": "8bfef62c230a7ff960465f3b60299c2366bc3c96e1f083540edc4e0823113bb3"
+  }
+}

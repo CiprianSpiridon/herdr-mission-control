@@ -1,0 +1,471 @@
+{
+  "schemaVersion": 1,
+  "round": "github-contracts-v6",
+  "verdict": "APPROVE",
+  "plans": [
+    {
+      "name": "mission-control",
+      "reviewer": "founder_layout_accounts",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "eee3adf32b4d920b9b87e1f921cc86e3791bf16a9271ab04ec76094ebc35469d",
+        "md": "06cef6481e1579c2a3f8b0fa8833e9b5f1c665d0e9926c9261a7a159101f3328"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 16,
+      "validForCurrentHash": true,
+      "producerVerification": "Fresh read-only FULL review against current plan pairs, actual source, dependency DAG and execution ledger. GitHub revision6 closes source identity, independent discussion state and controlled action delivery defects; other plans reference the canonical owner without sibling runtime imports. Native, provider, package, install and publishing gates remain open."
+    },
+    {
+      "name": "mission-control-accounts",
+      "reviewer": "founder_layout_accounts",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "df1e2751c72526e5b14e99d2eb5de1913ac59b3e235ab4da6ac0a16245b3cf26",
+        "md": "3cae7c305000b598aead8fd55f8f8ef6335c804e6d5e8b1f1615adb79e7ba660"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 3,
+      "validForCurrentHash": true,
+      "producerVerification": "Fresh read-only FULL review against current plan pairs, actual source, dependency DAG and execution ledger. GitHub revision6 closes source identity, independent discussion state and controlled action delivery defects; other plans reference the canonical owner without sibling runtime imports. Native, provider, package, install and publishing gates remain open."
+    },
+    {
+      "name": "mission-control-agent-menu",
+      "reviewer": "founder_menu_spaces_agents",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "5b8feecd3e78a3530862c486f7dc84d2fb31489dec6dc551c913a7ae39d31dd3",
+        "md": "c08b935fafe6c0741b2229bc636416829f228d57c34c0b81794e876f54389498"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 8,
+      "validForCurrentHash": true,
+      "producerVerification": "Fresh read-only FULL review against current plan pairs, actual source, dependency DAG and execution ledger. GitHub revision6 closes source identity, independent discussion state and controlled action delivery defects; other plans reference the canonical owner without sibling runtime imports. Native, provider, package, install and publishing gates remain open."
+    },
+    {
+      "name": "mission-control-spaces",
+      "reviewer": "founder_menu_spaces_agents",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "7cf4013c6d9619f08bb5416b3e24f3bf7af0feed536710baf6e1efd3438aa092",
+        "md": "1d8742cdd3f6046288e5630fbd12bd160f512deddfb26b0bbfd79a00278821d1"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 4,
+      "validForCurrentHash": true,
+      "producerVerification": "Fresh read-only FULL review against current plan pairs, actual source, dependency DAG and execution ledger. GitHub revision6 closes source identity, independent discussion state and controlled action delivery defects; other plans reference the canonical owner without sibling runtime imports. Native, provider, package, install and publishing gates remain open."
+    },
+    {
+      "name": "mission-control-agents",
+      "reviewer": "founder_menu_spaces_agents",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "8ec1c690d98b058e6d37a64cf6d2eb3ec8f7b0d3c395d7f720fed3ea424c5b80",
+        "md": "e837b56b56db84e89bf5a5314cc530d9f3cd228db34abd4b9830abd9e0c87920"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 14,
+      "validForCurrentHash": true,
+      "producerVerification": "Fresh read-only FULL review against current plan pairs, actual source, dependency DAG and execution ledger. GitHub revision6 closes source identity, independent discussion state and controlled action delivery defects; other plans reference the canonical owner without sibling runtime imports. Native, provider, package, install and publishing gates remain open."
+    },
+    {
+      "name": "mission-control-tabs",
+      "reviewer": "founder_tabs_history",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "9f77a0266e47a23b4abe81b6d846b14bd4299f34f25cfeaa2bff7518a74bd851",
+        "md": "b885c5e6e8c844cbf3755c402891456c5625a644ace2146e55e9a1b582f91971"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 6,
+      "validForCurrentHash": true,
+      "producerVerification": "Fresh read-only FULL review against current plan pairs, actual source, dependency DAG and execution ledger. GitHub revision6 closes source identity, independent discussion state and controlled action delivery defects; other plans reference the canonical owner without sibling runtime imports. Native, provider, package, install and publishing gates remain open."
+    },
+    {
+      "name": "mission-control-sessions",
+      "reviewer": "founder_tabs_history",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "a8c2ca286e9832a9eba5f57a1ccb70ad8e3f4c46a8568d691305fea0b056bd06",
+        "md": "981e75e9b88b844cd581d241881269abc08cecdaff24a672d8693d9b6c7704ba"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 5,
+      "validForCurrentHash": true,
+      "producerVerification": "Fresh read-only FULL review against current plan pairs, actual source, dependency DAG and execution ledger. GitHub revision6 closes source identity, independent discussion state and controlled action delivery defects; other plans reference the canonical owner without sibling runtime imports. Native, provider, package, install and publishing gates remain open."
+    },
+    {
+      "name": "mission-control-reopen",
+      "reviewer": "founder_tabs_history",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "7743096ee7dfd6aeac94b7f6f2997831adc281515823477dd80bf724ec268aff",
+        "md": "12cfd206b0bc6f0233aff8b8d291f4ee55c79f68729112a6ddbf0dc046b54320"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 5,
+      "validForCurrentHash": true,
+      "producerVerification": "Fresh read-only FULL review against current plan pairs, actual source, dependency DAG and execution ledger. GitHub revision6 closes source identity, independent discussion state and controlled action delivery defects; other plans reference the canonical owner without sibling runtime imports. Native, provider, package, install and publishing gates remain open."
+    },
+    {
+      "name": "mission-control-jira",
+      "reviewer": "founder_trackers",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "5e1a0d8edde4fa0b25ee00c579866547033e440020a7d5f10f0dae3d7a13f277",
+        "md": "ecd5dd74b91af3d4a3257eb9a52be664e2eba8870cc4e49f500d3a23bb2a7c1c"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 10,
+      "validForCurrentHash": true,
+      "producerVerification": "Fresh read-only FULL review against current plan pairs, actual source, dependency DAG and execution ledger. GitHub revision6 closes source identity, independent discussion state and controlled action delivery defects; other plans reference the canonical owner without sibling runtime imports. Native, provider, package, install and publishing gates remain open."
+    },
+    {
+      "name": "mission-control-gitlab",
+      "reviewer": "founder_trackers",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "04bfc052f6b71dd91c95ed48b8dc4b6737d455baf8bd4b0bfcd44f9afbe92d9c",
+        "md": "9547724a2dc63be935ce30225a14d7684d4eba2a582551f61a6a3a0dbb8ec579"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 14,
+      "validForCurrentHash": true,
+      "producerVerification": "Fresh read-only FULL review against current plan pairs, actual source, dependency DAG and execution ledger. GitHub revision6 closes source identity, independent discussion state and controlled action delivery defects; other plans reference the canonical owner without sibling runtime imports. Native, provider, package, install and publishing gates remain open."
+    },
+    {
+      "name": "mission-control-github",
+      "reviewer": "founder_github_pr_model",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "16d79440f53608551da74a0937d89830e360ef6de2653a9e4d91a519b74f2114",
+        "md": "fda3df1f3d8c14b1c99709e18c003ae848523c38b14d771934c255b4feb1d425"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 8,
+      "validForCurrentHash": true,
+      "producerVerification": "Fresh read-only FULL review against current plan pairs, actual source, dependency DAG and execution ledger. GitHub revision6 closes source identity, independent discussion state and controlled action delivery defects; other plans reference the canonical owner without sibling runtime imports. Native, provider, package, install and publishing gates remain open."
+    }
+  ],
+  "reviewedExecutionSha256": "1d35d294f2b9fe437a64cec1b7f24f011ee2b2d2f3f56d74ca047c603c405b73",
+  "source": "Actual forked founder review reports in this conversation; each current hash checked before recording."
+}

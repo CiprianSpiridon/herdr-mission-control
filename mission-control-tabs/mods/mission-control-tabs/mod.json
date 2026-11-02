@@ -1,0 +1,9 @@
+{
+  "title": "Mission Control · Tabs",
+  "place": "none",
+  "overlay": {
+    "kind": "dialog",
+    "width": 560,
+    "height": 660
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "v": 1,
+  "name": "mission-control-reopen",
+  "artifacts": {
+    "assets/agent.svg": "e1b2039d6c2635ffcfddceff99109fb03e8ccb40359aed00fa88a6f3d8ad3eed",
+    "assets/check.svg": "1c80d14e7bbcd7fd3ce3027c7c72d4fc07192ff3fb9b96e86b26d1ab3d7b314e",
+    "assets/close.svg": "28e7ce6d33be8f07dedad8e80ee59e816b81a0e845f64613e3bb51c357da925b",
+    "assets/folder.svg": "3a46023f1ff23f2112b9e0955ad32690139e8f1c071ccfdbcae8e85295365f66",
+    "assets/more.svg": "a82bebdebdd8c147ef583c00b87788c4a196e04fce2a5e4a10f0ccbc432fdbe4",
+    "assets/sessions.svg": "40c70935bd80015005b85b9b42368e4dfdf44ac6a3392e2f6b7fd18a59159d9d",
+    "main.js": "0d28ca1055e49c36f7d5c166ec98098d176073dfb02c08d81d183c761102df1b",
+    "mod.json": "14e0279462825e2065511e316da0bba789bc0f882173171af624acac22fb78c2",
+    "NOTICE.md": "a8b5d717cd75101e42be39e0b87f0ee6c4d07e8c49d4e51334431195c2ae0ce0"
+  },
+  "sources": {
+    "src/assets/icons.json": "e15e5fd5234d4d3f8edc59a30bc4f45c878aa0bc662defde22877855704c1254",
+    "src/mods/mission-control-reopen/main.js": "e3be7fc3e260ca53b99dcb38480df191b0e0030a3567cf83d34aa85da4fd5804",
+    "src/mods/mission-control-reopen/mod.json": "17b19c100087adbff937dc4bbb3be9f9d21700908a09c8c68a6c93718e5023c0",
+    "src/shared/closed-tabs.js": "dfd23b0a384fe8312426675dcd0b56e6ea5ecda811e55b481832ffa151c9db3e",
+    "src/shared/config.js": "2cea2d16c0faed2eef2f8105b0adc0c6098cf556a84297249b5bd9895eddf9a7",
+    "src/shared/launch-preferences.js": "c70132d68a264054de91a25704c44c7f6c6cb2e380c93f6807842bdca5558fd9",
+    "src/shared/launch.js": "66cc52240b4c3563edfe2a52f83400d98581c4e08dfab188703b09fd7d7d8b55",
+    "src/shared/name-ownership.js": "24f4e7060bffdb1559e76091039fc1b1e076095d72cc8b44c14596d8a37ae784",
+    "src/shared/reopen.js": "1417e9aacdff787b3c10c7b7e15c6d47d7e02945c73971047e3b906e4ed4de8b",
+    "src/shared/resume.js": "8b8dbb58d08888d72929d29af3f5fd9854197cb34067d88c6a72fa3212f2eda8",
+    "src/shared/session-bindings.js": "8ce735273c2d4e8ee9e63bed0036276d8afa69fc92f40c22fa30ddd10c815d99",
+    "src/shared/session-identity.js": "9cb414ff020c4c49c66018f8146f41261975790a4d4349da18f278f60131617e",
+    "src/shared/space-repo.js": "464ff46525dc00fd74813104bb9fcc770d10fef2eb366decc6f18125a6f62d07",
+    "src/shared/tool-capabilities.js": "31bbf19a27d0621a8d758fdcb6d4f46a1788bd96d5d80331a938999df9012f05",
+    "src/shared/ui.js": "63653a7db2c610678b687fe0263aa078f9458336d411b5be4335cba2a4b8533b",
+    "src/shared/worktrees.js": "f9c7a8a8f60af73170ab2f0449178fd6ea597cc0a7fb68c18c0403d3fffe4cbb"
+  }
+}

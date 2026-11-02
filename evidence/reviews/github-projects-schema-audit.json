@@ -1,0 +1,38 @@
+{
+  "ok": true,
+  "date": "2026-10-31T07:26:04.386Z",
+  "sourceSha256": "18697943571e6ec868eaec147fe91b62b6061a529b7c184ab3c6a95ce9fc0fa7",
+  "graphqlSchema": {
+    "url": "https://raw.githubusercontent.com/octokit/graphql-schema/master/schema.json",
+    "sha256": "bbdb03f4006f4e34964d67d55385f1c8c47c4cacd507ccdc38af2544247ecddd"
+  },
+  "querySha256": "ba1e922fe66504376468ace7442885f70065150ea2b96e17fc29cdb8e8c5e1c0",
+  "selectedFields": 43,
+  "uniqueFields": [
+    "Query.repositoryOwner",
+    "RepositoryOwner.__typename",
+    "RepositoryOwner.login",
+    "User.projectV2",
+    "ProjectV2.id",
+    "ProjectV2.number",
+    "ProjectV2.owner",
+    "User.login",
+    "Organization.login",
+    "ProjectV2.fields",
+    "ProjectV2FieldConfigurationConnection.totalCount",
+    "ProjectV2FieldConfigurationConnection.pageInfo",
+    "PageInfo.hasNextPage",
+    "PageInfo.endCursor",
+    "ProjectV2FieldConfigurationConnection.nodes",
+    "ProjectV2FieldConfiguration.__typename",
+    "ProjectV2Field.id",
+    "ProjectV2IterationField.id",
+    "ProjectV2SingleSelectField.id",
+    "ProjectV2SingleSelectField.name",
+    "ProjectV2SingleSelectField.options",
+    "ProjectV2SingleSelectFieldOption.id",
+    "ProjectV2SingleSelectFieldOption.name",
+    "Organization.projectV2"
+  ],
+  "limits": "Offline audit of the fixed operation, named/inline fragments, field selections and required/provided argument names/scalar types. Not a live GitHub request or full GraphQL library validation."
+}

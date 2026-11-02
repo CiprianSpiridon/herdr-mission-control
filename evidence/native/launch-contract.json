@@ -1,0 +1,73 @@
+{
+  "acknowledgement": {
+    "space": "qa-sp-4ca52388",
+    "tab": "tbcd9ac292337a759b7979cc4b5d73b5ef",
+    "terminal": "t2"
+  },
+  "world": {
+    "spaces": [
+      {
+        "id": "qa-sp-4ca52388",
+        "name": "fixture-repo",
+        "folder": "/private/tmp/mcqa-DJGCu4/fixture-repo",
+        "machine": null,
+        "active": true,
+        "tabs": [
+          {
+            "id": "qa-tab-4ca52388",
+            "name": "1",
+            "active": false,
+            "settled": false,
+            "terminals": [
+              {
+                "terminal": "t1",
+                "pane": "pff7bb772848847fb28b1d561f699ba25",
+                "status": null,
+                "app": null,
+                "name": null,
+                "sub_agents": []
+              }
+            ]
+          },
+          {
+            "id": "tbcd9ac292337a759b7979cc4b5d73b5ef",
+            "name": "Contract probe",
+            "active": true,
+            "settled": false,
+            "terminals": [
+              {
+                "terminal": "t2",
+                "pane": "p4a3fadc417357d3cb6acb7882fec2a6e",
+                "status": null,
+                "app": null,
+                "name": null,
+                "sub_agents": []
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "recent": []
+  },
+  "raw": [
+    {
+      "address": "t2",
+      "created_ms": 1793395776350,
+      "argv": [
+        "/bin/zsh",
+        "-lic",
+        "\"$@\"; exec \"$0\" -li",
+        "/bin/zsh",
+        "python3",
+        "-u",
+        "-c",
+        "import time;print(\"owned launch contract\",flush=True);time.sleep(60)"
+      ],
+      "labels": {
+        "herdr.space": "qa-sp-4ca52388",
+        "herdr.tab": "tbcd9ac292337a759b7979cc4b5d73b5ef"
+      }
+    }
+  ]
+}

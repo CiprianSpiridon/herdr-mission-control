@@ -1,0 +1,26 @@
+{
+  "observedOn": "2026-10-30",
+  "sources": [
+    {
+      "command": "hc schema",
+      "fact": "Terminal.required includes created_ms uint64; foreground.pid is available; Status has no provider session ID."
+    },
+    {
+      "command": "hc ls --json and hc ls --all --json (field names only)",
+      "fact": "Envelope {hidden_finished,terminals}; summary rows omit raw argv/labels/created_ms. Closed summary adds exit_code/reason."
+    },
+    {
+      "command": "hc get <existing-address> --json (field names only)",
+      "fact": "Full raw Terminal includes address,argv,created_ms,cwd,foreground,labels,pid,state,title and other schema fields."
+    },
+    {
+      "command": "/opt/homebrew/lib/node_modules/@ulpi/browse/bin/browse-ax --help",
+      "fact": "Bundled binary exists; supports --pid tree/action/set-value/type/press/screenshot/state; not normally on PATH."
+    },
+    {
+      "file": "/Users/ciprian/.config/herdr-app/mods/workspace-chrome/main.js:43",
+      "fact": "Vanilla Add machine uses run(\"mod.open\",{name:\"machine-add\"})."
+    }
+  ],
+  "privacy": "Only schemas/key names/counts/help were printed. No terminal text, auth tokens or raw CLI arguments are included."
+}

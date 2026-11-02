@@ -1,0 +1,77 @@
+{
+  "ok": true,
+  "code": null,
+  "axInputProved": true,
+  "keyboardInputProved": true,
+  "input": "AXPress, keyboard and pointer",
+  "pid": 32340,
+  "bridge": "/opt/homebrew/lib/node_modules/@ulpi/browse/bin/browse-ax",
+  "permissions": {
+    "accessibility": true,
+    "postEvents": true
+  },
+  "pointerReady": true,
+  "beforeFrame": ".browse/sessions/mission-control-native-probe-lWruqD/probe-before.png",
+  "afterFrame": ".browse/sessions/mission-control-native-probe-lWruqD/probe-after.png",
+  "beforeHash": "be070366f60d615cae8f105800ac820c176a4d0838f4855622703f540fe6408e",
+  "afterHash": "561133fc08d11b192f4071543ec458d41abedb7a1bb2a91eb7997668b290b29c",
+  "actions": [
+    {
+      "kind": "AX",
+      "action": "AXPress",
+      "pid": 32340,
+      "path": [
+        0
+      ],
+      "role": "AXButton"
+    },
+    {
+      "kind": "window-bind",
+      "pid": 32340,
+      "windowId": 12999
+    },
+    {
+      "kind": "key",
+      "pid": 32340,
+      "key": "1"
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 32340,
+      "windowId": 12999,
+      "x": 330,
+      "y": 922
+    },
+    {
+      "kind": "pointer",
+      "button": "right",
+      "pid": 32340,
+      "windowId": 12999,
+      "x": 330,
+      "y": 922
+    },
+    {
+      "kind": "drag",
+      "pid": 32340,
+      "windowId": 12999,
+      "from": {
+        "x": 330,
+        "y": 922
+      },
+      "to": {
+        "x": 350,
+        "y": 922
+      }
+    },
+    {
+      "kind": "scroll",
+      "pid": 32340,
+      "windowId": 12999,
+      "deltaY": -120
+    }
+  ],
+  "boundary": "Native input capability available; mounted Herdr proof is still required.",
+  "driverSourceSha256": "07425ea836bca9aaf4efad45e1ae7810e8686b4b8b5ee5cde665e1d86cb2f75e",
+  "driverScriptSha256": "e600507467bc1400dda85b97a1bc6c1a6d33b2f8f9be2cdfa974d47e105ba246"
+}

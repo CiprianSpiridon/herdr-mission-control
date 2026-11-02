@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" data-view="mission-control">
+  <rect width="480" height="300" rx="8" fill="#101114"/>
+  <path d="M94 0v300M94 25h386M0 263h94" stroke="#2a2d33"/>
+  <rect x="104" y="7" width="88" height="12" rx="4" fill="#25282d"/>
+  <rect x="200" y="10" width="37" height="4" rx="2" fill="#6b7079"/>
+  <g fill="#91969f"><rect x="12" y="32" width="32" height="4" rx="2"/><rect x="12" y="123" width="29" height="4" rx="2"/><rect x="12" y="274" width="43" height="4" rx="2"/><rect x="12" y="286" width="54" height="4" rx="2"/></g>
+  <rect x="7" y="47" width="80" height="15" rx="4" fill="#25282d"/>
+  <g fill="#6b7079"><rect x="26" y="53" width="48" height="3" rx="1"/><rect x="26" y="75" width="37" height="3" rx="1"/><rect x="26" y="97" width="51" height="3" rx="1"/></g>
+  <g fill="#89b4fa"><rect x="12" y="51" width="7" height="7" rx="2"/><rect x="12" y="73" width="7" height="7" rx="2"/><rect x="12" y="95" width="7" height="7" rx="2"/></g>
+  <g fill="#91969f"><rect x="26" y="144" width="49" height="4" rx="2"/><rect x="26" y="182" width="43" height="4" rx="2"/><rect x="26" y="220" width="51" height="4" rx="2"/></g>
+  <g fill="#6b7079"><rect x="26" y="154" width="47" height="2" rx="1"/><rect x="26" y="160" width="35" height="2" rx="1"/><rect x="26" y="192" width="44" height="2" rx="1"/><rect x="26" y="198" width="36" height="2" rx="1"/><rect x="26" y="230" width="46" height="2" rx="1"/><rect x="26" y="236" width="33" height="2" rx="1"/></g>
+  <g fill="#89b4fa"><circle cx="16" cy="146" r="4"/><circle cx="16" cy="184" r="4"/><circle cx="16" cy="222" r="4"/></g>
+  <rect x="112" y="42" width="91" height="7" rx="2" fill="#e5e7eb"/>
+  <rect x="112" y="57" width="144" height="3" rx="1" fill="#6b7079"/>
+  <g fill="#91969f" data-region="work-sources"><rect data-source="jira" x="114" y="80" width="37" height="4" rx="2"/><rect data-source="github" x="174" y="80" width="42" height="4" rx="2"/><rect data-source="pulls" x="234" y="80" width="39" height="4" rx="2"/><rect data-source="gitlab" x="294" y="80" width="42" height="4" rx="2"/><rect data-source="merges" x="354" y="80" width="39" height="4" rx="2"/><rect data-source="sessions" x="414" y="80" width="44" height="4" rx="2"/></g>
+  <path d="M112 93h350" stroke="#2a2d33"/><path d="M112 93h35" stroke="#89b4fa" stroke-width="2"/>
+  <g fill="#17191d" stroke="#2a2d33"><rect x="112" y="107" width="109" height="174" rx="5"/><rect x="232" y="107" width="109" height="174" rx="5"/><rect x="352" y="107" width="109" height="174" rx="5"/></g>
+  <g fill="#91969f"><rect x="122" y="118" width="25" height="3" rx="1"/><rect x="242" y="118" width="46" height="3" rx="1"/><rect x="362" y="118" width="23" height="3" rx="1"/></g>
+  <g fill="#101114" stroke="#2a2d33"><rect x="120" y="134" width="93" height="56" rx="4"/><rect x="120" y="199" width="93" height="56" rx="4"/><rect x="240" y="134" width="93" height="56" rx="4"/><rect x="360" y="134" width="93" height="56" rx="4"/></g>
+  <g fill="#89b4fa"><rect x="128" y="143" width="29" height="3" rx="1"/><rect x="128" y="208" width="33" height="3" rx="1"/><rect x="248" y="143" width="27" height="3" rx="1"/><rect x="368" y="143" width="32" height="3" rx="1"/></g>
+  <g fill="#91969f"><rect x="128" y="154" width="71" height="4" rx="1"/><rect x="128" y="219" width="62" height="4" rx="1"/><rect x="248" y="154" width="74" height="4" rx="1"/><rect x="368" y="154" width="65" height="4" rx="1"/></g>
+  <g fill="#6b7079"><circle cx="132" cy="178" r="3"/><circle cx="146" cy="178" r="3"/><circle cx="160" cy="178" r="3"/><circle cx="132" cy="243" r="3"/><circle cx="146" cy="243" r="3"/><circle cx="160" cy="243" r="3"/><circle cx="252" cy="178" r="3"/><circle cx="266" cy="178" r="3"/><circle cx="280" cy="178" r="3"/><circle cx="372" cy="178" r="3"/><circle cx="386" cy="178" r="3"/><circle cx="400" cy="178" r="3"/></g>
+</svg>

@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "founder_gitlab_model_amendment",
+  "mode": "FULL",
+  "plan": "mission-control-gitlab",
+  "revision": 3,
+  "verdict": "REJECT",
+  "blocks": 1,
+  "concerns": 3,
+  "sha256": {
+    "json": "47520603c9ae5f60e54154ac0527c1672a8576b013cb936d64acb18347c3b6ac",
+    "md": "1da386bb92afc1630ea0c376314068a9d289897d595e59464b281ad202e683fa"
+  },
+  "sections": [
+    {
+      "section": "Codebase Reality",
+      "status": "PASS"
+    },
+    {
+      "section": "Scope & Strategy",
+      "status": "PASS"
+    },
+    {
+      "section": "Architecture & Integration",
+      "status": "FAIL"
+    },
+    {
+      "section": "Risk & Recovery",
+      "status": "PASS"
+    },
+    {
+      "section": "Test Coverage",
+      "status": "WARN"
+    },
+    {
+      "section": "Execution Feasibility",
+      "status": "PASS"
+    }
+  ],
+  "findings": [
+    {
+      "id": "B1",
+      "severity": "BLOCK",
+      "title": "MR action source and evidence are not information-complete",
+      "evidence": [
+        "GitLab revision3 DTO only carries aggregate discussion/check state.",
+        "mrLaunchSource return shape and controlled task text are unpinned.",
+        "src/shared/launch.js sends only source title/body to the launched agent; glab and provider credentials are unavailable to it."
+      ],
+      "requiredChange": "Pin exact Source fields and controlled action goals; carry bounded comment content/positions and pipeline context; test actual shared launch task contents."
+    },
+    {
+      "id": "C1",
+      "severity": "CONCERN",
+      "title": "Nullable list base SHA selector ambiguity",
+      "requiredChange": "Null permits first validated base SHA; non-null mismatch rejects."
+    },
+    {
+      "id": "C2",
+      "severity": "CONCERN",
+      "title": "100-row discussion reads must use object mode",
+      "requiredChange": "Use ctx.call list:false, manually validate <=100 rows and derive partiality; test99,100,oversized/malformed."
+    },
+    {
+      "id": "C3",
+      "severity": "CONCERN",
+      "title": "MR query page size must match completeness inference",
+      "requiredChange": "Pin per_page50, page and stable ordering; test missing metadata at20 and50 rows."
+    }
+  ],
+  "boundary": "Read-only forked plan review; no runtime/provider/Herdr access or file edits."
+}

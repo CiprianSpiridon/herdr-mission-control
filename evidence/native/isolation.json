@@ -1,0 +1,501 @@
+{
+  "v": 2,
+  "ok": true,
+  "code": null,
+  "error": null,
+  "cleanupError": null,
+  "completedMs": 1793551668217,
+  "nonce": "993c5ab95c05c4dbeeb6eb1a",
+  "isolation": {
+    "method": "private-ownership-v2",
+    "existingInstancesQueried": false,
+    "context": {
+      "root": "/private/tmp/mcqa-dD3cIH",
+      "nonce": "993c5ab95c05c4dbeeb6eb1a",
+      "session": "mcqa-993c5ab95c05c4dbeeb6eb1a",
+      "uid": 502,
+      "createdMs": 1793551662776,
+      "directory": {
+        "dev": "16777233",
+        "ino": "810492268",
+        "uid": 502,
+        "mode": 448,
+        "birthMs": 1793551662776
+      },
+      "selectors": {
+        "HOME": "/private/tmp/mcqa-dD3cIH/h",
+        "USERPROFILE": "/private/tmp/mcqa-dD3cIH/h",
+        "TMPDIR": "/private/tmp/mcqa-dD3cIH/t",
+        "XDG_CONFIG_HOME": "/private/tmp/mcqa-dD3cIH/c",
+        "XDG_DATA_HOME": "/private/tmp/mcqa-dD3cIH/d",
+        "XDG_STATE_HOME": "/private/tmp/mcqa-dD3cIH/s",
+        "XDG_CACHE_HOME": "/private/tmp/mcqa-dD3cIH/k",
+        "XDG_RUNTIME_DIR": "/private/tmp/mcqa-dD3cIH/r",
+        "HERDR_APP_HOME": "/private/tmp/mcqa-dD3cIH/app",
+        "HC_SESSION": "mcqa-993c5ab95c05c4dbeeb6eb1a"
+      }
+    },
+    "core": {
+      "id": "165938c1662feef0032930b3024046b0",
+      "process": {
+        "pid": 47973,
+        "uid": 502,
+        "startedMs": 1793551662000,
+        "executable": "/Users/ciprian/.local/bin/herdr-core",
+        "fingerprint": "3a3230dee537037215e474b94a50374e7194a526be743d635313ad4eb1d45c7c"
+      },
+      "socket": {
+        "path": "/private/tmp/mcqa-dD3cIH/r/herdr-core/mcqa-993c5ab95c05c4dbeeb6eb1a.sock",
+        "dev": "16777233",
+        "ino": "810492285",
+        "uid": 502,
+        "mode": 493,
+        "ownerPids": [
+          47973
+        ]
+      },
+      "holder": {
+        "process": {
+          "pid": 48140,
+          "uid": 502,
+          "startedMs": 1793551663000,
+          "executable": "/Users/ciprian/.local/bin/herdr-core",
+          "fingerprint": "b649df8f0dfec66312bbc56ecafc69935f8a131f012c07b11b6781b9ccb360c3"
+        },
+        "socket": {
+          "path": "/private/tmp/mcqa-dD3cIH/r/herdr-core/mcqa-993c5ab95c05c4dbeeb6eb1a.holder.dbd4e6a3.sock",
+          "dev": "16777233",
+          "ino": "810492354",
+          "uid": 502,
+          "mode": 493,
+          "ownerPids": [
+            48140
+          ]
+        }
+      }
+    },
+    "app": {
+      "process": {
+        "pid": 48187,
+        "uid": 502,
+        "startedMs": 1793551664000,
+        "executable": "/Applications/Herdr.app/Contents/MacOS/Herdr",
+        "fingerprint": "aa921d21fd8d7f1c7c0591673d762ae0bbf6e04d038e2cff30ca78aa1a9e9d60"
+      },
+      "socket": {
+        "path": "/private/tmp/mcqa-dD3cIH/app/herdr-app.sock",
+        "dev": "16777233",
+        "ino": "810492778",
+        "uid": 502,
+        "mode": 493,
+        "ownerPids": [
+          48187
+        ]
+      }
+    },
+    "commandAudit": [
+      {
+        "sequence": 1,
+        "at": 1793551662787,
+        "kind": "hc",
+        "command": "server start",
+        "selectorSha256": "fbd03add8004fbd9212f1d230b28019895a198d55add458187469d9811f75e23",
+        "phase": "boot",
+        "result": "ok"
+      },
+      {
+        "sequence": 2,
+        "at": 1793551662840,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "fbd03add8004fbd9212f1d230b28019895a198d55add458187469d9811f75e23",
+        "phase": "boot",
+        "result": "ok"
+      },
+      {
+        "sequence": 3,
+        "at": 1793551662964,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "fbd03add8004fbd9212f1d230b28019895a198d55add458187469d9811f75e23",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 4,
+        "at": 1793551663391,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "fbd03add8004fbd9212f1d230b28019895a198d55add458187469d9811f75e23",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 5,
+        "at": 1793551663447,
+        "kind": "hc",
+        "command": "run",
+        "selectorSha256": "fbd03add8004fbd9212f1d230b28019895a198d55add458187469d9811f75e23",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 6,
+        "at": 1793551663542,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "fbd03add8004fbd9212f1d230b28019895a198d55add458187469d9811f75e23",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 7,
+        "at": 1793551663706,
+        "kind": "hc",
+        "command": "ls",
+        "selectorSha256": "fbd03add8004fbd9212f1d230b28019895a198d55add458187469d9811f75e23",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 8,
+        "at": 1793551663768,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "fbd03add8004fbd9212f1d230b28019895a198d55add458187469d9811f75e23",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 9,
+        "at": 1793551663882,
+        "kind": "hc",
+        "command": "get t1",
+        "selectorSha256": "fbd03add8004fbd9212f1d230b28019895a198d55add458187469d9811f75e23",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 10,
+        "at": 1793551663953,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "fbd03add8004fbd9212f1d230b28019895a198d55add458187469d9811f75e23",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 11,
+        "at": 1793551664062,
+        "kind": "app",
+        "command": "check /private/tmp/mcqa-dD3cIH/app/mods/mission-control-isolation-probe",
+        "selectorSha256": "fbd03add8004fbd9212f1d230b28019895a198d55add458187469d9811f75e23",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 12,
+        "at": 1793551664318,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "fbd03add8004fbd9212f1d230b28019895a198d55add458187469d9811f75e23",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 13,
+        "at": 1793551664966,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "fbd03add8004fbd9212f1d230b28019895a198d55add458187469d9811f75e23",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 14,
+        "at": 1793551665130,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "fbd03add8004fbd9212f1d230b28019895a198d55add458187469d9811f75e23",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 15,
+        "at": 1793551665193,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "fbd03add8004fbd9212f1d230b28019895a198d55add458187469d9811f75e23",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 16,
+        "at": 1793551665363,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "fbd03add8004fbd9212f1d230b28019895a198d55add458187469d9811f75e23",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 17,
+        "at": 1793551665429,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "fbd03add8004fbd9212f1d230b28019895a198d55add458187469d9811f75e23",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 18,
+        "at": 1793551665544,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "fbd03add8004fbd9212f1d230b28019895a198d55add458187469d9811f75e23",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 19,
+        "at": 1793551665605,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "fbd03add8004fbd9212f1d230b28019895a198d55add458187469d9811f75e23",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 20,
+        "at": 1793551665775,
+        "kind": "app",
+        "command": "layout.switch",
+        "selectorSha256": "fbd03add8004fbd9212f1d230b28019895a198d55add458187469d9811f75e23",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 21,
+        "at": 1793551665847,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "fbd03add8004fbd9212f1d230b28019895a198d55add458187469d9811f75e23",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 22,
+        "at": 1793551666017,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "fbd03add8004fbd9212f1d230b28019895a198d55add458187469d9811f75e23",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 23,
+        "at": 1793551666083,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "fbd03add8004fbd9212f1d230b28019895a198d55add458187469d9811f75e23",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 24,
+        "at": 1793551666253,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "fbd03add8004fbd9212f1d230b28019895a198d55add458187469d9811f75e23",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 25,
+        "at": 1793551667072,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "fbd03add8004fbd9212f1d230b28019895a198d55add458187469d9811f75e23",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 26,
+        "at": 1793551667243,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "fbd03add8004fbd9212f1d230b28019895a198d55add458187469d9811f75e23",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 27,
+        "at": 1793551667464,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "fbd03add8004fbd9212f1d230b28019895a198d55add458187469d9811f75e23",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 28,
+        "at": 1793551667633,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "fbd03add8004fbd9212f1d230b28019895a198d55add458187469d9811f75e23",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 29,
+        "at": 1793551667696,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "fbd03add8004fbd9212f1d230b28019895a198d55add458187469d9811f75e23",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 30,
+        "at": 1793551667863,
+        "kind": "app",
+        "command": "app.quit",
+        "selectorSha256": "fbd03add8004fbd9212f1d230b28019895a198d55add458187469d9811f75e23",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 31,
+        "at": 1793551667981,
+        "kind": "app",
+        "command": "verify exit",
+        "selectorSha256": "fbd03add8004fbd9212f1d230b28019895a198d55add458187469d9811f75e23",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 32,
+        "at": 1793551668036,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "fbd03add8004fbd9212f1d230b28019895a198d55add458187469d9811f75e23",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 33,
+        "at": 1793551668149,
+        "kind": "hc",
+        "command": "server stop",
+        "selectorSha256": "fbd03add8004fbd9212f1d230b28019895a198d55add458187469d9811f75e23",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 34,
+        "at": 1793551668190,
+        "kind": "hc",
+        "command": "verify exit",
+        "selectorSha256": "fbd03add8004fbd9212f1d230b28019895a198d55add458187469d9811f75e23",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 35,
+        "at": 1793551668193,
+        "kind": "hc",
+        "command": "verify exit",
+        "selectorSha256": "fbd03add8004fbd9212f1d230b28019895a198d55add458187469d9811f75e23",
+        "phase": "cleanup",
+        "result": "ok"
+      }
+    ]
+  },
+  "privateCoreId": "165938c1662feef0032930b3024046b0",
+  "privateCorePid": 47973,
+  "privateHolderPid": 48140,
+  "appPid": 48187,
+  "launcherPid": 48187,
+  "launcherExitCode": 0,
+  "assertions": [
+    {
+      "label": "Fresh positively verified private core starts empty",
+      "passed": true
+    },
+    {
+      "label": "Exact nonce sentinel belongs to the verified private core",
+      "passed": true
+    },
+    {
+      "label": "Full sentinel generation and QA ownership verified",
+      "passed": true
+    },
+    {
+      "label": "Private app uses the original verified core generation",
+      "passed": true
+    },
+    {
+      "label": "No native layout/mod errors",
+      "passed": true
+    },
+    {
+      "label": "Actual native frame changes after the GPUI click",
+      "passed": true
+    }
+  ],
+  "inputActions": [
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 48187,
+      "windowId": 12916,
+      "x": 900,
+      "y": 624
+    }
+  ],
+  "frames": [
+    {
+      "label": "isolation-before",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-993c5ab95c05c4dbeeb6eb1a/isolation-before.png",
+      "sha256": "bc670e66af79c0178d77f746a7cb484d7d7967d12bd17ec666e22435a1301171",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "isolation-after",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-993c5ab95c05c4dbeeb6eb1a/isolation-after.png",
+      "sha256": "6c2ae61e9be482a1448758e149024c80742f159b34c9b5594232be170d16619d",
+      "width": 2560,
+      "height": 1520
+    }
+  ],
+  "appCommands": [
+    {
+      "kind": "setup-or-service-command",
+      "command": "layout.switch",
+      "argumentKeys": [
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "app.quit",
+      "argumentKeys": []
+    }
+  ],
+  "packages": [],
+  "appErrors": [],
+  "cleanup": {
+    "attempted": true,
+    "stoppedOnlyOwnedProcesses": true,
+    "existingInstancesQueried": false,
+    "verifiedPrivateCore": true,
+    "verifiedPrivateApp": true,
+    "resourcesRemoved": true,
+    "refused": false
+  },
+  "harnessSourceSha256": "7be8b4073f5a08b52bde177d18f6cd4c64175b23351553d5a991c2067bafd851",
+  "boundary": "Task-owned GPUI app/core with PID-bound native input. Existing instances were not queried. Provider authentication is not proven."
+}

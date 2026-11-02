@@ -1,0 +1,883 @@
+# Plan: Mission Control layout bundle
+
+## Overview
+
+Build and deliver the Mission Control overview and Classic terminal-first layouts, keeping native topmost tabs, shared world/focus and a one-button switch. This plan owns shared build/config/UI foundations, isolated native QA, safe installation and final public release. Each mod remains a separate reviewed plan.
+
+Mode: **EXPANSION**. Review default: **codex**. Status: **awaiting-founder-review**. Tasks: **16**.
+
+Canonical source: [mission-control.json](mission-control.json).
+
+## Scope Challenge
+
+The approved feature scope is frozen. The implementation is greenfield native GPUI, so EXPANSION accurately describes the repository work; it does not add features beyond DESIGN-NOTES.md. Codex remains the review default. Atomic three-file scopes explain the task count.
+
+## Prerequisites
+
+- Herdr app 0.1.9 / hc 0.1.14 were observed; re-read installed declarations before execution and stop on incompatible contracts.
+- All plans must pass founder review at their current hashes before implementation.
+- Source, mounted native UI, authenticated provider checks, install and public publishing are separate gates.
+
+Cross-plan prerequisites:
+
+- TASK-063: [mission-control-tabs](mission-control-tabs.md) — Wire view swap, source navigation and Classic panel controls
+- TASK-021: [mission-control-spaces](mission-control-spaces.md) — Register spaces, context menu and sidebar footer roles
+- TASK-029: [mission-control-agents](mission-control-agents.md) — Register the native agents list and usage rows
+- TASK-039: [mission-control-jira](mission-control-jira.md) — Register one Jira mod with panel, setup and launch roles
+- TASK-047: [mission-control-github](mission-control-github.md) — Add the separate native PR view and actions
+- TASK-052: [mission-control-sessions](mission-control-sessions.md) — Register per-space history and resume controls
+- TASK-057: [mission-control-reopen](mission-control-reopen.md) — Register the standalone reopen controls and watcher
+- TASK-090: [mission-control-gitlab](mission-control-gitlab.md) — Add the separate native merge-request view and actions
+- TASK-018: [mission-control-agent-menu](mission-control-agent-menu.md) — Prove agent-menu in an isolated native window
+- TASK-022: [mission-control-spaces](mission-control-spaces.md) — Prove spaces in an isolated native window
+- TASK-030: [mission-control-agents](mission-control-agents.md) — Prove agents in an isolated native window
+- TASK-040: [mission-control-jira](mission-control-jira.md) — Prove jira in an isolated native window
+- TASK-048: [mission-control-github](mission-control-github.md) — Prove github in an isolated native window
+- TASK-064: [mission-control-tabs](mission-control-tabs.md) — Prove tabs in an isolated native window
+- TASK-058: [mission-control-reopen](mission-control-reopen.md) — Prove reopen in an isolated native window
+- TASK-053: [mission-control-sessions](mission-control-sessions.md) — Prove sessions in an isolated native window
+- TASK-091: [mission-control-gitlab](mission-control-gitlab.md) — Prove GitLab in an isolated native window
+- TASK-093: [mission-control-gitlab](mission-control-gitlab.md) — Revalidate affected standalone packages after GitLab shared extensions
+- TASK-092: [mission-control-gitlab](mission-control-gitlab.md) — Package GitLab as a standalone Herdr mod
+- TASK-019: [mission-control-agent-menu](mission-control-agent-menu.md) — Package agent-menu as a standalone Herdr mod
+- TASK-023: [mission-control-spaces](mission-control-spaces.md) — Package spaces as a standalone Herdr mod
+- TASK-031: [mission-control-agents](mission-control-agents.md) — Package agents as a standalone Herdr mod
+- TASK-041: [mission-control-jira](mission-control-jira.md) — Package jira as a standalone Herdr mod
+- TASK-049: [mission-control-github](mission-control-github.md) — Package github as a standalone Herdr mod
+- TASK-065: [mission-control-tabs](mission-control-tabs.md) — Package tabs as a standalone Herdr mod
+- TASK-059: [mission-control-reopen](mission-control-reopen.md) — Package reopen as a standalone Herdr mod
+- TASK-054: [mission-control-sessions](mission-control-sessions.md) — Package sessions as a standalone Herdr mod
+
+## Non-Goals
+
+- No modification of shipped mods/layouts, generated Herdr type files, AGENTS.md, existing user sessions or credential stores.
+- No Jira/GitHub workflow mutation, autonomous issue assignment or paid agent calls for fetching boards.
+- No claim that the HTML mockup or load-only native check proves live behavior.
+
+## Contracts
+
+- Native GPUI JavaScript only: gpui-kit / gpui-base / herdr are runtime externals. No DOM, Node, CSS or setTimeout in GPUI. Helpers run out of process through exec; ordinary render/event Context is call-scoped and must not be used after its producing host call returns, including after await. AsyncContext supplied by init/spawn/timer callbacks belongs to its view/build and remains usable across awaits until owner close/reload; use the current callback/task context rather than retaining an ordinary Context.
+- Source paths are observed under src/, scripts/, tests/ and evidence/. Existing completed foundation and mod outputs are recorded in .ulpi/execution.json; new targets remain explicit task-owned creates. A changed completed contract reopens its owner task, marks its current files Modify and removes the old scheduling completion until replacement evidence passes. Prototypes and external examples remain references, not native reuse.
+- All TASK IDs are globally unique. dependsOn can refer to another plan; externalDependencies records the owning JSON and its provided capability. The generated index resolves and validates the union DAG. There is no master execution plan.
+- Canonical JSON is the source of truth. Markdown, dependency maps, execution layers and critical paths are derived. A change invalidates the reviewed SHA256 of that plan and all materially affected consumers.
+- Build compilation may produce multiple artifacts. generatedArtifacts are compiler / capture outputs, never hand-edited source. Each task has at most three authored files. The package builder owns compilation and materialization; output manifests enumerate hashes and source provenance.
+- Every standalone package is <name>/mods/<name>/ plus RECIPE.md, actual preview.png, optional keys.json and notices; no layouts/. It must work after copying only that mod directory. Shared source is bundled inside main.js / backend.mjs or copied as collector.py inside that same mod, with no runtime cross-mod code imports.
+- Layout package mission-control/ contains both layouts and byte-equivalent copies of required standalone mods. One public GitHub repository may hold all complete package folders and both topics herdr-mod and herdr-layout, as the installed sharing rules explicitly allow.
+- IDs and caches qualify machine, canonical repo root, source, account/connection, site and issue/session ID. A null machine means local. Never select a different repo or account as fallback. Remote paths are not local paths.
+- Herdr exec(command,args,{cwd,on}) has no stdin or env option, rejects unreachable hosts and bounds requests to 30 s / 8 MiB. Use argv arrays, not interpolated shell. run returns null, not created IDs. Acknowledged creation uses exec("herdr-app",["do","tab.new",JSON.stringify(args)]) and validates its actual result shape before recording success.
+- Settings persist in appHome()/mission-control/config.json via writeTextFile(path,text,expected) CAS. Credentials never enter shared state, logs, exported packages, arguments or screenshots. Shared keys are mission-control-* and versioned. CAS conflict reloads and retries boundedly or reports conflict.
+- RepoBinding v1: {machine:null|string,repoRoot:string,jira?:{connectionId,project?:string,jql?:string},github?:{connectionId,owner,repo,status?:{labels?:{todo:[],inProgress:[],done:[]},project?:{owner,number,fieldId,options:{todo:string[],inProgress:string[],done:string[]},unmapped:"error"}}},mountedLocalPath?:string}. Reusable connections are configured separately; migration or invalid v1 data never overwrites the original.
+- LaunchRequest v1: {requestId:string,idempotencyKey:string,originId:string,spaceId,machine,repoRoot,checkoutRoot?:string,toolKey,source?:{kind,connectionId,site,id,key,url,title,body},worktree:boolean,worktreePath?:string,branch?,model?,reasoning?,instructions?,skill?,subagents?}. LaunchResult is {ok:true,tabId,terminalId?,folder,reused:boolean} or {ok:false,code,message,recovery?}; unsupported options fail before spawning. repoRoot is canonical repository identity; checkoutRoot captures the actual selected worktree execution root and defaults explicitly to repoRoot only for tracker-bound cards without a live checkout. Before launch, validate checkoutRoot belongs to the same canonical Git common directory; current-checkout launches use checkoutRoot, never the common main checkout by accident.
+- Source Issue v1: {identity:{kind,connectionId,site,id},key,title,url,body,statusGroup:"todo"|"inProgress"|"done",statusName,priority?,repoBinding,updatedAt?}. Source categories/mappings determine status; running agents do not move issue cards. Invalid status / wrong identity is an error, not an arbitrary category.
+- Snapshot<T> v1: {data:T[],fetchedAt,scope,cursor?,truncated:boolean,error?:{code,message,retryAt?}}. Scope/account changes clear visible old-scope data immediately; same-scope failures may show timestamped stale data. Cap 1000 records per scope, page 50, explicit Load more / truncated label, concurrency <=4 and one in-flight request per scope.
+- Only read-only Jira/GitHub/MCP requests are in scope. Each connection is opt-in, has an allowlisted HTTPS origin and explicit adapter. Redirects and tool responses cannot redirect credentials to another origin. Helper output is normalized and redacted; external prose is task data, never an executable shell command.
+- UI uses graphite chrome #101114, surfaces #17191d, subdued #2a2d33 separators, muted labels and blue focus. Agent task titles get actual tool icons. Icons are local SVG/image assets or declared shipped icons, never font glyph dependencies or mojibake.
+- Native isolation is owned once by TASK005 in mission-control.json: use its exact NativeIsolationReceiptV2, FixtureEnvironment ABI and validateNativeIsolationReceipt(receipt,{receiptPath?}) contract. Existing app/core instances are never queried or mutated. New proof binds fresh private selector roots, task-created Unix listeners and process generations; no new receipt claims an observed unchanged user PID. Package checks consume the canonical validator, including only the exact pinned historical legacy receipts. Missing, failed, downgraded or tampered proof cannot release a package or publishable preview.
+- Node >=22 and Python >=3 are declared optional-helper prerequisites, probed on the execution host. Remote collector runs as exec("python3",["-c",ownCollectorSource,JSON.stringify(request)],{on:machine}); no assumption that a local helper file exists remotely. Missing Python reports unsupported host metrics/history without hiding agents or blocking terminals.
+- SessionIdentity v1 is {machine:null|string,provider:string,credentialScope:string,providerRoot:string,sessionId:string}. All context/history/bindings carry the full value. TerminalIdentity is {machine,address,createdMs,foregroundPid}; a changed generation invalidates correlation. Active agents have no native provider-session field in the observed hc schema. Only caller-assigned exact IDs, explicit resume argv or a verified provider-native/PID-file handshake bind them; cwd/title/recency never do.
+- TabNameOwnership v1 is owned upstream by TASK-070, keyed by stable originId with optional exact SessionIdentity and current tab instance. launch/resume/reopen transfer ownership only after acknowledgment; observers bundled into standalone tabs/sessions/reopen record manual edits under one CAS lease. Unknown imported histories use reported-title fallback and have no invented manual name.
+- Generic launch idempotencyKey identifies one UI intent, not every new-agent request in a repo. Separate generic intents mint distinct keys; retries retain the same key. Issue/PR quick-start dedup uses qualified host/repo/source/connection/site/item plus tool policy. Origin IDs remain distinct from source item keys and from ephemeral tab IDs.
+- knownAgents().installed/run is authority for base generic launch, including shell functions/wrappers. Help probes only grant advanced/model/reasoning/caller-session/resume capabilities. A failed probe disables those options; it does not block a supported base run. An explicitly requested unsupported advanced option fails before side effects.
+- JiraConnection v1 is discriminated: api {id,kind:"api",site:httpsOrigin,cloudId?:uuid,auth:{kind:"basic",usernameEnv,tokenEnv}|{kind:"bearer",tokenEnv}}; cli {id,kind:"cli",site,execution:{machine:null,command,argsTemplate:string[]},mapping:{issuesPath,nextCursorPath?,fields,statusGroups}}; mcp-stdio {id,kind:"mcp-stdio",site,execution:{machine:null,command,args:string[],envRefs:Record<string,string>},search:{tool,argsTemplate,resultMapping}}; mcp-http {id,kind:"mcp-http",site,url:httpsURL,auth?:{kind:"basic",usernameEnv,tokenEnv}|{kind:"bearer",tokenEnv},search:{tool,argsTemplate,resultMapping}}. Basic username/token are resolved only in helper memory. credentialEnv/envRefs contain environment variable names, never credentials. In this entire union, site means the canonical Jira serverInfo.baseUrl HTTPS origin, not a custom displayUrl; issue links deliberately use that canonical site.
+- Jira API routing is explicit: Basic without cloudId uses the configured tenant site (unscoped token); an explicit cloudId routes Basic/Bearer through https://api.atlassian.com/ex/jira/{cloudId}, and serverInfo.baseUrl must match the configured canonical tenant origin before fetching issues. Setup labels site as canonical Jira base URL; if a custom displayUrl differs, show canonical-base-URL guidance and publish no mismatched cards, without silently rewriting the saved site. Bearer without cloudId discovers https://api.atlassian.com/oauth/token/accessible-resources, selects the unique Jira-scoped resource matching the exact tenant URL, then uses that gateway route. Never infer token type or select the first accessible site. OAuth access tokens are existing env references; this release does not implement OAuth login/refresh. Credential origins are only the configured tenant or the fixed official gateway for the selected route; issue links always retain the tenant site. cloudId/auth/profile/query changes invalidate cursors and cached scope.
+- Jira CLI and stdio MCP execute locally in the panel helper in this release; execution.machine must be null and a remote value is a setup error, never local fallback. Repo execution machine is independent and can be remote. A remote integration may expose explicitly configured HTTPS MCP; no local backend path is assumed present on a server. Existing agent MCP configuration requires explicit server/tool/profile selection, not automatic process sharing.
+- GitHub Projects mapping uses stable fieldId and option IDs grouped into todo/inProgress/done; setup fetches field/options and saves explicit selection. Unknown/unmapped or multiply mapped option is an actionable configuration error. Without any status mapping, closed is Done and open is To do with an explicit unmapped-progress explanation.
+- GitHub PullRequest v1 and PRActionRequest v1 are defined once by TASK044 in .ulpi/plans/mission-control-github.json, including author, explicit ref availability, independent discussion access and action-specific task mapping. That owning contract is canonical; this plan does not duplicate or redefine the PR schema. The layout consumes the GitHub mod views; unrelated mods do not acquire a runtime dependency on its model.
+- All Node tests that import GPUI modules use node --import ./tests/support/native-loader.mjs --test <owned test>. TASK-078 supplies a strict recording tree/action seam, not a real renderer. Actual UI proof requires TASK-077 PID-bound native input plus before/after status/frame assertions; structural commands alone never prove a click.
+- Usage/history source access implements the already-requested features: read-only documented standard provider session roots on their own host, with source settings and exact path disclosures, no extra permission prompt. Extra roots/legacy cache paths are explicitly configured. Disable/change cancels publication, clears related bindings/caches and stops subsequent reads. No auth files, credential copying or automatic hook rewrites.
+- Launch source.id is stable provider identity; source.key is the visible naming snapshot. Issue mappings copy identity.id separately from key. GitHub PR canonical owner/repo#number identity, immutable captured checkout and action task mapping are owned by TASK044 in .ulpi/plans/mission-control-github.json. Existing source/path/ref snapshots stay immutable for acknowledged requests; unsafe or occupied fresh worktree targets remain errors.
+- GitLab extension: required standalone mission-control-gitlab exposes view=issues and view=merges, hideHeader:true inside custom source slots. TASK063/006 own six-source navigation/composition, TASK007 proves combined current/All-space routing, TASK079 depicts six Settings-source slots, and TASK092/093 gate final package/evidence reconciliation before TASK009. Standalone packages never gain layouts/ as a result.
+- FixtureEnvironment ABI (TASK005 producer/consumer): each scenario may export fixtureEnvironment as a plain own-data-property record (Object.prototype or null prototype, no symbols/accessors), at most32 entries/65536 UTF-8 bytes; values are strings <=4096 bytes without NUL/control characters. Allowed keys are NODE_EXTRA_CA_CERTS and QA_[A-Z][A-Z0-9_]{0,63}; QA values are explicitly authored synthetic fixture values, never aliases of ambient credentials. All HC_*, HERDR_*, HOME, USERPROFILE, TMPDIR, XDG_*, CODEX_HOME, CLAUDE_CONFIG_DIR and GROK_CONFIG_DIR are forbidden. NODE_EXTRA_CA_CERTS is an explicit absolute fixture certificate path under the task context or repository .harness/, never a credential path. isolatedEnvironment(directory,nonce,base=process.env,fixtureEnvironment={}) copies only PATH/LANG/LC_ALL/LC_CTYPE/TZ/TERM/NO_COLOR from base, validates and merges fixtureEnvironment, then sets immutable private selectors and telemetry opt-outs. NativeRuntime.start({fixtureEnvironment={}}={}) owns this handoff. The main runner compares the complete parent environment before/after importing a scenario and rejects mutation before core startup. Unit tests cover descriptor/key/size/reserved overrides and merge ordering; TASK048 core-free preflight separately imports its actual module under sentinel provider/Herdr env and proves parent non-mutation plus allowlisted child env. No prior consumer output is required for TASK005 unit/probe validation.
+- NativeIsolationReceiptV2 exact root keys are {v:2,ok:boolean,code:null|string,error:null|string,cleanupError:null|string,completedMs:int,nonce:null|string,isolation:null|IsolationProofV2,privateCoreId:null|string,privateCorePid:null|int,privateHolderPid:null|int,appPid:null|int,launcherPid:null|int,launcherExitCode:null|int,assertions:Assertion[],inputActions:PlainJSON[],frames:Frame[],appCommands:PlainJSON[],packages:PlainJSON[],appErrors:PlainJSON[],boundary:string,cleanup:CleanupV2,harnessSourceSha256:hex64}. No unknown root keys; no baselineCoreSha256 or userCoreIdentityAndPidUnchanged key is allowed anywhere in v2 proof/cleanup fields, including null or true. Failure is ok:false with nonempty code/error, optional nullable partial isolation and no validation success. Success requires ok:true, code/error/cleanupError null, completedMs>=context.createdMs, full core/app ownership, all assertions passed, appErrors empty and truthful successful cleanup. harnessSourceSha256 equals SHA256 of the actual current scripts/native-harness.mjs bytes loaded by the validator; never a caller-supplied expected digest.
+- IsolationProofV2 exact keys are {method:"private-ownership-v2",existingInstancesQueried:false,context:NativeContextV2,core:CoreProofV2,app:null|AppProofV2,commandAudit:ControlAuditV2[]}. NativeContextV2 exact keys are {root:string,nonce:hex24,session:string,uid:int,createdMs:int,directory:DirectoryProofV2,selectors:PrivateSelectorsV2}; root is a canonical task-created /private/tmp/mcqa-[A-Za-z0-9]+ real path, session=mcqa-<nonce>, uid>=0, createdMs>=0. DirectoryProofV2 exact keys {dev:decimalString,ino:decimalString,uid:int,mode:int,birthMs:int}; mode=0700, uid=context.uid and birthMs=context.createdMs. Decimal inode/device strings prevent64-bit precision loss. PrivateSelectorsV2 has EXACT keys HOME/USERPROFILE/TMPDIR/XDG_CONFIG_HOME/XDG_DATA_HOME/XDG_STATE_HOME/XDG_CACHE_HOME/XDG_RUNTIME_DIR/HERDR_APP_HOME/HC_SESSION, with values root+/h,root+/h,root+/t,root+/c,root+/d,root+/s,root+/k,root+/r,root+/app,context.session respectively. Every selector directory and listener is checked by lstat/realpath for current UID, original device/inode and no symlink escape before controls and cleanup. Runtime identity checks use actual OS observations; receipt validation checks the same recorded relations without querying a process that has already exited.
+- ProcessProofV2 exact keys {pid:int,uid:int,startedMs:int,executable:absoluteCanonicalPath,fingerprint:hex64}; pid>1, uid=context.uid, startedMs>=floor(context.createdMs/1000)*1000-2000 and <=completedMs, fingerprint=SHA256(JSON.stringify([pid,uid,startedMs,executable])). The2s bound accounts only for ps start-time granularity and never substitutes for a newly created private listener/root. SocketProofV2 exact keys {path:absoluteCanonicalPath,dev:decimalString,ino:decimalString,uid:int,mode:int,ownerPids:int[]}; path is strictly below context.root with no dot/symlink escape, uid=context.uid, mode is permission bits0..0777, ownerPids is sorted/unique/nonempty and includes its bound process. CoreProofV2 exact keys {id:hex32,process:ProcessProofV2,socket:SocketProofV2,holder:null|{process:ProcessProofV2,socket:SocketProofV2}}; AppProofV2 exact keys {process:ProcessProofV2,socket:SocketProofV2}. Core/app/holder PIDs are distinct; socket owners are a subset of these verified task processes. App listener path is exactly root+/app/herdr-app.sock. Top-level nonce/core ID/PIDs equal nested proof fields. Actual control binaries are resolved/pinned independently of mutable PATH; core ID, PID, fingerprint and listener dev/inode/owners cannot silently change. A late-created holder must receive its own fresh private-listener proof before it is trusted for cleanup.
+- ControlAuditV2 exact keys {sequence:int,at:int,kind:"hc"|"app",command:string,selectorSha256:hex64,phase:"boot"|"owned"|"cleanup",result:"ok"|"failed"|"refused"}. Sequence is contiguous from1, timestamps are ordered within context.createdMs..completedMs, and selectorSha256=SHA256(stable-canonical-JSON(context.selectors)) for every spawned control. Before ownership exists boot allows only private server start/status; hc fixture mutations require core proof, app IPC requires app-socket proof first, and app check is a private mod-folder load-only exception. Default/unknown/overridden context is refused before spawn; no global process enumeration or existing-instance status/list occurs. Success contains server-start, owned control and verified-core/app-exit audit entries, no refused ownership command; failed service operations remain distinguishable from lost isolation. CleanupV2 exact keys {attempted:boolean,stoppedOnlyOwnedProcesses:boolean,existingInstancesQueried:false,verifiedPrivateCore:boolean,verifiedPrivateApp:boolean,resourcesRemoved:boolean,refused:boolean}. All success booleans except refused are true; refused=false. Drift/unproved identity refuses stop/removal and records failure. Only original recorded matching generations can be signalled; observe their exit before removing the original owned root. No invented observed user PID claim.
+- Assertion exact keys {label:string,passed:boolean}. Frame exact keys {label:string,capture:"macos-window-server",path:string,sha256:hex64,width:int,height:int}; label/path are bounded safe native capture names, path is .browse/sessions/mission-control-native-<nonce>/<label>.png, dimensions are positive <=32768. Success has at least one assertion, a real pointer/key/AX input action bound to appPid, and >=2 native frames with distinct hashes. appCommands/packages/inputActions/appErrors are bounded plain JSON data, not functions/prototypes or unbounded payloads. Entire receipt is <=16MiB with bounded traversal/array/string sizes; unknown v2 proof keys, wrong selectors, IDs, PID/UID/birth/fingerprint/socket relations, wrong current harness digest or legacy fields are rejected.
+- validateNativeIsolationReceipt(receipt,{receiptPath?}={}) is async: resolve true only for a complete valid current-v2 success or the exact pinned historical legacy case below; otherwise throw NativeIsolationError with code INVALID_NATIVE_ISOLATION and a bounded non-secret message. The options record permits only receiptPath. When provided, receiptPath must be a canonical regular nonsymlink file under repository evidence/native/, bounded <=16MiB, and its parsed content must equal the supplied receipt; v2 packet validation can omit this path for the runner validation before writing. Failure envelopes, unknown tags, version downgrade, unknown/missing proof keys and legacy-only keys on v2 never fall through to another permissive branch. The runner validates successful v2 proof after cleanup before writing ok:true; failed proof retains ok:false and never commits a publishable preview. Package owners pass the actual receiptPath and retain all separate source/artifact/frame/preview gates.
+- Legacy acceptance is read-only and LIMITED to these exact retained files and digests: [{"path":"evidence/native/agent-menu.json","sha256":"d2f1e3448e2354bdc0ff988520746e389f8ee097d3736f5687fa0bd92b1b6a13","harnessSourceSha256":"7989669a28df40986e7cffc818c5155ecf927c34cd26df910de1cb2dfd225ff9"},{"path":"evidence/native/spaces.json","sha256":"85e3327f6e69659cb80adafc37f385fccfa53db35d284730a68408d2a783dc91","harnessSourceSha256":"7989669a28df40986e7cffc818c5155ecf927c34cd26df910de1cb2dfd225ff9"},{"path":"evidence/native/agents.json","sha256":"dfb2170de5d4ac4956fcc386c77b62d2fbb70c7f7c08fd3342686ea8a1dd88e0","harnessSourceSha256":"7989669a28df40986e7cffc818c5155ecf927c34cd26df910de1cb2dfd225ff9"}]. Legacy requires v:1/ok:true, actual regular nonsymlink allowlisted receiptPath, exact raw-file SHA256, exact stored old harnessSourceSha256, canonical equality of supplied object to that file, baselineCoreSha256 present, distinctCore/distinctProcess true, observed unchanged-user-PID cleanup true and no app errors. It is unavailable for isolation probe/new scenario receipts, arbitrary v1-shaped objects, copied or substituted paths, changed bytes, missing/wrong old digest, or v2 with legacy fields. These are historical native observations only; they never satisfy reopened TASK005 completion. Unit mutation tests exercise every downgrade/path/digest/key boundary. New native runs always emit v2, never mint a new legacy receipt.
+- The current-v2 harness digest check recomputes scripts/native-harness.mjs bytes at validation and requires equality with both the loaded implementation digest and receipt.harnessSourceSha256; a source change during a run fails provenance. Archived legacy receipt bytes above are unit fixtures only, never additional production allowlist paths. Relative receiptPath resolves against repository ROOT; canonical regular-file/path/body/digest checks reject copied or substituted legacy locations. Private OS process observations use a fixed C/UTC format so locale cannot alter the birth/fingerprint proof.
+- PR rendering ownership: TASK045 indexes each validated immutable PR snapshot once; membership lookup stays account/repository/scope/head/base checked and old snapshots cannot be mutated. TASK047 owns retained card Views created/updated/released only from root-owned native tasks, never during render/layout. Use the installed gpui-kit Context.new(ViewClass,props)->Entity, Entity.set_props/release and gpui-kit list(id,count,get_key,render(index,cx))->Element with gpui-base Scrollbar.vertical(id). A lazy row renderer only wraps already-created card Entity handles; it registers no handlers/state and never retains a render element or cx. Root computes filter counts and row keys cheaply, prepares validated card presentations/entities in bounded batches through its current task AsyncContext.sleep(0), and marks a data generation ready atomically. No old-account cards are displayed during preparation. Native card Views own real per-card handlers and render only when visible. Data/details/tool pins/slots/machine availability update child props through the root pool task; stale jobs cannot publish or overwrite newer child props. Preserve all 60 initial cards, Show more, source pagination and all three pinned actions; do not solve the budget failure by reducing records, hiding controls, suppressing errors or raising host limits. Bound the pool to the current <=1000-record collection plus temporarily retained active-launch origins. Pruning must retain a clicked origin while its captured launch is pending, so switching spaces during delayed details still completes against that original target. Release obsolete children after that launch settles and every child on module close. Search/filter/resize and queued clicks retain stable full-source identity, and expansion uses variable-height native list rows.
+- TASK078 also owns Context.sleep(ms?)->Promise<void> and deterministic context({scheduleSleep:(ms,owner)=>Promise}={}) test scheduling plus test-only invalidateRecordedContext(cx). Root/task/view ownership survives a yield; reload/close rejects further context use. Tests cover stale generation ordering and cleanup. Native child union is Element|Entity|string|number|boolean; reject null/undefined/plain objects/arrays/released or foreign entities and duplicate mounts. Virtual-module namespaces remain module-specific.
+
+```mermaid
+flowchart TD
+  TASK_063["TASK-063: Wire view swap, source navigation and Classic panel controls"]
+  TASK_021["TASK-021: Register spaces, context menu and sidebar footer roles"]
+  TASK_029["TASK-029: Register the native agents list and usage rows"]
+  TASK_039["TASK-039: Register one Jira mod with panel, setup and launch roles"]
+  TASK_047["TASK-047: Add the separate native PR view and actions"]
+  TASK_052["TASK-052: Register per-space history and resume controls"]
+  TASK_057["TASK-057: Register the standalone reopen controls and watcher"]
+  TASK_090["TASK-090: Add the separate native merge-request view and actions"]
+  TASK_018["TASK-018: Prove agent-menu in an isolated native window"]
+  TASK_022["TASK-022: Prove spaces in an isolated native window"]
+  TASK_030["TASK-030: Prove agents in an isolated native window"]
+  TASK_040["TASK-040: Prove jira in an isolated native window"]
+  TASK_048["TASK-048: Prove github in an isolated native window"]
+  TASK_064["TASK-064: Prove tabs in an isolated native window"]
+  TASK_058["TASK-058: Prove reopen in an isolated native window"]
+  TASK_053["TASK-053: Prove sessions in an isolated native window"]
+  TASK_091["TASK-091: Prove GitLab in an isolated native window"]
+  TASK_093["TASK-093: Revalidate affected standalone packages after GitLab shared extensions"]
+  TASK_092["TASK-092: Package GitLab as a standalone Herdr mod"]
+  TASK_019["TASK-019: Package agent-menu as a standalone Herdr mod"]
+  TASK_023["TASK-023: Package spaces as a standalone Herdr mod"]
+  TASK_031["TASK-031: Package agents as a standalone Herdr mod"]
+  TASK_041["TASK-041: Package jira as a standalone Herdr mod"]
+  TASK_049["TASK-049: Package github as a standalone Herdr mod"]
+  TASK_065["TASK-065: Package tabs as a standalone Herdr mod"]
+  TASK_059["TASK-059: Package reopen as a standalone Herdr mod"]
+  TASK_054["TASK-054: Package sessions as a standalone Herdr mod"]
+  TASK_001["TASK-001: Pin the build-only toolchain and publishing exclusions"]
+  TASK_002["TASK-002: Build self-contained native packages"]
+  TASK_001 --> TASK_002
+  TASK_003["TASK-003: Define private repo/connection settings with CAS persistence"]
+  TASK_001 --> TASK_003
+  TASK_004["TASK-004: Create shared GPUI styling and local icon artwork"]
+  TASK_001 --> TASK_004
+  TASK_078 --> TASK_004
+  TASK_005["TASK-005: Prove an isolated app AND core for native verification"]
+  TASK_002 --> TASK_005
+  TASK_077 --> TASK_005
+  TASK_006["TASK-006: Compose both layouts from the reviewed mod contracts"]
+  TASK_004 --> TASK_006
+  TASK_063 --> TASK_006
+  TASK_021 --> TASK_006
+  TASK_029 --> TASK_006
+  TASK_039 --> TASK_006
+  TASK_047 --> TASK_006
+  TASK_052 --> TASK_006
+  TASK_057 --> TASK_006
+  TASK_079 --> TASK_006
+  TASK_090 --> TASK_006
+  TASK_007["TASK-007: Validate complete native flows and multi-host boundaries"]
+  TASK_006 --> TASK_007
+  TASK_005 --> TASK_007
+  TASK_018 --> TASK_007
+  TASK_022 --> TASK_007
+  TASK_030 --> TASK_007
+  TASK_040 --> TASK_007
+  TASK_048 --> TASK_007
+  TASK_064 --> TASK_007
+  TASK_058 --> TASK_007
+  TASK_053 --> TASK_007
+  TASK_091 --> TASK_007
+  TASK_093 --> TASK_007
+  TASK_008["TASK-008: Record installation, permissions and asset provenance"]
+  TASK_004 --> TASK_008
+  TASK_002 --> TASK_008
+  TASK_018 --> TASK_008
+  TASK_022 --> TASK_008
+  TASK_030 --> TASK_008
+  TASK_040 --> TASK_008
+  TASK_048 --> TASK_008
+  TASK_053 --> TASK_008
+  TASK_058 --> TASK_008
+  TASK_064 --> TASK_008
+  TASK_092 --> TASK_008
+  TASK_093 --> TASK_008
+  TASK_009["TASK-009: Package the two-layout bundle and real preview"]
+  TASK_007 --> TASK_009
+  TASK_008 --> TASK_009
+  TASK_019 --> TASK_009
+  TASK_023 --> TASK_009
+  TASK_031 --> TASK_009
+  TASK_041 --> TASK_009
+  TASK_049 --> TASK_009
+  TASK_065 --> TASK_009
+  TASK_059 --> TASK_009
+  TASK_054 --> TASK_009
+  TASK_092 --> TASK_009
+  TASK_093 --> TASK_009
+  TASK_010["TASK-010: Install without collisions and verify the user window"]
+  TASK_009 --> TASK_010
+  TASK_011["TASK-011: Publish complete package folders with both discovery topics"]
+  TASK_010 --> TASK_011
+  TASK_069["TASK-069: Define stable session, terminal and launch-origin identities"]
+  TASK_003 --> TASK_069
+  TASK_070["TASK-070: Persist manual tab names under stable work origins"]
+  TASK_069 --> TASK_070
+  TASK_077["TASK-077: Provide a PID-bound native input driver"]
+  TASK_001 --> TASK_077
+  TASK_078["TASK-078: Provide a strict Node test seam for native GPUI modules"]
+  TASK_001 --> TASK_078
+  TASK_079["TASK-079: Create installed Settings previews for both layouts"]
+  TASK_004 --> TASK_079
+  TASK_002 --> TASK_079
+```
+
+## Existing Code Leverage
+
+| Observed path / reference | Classification | Use |
+| --- | --- | --- |
+| AGENTS.md | inspected reference | Existing repository guidance; preserve this file unchanged. |
+| DESIGN-NOTES.md | inspected reference | Accepted requirements and explicit packaging / planning instructions. |
+| work/mission-control-two-views.html | inspected reference | Visual / interaction reference only; no HTML is used by the native runtime. |
+| /Users/ciprian/.config/herdr-app/AGENTS.md | inspected reference | Installed Herdr rules, read on 2026-10-30, including sharing / recipe requirements at lines 403-457. |
+| /Users/ciprian/.config/herdr-app/herdr.d.ts | inspected reference | Installed API truth: exec, knownAgents, readTextFile, writeTextFile, spaces, agents, layout and overlay commands. |
+| /Users/ciprian/.config/herdr-app/mods/tabs/main.js | inspected reference | External installed implementation inspected for tab semantics; do not import or read another mod at runtime. |
+| evidence/reviews/pre-private-isolation-v2/agent-menu.native.json | inspected evidence reference | Immutable archived genuine legacy native receipt bytes for read-only validator unit fixtures; production legacy acceptance remains limited to the pinned original evidence/native path and hashes. |
+| evidence/reviews/pre-private-isolation-v2/spaces.native.json | inspected evidence reference | Immutable archived genuine legacy native receipt bytes for read-only validator unit fixtures; production legacy acceptance remains limited to the pinned original evidence/native path and hashes. |
+| evidence/reviews/pre-private-isolation-v2/agents.native.json | inspected evidence reference | Immutable archived genuine legacy native receipt bytes for read-only validator unit fixtures; production legacy acceptance remains limited to the pinned original evidence/native path and hashes. |
+
+## Tasks
+
+### TASK-001: Pin the build-only toolchain and publishing exclusions
+
+Create the initial Node manifest / lockfile with exact esbuild and MCP SDK versions resolved from official releases, Node >=22 and no runtime frontend framework. Exclude browser state, private configuration, token/session files, .DS_Store and temporary artifacts from Git / packaging.
+
+**Type:** feature  
+**Priority:** P0  
+**Effort:** L  
+**Agent:** nodejs-cli-senior-engineer  
+**Review:** codex  
+**Depends on:** None
+
+**Acceptance Criteria:**
+
+- npm ci succeeds from the lockfile and the installed dependency versions match package.json.
+- A packaging allowlist cannot include .browse/, credentials, private sessions or .DS_Store; no token is printed during dependency resolution.
+
+**Write scope:**
+
+| File | Action | Role |
+| --- | --- | --- |
+| package.json | Create | Defines module mode, exact dependencies and build/check/test/release commands. |
+| package-lock.json | Create | Reproducible dependency graph from npm install --package-lock-only. |
+| .gitignore | Create | Excludes private/generated development state; does not hide distributable packages or plan evidence. |
+
+**Validate:**
+
+```sh
+npm ci && npm ls --depth=0
+```
+
+### TASK-002: Build self-contained native packages
+
+Implement an esbuild-based per-mod builder. Bundle own/shared source into one ESM main.js with only gpui-kit, gpui-base and herdr external; bundle helper entry points for Node where declared, copy collector.py and local SVG assets inside each mod, and materialize mod.json. Build <name> requires only that source and its integrated dependencies. Distribution folders are generated and byte-equivalent in the layout bundle. Python collector composition is capability-based: a requested mod includes only its declared collector/provider files, concatenated as trusted functions plus one entrypoint; outputs never import repository paths. Build emits notices from asset provenance and copies installed layout SVG previews. No collector is required to test the builder fixture.
+
+**Type:** feature  
+**Priority:** P1  
+**Effort:** L  
+**Agent:** nodejs-cli-senior-engineer  
+**Review:** codex  
+**Depends on:** TASK-001
+
+**Acceptance Criteria:**
+
+- build <name> and check <name> operate on only that mod; nonzero herdr-app check propagates.
+- A generated main.js cannot import repository-relative shared source or another mod; failed builds do not replace the last good package.
+
+**Write scope:**
+
+| File | Action | Role |
+| --- | --- | --- |
+| scripts/project.mjs | Create | Build/check/package CLI, manifest-based generation and scoped native checks; owns all compilation outputs. |
+| tests/project.test.mjs | Create | Builds a tiny temporary fixture and rejects outside imports/assets or a missing entrypoint. |
+
+**Validate:**
+
+```sh
+node --test tests/project.test.mjs
+```
+
+**Generated outputs (not authored source):**
+
+- <package>/mods/<mod>/{main.js,backend.mjs?,collector.py?,mod.json,assets/*.svg}
+- <package>/build-manifest.json
+
+### TASK-003: Define private repo/connection settings with CAS persistence
+
+Own the shared v1 config reader/writer and namespaced preferences. Resolve binding by machine + canonical repo root, not display name; support reusable Jira / GitHub connection references and optional remote mountedLocalPath. Publish explicit readConfig(io), updateConfig(io,edit), resolveBinding(config,space) exports. io uses Herdr readTextFile/writeTextFile, bounded CAS and appHome.
+
+**Type:** feature  
+**Priority:** P1  
+**Effort:** L  
+**Agent:** general-purpose  
+**Review:** codex  
+**Depends on:** TASK-001
+
+**Acceptance Criteria:**
+
+- Two spaces with identical names but different roots/hosts/accounts resolve independently; unbound spaces show setup.
+- Concurrent edits preserve both changes after bounded retry; invalid/migrated content is retained and never silently replaced.
+
+**Write scope:**
+
+| File | Action | Role |
+| --- | --- | --- |
+| src/shared/config.js | Create | Config schema, identity helpers, redaction and CAS persistence adapter. |
+| tests/config.test.mjs | Create | Real temporary-file CAS/conflict, wrong-repo/account and malformed-version tests. |
+
+**Validate:**
+
+```sh
+node --test tests/config.test.mjs
+```
+
+### TASK-004: Create shared GPUI styling and local icon artwork
+
+Own native button/label/status/search helpers and local icon definitions. Build emits SVGs from a single asset catalog with source/license metadata; program.icon uses its declared tint and shipped paths. Avoid renderer-dependent glyphs and duplicate tool-name headings.
+
+**Type:** feature  
+**Priority:** P1  
+**Effort:** L  
+**Agent:** general-purpose  
+**Review:** codex  
+**Depends on:** TASK-001, TASK-078
+
+**Acceptance Criteria:**
+
+- All required controls / Jira / GitHub / PR / sessions icons resolve locally; actual tool icons use program metadata.
+- Missing program artwork produces a local neutral icon and label tooltip; malformed SVG / mojibake is rejected.
+
+**Write scope:**
+
+| File | Action | Role |
+| --- | --- | --- |
+| src/shared/ui.js | Create | Native styling/components using the graphite palette, semantic IDs, focus and accessible hover labels. |
+| src/assets/icons.json | Create | SVG catalog for controls and tracker brands plus provenance/license metadata; no third-party runtime CDN. |
+| tests/ui.test.mjs | Create | Palette/icon parsing, UTF-8 and missing-asset fallback checks; actual rendering belongs to native scenarios. |
+
+**Validate:**
+
+```sh
+node --import ./tests/support/native-loader.mjs --test tests/ui.test.mjs
+```
+
+### TASK-005: Prove an isolated app AND core for native verification
+
+Replace live-user baseline/status/list requests with a positive private-ownership proof; keep all real native interaction, error, artifact and cleanup gates. Use a newly created0700 current-UID real directory, scratch HOME/XDG roots, a24-hex random HC_SESSION namespace and private HERDR_APP_HOME. Remove every inherited HC_*/HERDR_* selector and provider/auth environment; forward only ordinary shell locale/PATH variables and explicit synthetic fixtureEnvironment exports from scenario modules. Before every hc/herdr-app control call, an audited dispatcher validates the registered immutable selector roots, ownership and absence of symlink escapes; default-home, unknown-context or routing overrides are refused before spawn. Pin installed CLI executables independently of mutable PATH. After private server start, bind core ID/PID to a task-root Unix listener, current UID, directory/process birth times and exact ps fingerprint; include a separately verified task-created holder when present. Fail before fixture mutations if ownership cannot be proved. Revalidate socket inode/device, listener owner, core ID and fingerprint across operations and before cleanup. The new private app socket/PID must satisfy TASK077 ownership checks; do not enumerate existing apps or query their IPC. App control/status and mod exec inherit only the proven private context. Keep sentinel/full terminal generation, actual PID-bound input and before/after frames. Cleanup stops only recorded matching core/holder/app generations, verifies their exit and removes only the original owned directory after successful cleanup. On identity drift or unproven ownership, refuse stop/removal, retain failure diagnostics and never write success. Export validateNativeIsolationReceipt(receipt) for package checks; legacy historical receipts remain distinguishable from new private-only proof. New receipts include method=private-ownership-v2, existingInstancesQueried:false, context root/session/UID/creation evidence, socket device/inode/owner fingerprints for core/app and truthful cleanup; omit a claimed observed unchanged user PID. Unit tests cover all selector/UID/path/symlink/socket/PID/inode/generation/receipt failures and dispatcher no-default-instance calls. Actual probe must still prove native click/frame state and owned-only shutdown. Implement the exact canonical V2/legacy union, environment ABI, async validator semantics and immutable legacy pins below. Tests include arbitrary legacy-shaped downgrade attempts, wrong path/bytes/digests, extra/missing fields and legacy PID fields on v2. Fixture import/merge tests remain producer-local with toy modules; actual consumer-module purity is owned by TASK048.
+
+**Type:** feature  
+**Priority:** P1  
+**Effort:** L  
+**Agent:** nodejs-cli-senior-engineer  
+**Review:** codex  
+**Depends on:** TASK-002, TASK-077
+
+**Acceptance Criteria:**
+
+- Every non-help hc/herdr-app control call is rejected before spawn without its registered fresh private selector/UID/path proof; real core/app Unix listeners and new process fingerprints bind the namespace before test mutations. No existing app/core status/list/baseline or global process enumeration occurs.
+- Wrong/missing selectors, reused roots, symlink escape, borrowed/older PID, changed socket inode/owner, core generation drift, invalid new/legacy receipts and failed input/cleanup cannot produce success or a publishable preview; cleanup refuses unproven resources and retains diagnostics.
+- Actual isolated probe still materializes GPUI, delivers PID-bound input and changes a captured frame, then stops only verified task-owned core/holder/app processes. New receipts truthfully declare zero existing-instance queries; retained legacy package receipts are accepted only through the canonical versioned validator.
+
+**Write scope:**
+
+| File | Action | Role |
+| --- | --- | --- |
+| scripts/native-harness.mjs | Modify existing source or prior task output | Registered private command routing, positive context/socket/process proof, truthful versioned receipts, failure/cleanup containment and canonical receipt validator. |
+| tests/native-harness.test.mjs | Modify existing source or prior task output | Real owned-path/canary/socket fixtures plus injected command/process observations exercise selector, UID, symlink, PID/socket reuse, cleanup and old/new receipt rejection before a real native probe. Exact schema/digest/downgrade/pinned-legacy tests and producer-local import/environment merge regressions. |
+
+**Validate:**
+
+```sh
+node --test tests/native-harness.test.mjs && node scripts/native-harness.mjs probe
+```
+
+**Generated outputs (not authored source):**
+
+- evidence/native/isolation.json
+
+### TASK-006: Compose both layouts from the reviewed mod contracts
+
+Create new layout trees with the same topmost mission-control-tabs bar. Left rail contains independently collapsible Spaces/Agents and footer role Settings/Add machine at its absolute bottom. Mission Control shows navigation + source stack; Classic shows terminals with the work panel hidden initially. Use shipped terminals/pane/toast only as supported installed blocks, never overwrite shipped files. Set root preview paths and include both installed Settings SVG assets; these are independent of public screenshots. This task's builder materializes the actual distribution Settings SVGs together with layout JSON. TASK-079 owns only authored source SVGs and temporary fixture output, not the real distribution paths. Both layouts instantiate mc-work-stack children jira/github/pulls/gitlab/merges/sessions; GitLab uses mission-control-gitlab props view=issues/view=merges and hideHeader:true, preserving the standalone mod's own headings outside embedded slots.
+
+**Type:** feature  
+**Priority:** P1  
+**Effort:** L  
+**Agent:** general-purpose  
+**Review:** codex  
+**Depends on:** TASK-004, TASK-063, TASK-021, TASK-029, TASK-039, TASK-047, TASK-052, TASK-057, TASK-079, TASK-090
+
+**Acceptance Criteria:**
+
+- Both layout trees have exactly one topmost native tab bar; footer controls and Classic initial panel state match the accepted mockup. Root preview paths resolve after standalone layout installation. Both GitLab roles are reachable through the six-source navigation without duplicating their selected-tab heading.
+- Switch controls target the existing alternative layout, keep the same space/tab and do not close/restart terminals; invalid mod roles/references fail the tree check.
+
+**Write scope:**
+
+| File | Action | Role |
+| --- | --- | --- |
+| src/layouts/mission-control.json | Create | Overview tree, stable node IDs, fixed graphite look and required mod roles. |
+| src/layouts/mission-control-classic.json | Create | Terminal-first tree with the same tabs/footer/agent state and hidden work panel. |
+| tests/layouts.test.mjs | Create | Tree/props/reference checks for every required mod, topmost tabs, footer position, panels and both switch destinations. |
+
+**Validate:**
+
+```sh
+node --test tests/layouts.test.mjs
+```
+
+**Generated outputs (not authored source):**
+
+- mission-control/layouts/mission-control.json
+- mission-control/layouts/mission-control-classic.json
+- mission-control/layouts/mission-control.svg
+- mission-control/layouts/mission-control-classic.svg
+
+### TASK-007: Validate complete native flows and multi-host boundaries
+
+Run both layouts in the isolated app with all finished mods and separate configured fixture identities. Exercise view swap, compact boards, pinned starts, right-click target, context/quota, history, reopen and tab naming. Include a controlled second test core/machine transport or record the remote gate failed; do not call a local-only run remote proof. Use actual PID-bound input for overview/Classic swapping and source/card actions. Exercise desktop and narrow (1024/736 logical px; sidebar rail 220px) controls, icons/UTF-8, reachable footer and no clipped horizontal content. Seed a repo binding with all three providers. Prove GitLab issues/MRs through both layouts, selected-source preservation across swaps, current linked-worktree execution and immutable All-spaces project/account routing. Six-source navigation remains reachable at1024/736 logical px with a220px rail.
+
+**Type:** test  
+**Priority:** P1  
+**Effort:** L  
+**Agent:** general-purpose  
+**Review:** codex  
+**Depends on:** TASK-006, TASK-005, TASK-018, TASK-022, TASK-030, TASK-040, TASK-048, TASK-064, TASK-058, TASK-053, TASK-091, TASK-093
+
+**Acceptance Criteria:**
+
+- One-button swapping preserves selected space/tab, running terminal addresses and manual names; Jira/GitHub/PR/GitLab/MR/sessions remain clearly separated in both views.
+- 128 spaces, dozens of agents, offline second host and duplicate-account issue IDs are exercised without wrong routing; failures keep the gate open and private live accounts are not required for fixture proof.
+
+**Write scope:**
+
+| File | Action | Role |
+| --- | --- | --- |
+| tests/native/layout.mjs | Create | Full native integration scenario with UI assertions and resulting core records. |
+| evidence/native/layout.json | Create | Native integration / host-boundary outcomes, timing, status and frame hashes. |
+
+**Validate:**
+
+```sh
+node scripts/native-harness.mjs run layout
+```
+
+**Generated outputs (not authored source):**
+
+- evidence/native/mission-control.png
+- evidence/native/mission-control-classic.png
+
+### TASK-008: Record installation, permissions and asset provenance
+
+Write accurate repository instructions, license for original work and notices for any actually copied third-party assets/code. Explain standalone versus bundle structure, required helper tools, per-space configuration and provider capability limits. External reference code is not licensed by this repository unless explicitly incorporated with attribution. This is final provenance reconciliation after all required native-mod gates, using actual compiled artifact/license manifests. Preliminary copy assumptions are not sufficient. Include actual GitLab runtime provenance, configured HTTPS origin/token environment-reference access, standalone-versus-bundled operation, and fixture-versus-authenticated-provider evidence.
+
+**Type:** docs  
+**Priority:** P1  
+**Effort:** M  
+**Agent:** general-purpose  
+**Review:** codex  
+**Depends on:** TASK-004, TASK-002, TASK-018, TASK-022, TASK-030, TASK-040, TASK-048, TASK-053, TASK-058, TASK-064, TASK-092, TASK-093
+
+**Acceptance Criteria:**
+
+- Every runtime file/network/program capability is disclosed and package instructions match the installed Herdr rules.
+- No documentation claims authenticated live Jira/GitHub, seamless running-account switching or unsupported resume/geometry features without corresponding evidence.
+
+**Write scope:**
+
+| File | Action | Role |
+| --- | --- | --- |
+| README.md | Create | Contributor/user entry point linking packages, plans, install, configuration and truthful validation evidence. |
+| LICENSE | Create | License for original repository code. |
+| NOTICE.md | Create | Actual copied asset/code provenance and applicable notices, excluding merely inspirational references. |
+
+**Validate:**
+
+```sh
+node scripts/project.mjs inspect-docs README.md LICENSE NOTICE.md
+```
+
+### TASK-009: Package the two-layout bundle and real preview
+
+Bundle byte-identical finished mods, both layout files, notices and keys only where nonconflicting. Write the reconstruction recipe from real native results, not prototype data. The default screenshot is a full rendered overview, with Classic evidence linked separately. Include both root-referenced Settings SVG assets; installed previews and public native preview.png have separate provenance. Require byte-identical mission-control-gitlab runtime inclusion from the final standalone package, both GitLab role nodes and all six navigation destinations; compare regenerated build outputs against the current native/compatibility manifests before accepting the bundle.
+
+**Type:** docs  
+**Priority:** P1  
+**Effort:** L  
+**Agent:** general-purpose  
+**Review:** codex  
+**Depends on:** TASK-007, TASK-008, TASK-019, TASK-023, TASK-031, TASK-041, TASK-049, TASK-065, TASK-059, TASK-054, TASK-092, TASK-093
+
+**Acceptance Criteria:**
+
+- Every required mod is included and matches its standalone package hash; overview and Classic both pass the integrated native gate. Both Settings SVG previews are included under layouts/. GitLab issues/MR roles and standalone runtime bytes are present in both layout distributions.
+- A missing/outdated mod, absent preview or browser/mockup-derived frame fails packaging; optional accounts is not silently required.
+
+**Write scope:**
+
+| File | Action | Role |
+| --- | --- | --- |
+| mission-control/RECIPE.md | Create | Herdr six-part brief with exact regions, mod props, commands, capabilities, pitfalls and done checks. |
+| mission-control/preview.png | Create | Actual isolated native Mission Control frame. |
+| tests/package-layout.test.mjs | Create | Checks both layouts, all module copies/hashes, recipe and actual frame receipt. |
+
+**Validate:**
+
+```sh
+node scripts/project.mjs bundle && node --test tests/package-layout.test.mjs
+```
+
+**Generated outputs (not authored source):**
+
+- mission-control/mods/**
+- mission-control/build-manifest.json
+- mission-control/NOTICE.md
+
+### TASK-010: Install without collisions and verify the user window
+
+Implement dry-run/install/rollback based on an owned-file hash receipt. Read all package files and disclose network/exec/history access before copying. Refuse existing target names unless renaming every reference safely; no keys are replaced. Capture current layout for rollback, check all new mods, switch to the new layout and verify app status and visible frame.
+
+**Type:** feature  
+**Priority:** P1  
+**Effort:** L  
+**Agent:** nodejs-cli-senior-engineer  
+**Review:** codex  
+**Depends on:** TASK-009
+
+**Acceptance Criteria:**
+
+- Dry-run on fixtures proves no overwrite; actual installation adds only new names and a passing mounted layout while existing terminals remain running. Installed root preview paths resolve in the native Settings layout picker.
+- Partial failure restores the previous selected layout and removes only matching-hash owned additions; custom user edits/keys and unrelated files remain intact.
+
+**Write scope:**
+
+| File | Action | Role |
+| --- | --- | --- |
+| scripts/install.mjs | Create | Collision-aware installer and hash-guarded rollback with explicit --app-home target. |
+| tests/install.test.mjs | Create | Temporary homes: name/key collisions, partial copy failure, rollback preserving subsequently edited and unrelated files. |
+| evidence/native/install.json | Create | Actual installed paths/hashes, previous layout, validation, rollback command and current status. |
+
+**Validate:**
+
+```sh
+node --test tests/install.test.mjs && node scripts/install.mjs --verify-receipt evidence/native/install.json
+```
+
+### TASK-011: Publish complete package folders with both discovery topics
+
+Create a public GitHub repository from explicitly staged deliverable paths after secret/artifact scanning. Respect any existing remote/repo names. Push the reviewed source, plan/review evidence and complete package folders. Verify public visibility, default branch, folder contents, preview/recipe links and both topics via gh API; never print authentication material.
+
+**Type:** feature  
+**Priority:** P1  
+**Effort:** L  
+**Agent:** nodejs-cli-senior-engineer  
+**Review:** codex  
+**Depends on:** TASK-010
+
+**Acceptance Criteria:**
+
+- Public remote contains every complete package folder and verified herdr-mod/herdr-layout topics; record the exact pushed commit and URLs.
+- Failed auth/push, private visibility, stale review, missing preview or a credential-like tracked artifact exits nonzero and cannot mark the release complete.
+
+**Write scope:**
+
+| File | Action | Role |
+| --- | --- | --- |
+| scripts/release.mjs | Create | Allowlisted release preflight/publish/verify CLI; checks current review hashes, native receipts and packages. |
+| tests/release.test.mjs | Create | Local temporary repository and stub API tests for missing topics, private repo, leaked paths, stale review and failed push. |
+| evidence/release.json | Create | Actual commit SHA, public URL, package URLs, topics and verified remote responses, or explicit failed gate. |
+
+**Validate:**
+
+```sh
+node --test tests/release.test.mjs && node scripts/release.mjs verify --receipt evidence/release.json
+```
+
+### TASK-069: Define stable session, terminal and launch-origin identities
+
+Own SessionIdentity v1 {machine,provider,credentialScope,providerRoot,sessionId}; TerminalIdentity v1 {machine,address,createdMs,foregroundPid}; and OriginIdentity v1 {originId,requestId,sourceKey?,session?:SessionIdentity,currentTabId?,terminal?:TerminalIdentity}. Mint a unique generic requestId per opened new-agent intent; a retry resubmits that same ID. Identity helpers never infer provider IDs from cwd/title/time. Session identity becomes available only through a proven binding. Normalize TerminalIdentity.createdMs ONLY from the required uint64 raw Terminal.created_ms. The CLI hc ls --json is a summary envelope {terminals:[{address,agent,cwd,state,turn,where,...}],hidden_finished}; it does not supply raw argv/labels/created_ms. Use validated raw terminals() data when present, otherwise hydrate with exec("hc",["get",localAddress,"--json"],{on:machine}), whose response is a full Terminal with required address/created_ms and optional foreground.pid. Reject absent/invalid fields; observation time is never a creation timestamp. On remote get, strip only that machine's known address prefix. This source mapping was verified with live hc schema and key-only hc get on 2026-10-30.
+
+**Type:** feature  
+**Priority:** P1  
+**Effort:** L  
+**Agent:** general-purpose  
+**Review:** codex  
+**Depends on:** TASK-003
+
+**Acceptance Criteria:**
+
+- Two independent generic intents in one repo are distinct; re-submitting one intent is idempotent and stable source issue keys do not collapse separate provider sessions.
+- Missing/ambiguous session proof yields an explicit unbound origin; wrong host/root/provider or a restarted terminal cannot reuse its old binding. CLI summary-only input triggers full-record hydration; missing created_ms stays unknown and is never minted from Date.now.
+
+**Write scope:**
+
+| File | Action | Role |
+| --- | --- | --- |
+| src/shared/session-identity.js | Create | Pure identity/key validation and stable origin/session binding contract. |
+| tests/session-identity.test.mjs | Create | Cross-provider/root/host same-ID collisions, terminal-generation changes and generic intent/retry tests. |
+
+**Validate:**
+
+```sh
+node --test tests/session-identity.test.mjs
+```
+
+### TASK-070: Persist manual tab names under stable work origins
+
+Own TabNameOwnership v1 {originId,session?:SessionIdentity,currentTab:{machine,tabId},mode:"manual"|"auto",manualName:null|string,lastAutoName:null|string,revision}. Persist origin↔session↔current-tab links and later user renames via CAS in appHome()/mission-control/names.json. Provide observeNames, transferToAcknowledgedTab and a single-leased observer callable by tabs/sessions/reopen standalone Views. A session first imported from provider history has no prior manual ownership and uses reported fallback; do not invent one.
+
+**Type:** feature  
+**Priority:** P1  
+**Effort:** L  
+**Agent:** general-purpose  
+**Review:** codex  
+**Depends on:** TASK-069
+
+**Acceptance Criteria:**
+
+- A captured manual name follows its exact origin/session into an acknowledged replacement tab and survives later layout switches.
+- An unknown historical session has no fabricated manual label; concurrent observers/pending manual edits never replace a user name with a stale auto write.
+
+**Write scope:**
+
+| File | Action | Role |
+| --- | --- | --- |
+| src/shared/name-ownership.js | Create | Stable ownership store, bounded CAS observer and transfer/reconciliation API bundled into all consumers. |
+| tests/name-ownership.test.mjs | Create | Real temporary store: manual A closes, newer B exists, A transfers to new tab ID once; no history/name guess or rename loop. |
+
+**Validate:**
+
+```sh
+node --test tests/name-ownership.test.mjs
+```
+
+### TASK-077: Provide a PID-bound native input driver
+
+Use installed Browse native AX tooling with an explicit isolated application PID: browse-ax --pid PID tree/action/set-value/type/press, never resolve by ambiguous app name. Where GPUI controls lack AX actions, provide a small Swift CoreGraphics pointer/key driver targeting only the owned PID and its verified window rectangle; derive coordinates from the captured fixed-size native frame/layout geometry and assert the expected post-action app/core state. Distinguish real pointer/keyboard input from structural CLI commands. Probe required Accessibility/input permissions; inability to deliver/assert input fails the gate. The observed bundled bridge is /opt/homebrew/lib/node_modules/@ulpi/browse/bin/browse-ax (not normally on PATH); discover it through the installed Browse resolver/path candidates, validate --help, and do not claim bare command lookup is sufficient.
+
+**Type:** test  
+**Priority:** P1  
+**Effort:** L  
+**Agent:** nodejs-cli-senior-engineer  
+**Review:** codex  
+**Depends on:** TASK-001
+
+**Acceptance Criteria:**
+
+- A task-owned probe window receives an actual AX or pointer/key interaction, and its asserted changed native state is recorded with before/after frames.
+- Wrong/unowned PID, unavailable permission/control or unverifiable postcondition exits nonzero; never drive the live Herdr window or mark CLI-only actions as UI proof.
+
+**Write scope:**
+
+| File | Action | Role |
+| --- | --- | --- |
+| scripts/native-driver.swift | Create | PID/window-bounded CoreGraphics input fallback; no desktop-wide unverified clicks. |
+| scripts/native-driver.mjs | Create | Browse AX bridge path/PID/control lookup, input calls, before/after frame hashes and assertions. |
+| tests/native-driver.test.mjs | Create | Rejects wrong PID/window/out-of-bounds/stale control and missing permissions; records actual input versus CLI setup. |
+
+**Validate:**
+
+```sh
+node --test tests/native-driver.test.mjs && node scripts/native-driver.mjs probe
+```
+
+### TASK-078: Provide a strict Node test seam for native GPUI modules
+
+Register ESM virtual modules for gpui-kit/gpui-base/herdr only in Node test processes. Recording GPUI elements retain supported chain calls, semantic IDs, child trees and input handlers; Herdr calls use explicit injected snapshots/executors and log effects. Native module tests load and invoke real repo render/event code through this seam, not source-string assertions. Unknown APIs fail; this verifies contracts only and cannot satisfy mounted/native gates. Extend the existing contract recorder for the installed retained Entity and lazy-list APIs used by047: context.new creates a real View instance/retained handle; set_props invokes update; release invalidates later use; Element.child matches the installed Element | Entity | string | number | boolean union; reject null, undefined, arrays, plain objects and released/foreign entities. Add exported list and Scrollbar.vertical recording plus renderRecorded(view,cx,{range:(id,count)=>[start,end]}) for explicitly selected lazy rows. It executes actual child render/update/event code, not a fake pass. Track init/task/render/layout phases: creation/update and notify are refused during render/layout as the native API requires; lazy renderers cannot register handlers or create state. The recorder remains opt-in test-only and cannot establish native paint, timing, scrolling or process ownership. Own exact sleep(ms?) Promise<void> semantics on recorded Context/AsyncContext with an injectable deterministic scheduler via context({scheduleSleep:(ms,owner)=>Promise}={}). Sleep remains associated with its spawning task/view; close/reload invalidation rejects further context use and queued sleep continuations. Export invalidateRecordedContext(cx) only from the test-support module for owner-lifetime tests, never as a native Context method. ScopePhase stays the installed render/event/task/layout/none union (init is internal only). Test a newer preparation generation superseding an older one across a controlled sleep, no stale child-prop updates/publication, and release of abandoned handles. Loader namespaces must expose only each installed module's supported exports; wrong-module imports fail. Test duplicate Entity mounts in one parent snapshot are refused. Distinguish ordinary Context host-call lifetime from AsyncContext owner lifetime. A render/event Context is stale as soon as its producing call returns, including when an async handler first yields; later notify/new/phase use rejects. A sleep requested while its call is valid may resolve, but cannot restore that ordinary Context. Init/spawn/timer AsyncContext resumes in task phase after await and remains usable until task/view/build invalidation. Deterministic tests exercise both paths with the same injected scheduler, so only the valid AsyncContext can prepare/publish children after a yield.
+
+**Type:** test  
+**Priority:** P1  
+**Effort:** L  
+**Agent:** nodejs-cli-senior-engineer  
+**Review:** codex  
+**Depends on:** TASK-001
+
+**Acceptance Criteria:**
+
+- Plain Node loads a fixture GPUI View with the explicit --import loader, invokes its actual click handler and asserts the resulting injected Herdr action.
+- Unknown API, missing ID/handler or source-string-only assertion cannot pass as a render/event contract; no test substitute is included in distributed runtime code.
+- Retained child updates/release and an explicitly materialized lazy range execute real View handlers with stable captured identity; offscreen cards are not rendered. Creating/updating a child or notifying during render/layout, registering a handler inside list layout, using released handles or unsupported APIs fails. Deterministic sleep interleavings prove owner invalidation, stale-generation suppression and abandoned-child release; scalar child and module-export unions match the installed declarations. Event/render Context use after an awaited sleep throws stale-context; init/spawn AsyncContext resumes in task phase and works until owner invalidation.
+
+**Write scope:**
+
+| File | Action | Role |
+| --- | --- | --- |
+| tests/support/native-loader.mjs | Modify existing source or prior task output | Node --import loader registration for native runtime module test substitutes. |
+| tests/support/native-recording.mjs | Modify existing source or prior task output | Strict recording element/View and injected Herdr API implementations. Own strict retained child lifecycle, explicit list-range materialization and phase guards. |
+| tests/native-recording.test.mjs | Modify existing source or prior task output | Loads a fixture native module, invokes its real handler and rejects unsupported API / wrong-scope effects. |
+
+**Validate:**
+
+```sh
+node --test tests/native-recording.test.mjs
+```
+
+### TASK-079: Create installed Settings previews for both layouts
+
+Draw the two local layout-preview SVG source assets separately from public real screenshot preview.png. This task validates SVG syntax, expected source geometry/palette and builder copying using a temporary fixture only. TASK-006 owns actual root preview paths, TASK-009 owns real bundle inclusion, and TASK-010 owns installed Settings resolution; those outputs do not exist at this task's gate. The overview Settings artwork depicts all six source slots (jira/github/pulls/gitlab/merges/sessions). Reopen its existing source/test scope as Modify and revalidate copies; the Classic preview remains terminal-first with its panel closed.
+
+**Type:** feature  
+**Priority:** P1  
+**Effort:** L  
+**Agent:** general-purpose  
+**Review:** codex  
+**Depends on:** TASK-004, TASK-002
+
+**Acceptance Criteria:**
+
+- Both source SVGs parse, represent their intended view, and the builder copies them to fixture layouts/ paths with matching bytes. The overview carries six explicit data-source slots matching navigation.
+- Malformed/outside-path SVG or missing fixture copy fails this task; public screenshots and future real Settings/package/install results are not claimed by this source gate.
+
+**Write scope:**
+
+| File | Action | Role |
+| --- | --- | --- |
+| src/layouts/mission-control.svg | Modify existing source or prior task output | Installed Settings preview for the overview layout. |
+| src/layouts/mission-control-classic.svg | Modify existing source or prior task output | Installed Settings preview for the terminal-first layout. |
+| tests/layout-previews.test.mjs | Modify existing source or prior task output | SVG source syntax/shape and temporary fixture builder-copy checks only; real root/bundle/install checks belong to TASK-006/009/010. |
+
+**Validate:**
+
+```sh
+node --test tests/layout-previews.test.mjs
+```
+
+## Failure Modes
+
+| Failure | Containment / recovery |
+| --- | --- |
+| Invalid / outdated config | Keep the original bytes, display the validation error and edit/retry; never reset silently. |
+| Offline host / missing executable / timeout | Keep correctly scoped timestamped data, disable only the affected action, show host and retry; never execute locally as fallback. |
+| Partial install / package collision | Refuse overwrites, retain the previous layout and owned-file receipt; rollback removes only newly installed matching-hash files. |
+| Wrong account or malformed provider output | Reject the response, redact error details and clear wrong-scope data. Authentication never switches global CLI state. |
+| Task-local assertion / native check failure | Do not advance dependent tasks, install or publish. Fix within the task scope, rerun its scoped validation and refresh any invalidated consumer evidence. |
+| Protected live-instance read is disallowed | No live-instance query is an isolation prerequisite. Require fresh namespace/root, verified private sockets and process generations; unproved ownership fails closed without stopping or deleting resources. |
+| Native PR render budget or retained/lazy lifecycle failure | Index immutable members once, lazily render retained card entities, batch root-owned preparation, reject stale generation publication and prove 120-record native scrolling. Keep full action metadata and origin lifetime; do not shrink the workload or suppress the renderer error. |
+
+## Ship Cut
+
+Do not publish or install a partially working package. A checked, self-contained standalone mod may ship after its own native evidence, recipe and real preview; the layout waits for all mandatory mod plans.
+
+## Test Coverage Map
+
+| Task | Paths | Gate |
+| --- | --- | --- |
+| TASK-001 | package.json, package-lock.json, .gitignore | subprocess / network integration: npm ci && npm ls --depth=0 |
+| TASK-002 | scripts/project.mjs, tests/project.test.mjs | subprocess / network integration: node --test tests/project.test.mjs |
+| TASK-003 | src/shared/config.js, tests/config.test.mjs | unit / contract plus native gate: node --test tests/config.test.mjs |
+| TASK-004 | src/shared/ui.js, src/assets/icons.json, tests/ui.test.mjs | unit / contract plus native gate: node --import ./tests/support/native-loader.mjs --test tests/ui.test.mjs |
+| TASK-005 | scripts/native-harness.mjs, tests/native-harness.test.mjs | mounted native integration: node --test tests/native-harness.test.mjs && node scripts/native-harness.mjs probe |
+| TASK-006 | src/layouts/mission-control.json, src/layouts/mission-control-classic.json, tests/layouts.test.mjs | unit / contract plus native gate: node --test tests/layouts.test.mjs |
+| TASK-007 | tests/native/layout.mjs, evidence/native/layout.json | mounted native integration: node scripts/native-harness.mjs run layout |
+| TASK-008 | README.md, LICENSE, NOTICE.md | artifact / package validation: node scripts/project.mjs inspect-docs README.md LICENSE NOTICE.md |
+| TASK-009 | mission-control/RECIPE.md, mission-control/preview.png, tests/package-layout.test.mjs | artifact / package validation: node scripts/project.mjs bundle && node --test tests/package-layout.test.mjs |
+| TASK-010 | scripts/install.mjs, tests/install.test.mjs, evidence/native/install.json | subprocess / network integration: node --test tests/install.test.mjs && node scripts/install.mjs --verify-receipt evidence/native/install.json |
+| TASK-011 | scripts/release.mjs, tests/release.test.mjs, evidence/release.json | subprocess / network integration: node --test tests/release.test.mjs && node scripts/release.mjs verify --receipt evidence/release.json |
+| TASK-069 | src/shared/session-identity.js, tests/session-identity.test.mjs | unit / contract plus native gate: node --test tests/session-identity.test.mjs |
+| TASK-070 | src/shared/name-ownership.js, tests/name-ownership.test.mjs | unit / contract plus native gate: node --test tests/name-ownership.test.mjs |
+| TASK-077 | scripts/native-driver.swift, scripts/native-driver.mjs, tests/native-driver.test.mjs | mounted native integration: node --test tests/native-driver.test.mjs && node scripts/native-driver.mjs probe |
+| TASK-078 | tests/support/native-loader.mjs, tests/support/native-recording.mjs, tests/native-recording.test.mjs | subprocess / network integration: node --test tests/native-recording.test.mjs |
+| TASK-079 | src/layouts/mission-control.svg, src/layouts/mission-control-classic.svg, tests/layout-previews.test.mjs | unit / contract plus native gate: node --test tests/layout-previews.test.mjs |
+
+## Execution Summary
+
+| Metric | Derived value |
+| --- | --- |
+| Tasks | 16 |
+| Local roots | TASK-001 |
+| Union DAG layers reached | 1, 2, 3, 4, 27, 28, 29, 30, 31 |
+| Critical path including prerequisite plans | TASK-001 → TASK-003 → TASK-012 → TASK-013 → TASK-071 → TASK-015 → TASK-016 → TASK-038 → TASK-046 → TASK-047 → TASK-048 → TASK-049 → TASK-080 → TASK-084 → TASK-085 → TASK-086 → TASK-088 → TASK-089 → TASK-090 → TASK-050 → TASK-055 → TASK-056 → TASK-060 → TASK-061 → TASK-062 → TASK-063 → TASK-006 → TASK-007 → TASK-009 → TASK-010 → TASK-011 |
+| Cross-plan task dependencies | 27 |
+
+Layers (global prerequisite depth, not arbitrary serial order):
+
+- Layer 1: TASK-001
+- Layer 2: TASK-002, TASK-003, TASK-077, TASK-078
+- Layer 3: TASK-004, TASK-005, TASK-069
+- Layer 4: TASK-070, TASK-079
+- Layer 27: TASK-006
+- Layer 28: TASK-007, TASK-008
+- Layer 29: TASK-009
+- Layer 30: TASK-010
+- Layer 31: TASK-011
+
+## Task Dependencies
+
+```json
+{
+  "TASK-001": [],
+  "TASK-002": [
+    "TASK-001"
+  ],
+  "TASK-003": [
+    "TASK-001"
+  ],
+  "TASK-004": [
+    "TASK-001",
+    "TASK-078"
+  ],
+  "TASK-005": [
+    "TASK-002",
+    "TASK-077"
+  ],
+  "TASK-006": [
+    "TASK-004",
+    "TASK-063",
+    "TASK-021",
+    "TASK-029",
+    "TASK-039",
+    "TASK-047",
+    "TASK-052",
+    "TASK-057",
+    "TASK-079",
+    "TASK-090"
+  ],
+  "TASK-007": [
+    "TASK-006",
+    "TASK-005",
+    "TASK-018",
+    "TASK-022",
+    "TASK-030",
+    "TASK-040",
+    "TASK-048",
+    "TASK-064",
+    "TASK-058",
+    "TASK-053",
+    "TASK-091",
+    "TASK-093"
+  ],
+  "TASK-008": [
+    "TASK-004",
+    "TASK-002",
+    "TASK-018",
+    "TASK-022",
+    "TASK-030",
+    "TASK-040",
+    "TASK-048",
+    "TASK-053",
+    "TASK-058",
+    "TASK-064",
+    "TASK-092",
+    "TASK-093"
+  ],
+  "TASK-009": [
+    "TASK-007",
+    "TASK-008",
+    "TASK-019",
+    "TASK-023",
+    "TASK-031",
+    "TASK-041",
+    "TASK-049",
+    "TASK-065",
+    "TASK-059",
+    "TASK-054",
+    "TASK-092",
+    "TASK-093"
+  ],
+  "TASK-010": [
+    "TASK-009"
+  ],
+  "TASK-011": [
+    "TASK-010"
+  ],
+  "TASK-069": [
+    "TASK-003"
+  ],
+  "TASK-070": [
+    "TASK-069"
+  ],
+  "TASK-077": [
+    "TASK-001"
+  ],
+  "TASK-078": [
+    "TASK-001"
+  ],
+  "TASK-079": [
+    "TASK-004",
+    "TASK-002"
+  ]
+}
+```

@@ -1,0 +1,45 @@
+{
+  "mode": "FULL",
+  "plans": [
+    {
+      "name": "mission-control-gitlab",
+      "verdict": "REJECT",
+      "blocks": 1,
+      "concerns": 0,
+      "reviewer": "founder_trackers",
+      "sha256": {
+        "json": "043647a124f066d78986511d6714408c492a15118124e9c1154c89e3693e6009",
+        "md": "4a45ccf0f0ef8d126faaf895d9d9a589fe1636fc16d5d44f762388a77c831e56"
+      },
+      "finding": "Sessions/Reopen may build shared-source bundles before GitLab changes; encode ordering or revalidate them."
+    },
+    {
+      "name": "mission-control",
+      "verdict": "REJECT",
+      "blocks": 1,
+      "concerns": 0,
+      "reviewer": "founder_layout_accounts",
+      "sha256": {
+        "json": "2bb0dada260147f3d03b69477736c703a0cace59954fa1e7d00c698c50e8e131",
+        "md": "deab7046582ed8cf79911c14002403c782506dc4140d553f55a6db72f956c5a1"
+      },
+      "finding": "GitLab local roots need the explicitly requested after-GitHub ordering."
+    },
+    {
+      "name": "mission-control-tabs",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "reviewer": "founder_tabs_history",
+      "sha256": {
+        "json": "7fa33a33c9cf433652d1800ff749fa5ea2c0662101d4f04461760b7fea0c2869",
+        "md": "45d9a9964ea0ae9625562e82cb96ea259b287f584f61470a23cb3e1274401096"
+      }
+    }
+  ],
+  "fixes": [
+    "TASK080/082/083 depend049.",
+    "Sessions TASK050 depends090; Reopen follows transitively. Build-time ordering only, no runtime GitLab dependency."
+  ],
+  "next": "Rerender and FULL review all five affected pairs at new hashes."
+}

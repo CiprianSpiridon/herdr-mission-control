@@ -1,0 +1,4577 @@
+{
+  "v": 2,
+  "ok": true,
+  "code": null,
+  "error": null,
+  "cleanupError": null,
+  "completedMs": 1793552541541,
+  "nonce": "330646205c2c822ee984b83e",
+  "isolation": {
+    "method": "private-ownership-v2",
+    "existingInstancesQueried": false,
+    "context": {
+      "root": "/private/tmp/mcqa-F9Ta5y",
+      "nonce": "330646205c2c822ee984b83e",
+      "session": "mcqa-330646205c2c822ee984b83e",
+      "uid": 502,
+      "createdMs": 1793552361555,
+      "directory": {
+        "dev": "16777233",
+        "ino": "810555306",
+        "uid": 502,
+        "mode": 448,
+        "birthMs": 1793552361555
+      },
+      "selectors": {
+        "HOME": "/private/tmp/mcqa-F9Ta5y/h",
+        "USERPROFILE": "/private/tmp/mcqa-F9Ta5y/h",
+        "TMPDIR": "/private/tmp/mcqa-F9Ta5y/t",
+        "XDG_CONFIG_HOME": "/private/tmp/mcqa-F9Ta5y/c",
+        "XDG_DATA_HOME": "/private/tmp/mcqa-F9Ta5y/d",
+        "XDG_STATE_HOME": "/private/tmp/mcqa-F9Ta5y/s",
+        "XDG_CACHE_HOME": "/private/tmp/mcqa-F9Ta5y/k",
+        "XDG_RUNTIME_DIR": "/private/tmp/mcqa-F9Ta5y/r",
+        "HERDR_APP_HOME": "/private/tmp/mcqa-F9Ta5y/app",
+        "HC_SESSION": "mcqa-330646205c2c822ee984b83e"
+      }
+    },
+    "core": {
+      "id": "371e25f81de81d7fc9322e1ee78ecf1c",
+      "process": {
+        "pid": 77291,
+        "uid": 502,
+        "startedMs": 1793552361000,
+        "executable": "/Users/ciprian/.local/bin/herdr-core",
+        "fingerprint": "d8c08a8c9736b7653309b1f35cb8ac42777a5e73a4c4959fa0589a8e1827b80b"
+      },
+      "socket": {
+        "path": "/private/tmp/mcqa-F9Ta5y/r/herdr-core/mcqa-330646205c2c822ee984b83e.sock",
+        "dev": "16777233",
+        "ino": "810555443",
+        "uid": 502,
+        "mode": 493,
+        "ownerPids": [
+          77291
+        ]
+      },
+      "holder": {
+        "process": {
+          "pid": 77631,
+          "uid": 502,
+          "startedMs": 1793552362000,
+          "executable": "/Users/ciprian/.local/bin/herdr-core",
+          "fingerprint": "aed3ef5823de2de7649b347c0d156a37d1af55f68cc61305ec0941a43b34edc5"
+        },
+        "socket": {
+          "path": "/private/tmp/mcqa-F9Ta5y/r/herdr-core/mcqa-330646205c2c822ee984b83e.holder.764976d0.sock",
+          "dev": "16777233",
+          "ino": "810555881",
+          "uid": 502,
+          "mode": 493,
+          "ownerPids": [
+            77631
+          ]
+        }
+      }
+    },
+    "app": {
+      "process": {
+        "pid": 78868,
+        "uid": 502,
+        "startedMs": 1793552366000,
+        "executable": "/Applications/Herdr.app/Contents/MacOS/Herdr",
+        "fingerprint": "0feb1a599198fc38aa997b72c496d6a0bbefbdc0799ea143eeb93790b09ef696"
+      },
+      "socket": {
+        "path": "/private/tmp/mcqa-F9Ta5y/app/herdr-app.sock",
+        "dev": "16777233",
+        "ino": "810558264",
+        "uid": 502,
+        "mode": 493,
+        "ownerPids": [
+          78868
+        ]
+      }
+    },
+    "commandAudit": [
+      {
+        "sequence": 1,
+        "at": 1793552361577,
+        "kind": "hc",
+        "command": "server start",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "boot",
+        "result": "ok"
+      },
+      {
+        "sequence": 2,
+        "at": 1793552361648,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "boot",
+        "result": "ok"
+      },
+      {
+        "sequence": 3,
+        "at": 1793552361777,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 4,
+        "at": 1793552362263,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 5,
+        "at": 1793552362372,
+        "kind": "hc",
+        "command": "run",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 6,
+        "at": 1793552362485,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 7,
+        "at": 1793552362684,
+        "kind": "hc",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 8,
+        "at": 1793552362758,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 9,
+        "at": 1793552362892,
+        "kind": "hc",
+        "command": "get t1",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 10,
+        "at": 1793552362975,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 11,
+        "at": 1793552364797,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 12,
+        "at": 1793552364962,
+        "kind": "hc",
+        "command": "machine add",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 13,
+        "at": 1793552365489,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 14,
+        "at": 1793552365607,
+        "kind": "hc",
+        "command": "run",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 15,
+        "at": 1793552365688,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 16,
+        "at": 1793552365803,
+        "kind": "hc",
+        "command": "run",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 17,
+        "at": 1793552365988,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 18,
+        "at": 1793552366103,
+        "kind": "app",
+        "command": "check /private/tmp/mcqa-F9Ta5y/app/mods/mission-control-sessions",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 19,
+        "at": 1793552366456,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 20,
+        "at": 1793552367136,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 21,
+        "at": 1793552367306,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 22,
+        "at": 1793552367373,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 23,
+        "at": 1793552367552,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 24,
+        "at": 1793552367635,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 25,
+        "at": 1793552367747,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 26,
+        "at": 1793552367807,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 27,
+        "at": 1793552367977,
+        "kind": "app",
+        "command": "layout.switch",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 28,
+        "at": 1793552368064,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 29,
+        "at": 1793552368231,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 30,
+        "at": 1793552368293,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 31,
+        "at": 1793552368466,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 32,
+        "at": 1793552370129,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 33,
+        "at": 1793552370358,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 34,
+        "at": 1793552370426,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 35,
+        "at": 1793552370594,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 36,
+        "at": 1793552370660,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 37,
+        "at": 1793552370849,
+        "kind": "app",
+        "command": "space.rename",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 38,
+        "at": 1793552370920,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 39,
+        "at": 1793552371092,
+        "kind": "app",
+        "command": "space.rename",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 40,
+        "at": 1793552371159,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 41,
+        "at": 1793552371333,
+        "kind": "app",
+        "command": "space.rename",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 42,
+        "at": 1793552371394,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 43,
+        "at": 1793552371561,
+        "kind": "app",
+        "command": "space.rename",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 44,
+        "at": 1793552371627,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 45,
+        "at": 1793552371810,
+        "kind": "app",
+        "command": "space.select",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 46,
+        "at": 1793552371882,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 47,
+        "at": 1793552372057,
+        "kind": "app",
+        "command": "tab.select",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 48,
+        "at": 1793552372121,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 49,
+        "at": 1793552372400,
+        "kind": "app",
+        "command": "pane.focus",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 50,
+        "at": 1793552372466,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 51,
+        "at": 1793552372636,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 52,
+        "at": 1793552377562,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 53,
+        "at": 1793552377722,
+        "kind": "app",
+        "command": "space.select",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 54,
+        "at": 1793552377785,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 55,
+        "at": 1793552377956,
+        "kind": "app",
+        "command": "tab.select",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 56,
+        "at": 1793552378020,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 57,
+        "at": 1793552378191,
+        "kind": "app",
+        "command": "pane.focus",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 58,
+        "at": 1793552378253,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 59,
+        "at": 1793552378425,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 60,
+        "at": 1793552380939,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 61,
+        "at": 1793552381109,
+        "kind": "app",
+        "command": "space.select",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 62,
+        "at": 1793552381172,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 63,
+        "at": 1793552381347,
+        "kind": "app",
+        "command": "tab.select",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 64,
+        "at": 1793552381411,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 65,
+        "at": 1793552381575,
+        "kind": "app",
+        "command": "pane.focus",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 66,
+        "at": 1793552381637,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 67,
+        "at": 1793552381813,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 68,
+        "at": 1793552411721,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 69,
+        "at": 1793552411961,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 70,
+        "at": 1793552414815,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 71,
+        "at": 1793552415209,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 72,
+        "at": 1793552415370,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 73,
+        "at": 1793552415626,
+        "kind": "hc",
+        "command": "get t4",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 74,
+        "at": 1793552415776,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 75,
+        "at": 1793552416248,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 76,
+        "at": 1793552417690,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 77,
+        "at": 1793552417942,
+        "kind": "app",
+        "command": "space.select",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 78,
+        "at": 1793552418042,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 79,
+        "at": 1793552418283,
+        "kind": "app",
+        "command": "tab.select",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 80,
+        "at": 1793552418440,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 81,
+        "at": 1793552418834,
+        "kind": "app",
+        "command": "pane.focus",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 82,
+        "at": 1793552418999,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 83,
+        "at": 1793552419387,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 84,
+        "at": 1793552419518,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 85,
+        "at": 1793552419909,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 86,
+        "at": 1793552420069,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 87,
+        "at": 1793552420417,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 88,
+        "at": 1793552422267,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 89,
+        "at": 1793552422657,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 90,
+        "at": 1793552424047,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 91,
+        "at": 1793552424289,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 92,
+        "at": 1793552432960,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 93,
+        "at": 1793552433190,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 94,
+        "at": 1793552437538,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 95,
+        "at": 1793552437801,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 96,
+        "at": 1793552440278,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 97,
+        "at": 1793552440573,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 98,
+        "at": 1793552440683,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 99,
+        "at": 1793552440870,
+        "kind": "hc",
+        "command": "get t5",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 100,
+        "at": 1793552440972,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 101,
+        "at": 1793552441345,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 102,
+        "at": 1793552441489,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 103,
+        "at": 1793552441776,
+        "kind": "app",
+        "command": "tab.close",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 104,
+        "at": 1793552441907,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 105,
+        "at": 1793552442286,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 106,
+        "at": 1793552442420,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 107,
+        "at": 1793552442592,
+        "kind": "hc",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 108,
+        "at": 1793552445529,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 109,
+        "at": 1793552445720,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 110,
+        "at": 1793552450319,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 111,
+        "at": 1793552450565,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 112,
+        "at": 1793552450661,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 113,
+        "at": 1793552450956,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 114,
+        "at": 1793552451161,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 115,
+        "at": 1793552451389,
+        "kind": "hc",
+        "command": "get t6",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 116,
+        "at": 1793552451516,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 117,
+        "at": 1793552451832,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 118,
+        "at": 1793552451920,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 119,
+        "at": 1793552452140,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 120,
+        "at": 1793552455390,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 121,
+        "at": 1793552455622,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 122,
+        "at": 1793552455700,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 123,
+        "at": 1793552455899,
+        "kind": "hc",
+        "command": "get t7",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 124,
+        "at": 1793552459447,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 125,
+        "at": 1793552459637,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 126,
+        "at": 1793552459705,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 127,
+        "at": 1793552459829,
+        "kind": "hc",
+        "command": "get t8",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 128,
+        "at": 1793552460634,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 129,
+        "at": 1793552460813,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 130,
+        "at": 1793552461024,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 131,
+        "at": 1793552461284,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 132,
+        "at": 1793552466170,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 133,
+        "at": 1793552466363,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 134,
+        "at": 1793552466451,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 135,
+        "at": 1793552466651,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 136,
+        "at": 1793552467424,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 137,
+        "at": 1793552467639,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 138,
+        "at": 1793552467720,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 139,
+        "at": 1793552467967,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 140,
+        "at": 1793552471046,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 141,
+        "at": 1793552471230,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 142,
+        "at": 1793552471299,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 143,
+        "at": 1793552471478,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 144,
+        "at": 1793552478941,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 145,
+        "at": 1793552479114,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 146,
+        "at": 1793552479358,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 147,
+        "at": 1793552479559,
+        "kind": "app",
+        "command": "tab.close",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 148,
+        "at": 1793552479631,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 149,
+        "at": 1793552479811,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 150,
+        "at": 1793552479882,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 151,
+        "at": 1793552480000,
+        "kind": "hc",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 152,
+        "at": 1793552480697,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 153,
+        "at": 1793552480878,
+        "kind": "app",
+        "command": "tab.new",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 154,
+        "at": 1793552480968,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 155,
+        "at": 1793552481095,
+        "kind": "hc",
+        "command": "get t9",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 156,
+        "at": 1793552481258,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 157,
+        "at": 1793552481374,
+        "kind": "hc",
+        "command": "get t9",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 158,
+        "at": 1793552481434,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 159,
+        "at": 1793552481600,
+        "kind": "app",
+        "command": "space.select",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 160,
+        "at": 1793552481663,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 161,
+        "at": 1793552481827,
+        "kind": "app",
+        "command": "tab.select",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 162,
+        "at": 1793552481890,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 163,
+        "at": 1793552482063,
+        "kind": "app",
+        "command": "pane.focus",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 164,
+        "at": 1793552482127,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 165,
+        "at": 1793552482354,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 166,
+        "at": 1793552489509,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 167,
+        "at": 1793552489911,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 168,
+        "at": 1793552490010,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 169,
+        "at": 1793552490308,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 170,
+        "at": 1793552498861,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 171,
+        "at": 1793552499036,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 172,
+        "at": 1793552499104,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 173,
+        "at": 1793552499280,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 174,
+        "at": 1793552499349,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 175,
+        "at": 1793552499519,
+        "kind": "app",
+        "command": "space.select",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 176,
+        "at": 1793552499580,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 177,
+        "at": 1793552499741,
+        "kind": "app",
+        "command": "tab.select",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 178,
+        "at": 1793552499802,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 179,
+        "at": 1793552499964,
+        "kind": "app",
+        "command": "pane.focus",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 180,
+        "at": 1793552500025,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 181,
+        "at": 1793552500184,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 182,
+        "at": 1793552500245,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 183,
+        "at": 1793552500418,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 184,
+        "at": 1793552500481,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 185,
+        "at": 1793552500653,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 186,
+        "at": 1793552501632,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 187,
+        "at": 1793552501798,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 188,
+        "at": 1793552504348,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 189,
+        "at": 1793552504518,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 190,
+        "at": 1793552504581,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 191,
+        "at": 1793552504744,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 192,
+        "at": 1793552504805,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 193,
+        "at": 1793552504969,
+        "kind": "app",
+        "command": "tab.close",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 194,
+        "at": 1793552505030,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 195,
+        "at": 1793552505193,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 196,
+        "at": 1793552505257,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 197,
+        "at": 1793552505369,
+        "kind": "hc",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 198,
+        "at": 1793552505432,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 199,
+        "at": 1793552505603,
+        "kind": "app",
+        "command": "tab.new",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 200,
+        "at": 1793552505685,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 201,
+        "at": 1793552505802,
+        "kind": "hc",
+        "command": "get t10",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 202,
+        "at": 1793552505970,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 203,
+        "at": 1793552506086,
+        "kind": "hc",
+        "command": "get t10",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 204,
+        "at": 1793552506149,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 205,
+        "at": 1793552506317,
+        "kind": "app",
+        "command": "space.select",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 206,
+        "at": 1793552506381,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 207,
+        "at": 1793552506550,
+        "kind": "app",
+        "command": "tab.select",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 208,
+        "at": 1793552506617,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 209,
+        "at": 1793552506781,
+        "kind": "app",
+        "command": "pane.focus",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 210,
+        "at": 1793552506847,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 211,
+        "at": 1793552507014,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 212,
+        "at": 1793552507661,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 213,
+        "at": 1793552507826,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 214,
+        "at": 1793552507891,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 215,
+        "at": 1793552508059,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 216,
+        "at": 1793552511244,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 217,
+        "at": 1793552511414,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 218,
+        "at": 1793552511488,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 219,
+        "at": 1793552511691,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 220,
+        "at": 1793552511771,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 221,
+        "at": 1793552512048,
+        "kind": "app",
+        "command": "space.select",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 222,
+        "at": 1793552512170,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 223,
+        "at": 1793552512591,
+        "kind": "app",
+        "command": "tab.select",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 224,
+        "at": 1793552512679,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 225,
+        "at": 1793552512865,
+        "kind": "app",
+        "command": "pane.focus",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 226,
+        "at": 1793552512930,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 227,
+        "at": 1793552513096,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 228,
+        "at": 1793552513160,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 229,
+        "at": 1793552513331,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 230,
+        "at": 1793552517805,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 231,
+        "at": 1793552517971,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 232,
+        "at": 1793552518035,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 233,
+        "at": 1793552518232,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 234,
+        "at": 1793552518294,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 235,
+        "at": 1793552518404,
+        "kind": "hc",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 236,
+        "at": 1793552518471,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 237,
+        "at": 1793552518584,
+        "kind": "hc",
+        "command": "get t11",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 238,
+        "at": 1793552522597,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 239,
+        "at": 1793552522706,
+        "kind": "hc",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 240,
+        "at": 1793552522766,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 241,
+        "at": 1793552522879,
+        "kind": "hc",
+        "command": "get t1",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 242,
+        "at": 1793552522938,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 243,
+        "at": 1793552523049,
+        "kind": "hc",
+        "command": "get t2",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 244,
+        "at": 1793552523109,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 245,
+        "at": 1793552523222,
+        "kind": "hc",
+        "command": "get t3",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 246,
+        "at": 1793552523283,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 247,
+        "at": 1793552523399,
+        "kind": "hc",
+        "command": "get t5",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 248,
+        "at": 1793552523461,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 249,
+        "at": 1793552523573,
+        "kind": "hc",
+        "command": "get t7",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 250,
+        "at": 1793552523633,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 251,
+        "at": 1793552523745,
+        "kind": "hc",
+        "command": "get t8",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 252,
+        "at": 1793552523808,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 253,
+        "at": 1793552523921,
+        "kind": "hc",
+        "command": "get t10",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 254,
+        "at": 1793552523983,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 255,
+        "at": 1793552524096,
+        "kind": "hc",
+        "command": "get t11",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 256,
+        "at": 1793552527959,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 257,
+        "at": 1793552528129,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 258,
+        "at": 1793552528192,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 259,
+        "at": 1793552528362,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 260,
+        "at": 1793552530758,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 261,
+        "at": 1793552530931,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 262,
+        "at": 1793552530996,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 263,
+        "at": 1793552531169,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 264,
+        "at": 1793552534934,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 265,
+        "at": 1793552535100,
+        "kind": "app",
+        "command": "space.select",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 266,
+        "at": 1793552535164,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 267,
+        "at": 1793552535332,
+        "kind": "app",
+        "command": "tab.select",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 268,
+        "at": 1793552535400,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 269,
+        "at": 1793552535571,
+        "kind": "app",
+        "command": "pane.focus",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 270,
+        "at": 1793552535636,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 271,
+        "at": 1793552535804,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 272,
+        "at": 1793552537500,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 273,
+        "at": 1793552537674,
+        "kind": "app",
+        "command": "space.select",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 274,
+        "at": 1793552537740,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 275,
+        "at": 1793552537908,
+        "kind": "app",
+        "command": "tab.select",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 276,
+        "at": 1793552537976,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 277,
+        "at": 1793552538147,
+        "kind": "app",
+        "command": "pane.focus",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 278,
+        "at": 1793552538212,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 279,
+        "at": 1793552538378,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 280,
+        "at": 1793552540063,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 281,
+        "at": 1793552540232,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 282,
+        "at": 1793552540296,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 283,
+        "at": 1793552540411,
+        "kind": "hc",
+        "command": "machine rm",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 284,
+        "at": 1793552540480,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 285,
+        "at": 1793552540704,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 286,
+        "at": 1793552540875,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 287,
+        "at": 1793552540937,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 288,
+        "at": 1793552541107,
+        "kind": "app",
+        "command": "app.quit",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 289,
+        "at": 1793552541221,
+        "kind": "app",
+        "command": "verify exit",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 290,
+        "at": 1793552541275,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 291,
+        "at": 1793552541385,
+        "kind": "hc",
+        "command": "server stop",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 292,
+        "at": 1793552541499,
+        "kind": "hc",
+        "command": "verify exit",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 293,
+        "at": 1793552541502,
+        "kind": "hc",
+        "command": "verify exit",
+        "selectorSha256": "6df829452ca6089edda337326be09284759b6ec23681d824b6d0ddbb45d33fa4",
+        "phase": "cleanup",
+        "result": "ok"
+      }
+    ]
+  },
+  "privateCoreId": "371e25f81de81d7fc9322e1ee78ecf1c",
+  "privateCorePid": 77291,
+  "privateHolderPid": 77631,
+  "appPid": 78868,
+  "launcherPid": 78868,
+  "launcherExitCode": 0,
+  "assertions": [
+    {
+      "label": "Fresh positively verified private core starts empty",
+      "passed": true
+    },
+    {
+      "label": "Exact nonce sentinel belongs to the verified private core",
+      "passed": true
+    },
+    {
+      "label": "Full sentinel generation and QA ownership verified",
+      "passed": true
+    },
+    {
+      "label": "Fixture provider history holds at least two exact session IDs in every repository",
+      "passed": true
+    },
+    {
+      "label": "Standalone install contains only mission-control-sessions and passes herdr-app check",
+      "passed": true
+    },
+    {
+      "label": "Private app uses the original verified core generation",
+      "passed": true
+    },
+    {
+      "label": "No native layout/mod errors",
+      "passed": true
+    },
+    {
+      "label": "This space lists only its repository sessions, newest first, with newer B above non-last A",
+      "passed": true
+    },
+    {
+      "label": "This space excludes another repository space and the remote host",
+      "passed": true
+    },
+    {
+      "label": "Focusing the second repository space scopes Sessions to its own exact sessions",
+      "passed": true
+    },
+    {
+      "label": "All spaces lists every space and the remote host with their host labels",
+      "passed": true
+    },
+    {
+      "label": "Selecting non-last A resumes exact claude --resume A argv in its original checkout on This Mac",
+      "passed": true
+    },
+    {
+      "label": "A history session resumes under its reported title with automatic name ownership",
+      "passed": true
+    },
+    {
+      "label": "Clicking a running exact session focuses its proven terminal without a new tab",
+      "passed": true
+    },
+    {
+      "label": "Native tab menu rename records a manual name for exact session A",
+      "passed": true
+    },
+    {
+      "label": "Newer same-repo B resumes into its own exact tab",
+      "passed": true
+    },
+    {
+      "label": "Closing A’s tab returns its history row to resumable without losing the manual name",
+      "passed": true
+    },
+    {
+      "label": "Double-clicking non-last A creates exactly one new tab with exact resume argv, cwd and host",
+      "passed": true
+    },
+    {
+      "label": "A’s manual name is restored exactly once onto the new tab ID while newer B stays unchanged",
+      "passed": true
+    },
+    {
+      "label": "History-only session without a saved name resumes under its truthful reported title",
+      "passed": true
+    },
+    {
+      "label": "Untitled Codex history keeps its truthful fallback and resumes codex resume D in its linked worktree",
+      "passed": true
+    },
+    {
+      "label": "Grok history without verified exact resume is labelled unsupported and inert",
+      "passed": true
+    },
+    {
+      "label": "History without an exact session ID is labelled unsupported and inert",
+      "passed": true
+    },
+    {
+      "label": "Sources panel discloses exact read-only provider roots",
+      "passed": true
+    },
+    {
+      "label": "Preview frame shows populated history with zero native app errors",
+      "passed": true
+    },
+    {
+      "label": "Unbound live same-host claude terminal blocks A with zero focus and zero tab.new/resume",
+      "passed": true
+    },
+    {
+      "label": "After exact proof binds that terminal to A, selecting A focuses it once without a launch",
+      "passed": true
+    },
+    {
+      "label": "A second unbound terminal again blocks A with zero side effects",
+      "passed": true
+    },
+    {
+      "label": "After exact proof binds that terminal to B, double-clicking A resumes A exactly once",
+      "passed": true
+    },
+    {
+      "label": "Non-last remote session resumes only on qa-server with exact argv and remote cwd",
+      "passed": true
+    },
+    {
+      "label": "No remote session ever runs on the local core",
+      "passed": true
+    },
+    {
+      "label": "Offline host rows explain the outage and start nothing",
+      "passed": true
+    },
+    {
+      "label": "Only the offline host loses its action; local rows stay resumable",
+      "passed": true
+    },
+    {
+      "label": "A space without a Git repository shows its empty state",
+      "passed": true
+    },
+    {
+      "label": "Disabling every history source clears rows and shows the missing-source empty state",
+      "passed": true
+    },
+    {
+      "label": "Every acknowledged resume is unique per click: seven launches and exactly three epochs for A",
+      "passed": true
+    },
+    {
+      "label": "Provider history files are never modified",
+      "passed": true
+    },
+    {
+      "label": "No resume used --last or --continue",
+      "passed": true
+    },
+    {
+      "label": "Mounted Sessions workflows produce zero native app errors",
+      "passed": true
+    },
+    {
+      "label": "Only this standalone custom mod is installed",
+      "passed": true
+    },
+    {
+      "label": "Scenario used real native input and captured a native frame",
+      "passed": true
+    }
+  ],
+  "inputActions": [
+    {
+      "kind": "window-bind",
+      "pid": 78868,
+      "windowId": 12953
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1214.418603914946,
+      "y": 454.0586794474765,
+      "control": "All spaces",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-13.png",
+        "sha256": "205a369c6ab48a9b4deb4cebeb625ab5182d0022912957ef06df4cb0d88385d4",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1344,
+      "y": 404,
+      "control": "Inert Sessions header",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-13.png",
+        "sha256": "205a369c6ab48a9b4deb4cebeb625ab5182d0022912957ef06df4cb0d88385d4",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1144.6511646848382,
+      "y": 454.98777496821515,
+      "control": "This space",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-19.png",
+        "sha256": "e272121ea92c7e8884011e7a976abd925b5ada5b562949b5a43ad1d5c96b5641",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1344,
+      "y": 404,
+      "control": "Inert Sessions header",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-19.png",
+        "sha256": "e272121ea92c7e8884011e7a976abd925b5ada5b562949b5a43ad1d5c96b5641",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1187.4418590032321,
+      "y": 721.6063569449877,
+      "control": "Trace token refresh",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-22.png",
+        "sha256": "4da82d4098427932df2eb1ed472d058b6aabc72014db9aa57a8a883f454bf7c0",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1344,
+      "y": 404,
+      "control": "Inert Sessions header",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-22.png",
+        "sha256": "4da82d4098427932df2eb1ed472d058b6aabc72014db9aa57a8a883f454bf7c0",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1187.4418590032321,
+      "y": 721.6063569449877,
+      "control": "Trace token refresh",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-24.png",
+        "sha256": "f735295eb3bea763396b0ab4882617f8ad7601c4b8946e972994864bc241a67a",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1344,
+      "y": 404,
+      "control": "Inert Sessions header",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-24.png",
+        "sha256": "f735295eb3bea763396b0ab4882617f8ad7601c4b8946e972994864bc241a67a",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "right",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 514.8837195758873,
+      "y": 370.4400978614507,
+      "control": "Tab menu Trace token refresh",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-26.png",
+        "sha256": "968f706059b081b8a04f815c30ffaf533dab254cc6bfc5a4d69a07657c4c727e",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 575.3488363410853,
+      "y": 390.8801956609617,
+      "control": "Rename",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-27.png",
+        "sha256": "d3121504c76559a7c3c39bce87dfbd47710eaadad1eecbc29b2237a8871ffe9e",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "key",
+      "pid": 78868,
+      "key": "cmd-a"
+    },
+    {
+      "kind": "key",
+      "pid": 78868,
+      "key": "backspace"
+    },
+    {
+      "kind": "native-text",
+      "pid": 78868,
+      "control": "Tab rename prompt",
+      "characters": 4
+    },
+    {
+      "kind": "native-text",
+      "pid": 78868,
+      "control": "Tab rename prompt",
+      "characters": 4
+    },
+    {
+      "kind": "native-text",
+      "pid": 78868,
+      "control": "Tab rename prompt",
+      "characters": 4
+    },
+    {
+      "kind": "native-text",
+      "pid": 78868,
+      "control": "Tab rename prompt",
+      "characters": 4
+    },
+    {
+      "kind": "native-text",
+      "pid": 78868,
+      "control": "Tab rename prompt",
+      "characters": 4
+    },
+    {
+      "kind": "key",
+      "pid": 78868,
+      "key": "enter"
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1208.8372105743176,
+      "y": 520.0140585171149,
+      "control": "Review deployment checks",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-31.png",
+        "sha256": "2b55938e9dae69911539d216fda24b03c9c67af7213042e87956a7142846116e",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1344,
+      "y": 404,
+      "control": "Inert Sessions header",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-31.png",
+        "sha256": "2b55938e9dae69911539d216fda24b03c9c67af7213042e87956a7142846116e",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1189.302325713595,
+      "y": 722.535452299511,
+      "control": "Pinned investigation",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-34.png",
+        "sha256": "d2cf6c756bc0e5f6249ec59b0b5003d8c87a0caee0a15cffa3273dbd57386eaf",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1189.302325713595,
+      "y": 722.535452299511,
+      "control": "Second click Pinned investigation",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-34.png",
+        "sha256": "d2cf6c756bc0e5f6249ec59b0b5003d8c87a0caee0a15cffa3273dbd57386eaf",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1344,
+      "y": 404,
+      "control": "Inert Sessions header",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-34.png",
+        "sha256": "d2cf6c756bc0e5f6249ec59b0b5003d8c87a0caee0a15cffa3273dbd57386eaf",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1186.5116286603018,
+      "y": 677.0415646992665,
+      "control": "Draft release notes",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-35.png",
+        "sha256": "aadd20ce7331c90d9626c8bcc58ca31ba62c6e35cefc399f326baaafc376dd24",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1344,
+      "y": 404,
+      "control": "Inert Sessions header",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-35.png",
+        "sha256": "aadd20ce7331c90d9626c8bcc58ca31ba62c6e35cefc399f326baaafc376dd24",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1155.6264534883721,
+      "y": 565.5501223422983,
+      "control": "Untitled",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-36.png",
+        "sha256": "5e2fabf6f4cc74aabe022c36370cb28ccee6643407013933172d2273fb6db742",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1344,
+      "y": 404,
+      "control": "Inert Sessions header",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-36.png",
+        "sha256": "5e2fabf6f4cc74aabe022c36370cb28ccee6643407013933172d2273fb6db742",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1192.5988363152326,
+      "y": 611.0397309352079,
+      "control": "Audit flaky checkout",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-38.png",
+        "sha256": "f0f554401e95c584993d3d6d9559d40a7fc95185c3031d60a9274865d895d2c0",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1344,
+      "y": 404,
+      "control": "Inert Sessions header",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-38.png",
+        "sha256": "f0f554401e95c584993d3d6d9559d40a7fc95185c3031d60a9274865d895d2c0",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1193.953489410348,
+      "y": 769.0128360464547,
+      "control": "Legacy imported chat",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-40.png",
+        "sha256": "f0f554401e95c584993d3d6d9559d40a7fc95185c3031d60a9274865d895d2c0",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1344,
+      "y": 404,
+      "control": "Inert Sessions header",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-40.png",
+        "sha256": "f0f554401e95c584993d3d6d9559d40a7fc95185c3031d60a9274865d895d2c0",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1557,
+      "y": 454.05867964466177,
+      "control": "History sources and paths",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-41.png",
+        "sha256": "f0f554401e95c584993d3d6d9559d40a7fc95185c3031d60a9274865d895d2c0",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1344,
+      "y": 404,
+      "control": "Inert Sessions header",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-41.png",
+        "sha256": "f0f554401e95c584993d3d6d9559d40a7fc95185c3031d60a9274865d895d2c0",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1557,
+      "y": 454.05867964466177,
+      "control": "History sources and paths",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-46.png",
+        "sha256": "49ba66e9e84b4b4fb7b7cc066edba026e06f00b595d052a9af1e59ef88d61d1f",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1344,
+      "y": 404,
+      "control": "Inert Sessions header",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-46.png",
+        "sha256": "49ba66e9e84b4b4fb7b7cc066edba026e06f00b595d052a9af1e59ef88d61d1f",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1189.302325713595,
+      "y": 722.535452299511,
+      "control": "Pinned investigation",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-50.png",
+        "sha256": "fbad9a8718d9bf23b3663b10a0fde5b89bc24d012e3f0b29086d22a64ff3ba96",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1344,
+      "y": 404,
+      "control": "Inert Sessions header",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-50.png",
+        "sha256": "fbad9a8718d9bf23b3663b10a0fde5b89bc24d012e3f0b29086d22a64ff3ba96",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1189.302328597373,
+      "y": 722.5354522066015,
+      "control": "Pinned investigation",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-53.png",
+        "sha256": "ea61750690b365052f8e26f1e592ad79272118c10ae30b77e54b6b292d1c845e",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1344,
+      "y": 404,
+      "control": "Inert Sessions header",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-53.png",
+        "sha256": "ea61750690b365052f8e26f1e592ad79272118c10ae30b77e54b6b292d1c845e",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1189.302328597373,
+      "y": 722.5354522066015,
+      "control": "Pinned investigation",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-55.png",
+        "sha256": "46d9709e1bed1bf6fbe204c5ea8d37e4c5d19fca9577f7ccec003c2c241eafde",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1344,
+      "y": 404,
+      "control": "Inert Sessions header",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-55.png",
+        "sha256": "46d9709e1bed1bf6fbe204c5ea8d37e4c5d19fca9577f7ccec003c2c241eafde",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1189.302328597373,
+      "y": 722.5354522066015,
+      "control": "Pinned investigation",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-58.png",
+        "sha256": "ab37d7ec825ae7fb46551f580eb7ea17e20d5ac43a13f2095c1375fd0ccb55fd",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1189.302328597373,
+      "y": 722.5354522066015,
+      "control": "Second click Pinned investigation",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-58.png",
+        "sha256": "ab37d7ec825ae7fb46551f580eb7ea17e20d5ac43a13f2095c1375fd0ccb55fd",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1344,
+      "y": 404,
+      "control": "Inert Sessions header",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-58.png",
+        "sha256": "ab37d7ec825ae7fb46551f580eb7ea17e20d5ac43a13f2095c1375fd0ccb55fd",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1214.4186043507186,
+      "y": 454.0586795265264,
+      "control": "All spaces",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-59.png",
+        "sha256": "789acd23686317fd0ab1b79f2fb2c1d3af11ab0f0a528f242c4e9dafd13ace38",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1344,
+      "y": 404,
+      "control": "Inert Sessions header",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-59.png",
+        "sha256": "789acd23686317fd0ab1b79f2fb2c1d3af11ab0f0a528f242c4e9dafd13ace38",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1183.7209317961897,
+      "y": 769.0128361858191,
+      "control": "Rotate server logs",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-61.png",
+        "sha256": "66268d4fd93a8dedbb562703d9cf78bd1f038dcbfed17d260bc26d7ae337e06f",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1344,
+      "y": 404,
+      "control": "Inert Sessions header",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-61.png",
+        "sha256": "66268d4fd93a8dedbb562703d9cf78bd1f038dcbfed17d260bc26d7ae337e06f",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1189.3023263521623,
+      "y": 519.0849632322738,
+      "control": "Watch server health",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-63.png",
+        "sha256": "6c6e88652cdf9bb96d2f7379e685cbe48181f693b7917875255ddea7785c5eda",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1344,
+      "y": 404,
+      "control": "Inert Sessions header",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-63.png",
+        "sha256": "6c6e88652cdf9bb96d2f7379e685cbe48181f693b7917875255ddea7785c5eda",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1144.6511646848382,
+      "y": 454.98777496821515,
+      "control": "This space",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-65.png",
+        "sha256": "b4fb95597bbd162ae7ce4ed4eca722ff6336c73316d44e598095a1890d7fcfe4",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 78868,
+      "windowId": 12953,
+      "x": 1344,
+      "y": 404,
+      "control": "Inert Sessions header",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-65.png",
+        "sha256": "b4fb95597bbd162ae7ce4ed4eca722ff6336c73316d44e598095a1890d7fcfe4",
+        "width": 2560,
+        "height": 1520
+      }
+    }
+  ],
+  "frames": [
+    {
+      "label": "sessions-observe-1",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-1.png",
+      "sha256": "faf5fd8227435121ccdefeb8fad6148a466e65e2f3c13adc34874a71048e703c",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-2",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-2.png",
+      "sha256": "faf5fd8227435121ccdefeb8fad6148a466e65e2f3c13adc34874a71048e703c",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-3",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-3.png",
+      "sha256": "205a369c6ab48a9b4deb4cebeb625ab5182d0022912957ef06df4cb0d88385d4",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-4",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-4.png",
+      "sha256": "205a369c6ab48a9b4deb4cebeb625ab5182d0022912957ef06df4cb0d88385d4",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-5",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-5.png",
+      "sha256": "4da82d4098427932df2eb1ed472d058b6aabc72014db9aa57a8a883f454bf7c0",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-6",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-6.png",
+      "sha256": "4da82d4098427932df2eb1ed472d058b6aabc72014db9aa57a8a883f454bf7c0",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-7",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-7.png",
+      "sha256": "4da82d4098427932df2eb1ed472d058b6aabc72014db9aa57a8a883f454bf7c0",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-8",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-8.png",
+      "sha256": "70fbc99ba8f863b85ec26ac88aeb8655b60f3a5d613869600bbc2441070e4118",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-9",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-9.png",
+      "sha256": "e88eb101e47250328304e3f6e937ea3726d71ceef9a54618fbd5d57baa154273",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-10",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-10.png",
+      "sha256": "e88eb101e47250328304e3f6e937ea3726d71ceef9a54618fbd5d57baa154273",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-11",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-11.png",
+      "sha256": "e88eb101e47250328304e3f6e937ea3726d71ceef9a54618fbd5d57baa154273",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-12",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-12.png",
+      "sha256": "205a369c6ab48a9b4deb4cebeb625ab5182d0022912957ef06df4cb0d88385d4",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-13",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-13.png",
+      "sha256": "205a369c6ab48a9b4deb4cebeb625ab5182d0022912957ef06df4cb0d88385d4",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-14",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-14.png",
+      "sha256": "e272121ea92c7e8884011e7a976abd925b5ada5b562949b5a43ad1d5c96b5641",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-15",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-15.png",
+      "sha256": "e272121ea92c7e8884011e7a976abd925b5ada5b562949b5a43ad1d5c96b5641",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-16",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-16.png",
+      "sha256": "e272121ea92c7e8884011e7a976abd925b5ada5b562949b5a43ad1d5c96b5641",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-17",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-17.png",
+      "sha256": "e272121ea92c7e8884011e7a976abd925b5ada5b562949b5a43ad1d5c96b5641",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-18",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-18.png",
+      "sha256": "e272121ea92c7e8884011e7a976abd925b5ada5b562949b5a43ad1d5c96b5641",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-19",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-19.png",
+      "sha256": "e272121ea92c7e8884011e7a976abd925b5ada5b562949b5a43ad1d5c96b5641",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-20",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-20.png",
+      "sha256": "faf5fd8227435121ccdefeb8fad6148a466e65e2f3c13adc34874a71048e703c",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-21",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-21.png",
+      "sha256": "4da82d4098427932df2eb1ed472d058b6aabc72014db9aa57a8a883f454bf7c0",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-22",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-22.png",
+      "sha256": "4da82d4098427932df2eb1ed472d058b6aabc72014db9aa57a8a883f454bf7c0",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-23",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-23.png",
+      "sha256": "b206cfe74118c2c4627cc4bbd7bdef908e31e91adcaa11af44da36594038730c",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-24",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-24.png",
+      "sha256": "f735295eb3bea763396b0ab4882617f8ad7601c4b8946e972994864bc241a67a",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-25",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-25.png",
+      "sha256": "08c42ffce1a09c5726833c9110638ddfe7da89f491c6d494cad8c1cbf0aa00c5",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-26",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-26.png",
+      "sha256": "968f706059b081b8a04f815c30ffaf533dab254cc6bfc5a4d69a07657c4c727e",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-27",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-27.png",
+      "sha256": "d3121504c76559a7c3c39bce87dfbd47710eaadad1eecbc29b2237a8871ffe9e",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-28",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-28.png",
+      "sha256": "a047bbac4d8fa557cceea81606bfb5caa107ddbaee0f641464a9b6a6584549e6",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-29",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-29.png",
+      "sha256": "672a3b7edcccdcd6a04050699a74f43383ce5e1c8c36777ce592a60d9b841f7e",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-30",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-30.png",
+      "sha256": "2b55938e9dae69911539d216fda24b03c9c67af7213042e87956a7142846116e",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-31",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-31.png",
+      "sha256": "2b55938e9dae69911539d216fda24b03c9c67af7213042e87956a7142846116e",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-32",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-32.png",
+      "sha256": "0853f04df4da3da05d739270defca3f86d5469547a9f1e025720d1fb8821fea6",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-33",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-33.png",
+      "sha256": "d2cf6c756bc0e5f6249ec59b0b5003d8c87a0caee0a15cffa3273dbd57386eaf",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-34",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-34.png",
+      "sha256": "d2cf6c756bc0e5f6249ec59b0b5003d8c87a0caee0a15cffa3273dbd57386eaf",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-35",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-35.png",
+      "sha256": "aadd20ce7331c90d9626c8bcc58ca31ba62c6e35cefc399f326baaafc376dd24",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-36",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-36.png",
+      "sha256": "5e2fabf6f4cc74aabe022c36370cb28ccee6643407013933172d2273fb6db742",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-37",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-37.png",
+      "sha256": "f0f554401e95c584993d3d6d9559d40a7fc95185c3031d60a9274865d895d2c0",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-38",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-38.png",
+      "sha256": "f0f554401e95c584993d3d6d9559d40a7fc95185c3031d60a9274865d895d2c0",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-39",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-39.png",
+      "sha256": "f0f554401e95c584993d3d6d9559d40a7fc95185c3031d60a9274865d895d2c0",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-40",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-40.png",
+      "sha256": "f0f554401e95c584993d3d6d9559d40a7fc95185c3031d60a9274865d895d2c0",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-41",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-41.png",
+      "sha256": "f0f554401e95c584993d3d6d9559d40a7fc95185c3031d60a9274865d895d2c0",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-42",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-42.png",
+      "sha256": "6d5d7075f9588ce020ade393350b43e87fb8e1788c1073a26d159ed9d3091425",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-43",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-43.png",
+      "sha256": "6d5d7075f9588ce020ade393350b43e87fb8e1788c1073a26d159ed9d3091425",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-44",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-44.png",
+      "sha256": "49ba66e9e84b4b4fb7b7cc066edba026e06f00b595d052a9af1e59ef88d61d1f",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-45",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-45.png",
+      "sha256": "49ba66e9e84b4b4fb7b7cc066edba026e06f00b595d052a9af1e59ef88d61d1f",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-46",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-46.png",
+      "sha256": "49ba66e9e84b4b4fb7b7cc066edba026e06f00b595d052a9af1e59ef88d61d1f",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-47",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-47.png",
+      "sha256": "348db6855f56bbe21f558ab4b523082c42400d9b290e802e35910f5243cb4074",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-48",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-48.png",
+      "sha256": "348db6855f56bbe21f558ab4b523082c42400d9b290e802e35910f5243cb4074",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-preview",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-preview.png",
+      "sha256": "f0f554401e95c584993d3d6d9559d40a7fc95185c3031d60a9274865d895d2c0",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-49",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-49.png",
+      "sha256": "366f1e02d2cbcb230a57c183396e3fec6fec5f819eb5e37d43c690ac23d693e3",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-50",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-50.png",
+      "sha256": "fbad9a8718d9bf23b3663b10a0fde5b89bc24d012e3f0b29086d22a64ff3ba96",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-51",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-51.png",
+      "sha256": "f7a1728e1853c04ea5ccfd1c1ce7d8f3e51bc10fe47121e6ae6e8f0cd58f9507",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-52",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-52.png",
+      "sha256": "1da5b224a220b9a2943314f386f4cfc0bb0acb216868be34341799b4057f60f2",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-53",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-53.png",
+      "sha256": "ea61750690b365052f8e26f1e592ad79272118c10ae30b77e54b6b292d1c845e",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-54",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-54.png",
+      "sha256": "9c348c2ac3166b013b8ac63cc9414c6ff468328ddca5ce4b13f928bfb80c9135",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-55",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-55.png",
+      "sha256": "46d9709e1bed1bf6fbe204c5ea8d37e4c5d19fca9577f7ccec003c2c241eafde",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-56",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-56.png",
+      "sha256": "ca28778b025005d506e289b0efab63ace5ee05f436f4a9e175896c64f639894b",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-57",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-57.png",
+      "sha256": "ab37d7ec825ae7fb46551f580eb7ea17e20d5ac43a13f2095c1375fd0ccb55fd",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-58",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-58.png",
+      "sha256": "ab37d7ec825ae7fb46551f580eb7ea17e20d5ac43a13f2095c1375fd0ccb55fd",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-59",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-59.png",
+      "sha256": "789acd23686317fd0ab1b79f2fb2c1d3af11ab0f0a528f242c4e9dafd13ace38",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-60",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-60.png",
+      "sha256": "692150a20dc9b09b90eb3d8fae89b54385cb960a62ab64f39c642922f087cfa8",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-61",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-61.png",
+      "sha256": "66268d4fd93a8dedbb562703d9cf78bd1f038dcbfed17d260bc26d7ae337e06f",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-62",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-62.png",
+      "sha256": "fb098e7e2c5034a6d43a27561a816ac28cfc6501d9a872e471b464ce6aa523d1",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-63",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-63.png",
+      "sha256": "6c6e88652cdf9bb96d2f7379e685cbe48181f693b7917875255ddea7785c5eda",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-64",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-64.png",
+      "sha256": "b4fb95597bbd162ae7ce4ed4eca722ff6336c73316d44e598095a1890d7fcfe4",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-65",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-65.png",
+      "sha256": "b4fb95597bbd162ae7ce4ed4eca722ff6336c73316d44e598095a1890d7fcfe4",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-66",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-66.png",
+      "sha256": "32e2fe014af2330dbb356b15b8960d5be32f8e02d4552dfdf6e9ca8ffd812c43",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-67",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-67.png",
+      "sha256": "32e2fe014af2330dbb356b15b8960d5be32f8e02d4552dfdf6e9ca8ffd812c43",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-68",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-68.png",
+      "sha256": "b6b661da93d7f714c60e82757b574fab8d3c8e2d51dacc8e012c003e4c2e296c",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-69",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-69.png",
+      "sha256": "f55103a45f939660b580ccd904d87c1e14c910ffe44498736412c2c2104419ae",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-70",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-70.png",
+      "sha256": "f55103a45f939660b580ccd904d87c1e14c910ffe44498736412c2c2104419ae",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "sessions-observe-71",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-330646205c2c822ee984b83e/sessions-observe-71.png",
+      "sha256": "54875032bc06dc126b7468b0dfb31dcf1442970bfad03de0a228fb2f58e1bfe8",
+      "width": 2560,
+      "height": 1520
+    }
+  ],
+  "appCommands": [
+    {
+      "kind": "setup-or-service-command",
+      "command": "layout.switch",
+      "argumentKeys": [
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.rename",
+      "argumentKeys": [
+        "id",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.rename",
+      "argumentKeys": [
+        "id",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.rename",
+      "argumentKeys": [
+        "id",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.rename",
+      "argumentKeys": [
+        "id",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.select",
+      "argumentKeys": [
+        "id"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "tab.select",
+      "argumentKeys": [
+        "id"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "pane.focus",
+      "argumentKeys": [
+        "terminal"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.select",
+      "argumentKeys": [
+        "id"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "tab.select",
+      "argumentKeys": [
+        "id"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "pane.focus",
+      "argumentKeys": [
+        "terminal"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.select",
+      "argumentKeys": [
+        "id"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "tab.select",
+      "argumentKeys": [
+        "id"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "pane.focus",
+      "argumentKeys": [
+        "terminal"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.select",
+      "argumentKeys": [
+        "id"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "tab.select",
+      "argumentKeys": [
+        "id"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "pane.focus",
+      "argumentKeys": [
+        "terminal"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "tab.close",
+      "argumentKeys": [
+        "confirmed",
+        "id"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "tab.close",
+      "argumentKeys": [
+        "confirmed",
+        "id"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "tab.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name",
+        "space"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.select",
+      "argumentKeys": [
+        "id"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "tab.select",
+      "argumentKeys": [
+        "id"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "pane.focus",
+      "argumentKeys": [
+        "terminal"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.select",
+      "argumentKeys": [
+        "id"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "tab.select",
+      "argumentKeys": [
+        "id"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "pane.focus",
+      "argumentKeys": [
+        "terminal"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "tab.close",
+      "argumentKeys": [
+        "confirmed",
+        "id"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "tab.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name",
+        "space"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.select",
+      "argumentKeys": [
+        "id"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "tab.select",
+      "argumentKeys": [
+        "id"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "pane.focus",
+      "argumentKeys": [
+        "terminal"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.select",
+      "argumentKeys": [
+        "id"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "tab.select",
+      "argumentKeys": [
+        "id"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "pane.focus",
+      "argumentKeys": [
+        "terminal"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.select",
+      "argumentKeys": [
+        "id"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "tab.select",
+      "argumentKeys": [
+        "id"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "pane.focus",
+      "argumentKeys": [
+        "terminal"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.select",
+      "argumentKeys": [
+        "id"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "tab.select",
+      "argumentKeys": [
+        "id"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "pane.focus",
+      "argumentKeys": [
+        "terminal"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "app.quit",
+      "argumentKeys": []
+    }
+  ],
+  "packages": [
+    {
+      "name": "mission-control-sessions",
+      "nativeCheck": true,
+      "manifest": {
+        "v": 1,
+        "name": "mission-control-sessions",
+        "artifacts": {
+          "assets/agent.svg": "e1b2039d6c2635ffcfddceff99109fb03e8ccb40359aed00fa88a6f3d8ad3eed",
+          "assets/branch.svg": "3e84ff73535eefd357b9709e871d3a0f47b5fd6dbd9966eaad804c88b021def7",
+          "assets/check.svg": "1c80d14e7bbcd7fd3ce3027c7c72d4fc07192ff3fb9b96e86b26d1ab3d7b314e",
+          "assets/chevron-down.svg": "1d2065b24da0cf4b3936203004eb8ef7b15a985a0658426517ad0113c29d0fc8",
+          "assets/chevron-right.svg": "efc8ab93d789d1e04bbd5c062e1560267280b570d6efaa09d2a77e601d64ee5f",
+          "assets/close.svg": "28e7ce6d33be8f07dedad8e80ee59e816b81a0e845f64613e3bb51c357da925b",
+          "assets/external.svg": "e4c8ed502be1e53c147361f58d8776337ab259794054e8f3d1e8fd29722d3195",
+          "assets/folder.svg": "3a46023f1ff23f2112b9e0955ad32690139e8f1c071ccfdbcae8e85295365f66",
+          "assets/github.svg": "b4ababc5c6d3ed662798989f5e1a3c4b819767438997b1e1ca020542b77337bf",
+          "assets/gitlab.svg": "349804ee06f6ee8d48643f682491db781f34f932ded32ffff323e5e2fc0bbe2e",
+          "assets/issue.svg": "3d676661dab61f8b1611d3dc6d5c33ec4c311d40e40f755332c8d9f4d5118315",
+          "assets/jira.svg": "2e3db07f926b1f7a2467c0769c23627e8c887f83231e6c46c96ac349e4e0d3a3",
+          "assets/layout.svg": "991e3e3ef8165e8c057236ee43ab157a22d12479251bd3da3710db3837326cfd",
+          "assets/more.svg": "a82bebdebdd8c147ef583c00b87788c4a196e04fce2a5e4a10f0ccbc432fdbe4",
+          "assets/panel.svg": "9c88b7e44f25d82d3f37d069b69167c98a06cf4a6cb7f9da7dc52cc2ca10c187",
+          "assets/pin.svg": "2211c66b64ec8a722b08abf49deac42bba57ec7ca21c72dbf270d28a9b6cb9e6",
+          "assets/plus.svg": "bc30fdf06276287fcef7802da8dd282e9854ea130bbaea9e327dca61914417ca",
+          "assets/priority.svg": "344a528c607fe010fd4013e703eebc5f08306589560e69e237e6e2cca5b5d2f8",
+          "assets/pull-request.svg": "93efcc8c2e7e799df7b597de85ee1e0ae2e7d3fb402bff6d96428afbaf17e7d4",
+          "assets/refresh.svg": "a4ef0613fb0794ae6554ccacbe332a0f7a6bfd346ebe94d209b112796462640a",
+          "assets/search.svg": "73a02b45b12746984a4e5d9689a3ca5578f5d329e4e0b0598bd5139d81c0bdce",
+          "assets/server.svg": "4a6a50b128185781455b2a145fbde0bb57e6deff93830168388a97a1f240e2c8",
+          "assets/sessions.svg": "40c70935bd80015005b85b9b42368e4dfdf44ac6a3392e2f6b7fd18a59159d9d",
+          "assets/settings.svg": "c0d3295d7dc3261c7f6e9e6eb4217b044b834d680215ac1e38f9c1efb11b2dc9",
+          "assets/spaces.svg": "01d3d618b27ef141c8251358657d7533abef2bbc40b447f53728c768fa4a593b",
+          "collector.py": "ea812325e4b24b38cf1d59a5b523c98f7519e73ef53fa72b875bd50420d7dff8",
+          "main.js": "892c354581457ec657cfc342c46155674f36f571a1122451520cd53d7badf5b8",
+          "mod.json": "732ee1874cda788d9577fcb5f50edf1895b55f53d33952186db4de6f06fc2680",
+          "NOTICE.md": "f20f37f2705da9d37b502d64fbe21f68f7db7280f83369013586be19e747c873"
+        },
+        "sources": {
+          "src/assets/icons.json": "e15e5fd5234d4d3f8edc59a30bc4f45c878aa0bc662defde22877855704c1254",
+          "src/mods/mission-control-sessions/main.js": "dbb3cc03ae2a30677b208d02edf4c12eccc590c65709b4d9f8beaee641989947",
+          "src/mods/mission-control-sessions/mod.json": "d9688ea682ea81aa5f72d4aeb3ad72d1d70d8137b8e040c836e6b0baad6a403b",
+          "src/mods/mission-control-sessions/model.js": "020949e4196d6032f86d1a41340f7524360031f8f5d53dd782b8ecf677868dc1",
+          "src/shared/collector.py": "8b319e6c06b7e030bcd6abf1f642bcffdf61810c2f39a73c3081f27dc2d694de",
+          "src/shared/config.js": "2cea2d16c0faed2eef2f8105b0adc0c6098cf556a84297249b5bd9895eddf9a7",
+          "src/shared/context.js": "02df6dc993bfb321360844265338442b7481027e2ebc1d66c043295099e4295b",
+          "src/shared/launch-preferences.js": "c70132d68a264054de91a25704c44c7f6c6cb2e380c93f6807842bdca5558fd9",
+          "src/shared/launch.js": "66cc52240b4c3563edfe2a52f83400d98581c4e08dfab188703b09fd7d7d8b55",
+          "src/shared/name-ownership.js": "24f4e7060bffdb1559e76091039fc1b1e076095d72cc8b44c14596d8a37ae784",
+          "src/shared/provider-observation.js": "17175cb47ad6e80949ffbf279014bba095712fb24fa4471438dc2d9eceeb24b1",
+          "src/shared/provider_claude.py": "5c6653f1c74888536e337b168700b1024a04de6a20cede0871bd63584472475f",
+          "src/shared/provider_codex.py": "8cd4e55e9a728be4f1d79d37cf1d5cdfd0f0baa98562c1a8a909d735951e4391",
+          "src/shared/provider_grok.py": "c1bd5e0e97a2b6c0bf6a89d2477ae57c3ee2126047d84835ae66c6eb8b6c06da",
+          "src/shared/quota.js": "8bfef62c230a7ff960465f3b60299c2366bc3c96e1f083540edc4e0823113bb3",
+          "src/shared/resume.js": "8b8dbb58d08888d72929d29af3f5fd9854197cb34067d88c6a72fa3212f2eda8",
+          "src/shared/session-bindings.js": "8ce735273c2d4e8ee9e63bed0036276d8afa69fc92f40c22fa30ddd10c815d99",
+          "src/shared/session-identity.js": "9cb414ff020c4c49c66018f8146f41261975790a4d4349da18f278f60131617e",
+          "src/shared/space-repo.js": "464ff46525dc00fd74813104bb9fcc770d10fef2eb366decc6f18125a6f62d07",
+          "src/shared/telemetry.js": "4dc2d07df60f4552906cd400cad1b69157ed7f5e00cd3a60b4e5f8c5bdebb78c",
+          "src/shared/tool-capabilities.js": "31bbf19a27d0621a8d758fdcb6d4f46a1788bd96d5d80331a938999df9012f05",
+          "src/shared/ui.js": "63653a7db2c610678b687fe0263aa078f9458336d411b5be4335cba2a4b8533b",
+          "src/shared/usage-sources.js": "e5ed02f02e6c3648e165aed45adb32442334ea5b120c2ec8b9e6db5a1a643699",
+          "src/shared/worktrees.js": "f9c7a8a8f60af73170ab2f0449178fd6ea597cc0a7fb68c18c0403d3fffe4cbb"
+        }
+      }
+    }
+  ],
+  "appErrors": [],
+  "cleanup": {
+    "attempted": true,
+    "stoppedOnlyOwnedProcesses": true,
+    "existingInstancesQueried": false,
+    "verifiedPrivateCore": true,
+    "verifiedPrivateApp": true,
+    "resourcesRemoved": true,
+    "refused": false
+  },
+  "harnessSourceSha256": "7be8b4073f5a08b52bde177d18f6cd4c64175b23351553d5a991c2067bafd851",
+  "boundary": "Task-owned GPUI app/core with PID-bound native input. Existing instances were not queried. Provider authentication is not proven."
+}

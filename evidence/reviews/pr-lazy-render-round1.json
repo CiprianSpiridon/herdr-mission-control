@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "reviewRound": "pr-lazy-render-round1",
+  "verdict": "REJECT",
+  "plans": [
+    {
+      "name": "mission-control",
+      "reviewer": "founder_layout_accounts",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "4c8b0a70875be180805d1bfc815d402bac89cc86e46b2590885d0ddb1d09761f",
+        "md": "f32f5447046c805801292bd67ccc7db3f89fd73d479e671aed9032c848eabd38"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": []
+    },
+    {
+      "name": "mission-control-github",
+      "reviewer": "founder_github_pr_model",
+      "mode": "FULL",
+      "verdict": "REJECT",
+      "blocks": 2,
+      "concerns": 1,
+      "sha256": {
+        "json": "1ec11b0f2b2311a271050adbee38870faad26d40c9789eb360999bc11e8e3cfc",
+        "md": "5dbe22fac33db082978d913f649dbbb4ebf9c320d7bf94ab10777083f1dbd791"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "FAIL"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "FAIL"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "FAIL"
+        }
+      ],
+      "findings": [
+        {
+          "severity": "BLOCK",
+          "title": "Pool retention alone does not preserve hidden provider/detail origin",
+          "evidence": "data.selectConfig removes entries; currentEntry/loadPullDetails/startPull require visibility. TASK045 must own bounded captured-origin leases and producer/consumer/native source-removal regressions."
+        },
+        {
+          "severity": "BLOCK",
+          "title": "AsyncContext.sleep producer and deterministic yield tests are missing",
+          "evidence": "The planned bounded preparation requires sleep but TASK078 did not supply it; pin owner invalidation and stale-generation tests."
+        },
+        {
+          "severity": "CONCERN",
+          "title": "Recorder rejects installed number/boolean scalar child union",
+          "evidence": "Match installed Element|Entity|string|number|boolean and retain invalid raw child/handle rejection."
+        }
+      ]
+    }
+  ]
+}

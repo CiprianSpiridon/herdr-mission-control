@@ -1,0 +1,211 @@
+<div id="mc-repo-jira" aria-label="Mission Control repository and Jira interaction example">
+  <style>
+    #mc-repo-jira { color-scheme: light dark; --mc-bg: light-dark(#ffffff,#14171c); --mc-side: light-dark(#f4f5f7,#191d24); --mc-ink: light-dark(#202631,#e8edf5); --mc-muted: light-dark(#586477,#a0adbf); --mc-line: light-dark(#dbe0e7,#303946); --mc-active: light-dark(#e5edfc,#263752); --mc-blue: light-dark(#2454ab,#a7c8ff); --mc-soft: light-dark(#edf1f6,#222a35); font: 14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; color:var(--mc-ink); background:var(--mc-bg); border:1px solid var(--mc-line); border-radius:12px; overflow:hidden; }
+    #mc-repo-jira * { box-sizing:border-box; }
+    #mc-repo-jira button, #mc-repo-jira select { font:inherit; color:inherit; }
+    #mc-repo-jira button { background:transparent; border:1px solid var(--mc-line); border-radius:6px; padding:6px 10px; text-align:left; }
+    #mc-repo-jira button:hover { background:var(--mc-soft); }
+    #mc-repo-jira button[aria-pressed="true"] { background:var(--mc-active); color:var(--mc-blue); }
+    #mc-repo-jira .mc-top { display:flex; align-items:center; flex-wrap:wrap; gap:12px; padding:15px 110px 15px 18px; border-bottom:1px solid var(--mc-line); }
+    #mc-repo-jira .mc-title { font-weight:500; }
+    #mc-repo-jira .mc-small { font-size:12px; color:var(--mc-muted); }
+    #mc-repo-jira .mc-shell { display:grid; grid-template-columns:230px minmax(0,1fr); }
+    #mc-repo-jira aside { background:var(--mc-side); padding:14px 10px; border-right:1px solid var(--mc-line); }
+    #mc-repo-jira details + details { margin-top:24px; }
+    #mc-repo-jira summary { padding:4px 6px 10px; font-weight:500; }
+    #mc-repo-jira .mc-space { display:block; width:100%; border-color:transparent; margin-bottom:4px; padding:9px 10px; }
+    #mc-repo-jira .mc-space small { display:block; font-size:12px; color:var(--mc-muted); }
+    #mc-repo-jira main { min-width:0; padding:20px; }
+    #mc-repo-jira h3 { font-size:18px; font-weight:500; margin:0; overflow-wrap:anywhere; }
+    #mc-repo-jira .mc-row { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+    #mc-repo-jira .mc-tabs { display:flex; gap:6px; margin:18px 0 14px; flex-wrap:wrap; }
+    #mc-repo-jira .mc-binding { display:flex; flex-wrap:wrap; gap:8px 20px; padding:12px; background:var(--mc-soft); border-radius:7px; margin-bottom:16px; }
+    #mc-repo-jira .mc-binding span { overflow-wrap:anywhere; }
+    #mc-repo-jira .mc-binding small { display:block; color:var(--mc-muted); font-size:12px; }
+    #mc-repo-jira .mc-group { margin:18px 0 6px; font-size:12px; font-weight:500; color:var(--mc-muted); }
+    #mc-repo-jira .mc-issue { display:flex; align-items:center; gap:14px; justify-content:space-between; padding:13px 0; border-bottom:1px solid var(--mc-line); }
+    #mc-repo-jira .mc-issue-copy { min-width:0; overflow-wrap:anywhere; }
+    #mc-repo-jira .mc-key { color:var(--mc-blue); margin-right:8px; font-size:12px; }
+    #mc-repo-jira .mc-issue button { flex-shrink:0; }
+    #mc-repo-jira .mc-field { margin:16px 0; }
+    #mc-repo-jira .mc-field > label { display:block; font-size:12px; color:var(--mc-muted); margin-bottom:6px; }
+    #mc-repo-jira select { max-width:100%; background:var(--mc-side); border:1px solid var(--mc-line); border-radius:6px; padding:8px; }
+    #mc-repo-jira .mc-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:20px; }
+    #mc-repo-jira .mc-primary { background:var(--mc-active); color:var(--mc-blue); }
+    #mc-repo-jira .mc-agent { margin:10px 5px; padding:8px 0; border-bottom:1px solid var(--mc-line); }
+    #mc-repo-jira .mc-agent small { display:block; font-size:12px; color:var(--mc-muted); overflow-wrap:anywhere; }
+    #mc-repo-jira .mc-empty { padding:8px 6px; color:var(--mc-muted); font-size:12px; }
+    #mc-repo-jira .mc-toolbar { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px 16px; margin:18px 0 12px; }
+    #mc-repo-jira .mc-switch { display:flex; flex-wrap:wrap; gap:4px; }
+    #mc-repo-jira .mc-views button { border:0; border-radius:0; padding:8px 3px; margin-right:16px; border-bottom:2px solid transparent; }
+    #mc-repo-jira .mc-views button[aria-pressed="true"] { background:transparent; border-bottom-color:var(--mc-blue); }
+    #mc-repo-jira .mc-filters { display:flex; gap:6px; flex-wrap:wrap; margin:12px 0 8px; }
+    #mc-repo-jira .mc-filters button, #mc-repo-jira .mc-order button { font-size:12px; padding:4px 8px; }
+    #mc-repo-jira .mc-pr { padding:16px 0; border-bottom:1px solid var(--mc-line); overflow-wrap:anywhere; }
+    #mc-repo-jira .mc-pr-title { font-weight:500; }
+    #mc-repo-jira .mc-meta { display:flex; align-items:center; flex-wrap:wrap; gap:6px 12px; color:var(--mc-muted); font-size:12px; margin-top:7px; }
+    #mc-repo-jira .mc-review { color:light-dark(#986200,#f0c275); }
+    #mc-repo-jira .mc-failing { color:light-dark(#ad3545,#ffa1ac); }
+    #mc-repo-jira .mc-passing { color:light-dark(#237354,#86d0aa); }
+    #mc-repo-jira .mc-pr-actions { display:flex; gap:6px; flex-wrap:wrap; margin-top:12px; }
+    #mc-repo-jira .mc-pr-actions button { font-size:12px; }
+    #mc-repo-jira .mc-link { font-size:12px; padding:1px 6px; color:var(--mc-blue); }
+    #mc-repo-jira .mc-highlight { background:var(--mc-active); padding-left:10px; padding-right:10px; border-radius:6px; }
+    #mc-repo-jira .mc-order { padding:0 5px; margin-bottom:8px; }
+    #mc-repo-jira .mc-agent-title { display:flex; align-items:center; gap:7px; }
+    #mc-repo-jira .mc-agent-title i { width:15px; height:15px; }
+    #mc-repo-jira .mc-context { height:4px; background:var(--mc-line); border-radius:3px; overflow:hidden; margin-top:6px; }
+    #mc-repo-jira .mc-context-fill { height:100%; background:var(--mc-blue); }
+    #mc-repo-jira .mc-agent-state { color:var(--mc-muted); font-size:12px; margin-top:3px; }
+    #mc-repo-jira [hidden] { display:none; }
+    @media(max-width:650px) { #mc-repo-jira .mc-shell { grid-template-columns:1fr; } #mc-repo-jira aside { border-right:0; border-bottom:1px solid var(--mc-line); display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:12px; } #mc-repo-jira details + details { margin:0; } #mc-repo-jira main { padding:16px; } }
+    @media(max-width:400px) { #mc-repo-jira aside { grid-template-columns:1fr; } #mc-repo-jira .mc-top { padding-right:18px; } }
+    @media(pointer:coarse) { #mc-repo-jira button { min-height:44px; } #mc-repo-jira select { font-size:16px; min-height:44px; } }
+  </style>
+  <header class="mc-top"><span class="mc-title">Mission Control</span><span class="mc-small">Interaction sketch · example data</span></header>
+  <div class="mc-shell">
+    <aside aria-label="Spaces and agents">
+      <details open><summary>Spaces · 3 repos</summary><div id="mc-space-list"></div></details>
+      <details open><summary id="mc-agents-title">Agents</summary><div class="mc-switch mc-order"><button type="button" data-order="priority" aria-pressed="true">Priority</button><button type="button" data-order="spaces" aria-pressed="false">Spaces</button></div><div id="mc-agents-list" aria-live="polite"></div></details>
+    </aside>
+    <main>
+      <div id="mc-browse">
+        <h3 id="mc-repo-title"></h3><div id="mc-repo-path" class="mc-small"></div>
+        <div class="mc-toolbar"><div class="mc-switch mc-views" aria-label="Work tracking view"><button type="button" data-view="issues" aria-pressed="false">Issues</button><button type="button" data-view="prs" aria-pressed="true">Pull requests</button></div><div class="mc-switch" aria-label="Repository scope"><button type="button" data-scope="space" aria-pressed="true">This space</button><button type="button" data-scope="all" aria-pressed="false">All spaces</button></div></div>
+        <div id="mc-binding" class="mc-binding" aria-label="Jira settings for this space"></div>
+        <div id="mc-filters" class="mc-filters" aria-label="Issue or pull request filters"></div>
+        <div id="mc-result-summary" class="mc-small" aria-live="polite"></div>
+        <div id="mc-issues" aria-live="polite"></div>
+      </div>
+      <section id="mc-launch" aria-label="Start an example agent session" hidden>
+        <h3 id="mc-launch-title"></h3><div id="mc-launch-description" class="mc-small"></div>
+        <div class="mc-field"><label>Destination space and repository</label><div id="mc-destination"></div></div>
+        <div class="mc-field"><label id="mc-launch-source-label">Connected source</label><div id="mc-launch-source"></div></div>
+        <div class="mc-field"><label for="mc-tool">Example installed tools</label><select id="mc-tool"><option>Claude Code</option><option>Codex</option><option>OpenCode</option></select></div>
+        <div id="mc-target-note" class="mc-small"></div>
+        <div class="mc-actions"><button type="button" id="mc-start" class="mc-primary">Add example session</button><button type="button" id="mc-cancel">Back to list</button></div>
+      </section>
+    </main>
+  </div>
+  <script>
+    (() => {
+      const root = document.getElementById('mc-repo-jira');
+      const find = id => root.querySelector('#' + id);
+      const repos = [
+        { id:'portal', name:'client-portal', machine:'This Mac', path:'~/work/client-portal', account:'Acme · work account', project:'WEB', provider:'Jira MCP', host:'GitHub', remote:'acme/client-portal', prAccess:'gh · Acme account',
+          issues:[{key:'WEB-142',title:'Fix login redirect',status:'To do',assignee:'You',priority:'High'},{key:'WEB-156',title:'Improve account settings',status:'In progress',assignee:'You',priority:'Medium',pr:84},{key:'WEB-177',title:'Correct locale fallback',status:'In review',assignee:'Maya',priority:'Medium',pr:92}],
+          prs:[{number:84,title:'Improve account settings',author:'You',state:'Open',review:'Changes requested',checks:'2 checks failing',failing:true,mine:true,requested:false,issue:'WEB-156',branch:'web-156-account-settings'},{number:92,title:'Correct locale fallback',author:'Maya',state:'Open',review:'Your review requested',checks:'Checks passing',failing:false,mine:false,requested:true,issue:'WEB-177',branch:'web-177-locale-fallback'}] },
+        { id:'billing', name:'billing-api', machine:'This Mac', path:'~/work/billing-api', account:'North · client account', project:'PAY', provider:'Jira CLI profile: north', host:'Bitbucket', remote:'north/billing-api', prAccess:'CLI · North account',
+          issues:[{key:'PAY-38',title:'Handle duplicate payment callbacks',status:'In progress',assignee:'You',priority:'High',pr:17}],
+          prs:[{number:17,title:'Handle duplicate payment callbacks',author:'You',state:'Draft',review:'Draft',checks:'Checks running',failing:false,mine:true,requested:false,issue:'PAY-38',branch:'pay-38-callbacks'}] },
+        { id:'infra', name:'infrastructure', machine:'dev-server', path:'/srv/repos/infrastructure', account:'Operations · work account', project:'OPS', provider:'Direct Jira API', host:'GitLab', remote:'ops/infrastructure', prAccess:'glab · Operations account',
+          issues:[{key:'OPS-91',title:'Repair deployment health check',status:'In review',assignee:'Morgan',priority:'High',pr:11}],
+          prs:[{number:11,title:'Repair deployment health check',author:'Morgan',state:'Open',review:'Your review requested',checks:'1 check failing',failing:true,mine:false,requested:true,issue:'OPS-91',branch:'ops-91-health-check'}] }
+      ];
+      const saved = window.openai?.widgetState?.privateContent;
+      let repoId = repos.some(r => r.id === saved?.repoId) ? saved.repoId : 'portal';
+      let scope = saved?.scope === 'all' ? 'all' : 'space';
+      let view = saved?.view === 'issues' ? 'issues' : 'prs';
+      let issueFilter = saved?.issueFilter === 'mine' ? 'mine' : 'all';
+      let prFilter = ['all','mine','review','changes'].includes(saved?.prFilter) ? saved.prFilter : 'all';
+      let order = saved?.order === 'spaces' ? 'spaces' : 'priority';
+      const validSession = s => s && repos.some(r=>r.id===s.repoId) && typeof s.key==='string' && typeof s.tool==='string';
+      let sessions = Array.isArray(saved?.sessions) ? saved.sessions.filter(validSession).slice(0,12) : [
+        {repoId:'portal',key:'WEB-142',tool:'Codex',action:'Work on issue',status:'Working',contextLeft:38},
+        {repoId:'billing',key:'PAY-38',tool:'Claude Code',action:'Work on issue',status:'Needs input',contextLeft:12}
+      ];
+      let selected = null;
+      let highlightIssue = null;
+      const text = (tag, value, className) => { const el=document.createElement(tag); el.textContent=value; if(className) el.className=className; return el; };
+      const button = (label, callback, className) => { const b=text('button',label,className); b.type='button'; b.addEventListener('click',callback); return b; };
+      const prName = repo => repo.host==='GitLab'?'MR':'PR';
+      const prMatches = pr => prFilter==='all'||(prFilter==='mine'&&pr.mine)||(prFilter==='review'&&pr.requested)||(prFilter==='changes'&&pr.review==='Changes requested');
+      function persist() {
+        if (window.openai?.setWidgetState) Promise.resolve(window.openai.setWidgetState({modelContent:{space:repos.find(r=>r.id===repoId).name,jiraScope:scope,view,issueFilter,prFilter},privateContent:{repoId,scope,view,issueFilter,prFilter,order,sessions}})).catch(()=>{});
+      }
+      function launch(repo,item,kind,action) {
+        selected={repo,item,kind,action}; render();
+      }
+      function showLinkedIssue(repo,key) {
+        repoId=repo.id;scope='space';view='issues';issueFilter='all';highlightIssue=key;selected=null;render();persist();
+      }
+      function showLinkedPr(repo,number) {
+        repoId=repo.id;scope='space';view='prs';prFilter='all';highlightIssue=null;selected=null;render();persist();
+      }
+      function render() {
+        const active= repos.find(r=>r.id===repoId);
+        const visibleRepos=scope==='all'?repos:[active];
+        const spaces=find('mc-space-list'); spaces.replaceChildren();
+        for (const repo of repos) {
+          const b=button(repo.name,()=>{repoId=repo.id;selected=null;scope='space';highlightIssue=null;render();persist();},'mc-space'); b.setAttribute('aria-pressed',String(repo.id===repoId));
+          b.append(text('small',repo.machine+' · '+repo.project)); spaces.append(b);
+        }
+        find('mc-repo-title').textContent=scope==='all'?'Work across your repos':active.name;
+        find('mc-repo-path').textContent=scope==='all'?'Repo spaces · separate Jira accounts and code hosts':active.path+' · '+active.machine;
+        root.querySelectorAll('[data-scope]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.scope===scope)));
+        root.querySelectorAll('[data-view]').forEach(b=>{b.setAttribute('aria-pressed',String(b.dataset.view===view));const count=visibleRepos.reduce((n,r)=>n+(b.dataset.view==='issues'?r.issues.length:r.prs.length),0);b.textContent=(b.dataset.view==='issues'?'Issues':'Pull requests')+' · '+count;});
+        root.querySelectorAll('[data-order]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.order===order)));
+        const binding=find('mc-binding'); binding.replaceChildren(); binding.hidden=scope==='all';
+        const fields=view==='issues'?[['Jira connection',active.account],['Project',active.project],['Access through',active.provider]]:[['Repository',active.host+' · '+active.remote],['PR access',active.prAccess],['Linked Jira',active.account+' · '+active.project]];
+        for(const [label,value] of fields) { const part=text('span',''); part.append(text('small',label),text('span',value)); binding.append(part); }
+        const filters=find('mc-filters');filters.replaceChildren();
+        const filterOptions=view==='issues'?[['all','All open'],['mine','My open']]:[['all','All open'],['mine','My PRs'],['review','Review requested'],['changes','Changes requested']];
+        for(const [id,label] of filterOptions) { const b=button(label,()=>{if(view==='issues')issueFilter=id;else prFilter=id;highlightIssue=null;render();persist();});b.setAttribute('aria-pressed',String(id===(view==='issues'?issueFilter:prFilter)));filters.append(b); }
+        const issues=find('mc-issues'); issues.replaceChildren();
+        let resultCount=0;
+        for(const repo of visibleRepos) {
+          const list=view==='issues'?repo.issues.filter(i=>issueFilter==='all'||i.assignee==='You'):repo.prs.filter(prMatches);
+          if(!list.length)continue;
+          if(scope==='all') issues.append(text('div',repo.name+' · '+repo.machine+' · '+(view==='issues'?repo.account+' · '+repo.project:repo.host+' · '+repo.remote+' · '+repo.account),'mc-group'));
+          resultCount+=list.length;
+          for(const item of list) {
+            if(view==='issues') {
+              const row=text('div','','mc-issue'+(item.key===highlightIssue?' mc-highlight':''));const copy=text('div','','mc-issue-copy');const title=text('div','');title.append(text('span',item.key,'mc-key'),text('span',item.title));copy.append(title);
+              const meta=text('div','','mc-meta');meta.append(text('span',item.status),text('span',item.assignee),text('span',item.priority+' priority'));
+              if(item.pr) meta.append(button(prName(repo)+' #'+item.pr,()=>showLinkedPr(repo,item.pr),'mc-link'));
+              copy.append(meta);const existing=sessions.find(s=>s.repoId===repo.id&&s.key===item.key);if(existing)copy.append(text('div',existing.tool+' · '+(existing.status||'Example session'),'mc-small'));
+              row.append(copy,button('Work on issue',()=>launch(repo,item,'issue','Work on issue')));issues.append(row);
+            } else {
+              const row=text('article','','mc-pr');const title=text('div','','mc-pr-title');title.append(text('span',prName(repo)+' #'+item.number,'mc-key'),text('span',item.title));row.append(title);
+              const meta=text('div','','mc-meta');meta.append(text('span',item.state),text('span','by '+item.author),button(item.issue,()=>showLinkedIssue(repo,item.issue),'mc-link'));row.append(meta);
+              const health=text('div','','mc-meta');health.append(text('span',item.review,item.review==='Changes requested'||item.requested?'mc-review':''),text('span',item.checks,item.failing?'mc-failing':item.checks==='Checks passing'?'mc-passing':''));row.append(health);
+              const actions=text('div','','mc-pr-actions');actions.append(button('Review with agent',()=>launch(repo,item,'pr','Review')));
+              if(item.review==='Changes requested')actions.append(button('Address comments',()=>launch(repo,item,'pr','Address comments')));
+              if(item.failing)actions.append(button('Fix checks',()=>launch(repo,item,'pr','Fix failing checks')));
+              row.append(actions);issues.append(row);
+            }
+          }
+        }
+        find('mc-result-summary').textContent=resultCount+' open '+(view==='issues'?'issues':'pull requests')+(scope==='all'?' across '+visibleRepos.length+' spaces':' in this space');
+        if(!resultCount)issues.append(text('div','Nothing matches this filter.','mc-empty'));
+        find('mc-agents-title').textContent='Agents · '+sessions.length;
+        const agentList=find('mc-agents-list'); agentList.replaceChildren();
+        if(!sessions.length) agentList.append(text('div','No example sessions yet','mc-empty'));
+        const ordered=[...sessions].sort((a,b)=>order==='spaces'?repos.findIndex(r=>r.id===a.repoId)-repos.findIndex(r=>r.id===b.repoId):(a.status==='Needs input'?0:a.status==='Working'?1:2)-(b.status==='Needs input'?0:b.status==='Working'?1:2));
+        let previousRepo=null;
+        for(const session of ordered) {
+          const r=repos.find(r=>r.id===session.repoId);if(order==='spaces'&&previousRepo!==r.id){agentList.append(text('div',r.name,'mc-group'));previousRepo=r.id;}
+          const item=text('div','','mc-agent');const title=text('div','','mc-agent-title');const icon=document.createElement('i');icon.setAttribute('data-lucide',session.tool==='Codex'?'terminal':'sparkles');icon.setAttribute('aria-hidden','true');title.append(icon,text('span',session.tool));item.append(title,text('small',session.key+' · '+r.name),text('div',session.status||'Example session',session.status==='Needs input'?'mc-agent-state mc-review':'mc-agent-state'));
+          if(Number.isFinite(session.contextLeft)){item.append(text('small',session.contextLeft+'% context left'));const track=text('div','','mc-context');track.setAttribute('role','progressbar');track.setAttribute('aria-label','Example context remaining for '+session.key);track.setAttribute('aria-valuenow',String(session.contextLeft));track.setAttribute('aria-valuemin','0');track.setAttribute('aria-valuemax','100');const fill=text('div','','mc-context-fill');fill.style.width=session.contextLeft+'%';track.append(fill);item.append(track);}else item.append(text('small','Context left: unavailable in sketch'));
+          agentList.append(item);
+        }
+        find('mc-browse').hidden=!!selected; find('mc-launch').hidden=!selected;
+        if(selected) {
+          const {repo,item,kind,action}=selected;
+          find('mc-launch-title').textContent=kind==='issue'?'Work on '+item.key:action+' · '+prName(repo)+' #'+item.number;
+          find('mc-launch-description').textContent=item.title;find('mc-destination').textContent=repo.name+' · '+repo.machine+' · '+repo.path;
+          find('mc-launch-source').textContent=kind==='issue'?repo.account+' · '+repo.project+' · '+repo.provider:repo.host+' · '+repo.remote+' · '+repo.prAccess+' · '+item.issue;
+          find('mc-target-note').textContent=kind==='pr'?'New agent tab in this space · PR branch: '+item.branch:'New agent tab in this repo’s space.';
+        }
+        if(globalThis.lucide)lucide.createIcons({attrs:{width:15,height:15}});
+      }
+      root.querySelectorAll('[data-scope]').forEach(b=>b.addEventListener('click',()=>{scope=b.dataset.scope;selected=null;render();persist();}));
+      root.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>{view=b.dataset.view;selected=null;highlightIssue=null;render();persist();}));
+      root.querySelectorAll('[data-order]').forEach(b=>b.addEventListener('click',()=>{order=b.dataset.order;render();persist();}));
+      find('mc-cancel').addEventListener('click',()=>{selected=null;render();});
+      find('mc-start').addEventListener('click',()=>{if(!selected)return; const entry={repoId:selected.repo.id,key:selected.kind==='issue'?selected.item.key:prName(selected.repo)+' #'+selected.item.number,tool:find('mc-tool').value,action:selected.action,status:'Example session'};sessions=[entry,...sessions.filter(s=>s.repoId!==entry.repoId||s.key!==entry.key)].slice(0,12);repoId=entry.repoId;scope='space';selected=null;render();persist();});
+      window.addEventListener('openai:set_globals',event=>{const state=event.detail?.globals?.widgetState?.privateContent;if(!state)return;if(repos.some(r=>r.id===state.repoId))repoId=state.repoId;if(['all','space'].includes(state.scope))scope=state.scope;if(['issues','prs'].includes(state.view))view=state.view;if(['all','mine'].includes(state.issueFilter))issueFilter=state.issueFilter;if(['all','mine','review','changes'].includes(state.prFilter))prFilter=state.prFilter;if(['priority','spaces'].includes(state.order))order=state.order;if(Array.isArray(state.sessions))sessions=state.sessions.filter(validSession).slice(0,12);selected=null;render();});
+      render();
+    })();
+  </script>
+</div>

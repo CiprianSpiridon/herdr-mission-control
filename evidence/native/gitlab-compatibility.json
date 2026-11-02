@@ -1,0 +1,54 @@
+{
+  "v": 1,
+  "kind": "gitlab-shared-extension-compatibility",
+  "ok": true,
+  "completedMs": 1793555781219,
+  "packages": [
+    {
+      "name": "mission-control-agent-menu",
+      "scenario": "agent-menu",
+      "ok": true,
+      "reasons": [],
+      "receiptCompletedMs": 1793544587401,
+      "previewSha256": "a3b6db52abdbdc9acd1362eabe14b300a121c5b32958c7fd724f3cf335cc0945",
+      "steps": []
+    },
+    {
+      "name": "mission-control-spaces",
+      "scenario": "spaces",
+      "ok": true,
+      "reasons": [],
+      "receiptCompletedMs": 1793544759286,
+      "previewSha256": "b47d92aaed459278d5f8ccc89e58882f85db3f3406714569606c62bff1b0036b",
+      "steps": []
+    },
+    {
+      "name": "mission-control-agents",
+      "scenario": "agents",
+      "ok": true,
+      "reasons": [],
+      "receiptCompletedMs": 1793553321762,
+      "previewSha256": "75f68c43e635cb2f2625cf8c11aa6b736eae04b2915666a56d66f008cf3e8f8d",
+      "steps": []
+    },
+    {
+      "name": "mission-control-jira",
+      "scenario": "jira",
+      "ok": true,
+      "reasons": [],
+      "receiptCompletedMs": 1793545139049,
+      "previewSha256": "b8abf3812cf52c779a097f2e3cd808295ab4271f7f28ac6047820ce0a422fd9a",
+      "steps": []
+    },
+    {
+      "name": "mission-control-github",
+      "scenario": "github",
+      "ok": true,
+      "reasons": [],
+      "receiptCompletedMs": 1793555764600,
+      "previewSha256": "b661eb4ad1479e6afaf59abac5115b8ca8faca4e9f4aaba05888d79228186063",
+      "steps": []
+    }
+  ],
+  "boundary": "Fixture-only native and copied-mod package gates at current source/artifact hashes. No provider calls, user-home install or historical receipt reuse."
+}

@@ -1,0 +1,197 @@
+[
+  {
+    "name": "mission-control-accounts",
+    "round": 2,
+    "reviewer": "founder_layout_accounts",
+    "mode": "FULL",
+    "verdict": "APPROVE",
+    "sha256": {
+      "json": "b0bcc0efd25249e42795a70a5ff17649c2ad822ea02621db9ce6d08e95ae9d5a",
+      "md": "d71488b701fc3bb0424ef2da73cba2be3f0649922e27801af8959bbb299c3236"
+    },
+    "findings": [],
+    "evidenceCorrections": []
+  },
+  {
+    "name": "mission-control-agent-menu",
+    "round": 2,
+    "reviewer": "founder_menu_spaces_agents",
+    "mode": "FULL",
+    "verdict": "REJECT",
+    "sha256": {
+      "json": "6c94b32f21205f6dd54b8d1d1fc3e3a799ea1b789ae739bcd9b04c60cd7a2dc3",
+      "md": "b9ac1e3979f3bf54dfcb59de24149e659643aea6e575dacc082b944a1aee0d5c"
+    },
+    "findings": [
+      {
+        "id": "R2-mission-control-agent-menu-1",
+        "severity": "BLOCK",
+        "message": "Source-less generic worktree path/branch/retry contract undefined.",
+        "status": "open"
+      },
+      {
+        "id": "R2-mission-control-agent-menu-2",
+        "severity": "BLOCK",
+        "message": "Launch-to-separately-bundled-telemetry durable binding publication undefined.",
+        "status": "open"
+      }
+    ],
+    "evidenceCorrections": []
+  },
+  {
+    "name": "mission-control-agents",
+    "round": 2,
+    "reviewer": "founder_menu_spaces_agents",
+    "mode": "FULL",
+    "verdict": "REJECT",
+    "sha256": {
+      "json": "de4b99f7ab22791fbd54f827186ede427fe5cb506e0384ed17bd398461362917",
+      "md": "7f48e2e76fe3e7ccd9eab5561aae8d09e1936fa05918ea0fd3e9d07f372b162f"
+    },
+    "findings": [
+      {
+        "id": "R2-mission-control-agents-1",
+        "severity": "BLOCK",
+        "message": "Bindings lack durable cross-bundle authority/commit/reconciliation.",
+        "status": "open"
+      },
+      {
+        "id": "R2-mission-control-agents-2",
+        "severity": "CONCERN",
+        "message": "ProviderObservation parser/normalizer protocol unpinned.",
+        "status": "open"
+      }
+    ],
+    "evidenceCorrections": [
+      "The review also alleged missing raw terminal creation time. Live hc schema AND hc get both expose required created_ms; this factual claim is not treated as a defect. Round 3 pins exact normalization explicitly."
+    ]
+  },
+  {
+    "name": "mission-control-github",
+    "round": 2,
+    "reviewer": "founder_trackers",
+    "mode": "FULL",
+    "verdict": "APPROVE",
+    "sha256": {
+      "json": "f4c3fe2a24f0266e518f508be802258eeff794f86be70a52373ef9f143919eef",
+      "md": "27e0e0c54f9e92b56412a95e57c1bccb6168d3c58e9ad9ec9ba714210f5afe53"
+    },
+    "findings": [],
+    "evidenceCorrections": [
+      "Reviewer personally verified bundled browse-ax --pid support and withdrew its PATH-only absence finding in a corrected clean report."
+    ]
+  },
+  {
+    "name": "mission-control-jira",
+    "round": 2,
+    "reviewer": "founder_trackers",
+    "mode": "FULL",
+    "verdict": "APPROVE",
+    "sha256": {
+      "json": "42a3f2b2f3b92b0da8b33fea53f0d41d4c366d2992996a44dc22bcff67c055d3",
+      "md": "0e1c71149a6ede94880ae2434fbc5f3d1307933aa9cb68d1b2e667a9dcc42f79"
+    },
+    "findings": [],
+    "evidenceCorrections": [
+      "Reviewer personally verified bundled browse-ax --pid support and withdrew its PATH-only absence finding in a corrected clean report."
+    ]
+  },
+  {
+    "name": "mission-control-reopen",
+    "round": 2,
+    "reviewer": "founder_tabs_history",
+    "mode": "FULL",
+    "verdict": "APPROVE",
+    "sha256": {
+      "json": "b0cc497d997bcbb3aed85374dd31fbc4ba56d5cf83215eb0616c51e945860010",
+      "md": "813763990e34f9dbd479f2ce03b2e45f9e8bfce2e8a8884833cd76b86289de45"
+    },
+    "findings": [],
+    "evidenceCorrections": []
+  },
+  {
+    "name": "mission-control-sessions",
+    "round": 2,
+    "reviewer": "founder_tabs_history",
+    "mode": "FULL",
+    "verdict": "APPROVE",
+    "sha256": {
+      "json": "415b547a95df48b324665a0c323b66ed45ecb2efb6240a873d2cf9a7b7b142db",
+      "md": "fe13e83e09d55f0a2214bb3307619fc171c39f5457539fad3cd6d6fc0294038a"
+    },
+    "findings": [
+      {
+        "id": "R2-mission-control-sessions-1",
+        "severity": "CONCERN",
+        "message": "Unbound plausible live session must prevent silent duplicate exact resume.",
+        "status": "open"
+      }
+    ],
+    "evidenceCorrections": []
+  },
+  {
+    "name": "mission-control-spaces",
+    "round": 2,
+    "reviewer": "founder_menu_spaces_agents",
+    "mode": "FULL",
+    "verdict": "REJECT",
+    "sha256": {
+      "json": "b066ef8624aeaeffbec71a4467b8a6be891d238c52ffe08e61373071b0068882",
+      "md": "3a8d5cdaaae5095dbb42d390779151b4453adf52815c8918ec7512d67b8a21a1"
+    },
+    "findings": [
+      {
+        "id": "R2-mission-control-spaces-1",
+        "severity": "BLOCK",
+        "message": "Add machine must open shipped machine-add dialog, not machine-management Settings.",
+        "status": "open"
+      },
+      {
+        "id": "R2-mission-control-spaces-2",
+        "severity": "BLOCK",
+        "message": "Generic worktree producer contract unresolved.",
+        "status": "open"
+      },
+      {
+        "id": "R2-mission-control-spaces-3",
+        "severity": "CONCERN",
+        "message": "ResolvedSpaceRepo output and multi-pane policy unpinned.",
+        "status": "open"
+      }
+    ],
+    "evidenceCorrections": []
+  },
+  {
+    "name": "mission-control-tabs",
+    "round": 2,
+    "reviewer": "founder_tabs_history",
+    "mode": "FULL",
+    "verdict": "APPROVE",
+    "sha256": {
+      "json": "11f5c3249c9e2276d2ed3e03f1aeb6c320679346490209fbd54dcf625e5f0b79",
+      "md": "ac1ade9ff3ef962e546814f5c8ae281a30a5bcdd90ccd6b5844ff3e3eecb0893"
+    },
+    "findings": [],
+    "evidenceCorrections": []
+  },
+  {
+    "name": "mission-control",
+    "round": 2,
+    "reviewer": "founder_layout_accounts",
+    "mode": "FULL",
+    "verdict": "APPROVE",
+    "sha256": {
+      "json": "752ef13a07c17de4be88230e66daab89ebefb075becb08c44b2513ecc7ffa7ad",
+      "md": "8d1ca22cccb029810b0e63500983aa81e767b4ebd9cfbdf5f8968fff75cf371a"
+    },
+    "findings": [
+      {
+        "id": "R2-mission-control-1",
+        "severity": "CONCERN",
+        "message": "TASK-079 source/fixture validation must not claim future real root/package/install proof.",
+        "status": "open"
+      }
+    ],
+    "evidenceCorrections": []
+  }
+]

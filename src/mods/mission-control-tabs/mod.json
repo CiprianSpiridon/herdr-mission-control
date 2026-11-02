@@ -1,0 +1,6 @@
+{
+  "title": "Mission Control · Tabs",
+  "place": "none",
+  "overlay": { "kind": "dialog", "width": 560, "height": 660 },
+  "build": { "assets": ["agent", "branch", "close", "folder", "github", "gitlab", "jira", "layout", "more", "panel", "pin", "plus", "priority", "pull-request", "refresh", "search", "sessions", "settings"] }
+}

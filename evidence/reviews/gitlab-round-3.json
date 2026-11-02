@@ -1,0 +1,251 @@
+{
+  "schemaVersion": 1,
+  "verdict": "APPROVE",
+  "plans": [
+    {
+      "name": "mission-control",
+      "reviewer": "founder_layout_accounts",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "9f86a9d86041945f4fe6c25e67dd7ae2141e9fda52849e6aa653592e5f734ef8",
+        "md": "b196afd41601551a0e30dc7a5cc38e6eac8dd040f7c1287ccd790d83242ab733"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 16,
+      "producerVerification": "Fresh forked FULL review of current pair and actual source/dependency evidence. GitLab standalone and six-source layout integration, detail/pagination/action contracts, GitHub-first ordering, current standalone reconciliation and Sessions/Reopen build ordering all verified. Source/native/provider/install/release evidence remains separate."
+    },
+    {
+      "name": "mission-control-gitlab",
+      "reviewer": "founder_trackers",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "04bfc052f6b71dd91c95ed48b8dc4b6737d455baf8bd4b0bfcd44f9afbe92d9c",
+        "md": "9547724a2dc63be935ce30225a14d7684d4eba2a582551f61a6a3a0dbb8ec579"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 14,
+      "producerVerification": "Fresh forked FULL review of current pair and actual source/dependency evidence. GitLab standalone and six-source layout integration, detail/pagination/action contracts, GitHub-first ordering, current standalone reconciliation and Sessions/Reopen build ordering all verified. Source/native/provider/install/release evidence remains separate."
+    },
+    {
+      "name": "mission-control-reopen",
+      "reviewer": "founder_tabs_history",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "3b20936afca57ddd2d882bc1a48ab9384969194597367ce6916b97c9890aa0dc",
+        "md": "419bf40d087bd141e79fd3d0f35185bae311034f7bb37039da95fa4bc23c5736"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 5,
+      "producerVerification": "Fresh forked FULL review of current pair and actual source/dependency evidence. GitLab standalone and six-source layout integration, detail/pagination/action contracts, GitHub-first ordering, current standalone reconciliation and Sessions/Reopen build ordering all verified. Source/native/provider/install/release evidence remains separate."
+    },
+    {
+      "name": "mission-control-sessions",
+      "reviewer": "founder_tabs_history",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "a226fc8d99a60eba55b281a9ea7be61ff464cadbebcbc25b4e0bea948c38127e",
+        "md": "4341c9472008bf2fd49f0175a42b105c26a813ae68f88b60dfbcd9929a4b4a25"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 5,
+      "producerVerification": "Fresh forked FULL review of current pair and actual source/dependency evidence. GitLab standalone and six-source layout integration, detail/pagination/action contracts, GitHub-first ordering, current standalone reconciliation and Sessions/Reopen build ordering all verified. Source/native/provider/install/release evidence remains separate."
+    },
+    {
+      "name": "mission-control-tabs",
+      "reviewer": "founder_tabs_history",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "13657008a1c4403310bafd9c88e662eff284c4967a719d389db22361b7d7250d",
+        "md": "0976f68f98824872654d35e852139c8cc27e13baf7e0dea1cedf8fb700448cd2"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 6,
+      "producerVerification": "Fresh forked FULL review of current pair and actual source/dependency evidence. GitLab standalone and six-source layout integration, detail/pagination/action contracts, GitHub-first ordering, current standalone reconciliation and Sessions/Reopen build ordering all verified. Source/native/provider/install/release evidence remains separate."
+    }
+  ],
+  "dependencyJsonSha256": {
+    "mission-control": "9f86a9d86041945f4fe6c25e67dd7ae2141e9fda52849e6aa653592e5f734ef8",
+    "mission-control-accounts": "d465a6f75cc887da87c46fc95f8fa20baecac7503a1d1b9c399979809b5fa4f8",
+    "mission-control-agent-menu": "7a8aebd47f7242b527bce814a19fc8b11c71640f5feddbf85d561ceb0be1e5cc",
+    "mission-control-agents": "9b09b20978d40ebe5df00a5f2d1bedc8b812fa1914a79dbb96d03fb773e468b5",
+    "mission-control-github": "26ad8839e27ba9ff66d200b553b107d38bc805d0b8754154e729b071c16cf418",
+    "mission-control-gitlab": "04bfc052f6b71dd91c95ed48b8dc4b6737d455baf8bd4b0bfcd44f9afbe92d9c",
+    "mission-control-jira": "0ce366ed1b35f343d96da70110c75f2a2e84a0927b83cc2b873861e6ffa82dbe",
+    "mission-control-reopen": "3b20936afca57ddd2d882bc1a48ab9384969194597367ce6916b97c9890aa0dc",
+    "mission-control-sessions": "a226fc8d99a60eba55b281a9ea7be61ff464cadbebcbc25b4e0bea948c38127e",
+    "mission-control-spaces": "169e40c12bd9a1f745422c0cc415443c25fc4f2a5e37893ccee6f35c4b016b25",
+    "mission-control-tabs": "13657008a1c4403310bafd9c88e662eff284c4967a719d389db22361b7d7250d"
+  },
+  "closedIntegrationFindings": [
+    "Shared repo resolver moved into TASK-020-owned src/shared/space-repo.js with direct consumer dependencies and coverage map.",
+    "Canonical repoRoot identity separated from captured checkoutRoot execution, with same-common-directory validation and real linked-worktree regression.",
+    "Generic omitted checkoutRoot rejected before side effects; canonical fallback restricted to validated tracker sources.",
+    "PRActionRequest captures checkoutRoot before async work and forwards it unchanged; explicit linked-current and All-spaces routing tests.",
+    "TASK-024 explicitly owns the shared JavaScript ProviderObservation validator; its Python protocol test covers cross-language agreement and both consumers already depend on it.",
+    "Jira scoped-token cloudId gateway routing and exact OAuth tenant selection added; MCP HTTP Basic/Bearer auth has shared credential resolver and owned tests.",
+    "JIRA-B1: changed completed TASK032/033 existing files reclassified Modify, with truthful current source-state contract.",
+    "JIRA-B2: both owners explicitly reopened and removed from completed; prior receipts retained and downstream dependencies cannot skip fresh validation.",
+    "JIRA-C1: canonical serverInfo.baseUrl vs displayUrl pinned, same-route setup probe before save preserves prior configuration, and custom-domain diagnostics/tests assigned.",
+    "GitLab standalone plus both layout roles and six-source narrow navigation are owned by actual consumer tasks.",
+    "GitLab pipeline metadata uses validated single-MR detail GET with shared limits.",
+    "Exact MRActionRequest/fork/permission rules, safe Link pagination and21-segment namespace boundary pinned.",
+    "GitLab roots080/082/083 depend049 to enforce the requested queue.",
+    "Sessions050 depends090; Reopen/Tabs follow after shared GitLab writes without runtime sibling dependencies.",
+    "TASK093 rebuilds/reproves five earlier standalones at current byte/source/preview hashes; root007/009 gate combined layout and byte-equivalent bundle.",
+    "Existing preview TASK079 reopened as Modify for six-source Settings artwork."
+  ],
+  "reviewRound": "gitlab-expansion-round-3",
+  "reviewedExecutionSha256": "4124998ca7621297e52c1a5e8053f8b3998241045e159dadc523afc95d6c8689",
+  "structuralCheck": {
+    "plans": 11,
+    "tasks": 93,
+    "required": 90,
+    "optional": 3,
+    "result": "passed"
+  }
+}

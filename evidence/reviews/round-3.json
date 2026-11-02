@@ -1,0 +1,403 @@
+[
+  {
+    "name": "mission-control-accounts",
+    "round": 3,
+    "mode": "FULL",
+    "reviewer": "founder_layout_accounts",
+    "verdict": "APPROVE",
+    "sha256": {
+      "json": "b0bcc0efd25249e42795a70a5ff17649c2ad822ea02621db9ce6d08e95ae9d5a",
+      "md": "d71488b701fc3bb0424ef2da73cba2be3f0649922e27801af8959bbb299c3236"
+    },
+    "findings": [],
+    "sections": [
+      {
+        "section": "Codebase Reality",
+        "status": "PASS"
+      },
+      {
+        "section": "Scope & Strategy",
+        "status": "PASS"
+      },
+      {
+        "section": "Architecture & Integration",
+        "status": "PASS"
+      },
+      {
+        "section": "Risk & Recovery",
+        "status": "PASS"
+      },
+      {
+        "section": "Test Coverage",
+        "status": "PASS"
+      },
+      {
+        "section": "Execution Feasibility",
+        "status": "PASS"
+      }
+    ]
+  },
+  {
+    "name": "mission-control-agent-menu",
+    "round": 3,
+    "mode": "FULL",
+    "reviewer": "founder_menu_spaces_agents",
+    "verdict": "APPROVE",
+    "sha256": {
+      "json": "a5a56527254f8fdd9250a7c110065648700454274e3b7740872555309f27b24d",
+      "md": "662015e19c9d89e777e9cc69c5b05bd933b1cee78caabb37dc7e0a43b41d8d4f"
+    },
+    "findings": [
+      {
+        "id": "R3-mission-control-agent-menu-1",
+        "severity": "CONCERN",
+        "message": "LaunchRequest lacks explicit source display key and worktreePath override consumed by WorktreeSpec.",
+        "status": "open"
+      }
+    ],
+    "sections": [
+      {
+        "section": "Codebase Reality",
+        "status": "PASS"
+      },
+      {
+        "section": "Scope & Strategy",
+        "status": "PASS"
+      },
+      {
+        "section": "Architecture & Integration",
+        "status": "PASS"
+      },
+      {
+        "section": "Risk & Recovery",
+        "status": "PASS"
+      },
+      {
+        "section": "Test Coverage",
+        "status": "PASS"
+      },
+      {
+        "section": "Execution Feasibility",
+        "status": "PASS"
+      }
+    ]
+  },
+  {
+    "name": "mission-control-agents",
+    "round": 3,
+    "mode": "FULL",
+    "reviewer": "founder_menu_spaces_agents",
+    "verdict": "APPROVE",
+    "sha256": {
+      "json": "ff515151ca70df96b01f2d289ce2f971cd16dadc256b8f7e7caa755bb7570d97",
+      "md": "67f89aae105f95ab15ae493ad5be87b9b4b7a46fcbcce30e32722d60a7b895a7"
+    },
+    "findings": [
+      {
+        "id": "R3-mission-control-agents-1",
+        "severity": "CONCERN",
+        "message": "Specify uncommitted-only proposal expiry and bounded CAS garbage collection retaining active committed bindings.",
+        "status": "open"
+      }
+    ],
+    "sections": [
+      {
+        "section": "Codebase Reality",
+        "status": "PASS"
+      },
+      {
+        "section": "Scope & Strategy",
+        "status": "PASS"
+      },
+      {
+        "section": "Architecture & Integration",
+        "status": "PASS"
+      },
+      {
+        "section": "Risk & Recovery",
+        "status": "PASS"
+      },
+      {
+        "section": "Test Coverage",
+        "status": "PASS"
+      },
+      {
+        "section": "Execution Feasibility",
+        "status": "PASS"
+      }
+    ]
+  },
+  {
+    "name": "mission-control-github",
+    "round": 3,
+    "mode": "FULL",
+    "reviewer": "founder_trackers",
+    "verdict": "APPROVE",
+    "sha256": {
+      "json": "f4c3fe2a24f0266e518f508be802258eeff794f86be70a52373ef9f143919eef",
+      "md": "27e0e0c54f9e92b56412a95e57c1bccb6168d3c58e9ad9ec9ba714210f5afe53"
+    },
+    "findings": [],
+    "sections": [
+      {
+        "section": "Codebase Reality",
+        "status": "PASS"
+      },
+      {
+        "section": "Scope & Strategy",
+        "status": "PASS"
+      },
+      {
+        "section": "Architecture & Integration",
+        "status": "PASS"
+      },
+      {
+        "section": "Risk & Recovery",
+        "status": "PASS"
+      },
+      {
+        "section": "Test Coverage",
+        "status": "PASS"
+      },
+      {
+        "section": "Execution Feasibility",
+        "status": "PASS"
+      }
+    ]
+  },
+  {
+    "name": "mission-control-jira",
+    "round": 3,
+    "mode": "FULL",
+    "reviewer": "founder_trackers",
+    "verdict": "APPROVE",
+    "sha256": {
+      "json": "42a3f2b2f3b92b0da8b33fea53f0d41d4c366d2992996a44dc22bcff67c055d3",
+      "md": "0e1c71149a6ede94880ae2434fbc5f3d1307933aa9cb68d1b2e667a9dcc42f79"
+    },
+    "findings": [],
+    "sections": [
+      {
+        "section": "Codebase Reality",
+        "status": "PASS"
+      },
+      {
+        "section": "Scope & Strategy",
+        "status": "PASS"
+      },
+      {
+        "section": "Architecture & Integration",
+        "status": "PASS"
+      },
+      {
+        "section": "Risk & Recovery",
+        "status": "PASS"
+      },
+      {
+        "section": "Test Coverage",
+        "status": "PASS"
+      },
+      {
+        "section": "Execution Feasibility",
+        "status": "PASS"
+      }
+    ]
+  },
+  {
+    "name": "mission-control-reopen",
+    "round": 3,
+    "mode": "FULL",
+    "reviewer": "founder_tabs_history",
+    "verdict": "APPROVE",
+    "sha256": {
+      "json": "e90b78fdd5cbb1187be14026bb58b1575d521b74722545fa498d187810f33e9a",
+      "md": "38dec4e04254791737225f315b2d52c4a7cfd7ab47a142bf92647f2f9d3ccbeb"
+    },
+    "findings": [],
+    "sections": [
+      {
+        "section": "Codebase Reality",
+        "status": "PASS"
+      },
+      {
+        "section": "Scope & Strategy",
+        "status": "PASS"
+      },
+      {
+        "section": "Architecture & Integration",
+        "status": "PASS"
+      },
+      {
+        "section": "Risk & Recovery",
+        "status": "PASS"
+      },
+      {
+        "section": "Test Coverage",
+        "status": "PASS"
+      },
+      {
+        "section": "Execution Feasibility",
+        "status": "PASS"
+      }
+    ]
+  },
+  {
+    "name": "mission-control-sessions",
+    "round": 3,
+    "mode": "FULL",
+    "reviewer": "founder_tabs_history",
+    "verdict": "APPROVE",
+    "sha256": {
+      "json": "62be9c8243a85dc4a2ce17d55870883503b0e24d89602aa08d4ff2b6dfd51627",
+      "md": "1668ea942699c0dc508bd1a72da98a889ee1649b73848007462584b73d757374"
+    },
+    "findings": [],
+    "sections": [
+      {
+        "section": "Codebase Reality",
+        "status": "PASS"
+      },
+      {
+        "section": "Scope & Strategy",
+        "status": "PASS"
+      },
+      {
+        "section": "Architecture & Integration",
+        "status": "PASS"
+      },
+      {
+        "section": "Risk & Recovery",
+        "status": "PASS"
+      },
+      {
+        "section": "Test Coverage",
+        "status": "PASS"
+      },
+      {
+        "section": "Execution Feasibility",
+        "status": "PASS"
+      }
+    ]
+  },
+  {
+    "name": "mission-control-spaces",
+    "round": 3,
+    "mode": "FULL",
+    "reviewer": "founder_menu_spaces_agents",
+    "verdict": "APPROVE",
+    "sha256": {
+      "json": "b7774c36d01364389b1d5ba75190260ea5608fa93c3c49a0528ef67a1adfc492",
+      "md": "e56785c7bc0a84e92480c4514b7b4b97857958dcdf9f0f148861a2490191c624"
+    },
+    "findings": [],
+    "sections": [
+      {
+        "section": "Codebase Reality",
+        "status": "PASS"
+      },
+      {
+        "section": "Scope & Strategy",
+        "status": "PASS"
+      },
+      {
+        "section": "Architecture & Integration",
+        "status": "PASS"
+      },
+      {
+        "section": "Risk & Recovery",
+        "status": "PASS"
+      },
+      {
+        "section": "Test Coverage",
+        "status": "PASS"
+      },
+      {
+        "section": "Execution Feasibility",
+        "status": "PASS"
+      }
+    ]
+  },
+  {
+    "name": "mission-control-tabs",
+    "round": 3,
+    "mode": "FULL",
+    "reviewer": "founder_tabs_history",
+    "verdict": "APPROVE",
+    "sha256": {
+      "json": "11f5c3249c9e2276d2ed3e03f1aeb6c320679346490209fbd54dcf625e5f0b79",
+      "md": "ac1ade9ff3ef962e546814f5c8ae281a30a5bcdd90ccd6b5844ff3e3eecb0893"
+    },
+    "findings": [],
+    "sections": [
+      {
+        "section": "Codebase Reality",
+        "status": "PASS"
+      },
+      {
+        "section": "Scope & Strategy",
+        "status": "PASS"
+      },
+      {
+        "section": "Architecture & Integration",
+        "status": "PASS"
+      },
+      {
+        "section": "Risk & Recovery",
+        "status": "PASS"
+      },
+      {
+        "section": "Test Coverage",
+        "status": "PASS"
+      },
+      {
+        "section": "Execution Feasibility",
+        "status": "PASS"
+      }
+    ]
+  },
+  {
+    "name": "mission-control",
+    "round": 3,
+    "mode": "FULL",
+    "reviewer": "founder_layout_accounts",
+    "verdict": "APPROVE",
+    "sha256": {
+      "json": "6a7b200dd46c56e4baa8afadc5445e9e8329e1e7465638ff5ebaee0c54de7715",
+      "md": "d35c101a0348b7b6a13a303f5f94bf72d225259c88929c88da744868d325196e"
+    },
+    "findings": [
+      {
+        "id": "R3-mission-control-1",
+        "severity": "CONCERN",
+        "message": "Cross-review addendum: TASK-079 still lists real generated layout SVGs although its source gate only copies temporary fixtures. Reassign materialization outputs to TASK-006.",
+        "status": "open"
+      }
+    ],
+    "sections": [
+      {
+        "section": "Codebase Reality",
+        "status": "PASS"
+      },
+      {
+        "section": "Scope & Strategy",
+        "status": "PASS"
+      },
+      {
+        "section": "Architecture & Integration",
+        "status": "PASS"
+      },
+      {
+        "section": "Risk & Recovery",
+        "status": "PASS"
+      },
+      {
+        "section": "Test Coverage",
+        "status": "PASS"
+      },
+      {
+        "section": "Execution Feasibility",
+        "status": "PASS"
+      }
+    ]
+  }
+]

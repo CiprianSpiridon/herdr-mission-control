@@ -1,0 +1,10 @@
+{
+  "title": "Mission Control · Sessions",
+  "place": "right",
+  "size": 360,
+  "overlay": {
+    "kind": "dialog",
+    "width": 720,
+    "height": 640
+  }
+}

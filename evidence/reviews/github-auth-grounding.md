@@ -1,0 +1,14 @@
+# GitHub authentication grounding
+
+Read-only research for pending TASK-042, checked 2026-10-31. No GitHub implementation or authenticated account probe is claimed here.
+
+- Installed `gh` is **2.80.0 (2025-09-23)**. `gh auth token --help` advertises explicit `--hostname` and `--user`; only help/version were run against the real CLI.
+- The [v2.80.0 implementation](https://github.com/cli/cli/blob/v2.80.0/pkg/cmd/auth/token/token.go) selects `TokenForUser(hostname, username)` when `--user` is supplied, then prints the token. It has no refresh path.
+- The [current manual](https://cli.github.com/manual/gh_auth_token) and [current implementation](https://github.com/cli/cli/blob/trunk/pkg/cmd/auth/token/token.go) add automatic refresh and `--no-refresh`. A new helper must use that flag when advertised to preserve the plan's read-only credential-store boundary. Do not assume current online CLI behavior equals the older installed binary.
+- [CLI environment documentation](https://cli.github.com/manual/gh_help_environment) distinguishes `GH_TOKEN`/`GITHUB_TOKEN` for github.com and ghe.com from `GH_ENTERPRISE_TOKEN`/`GITHUB_ENTERPRISE_TOKEN` for Enterprise Server. A selected-account subprocess should receive a copied environment with those ambient overrides removed, explicit host/user arguments, and prompting/debug/update notifications disabled. Do not change the parent environment or run `gh auth switch/login/logout`.
+- [GitHub REST version guidance](https://docs.github.com/en/rest/about-the-rest-api/api-versions) currently supports `2022-11-28` through 2028-03-10 and also `2026-03-10`. The former remains the default and appears in Enterprise Server examples; pin the chosen version explicitly.
+- [Enterprise Server REST documentation](https://docs.github.com/en/enterprise-server@3.22/rest/using-the-rest-api/getting-started-with-the-rest-api) uses `https://HOSTNAME/api/v3`. [Enterprise Cloud documentation](https://docs.github.com/en/enterprise-cloud@latest/rest/repos/repos) maps a dedicated `SUBDOMAIN.ghe.com` site to `api.SUBDOMAIN.ghe.com`, rather than treating it as an Enterprise Server.
+
+Implementation checks to retain: explicit host/API-origin consistency before any credential lookup; credentials only in helper memory; no ambient-account fallback; real temporary CLI subprocesses and owned TLS sites for two profiles; bounded output/time/cancellation; static redacted errors; no secret values in argv, native state or receipts.
+
+Forward integration check: Jira's current setup lists API profiles by `kind`. GitLab's planned API shape is structurally similar. Mixed-provider compatibility must prove each setup selects only the intended source/profile and cannot accidentally reinterpret another provider's bearer credentials as Jira OAuth. TASK-093 already owns mixed-provider selection and account isolation; inspect the actual finished setup roles when implementing that gate.

@@ -1,0 +1,480 @@
+<meta charset="utf-8">
+<div id="mc-two-views">
+  <style>
+    #mc-two-views { display:grid; gap:28px; }
+    #mc-two-views .mc-app { color-scheme:light dark; --mc-bg:light-dark(#ffffff,#15181e); --mc-nav:light-dark(#f3f5f8,#1b2028); --mc-ink:light-dark(#222a37,#e6edf7); --mc-muted:light-dark(#5b6778,#a4b0c2); --mc-line:light-dark(#dce2eb,#303947); --mc-soft:light-dark(#edf1f7,#232b38); --mc-accent:light-dark(#e7efff,#263c5e); --mc-blue:light-dark(#2557a3,#a7c9ff); --mc-green:light-dark(#22724e,#8bd0ad); --mc-amber:light-dark(#8d5b0b,#f2c378); --mc-red:light-dark(#a93445,#ffa6b1); position:relative; min-width:0; color:var(--mc-ink); background:var(--mc-bg); border:1px solid var(--mc-line); border-radius:12px; font:13px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; overflow:hidden; }
+    #mc-two-views .mc-app * { box-sizing:border-box; }
+    #mc-two-views button, #mc-two-views input, #mc-two-views select, #mc-two-views textarea { font:inherit; color:inherit; }
+    #mc-two-views button { border:1px solid var(--mc-line); background:var(--mc-bg); border-radius:6px; padding:5px 8px; text-align:left; }
+    #mc-two-views button:hover { background:var(--mc-soft); }
+    #mc-two-views button[aria-pressed="true"], #mc-two-views .mc-primary { background:var(--mc-accent); color:var(--mc-blue); }
+    #mc-two-views button:disabled { opacity:.55; }
+    #mc-two-views input:not([type=checkbox]), #mc-two-views select, #mc-two-views textarea { min-width:0; max-width:100%; border:1px solid var(--mc-line); border-radius:6px; background:var(--mc-bg); padding:7px 9px; }
+    #mc-two-views textarea { width:100%; resize:vertical; }
+    #mc-two-views .mc-top { padding:12px 108px 12px 16px; display:flex; flex-wrap:wrap; gap:8px 14px; align-items:center; border-bottom:1px solid var(--mc-line); background:var(--mc-nav); }
+    #mc-two-views .mc-brand { font-weight:500; font-size:15px; }
+    #mc-two-views .mc-example { font-size:11px; color:var(--mc-muted); }
+    #mc-two-views .mc-top button { margin-left:auto; }
+    #mc-two-views .mc-shell { display:grid; grid-template-columns:218px minmax(0,1fr); }
+    #mc-two-views aside { padding:12px 9px; background:var(--mc-nav); border-right:1px solid var(--mc-line); min-width:0; }
+    #mc-two-views summary { font-weight:500; padding:3px 5px 8px; }
+    #mc-two-views details + details { margin-top:18px; }
+    #mc-two-views .mc-search { width:100%; margin-bottom:10px; }
+    #mc-two-views .mc-space-row { display:flex; align-items:center; gap:3px; padding:2px 0; }
+    #mc-two-views .mc-space { flex:1; min-width:0; border-color:transparent; padding:6px; overflow-wrap:anywhere; }
+    #mc-two-views .mc-space small { display:block; font-size:11px; color:var(--mc-muted); }
+    #mc-two-views .mc-icon-button { display:inline-flex; align-items:center; justify-content:center; padding:5px; min-width:25px; }
+    #mc-two-views i { width:14px; height:14px; display:inline-block; flex-shrink:0; }
+    #mc-two-views .mc-machine { color:var(--mc-muted); font-size:11px; margin:8px 5px 3px; }
+    #mc-two-views .mc-small { color:var(--mc-muted); font-size:11px; }
+    #mc-two-views .mc-group { display:flex; gap:4px; flex-wrap:wrap; }
+    #mc-two-views .mc-agent { padding:9px 5px; border-bottom:1px solid var(--mc-line); }
+    #mc-two-views .mc-agent-name { display:flex; gap:7px; align-items:center; font-weight:500; }
+    #mc-two-views .mc-agent-name button { border:0; padding:0; background:transparent; }
+    #mc-two-views .mc-agent small { display:block; color:var(--mc-muted); font-size:11px; overflow-wrap:anywhere; }
+    #mc-two-views .mc-context { height:4px; border-radius:3px; background:var(--mc-line); margin:5px 0 0; overflow:hidden; }
+    #mc-two-views .mc-context > div { height:100%; background:var(--mc-blue); }
+    #mc-two-views .mc-attention { color:var(--mc-amber); }
+    #mc-two-views .mc-good { color:var(--mc-green); }
+    #mc-two-views .mc-bad { color:var(--mc-red); }
+    #mc-two-views main { min-width:0; }
+    #mc-two-views .mc-repo-header { padding:13px 16px; border-bottom:1px solid var(--mc-line); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+    #mc-two-views h3 { margin:0; font-size:17px; font-weight:500; overflow-wrap:anywhere; }
+    #mc-two-views .mc-actions { display:flex; gap:5px; flex-wrap:wrap; }
+    #mc-two-views .mc-utility { padding:9px 16px; border-bottom:1px solid var(--mc-line); display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap; }
+    #mc-two-views .mc-overview { padding:14px; }
+    #mc-two-views .mc-trackers { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; align-items:start; }
+    #mc-two-views .mc-panel { border:1px solid var(--mc-line); border-radius:8px; overflow:hidden; min-width:0; background:var(--mc-bg); }
+    #mc-two-views .mc-panel-header { display:flex; gap:6px; align-items:center; justify-content:space-between; padding:10px; border-bottom:1px solid var(--mc-line); background:var(--mc-nav); font-weight:500; }
+    #mc-two-views .mc-binding { color:var(--mc-muted); font-size:11px; padding:9px 10px 2px; overflow-wrap:anywhere; }
+    #mc-two-views .mc-item { padding:11px 10px; border-bottom:1px solid var(--mc-line); overflow-wrap:anywhere; }
+    #mc-two-views .mc-item:last-child { border-bottom:0; }
+    #mc-two-views .mc-key { color:var(--mc-blue); font-size:11px; }
+    #mc-two-views .mc-item-title { font-weight:500; margin:3px 0; }
+    #mc-two-views .mc-item button { font-size:11px; margin-top:8px; }
+    #mc-two-views .mc-history { margin-top:14px; }
+    #mc-two-views .mc-session { display:flex; gap:12px; align-items:center; justify-content:space-between; padding:10px; border-bottom:1px solid var(--mc-line); overflow-wrap:anywhere; }
+    #mc-two-views .mc-session > div { min-width:0; }
+    #mc-two-views .mc-session button { flex-shrink:0; }
+    #mc-two-views .mc-classic-body { display:grid; grid-template-columns:minmax(0,1fr) 302px; align-items:start; }
+    #mc-two-views .mc-terminal { min-width:0; padding:0 12px 16px; }
+    #mc-two-views .mc-tabs { display:flex; flex-wrap:wrap; gap:4px; padding:10px 0; }
+    #mc-two-views .mc-console { min-height:430px; background:var(--mc-bg); border:1px solid var(--mc-line); border-radius:7px; padding:14px; overflow-wrap:anywhere; font-family:"SFMono-Regular",Consolas,monospace; font-size:12px; }
+    #mc-two-views .mc-console p { margin:0 0 13px; }
+    #mc-two-views .mc-prompt { color:var(--mc-blue); }
+    #mc-two-views .mc-side { min-width:0; border-left:1px solid var(--mc-line); background:var(--mc-nav); padding:10px; }
+    #mc-two-views .mc-side-tabs { display:flex; gap:4px; flex-wrap:wrap; margin-bottom:9px; }
+    #mc-two-views .mc-side-tabs button { font-size:11px; padding:5px 7px; }
+    #mc-two-views .mc-footer { border-top:1px solid var(--mc-line); padding:8px 14px; display:flex; gap:12px; flex-wrap:wrap; color:var(--mc-muted); font-size:11px; background:var(--mc-nav); }
+    #mc-two-views .mc-overlay { position:absolute; inset:0; z-index:5; padding:24px 12px; background:light-dark(#20263033,#05070b99); display:flex; justify-content:center; align-items:flex-start; }
+    #mc-two-views .mc-dialog { width:460px; max-width:100%; background:var(--mc-bg); border:1px solid var(--mc-line); border-radius:10px; padding:16px; box-shadow:0 12px 40px light-dark(#20263030,#00000066); }
+    #mc-two-views .mc-dialog-header { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:12px; }
+    #mc-two-views .mc-dialog-header h3 { font-size:16px; }
+    #mc-two-views .mc-field { display:grid; gap:5px; margin:12px 0; }
+    #mc-two-views .mc-field label { color:var(--mc-muted); font-size:12px; }
+    #mc-two-views .mc-inline-label { display:flex; align-items:center; gap:8px; margin:14px 0; }
+    #mc-two-views .mc-menu-row { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:9px 0; border-bottom:1px solid var(--mc-line); }
+    #mc-two-views .mc-menu-row button { display:flex; align-items:center; gap:8px; }
+    #mc-two-views .mc-toast { position:relative; padding:10px 14px; background:var(--mc-accent); color:var(--mc-blue); border-top:1px solid var(--mc-line); }
+    #mc-two-views .mc-app { color-scheme:dark; --mc-bg:#17191d; --mc-nav:#101114; --mc-ink:#e4e6e9; --mc-muted:#90959e; --mc-line:#2a2d33; --mc-soft:#1e2126; --mc-accent:#242b37; --mc-blue:#9ab5de; --mc-green:#9eb8a9; --mc-amber:#c4ad82; --mc-red:#d99191; border-color:#35383e; border-radius:10px; font-family:Geist,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    #mc-two-views .mc-top { background:#101114; padding:12px 108px 12px 18px; }
+    #mc-two-views .mc-top { padding:8px 12px; gap:10px; flex-wrap:wrap; }
+    #mc-two-views .mc-top .mc-brand { width:210px; flex-shrink:0; }
+    #mc-two-views .mc-top > button { margin-left:0; }
+    #mc-two-views .mc-top-tabs { display:flex; flex:1; gap:5px; align-items:center; flex-wrap:wrap; min-width:0; }
+    #mc-two-views .mc-top-tabs button { display:inline-flex; align-items:center; gap:7px; }
+    #mc-two-views .mc-example { display:none; }
+    #mc-two-views .mc-app[data-layout="mission"] .mc-top-tabs .mc-panel-toggle { display:none; }
+    #mc-two-views .mc-more { width:22px; min-width:22px; height:24px; padding:0; }
+    #mc-two-views .mc-ellipsis { display:block; width:3px; height:3px; background:currentColor; border-radius:50%; box-shadow:-5px 0 currentColor,5px 0 currentColor; }
+    #mc-two-views .mc-brand { font-size:13px; letter-spacing:.1px; }
+    #mc-two-views button { background:transparent; border-color:transparent; color:var(--mc-muted); }
+    #mc-two-views button:hover { color:var(--mc-ink); background:#25282d; }
+    #mc-two-views button[aria-pressed="true"] { color:var(--mc-ink); background:#282b30; }
+    #mc-two-views button.mc-primary { color:#dce5f2; background:#293342; border-color:#3b4c62; }
+    #mc-two-views input:not([type=checkbox]), #mc-two-views select, #mc-two-views textarea { background:#14161a; }
+    #mc-two-views .mc-shell { grid-template-columns:236px minmax(0,1fr); }
+    #mc-two-views aside { padding:14px 12px; }
+    #mc-two-views summary { color:#9ca0a8; font-size:12px; }
+    #mc-two-views .mc-space { background:transparent; padding:8px 7px; }
+    #mc-two-views .mc-space-row { gap:1px; }
+    #mc-two-views .mc-space-row .mc-icon-button { opacity:.65; }
+    #mc-two-views .mc-space-row [aria-label^="Previous sessions for"] { display:none; }
+    #mc-two-views .mc-machine { margin-top:12px; }
+    #mc-two-views .mc-repo-header { padding:20px 24px 16px; border-bottom:0; }
+    #mc-two-views .mc-repo-header h3 { font-size:20px; letter-spacing:-.4px; }
+    #mc-two-views .mc-utility { border-bottom:0; padding:0 24px 16px; }
+    #mc-two-views .mc-overview { padding:0 24px 24px; }
+    #mc-two-views .mc-source-nav { display:flex; gap:22px; border-bottom:1px solid #30333a; margin-bottom:20px; flex-wrap:wrap; }
+    #mc-two-views .mc-source-nav button { padding:13px 0; border:0; border-radius:0; border-bottom:2px solid transparent; }
+    #mc-two-views .mc-source-nav button, #mc-two-views .mc-side-tabs button { display:inline-flex; align-items:center; gap:8px; }
+    #mc-two-views .mc-source-nav .mc-tool-icon, #mc-two-views .mc-side-tabs .mc-tool-icon { width:15px; height:15px; }
+    #mc-two-views .mc-source-nav button[aria-pressed="true"] { background:transparent; border-bottom-color:#a4badb; color:#eef0f4; }
+    #mc-two-views .mc-trackers { display:block; }
+    #mc-two-views .mc-panel { border:0; border-radius:0; background:transparent; }
+    #mc-two-views .mc-panel-header { background:transparent; border-bottom:1px solid #30333a; padding:4px 0 15px; font-size:15px; }
+    #mc-two-views .mc-binding { padding:14px 0 7px; font-size:11px; color:#8f969f; }
+    #mc-two-views .mc-item { display:grid; grid-template-columns:76px minmax(0,1fr) 145px; align-items:center; gap:4px 12px; padding:18px 0; }
+    #mc-two-views .mc-item > .mc-key { grid-column:1; grid-row:1; }
+    #mc-two-views .mc-item > .mc-item-title { grid-column:2; grid-row:1; font-size:14px; margin:0; }
+    #mc-two-views .mc-item > .mc-small { grid-column:2; }
+    #mc-two-views .mc-item > .mc-actions { grid-column:3; grid-row:1 / span 3; justify-content:flex-end; }
+    #mc-two-views .mc-item button { margin:0; border:1px solid #343a44; padding:5px 9px; }
+    #mc-two-views .mc-history { margin-top:0; }
+    #mc-two-views .mc-session { padding:17px 0; }
+    #mc-two-views .mc-session button { border:1px solid #343a44; }
+    #mc-two-views .mc-tool-icon { width:18px; height:18px; display:block; object-fit:contain; flex-shrink:0; }
+    #mc-two-views .mc-agent { padding:12px 3px; }
+    #mc-two-views .mc-agent-name { gap:9px; }
+    #mc-two-views .mc-agent-name button { color:#daddE4; font-size:12px; line-height:1.5; font-weight:500; min-width:0; overflow-wrap:anywhere; }
+    #mc-two-views .mc-agent small { padding-left:27px; }
+    #mc-two-views .mc-agent-state { padding-left:27px; margin:2px 0 8px; }
+    #mc-two-views .mc-meter-label { display:flex; justify-content:space-between; gap:8px; margin:8px 0 4px 27px; font-size:10.5px; color:#8e949f; }
+    #mc-two-views .mc-context { margin-left:27px; height:3px; background:#292c32; }
+    #mc-two-views .mc-context > div { background:#8da7cb; }
+    #mc-two-views .mc-quota > div { background:#9b987f; }
+    #mc-two-views .mc-classic-body { grid-template-columns:minmax(0,1fr); }
+    #mc-two-views .mc-classic-body.mc-panel-open { grid-template-columns:minmax(0,1fr) 310px; }
+    #mc-two-views .mc-terminal { padding:0 12px 14px; }
+    #mc-two-views .mc-tabs { padding:5px 0 10px; align-items:center; }
+    #mc-two-views .mc-tabs button { display:inline-flex; align-items:center; gap:7px; }
+    #mc-two-views .mc-console { min-height:520px; padding:24px; background:#17191d; border-color:#30343b; border-radius:8px; font-size:13px; line-height:1.7; }
+    #mc-two-views .mc-side { background:#131519; }
+    #mc-two-views .mc-side .mc-item { display:block; padding:16px 0; }
+    #mc-two-views .mc-side .mc-item-title { margin:5px 0; }
+    #mc-two-views .mc-side .mc-item .mc-actions { margin-top:12px; justify-content:flex-start; }
+    #mc-two-views .mc-app[data-layout="classic"] .mc-utility { display:none; }
+    #mc-two-views .mc-app[data-layout="classic"] .mc-repo-header { padding:14px 14px 7px; }
+    #mc-two-views .mc-app[data-layout="classic"] .mc-repo-header h3 { font-size:13px; letter-spacing:0; }
+    #mc-two-views .mc-app[data-layout="classic"] .mc-repo-header .mc-actions { display:none; }
+    #mc-two-views .mc-app[data-layout="classic"] main { display:flex; flex-direction:column; }
+    #mc-two-views .mc-app[data-layout="classic"] .mc-classic-body { flex:1; align-items:stretch; }
+    #mc-two-views .mc-app[data-layout="classic"] .mc-terminal { display:flex; flex-direction:column; }
+    #mc-two-views .mc-app[data-layout="classic"] .mc-console { flex:1; }
+    #mc-two-views .mc-dialog { background:#1b1e24; border-color:#3a3f48; }
+    #mc-two-views .mc-dialog button { border-color:#343a44; }
+    #mc-two-views .mc-footer { background:#101114; }
+    #mc-two-views aside { display:flex; flex-direction:column; }
+    #mc-two-views .mc-sidebar-footer { margin-top:auto; padding:18px 3px 0; display:grid; gap:3px; }
+    #mc-two-views .mc-sidebar-footer button { display:flex; align-items:center; gap:9px; padding:7px 4px; font-size:12px; }
+    #mc-two-views .mc-sidebar-footer .mc-tool-icon { width:14px; height:14px; }
+    #mc-two-views .mc-sidebar-footer .mc-plus { width:14px; text-align:center; }
+    #mc-two-views .mc-board { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; padding-top:14px; align-items:start; }
+    #mc-two-views .mc-column { min-width:0; }
+    #mc-two-views .mc-column-heading { display:flex; gap:7px; align-items:center; padding:7px 2px 12px; font-size:12px; font-weight:500; }
+    #mc-two-views .mc-status-dot { width:6px; height:6px; border-radius:50%; background:#8b929d; }
+    #mc-two-views .mc-status-dot.progress { background:#c5b087; }
+    #mc-two-views .mc-status-dot.done { background:#9bb8a4; }
+    #mc-two-views .mc-issue-card { background:#1c1f24; border:1px solid #30343c; border-radius:7px; padding:11px 12px; margin-bottom:9px; min-width:0; }
+    #mc-two-views .mc-issue-card:hover { border-color:#49515e; }
+    #mc-two-views .mc-issue-card-head { display:flex; justify-content:space-between; align-items:center; gap:8px; }
+    #mc-two-views .mc-issue-card a { color:#d9dde5; text-decoration:none; }
+    #mc-two-views .mc-issue-card a:hover { text-decoration:underline; }
+    #mc-two-views .mc-issue-card .mc-issue-key { color:#9aa8bd; font-size:11px; }
+    #mc-two-views .mc-issue-summary { display:block; margin:7px 0 10px; font-size:13px; line-height:1.45; overflow-wrap:anywhere; }
+    #mc-two-views .mc-quick-launch { display:flex; align-items:center; gap:4px; }
+    #mc-two-views .mc-quick-launch button { padding:4px; width:27px; height:27px; display:inline-flex; align-items:center; justify-content:center; border:1px solid transparent; border-radius:5px; }
+    #mc-two-views .mc-quick-launch button:hover { background:#2a303a; border-color:#444e5f; }
+    #mc-two-views .mc-quick-launch .mc-tool-icon { width:17px; height:17px; }
+    #mc-two-views .mc-issue-card-footer { display:flex; justify-content:space-between; align-items:center; gap:6px; }
+    #mc-two-views .mc-side .mc-board { grid-template-columns:1fr; }
+    #mc-two-views .mc-empty-column { color:#727985; padding:12px 2px; font-size:11px; }
+    #mc-two-views [hidden] { display:none!important; }
+    @media(max-width:950px) { #mc-two-views .mc-item { grid-template-columns:65px minmax(0,1fr); } #mc-two-views .mc-item > .mc-actions { grid-column:2; grid-row:auto; justify-content:flex-start; } #mc-two-views .mc-classic-body.mc-panel-open { grid-template-columns:1fr; } #mc-two-views .mc-side { border-left:0; border-top:1px solid var(--mc-line); } #mc-two-views .mc-console { min-height:380px; } }
+    @media(max-width:800px) { #mc-two-views .mc-board { grid-template-columns:1fr; } }
+    @media(max-width:650px) { #mc-two-views .mc-shell { grid-template-columns:1fr; } #mc-two-views aside { border-right:0; border-bottom:1px solid var(--mc-line); display:grid; grid-template-columns:1fr 1fr; gap:12px; } #mc-two-views details + details { margin-top:0; } #mc-two-views .mc-top { padding-right:16px; } }
+    @media(max-width:400px) { #mc-two-views aside { grid-template-columns:1fr; } }
+    @media(pointer:coarse) { #mc-two-views button { min-height:44px; } #mc-two-views input:not([type=checkbox]), #mc-two-views select, #mc-two-views textarea { min-height:44px; font-size:16px; } }
+  </style>
+
+  <section id="mc-overview-mock" class="mc-app" data-mock="mission" aria-label="Mission Control full layout mockup">
+    <header class="mc-top"><span class="mc-brand" data-role="brand">Herdr</span><div class="mc-top-tabs" data-role="terminal-tabs" aria-label="Workspace tabs"></div><span class="mc-example">Concept · example data</span><button type="button" data-action="swap" class="mc-primary">Classic view →</button></header>
+    <div class="mc-shell"><aside>
+      <details open><summary data-role="spaces-title">Spaces</summary><input class="mc-search" data-role="space-search" placeholder="Find repo or machine…" aria-label="Find a workspace"><div data-role="spaces"></div></details>
+      <details open><summary data-role="agents-title">Agents</summary><div class="mc-group"><button type="button" data-order="priority">Priority</button><button type="button" data-order="spaces">Spaces</button></div><div data-role="agents"></div></details>
+      <div class="mc-sidebar-footer"><button type="button" data-action="settings"><span data-setting-icon></span>Settings</button><button type="button" data-action="add-machine"><span class="mc-plus" aria-hidden="true">+</span>Add machine</button></div>
+    </aside><main>
+      <div class="mc-repo-header"><div><h3 data-role="repo-name"></h3><div class="mc-small" data-role="repo-info"></div></div><div class="mc-actions"><button type="button" data-action="sessions">Sessions</button><button type="button" data-action="new-agent" class="mc-primary">+ New agent</button></div></div>
+      <div class="mc-utility"><div class="mc-group"><button type="button" data-scope="space">This space</button><button type="button" data-scope="all">All spaces</button></div><div class="mc-actions"><button type="button" data-action="reopen">Reopen ▾</button><button type="button" data-action="accounts">Accounts · optional</button></div></div>
+      <section class="mc-overview" data-role="overview"><nav class="mc-source-nav" aria-label="Mission Control views"><button type="button" data-source="jira">Jira</button><button type="button" data-source="github">GitHub issues</button><button type="button" data-source="prs">Pull requests</button><button type="button" data-source="sessions">Previous sessions</button></nav><div class="mc-trackers" data-role="trackers"></div><div class="mc-history mc-panel"><div class="mc-binding">Saved sessions for this repository</div><div data-role="history"></div></div></section>
+      <section class="mc-classic-body" data-role="classic" hidden><div class="mc-terminal"><div class="mc-console" data-role="console"></div></div><div class="mc-side"><div class="mc-side-tabs"><button type="button" data-source="jira">Jira</button><button type="button" data-source="github">GitHub issues</button><button type="button" data-source="prs">PRs</button><button type="button" data-source="sessions">Sessions</button></div><div data-role="side-content"></div></div></section>
+    </main></div><footer class="mc-footer" data-role="footer"></footer><div class="mc-toast" data-role="toast" aria-live="polite" hidden></div><div class="mc-overlay" data-role="overlay" hidden><section class="mc-dialog" role="dialog" aria-modal="true" aria-label="Mission Control action"><div class="mc-dialog-header"><h3 data-role="dialog-title"></h3><button type="button" data-action="close-dialog" aria-label="Close dialog">×</button></div><div data-role="dialog-body"></div></section></div>
+  </section>
+
+  <section id="mc-classic-mock" class="mc-app" data-mock="classic" aria-label="Classic full layout with side panels mockup">
+    <header class="mc-top"><span class="mc-brand" data-role="brand">Herdr</span><div class="mc-top-tabs" data-role="terminal-tabs" aria-label="Workspace tabs"></div><span class="mc-example">Concept · example data</span><button type="button" data-action="swap" class="mc-primary">Mission Control →</button></header>
+    <div class="mc-shell"><aside>
+      <details open><summary data-role="spaces-title">Spaces</summary><input class="mc-search" data-role="space-search" placeholder="Find repo or machine…" aria-label="Find a workspace"><div data-role="spaces"></div></details>
+      <details open><summary data-role="agents-title">Agents</summary><div class="mc-group"><button type="button" data-order="priority">Priority</button><button type="button" data-order="spaces">Spaces</button></div><div data-role="agents"></div></details>
+      <div class="mc-sidebar-footer"><button type="button" data-action="settings"><span data-setting-icon></span>Settings</button><button type="button" data-action="add-machine"><span class="mc-plus" aria-hidden="true">+</span>Add machine</button></div>
+    </aside><main>
+      <div class="mc-repo-header"><div><h3 data-role="repo-name"></h3><div class="mc-small" data-role="repo-info"></div></div><div class="mc-actions"><button type="button" data-action="sessions">Sessions</button><button type="button" data-action="new-agent" class="mc-primary">+ New agent</button></div></div>
+      <div class="mc-utility"><div class="mc-group"><button type="button" data-scope="space">This space</button><button type="button" data-scope="all">All spaces</button></div><div class="mc-actions"><button type="button" data-action="reopen">Reopen ▾</button><button type="button" data-action="accounts">Accounts · optional</button></div></div>
+      <section class="mc-overview" data-role="overview" hidden><nav class="mc-source-nav" aria-label="Mission Control views"><button type="button" data-source="jira">Jira</button><button type="button" data-source="github">GitHub issues</button><button type="button" data-source="prs">Pull requests</button><button type="button" data-source="sessions">Previous sessions</button></nav><div class="mc-trackers" data-role="trackers"></div><div class="mc-history mc-panel"><div class="mc-binding">Saved sessions for this repository</div><div data-role="history"></div></div></section>
+      <section class="mc-classic-body" data-role="classic"><div class="mc-terminal"><div class="mc-console" data-role="console"></div></div><div class="mc-side"><div class="mc-side-tabs"><button type="button" data-source="jira">Jira</button><button type="button" data-source="github">GitHub issues</button><button type="button" data-source="prs">PRs</button><button type="button" data-source="sessions">Sessions</button></div><div data-role="side-content"></div></div></section>
+    </main></div><footer class="mc-footer" data-role="footer"></footer><div class="mc-toast" data-role="toast" aria-live="polite" hidden></div><div class="mc-overlay" data-role="overlay" hidden><section class="mc-dialog" role="dialog" aria-modal="true" aria-label="Classic view action"><div class="mc-dialog-header"><h3 data-role="dialog-title"></h3><button type="button" data-action="close-dialog" aria-label="Close dialog">×</button></div><div data-role="dialog-body"></div></section></div>
+  </section>
+
+  <script id="mc-icon-assets" type="application/json">{"claude":"data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjFlbSIgc3R5bGU9ImZsZXg6bm9uZTtsaW5lLWhlaWdodDoxIiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIxZW0iIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHRpdGxlPkNsYXVkZSBDb2RlPC90aXRsZT48cGF0aCBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yMC45OTggMTAuOTQ5SDI0djMuMTAyaC0zdjMuMDI4aC0xLjQ4N1YyMEgxOHYtMi45MjFoLTEuNDg3VjIwSDE1di0yLjkyMUg5VjIwSDcuNDg4di0yLjkyMUg2VjIwSDQuNDg3di0yLjkyMUgzVjE0LjA1SDBWMTAuOTVoM1Y1aDE3Ljk5OHY1Ljk0OXpNNiAxMC45NDloMS40ODhWOC4xMDJINnYyLjg0N3ptMTAuNTEgMEgxOFY4LjEwMmgtMS40OXYyLjg0N3oiIGZpbGw9IiNEOTc3NTciIGZpbGwtcnVsZT0iZXZlbm9kZCI+PC9wYXRoPjwvc3ZnPg==","codex":"data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjFlbSIgc3R5bGU9ImZsZXg6bm9uZTtsaW5lLWhlaWdodDoxIiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIxZW0iIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHRpdGxlPkNvZGV4PC90aXRsZT48cGF0aCBkPSJNMTkuNTAzIDBINC40OTZBNC40OTYgNC40OTYgMCAwMDAgNC40OTZ2MTUuMDA3QTQuNDk2IDQuNDk2IDAgMDA0LjQ5NiAyNGgxNS4wMDdBNC40OTYgNC40OTYgMCAwMDI0IDE5LjUwM1Y0LjQ5NkE0LjQ5NiA0LjQ5NiAwIDAwMTkuNTAzIDB6IiBmaWxsPSIjZmZmIj48L3BhdGg+PHBhdGggZD0iTTkuMDY0IDMuMzQ0YTQuNTc4IDQuNTc4IDAgMDEyLjI4NS0uMzEyYzEgLjExNSAxLjg5MS41NCAyLjY3MyAxLjI3NS4wMS4wMS4wMjQuMDE3LjAzNy4wMjFhLjA5LjA5IDAgMDAuMDQzIDAgNC41NSA0LjU1IDAgMDEzLjA0Ni4yNzVsLjA0Ny4wMjIuMTE2LjA1N2E0LjU4MSA0LjU4MSAwIDAxMi4xODggMi4zOTljLjIwOS41MS4zMTMgMS4wNDEuMzE1IDEuNTk1YTQuMjQgNC4yNCAwIDAxLS4xMzQgMS4yMjMuMTIzLjEyMyAwIDAwLjAzLjExNWMuNTk0LjYwNy45ODggMS4zMyAxLjE4MyAyLjE3LjI4OSAxLjQyNS0uMDA3IDIuNzEtLjg4NyAzLjg1NGwtLjEzNi4xNjZhNC41NDggNC41NDggMCAwMS0yLjIwMSAxLjM4OC4xMjMuMTIzIDAgMDAtLjA4MS4wNzZjLS4xOTEuNTUxLS4zODMgMS4wMjMtLjc0IDEuNDk0LS45IDEuMTg3LTIuMjIyIDEuODQ2LTMuNzExIDEuODM4LTEuMTg3LS4wMDYtMi4yMzktLjQ0LTMuMTU3LTEuMzAyYS4xMDcuMTA3IDAgMDAtLjEwNS0uMDI0Yy0uMzg4LjEyNS0uNzguMTQzLTEuMjA0LjEzOGE0LjQ0MSA0LjQ0MSAwIDAxLTEuOTQ1LS40NjYgNC41NDQgNC41NDQgMCAwMS0xLjYxLTEuMzM1Yy0uMTUyLS4yMDItLjMwMy0uMzkyLS40MTQtLjYxN2E1LjgxIDUuODEgMCAwMS0uMzctLjk2MSA0LjU4MiA0LjU4MiAwIDAxLS4wMTQtMi4yOTguMTI0LjEyNCAwIDAwLjAwNi0uMDU2LjA4NS4wODUgMCAwMC0uMDI3LS4wNDggNC40NjcgNC40NjcgMCAwMS0xLjAzNC0xLjY1MSAzLjg5NiAzLjg5NiAwIDAxLS4yNTEtMS4xOTIgNS4xODkgNS4xODkgMCAwMS4xNDEtMS42Yy4zMzctMS4xMTIuOTgyLTEuOTg1IDEuOTMzLTIuNjE4LjIxMi0uMTQxLjQxMy0uMjUxLjYwMS0uMzMuMjE1LS4wODkuNDMtLjE2NC42NDYtLjIyN2EuMDk4LjA5OCAwIDAwLjA2NS0uMDY2IDQuNTEgNC41MSAwIDAxLjgyOS0xLjYxNSA0LjUzNSA0LjUzNSAwIDAxMS44MzctMS4zODh6bTMuNDgyIDEwLjU2NWEuNjM3LjYzNyAwIDAwMCAxLjI3MmgzLjYzNmEuNjM3LjYzNyAwIDEwMC0xLjI3MmgtMy42MzZ6TTguNDYyIDkuMjNhLjYzNy42MzcgMCAwMC0xLjEwNi42MzFsMS4yNzIgMi4yMjQtMS4yNjYgMi4xMzZhLjYzNi42MzYgMCAxMDEuMDk1LjY0OWwxLjQ1NC0yLjQ1NWEuNjM2LjYzNiAwIDAwLjAwNS0uNjRMOC40NjIgOS4yM3oiIGZpbGw9InVybCgjbG9iZS1pY29ucy1jb2RleC1fUl8wXykiPjwvcGF0aD48ZGVmcz48bGluZWFyR3JhZGllbnQgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiIGlkPSJsb2JlLWljb25zLWNvZGV4LV9SXzBfIiB4MT0iMTIiIHgyPSIxMiIgeTE9IjMiIHkyPSIyMSI+PHN0b3Agc3RvcC1jb2xvcj0iI0IxQTdGRiI+PC9zdG9wPjxzdG9wIG9mZnNldD0iLjUiIHN0b3AtY29sb3I9IiM3QTlERkYiPjwvc3RvcD48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMzOTQxRkYiPjwvc3RvcD48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48L3N2Zz4=","opencode":"data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjZDVkOGRmIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGhlaWdodD0iMWVtIiBzdHlsZT0iZmxleDpub25lO2xpbmUtaGVpZ2h0OjEiIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjFlbSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+b3BlbmNvZGU8L3RpdGxlPjxwYXRoIGQ9Ik0xNiA2SDh2MTJoOFY2em00IDE2SDRWMmgxNnYyMHoiPjwvcGF0aD48L3N2Zz4=","history":"data:image/svg+xml;base64,PHN2ZyBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1jbG9jayIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYTNhOGIxIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CiAgPGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTAiIC8+CiAgPHBhdGggZD0iTTEyIDZ2Nmw0IDIiIC8+Cjwvc3ZnPgo=","settings":"data:image/svg+xml;base64,PHN2ZwogIGNsYXNzPSJsdWNpZGUgbHVjaWRlLXNldHRpbmdzIgogIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKICB3aWR0aD0iMjQiCiAgaGVpZ2h0PSIyNCIKICB2aWV3Qm94PSIwIDAgMjQgMjQiCiAgZmlsbD0ibm9uZSIKICBzdHJva2U9IiNhM2E4YjEiCiAgc3Ryb2tlLXdpZHRoPSIyIgogIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIKICBzdHJva2UtbGluZWpvaW49InJvdW5kIgo+CiAgPHBhdGggZD0iTTkuNjcxIDQuMTM2YTIuMzQgMi4zNCAwIDAgMSA0LjY1OSAwIDIuMzQgMi4zNCAwIDAgMCAzLjMxOSAxLjkxNSAyLjM0IDIuMzQgMCAwIDEgMi4zMyA0LjAzMyAyLjM0IDIuMzQgMCAwIDAgMCAzLjgzMSAyLjM0IDIuMzQgMCAwIDEtMi4zMyA0LjAzMyAyLjM0IDIuMzQgMCAwIDAtMy4zMTkgMS45MTUgMi4zNCAyLjM0IDAgMCAxLTQuNjU5IDAgMi4zNCAyLjM0IDAgMCAwLTMuMzItMS45MTUgMi4zNCAyLjM0IDAgMCAxLTIuMzMtNC4wMzMgMi4zNCAyLjM0IDAgMCAwIDAtMy44MzFBMi4zNCAyLjM0IDAgMCAxIDYuMzUgNi4wNTFhMi4zNCAyLjM0IDAgMCAwIDMuMzE5LTEuOTE1IiAvPgogIDxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIC8+Cjwvc3ZnPgo=","jira":"data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjNzlhN2VkIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+SmlyYTwvdGl0bGU+PHBhdGggZD0iTTExLjU3MSAxMS41MTNIMGE1LjIxOCA1LjIxOCAwIDAgMCA1LjIzMiA1LjIxNWgyLjEzdjIuMDU3QTUuMjE1IDUuMjE1IDAgMCAwIDEyLjU3NSAyNFYxMi41MThhMS4wMDUgMS4wMDUgMCAwIDAtMS4wMDUtMS4wMDV6bTUuNzIzLTUuNzU2SDUuNzM2YTUuMjE1IDUuMjE1IDAgMCAwIDUuMjE1IDUuMjE0aDIuMTI5djIuMDU4YTUuMjE4IDUuMjE4IDAgMCAwIDUuMjE1IDUuMjE0VjYuNzU4YTEuMDAxIDEuMDAxIDAgMCAwLTEuMDAxLTEuMDAxek0yMy4wMTMgMEgxMS40NTVhNS4yMTUgNS4yMTUgMCAwIDAgNS4yMTUgNS4yMTVoMi4xMjl2Mi4wNTdBNS4yMTUgNS4yMTUgMCAwIDAgMjQgMTIuNDgzVjEuMDA1QTEuMDAxIDEuMDAxIDAgMCAwIDIzLjAxMyAwWiIvPjwvc3ZnPg==","github":"data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjZDZkYWUxIiByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+R2l0SHViPC90aXRsZT48cGF0aCBkPSJNMTIgLjI5N2MtNi42MyAwLTEyIDUuMzczLTEyIDEyIDAgNS4zMDMgMy40MzggOS44IDguMjA1IDExLjM4NS42LjExMy44Mi0uMjU4LjgyLS41NzcgMC0uMjg1LS4wMS0xLjA0LS4wMTUtMi4wNC0zLjMzOC43MjQtNC4wNDItMS42MS00LjA0Mi0xLjYxQzQuNDIyIDE4LjA3IDMuNjMzIDE3LjcgMy42MzMgMTcuN2MtMS4wODctLjc0NC4wODQtLjcyOS4wODQtLjcyOSAxLjIwNS4wODQgMS44MzggMS4yMzYgMS44MzggMS4yMzYgMS4wNyAxLjgzNSAyLjgwOSAxLjMwNSAzLjQ5NS45OTguMTA4LS43NzYuNDE3LTEuMzA1Ljc2LTEuNjA1LTIuNjY1LS4zLTUuNDY2LTEuMzMyLTUuNDY2LTUuOTMgMC0xLjMxLjQ2NS0yLjM4IDEuMjM1LTMuMjItLjEzNS0uMzAzLS41NC0xLjUyMy4xMDUtMy4xNzYgMCAwIDEuMDA1LS4zMjIgMy4zIDEuMjMuOTYtLjI2NyAxLjk4LS4zOTkgMy0uNDA1IDEuMDIuMDA2IDIuMDQuMTM4IDMgLjQwNSAyLjI4LTEuNTUyIDMuMjg1LTEuMjMgMy4yODUtMS4yMy42NDUgMS42NTMuMjQgMi44NzMuMTIgMy4xNzYuNzY1Ljg0IDEuMjMgMS45MSAxLjIzIDMuMjIgMCA0LjYxLTIuODA1IDUuNjI1LTUuNDc1IDUuOTIuNDIuMzYuODEgMS4wOTYuODEgMi4yMiAwIDEuNjA2LS4wMTUgMi44OTYtLjAxNSAzLjI4NiAwIC4zMTUuMjEuNjkuODI1LjU3QzIwLjU2NSAyMi4wOTIgMjQgMTcuNTkyIDI0IDEyLjI5N2MwLTYuNjI3LTUuMzczLTEyLTEyLTEyIi8+PC9zdmc+","pull-request":"data:image/svg+xml;base64,PHN2ZwogIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKICB3aWR0aD0iMjQiCiAgaGVpZ2h0PSIyNCIKICB2aWV3Qm94PSIwIDAgMjQgMjQiCiAgZmlsbD0ibm9uZSIKICBzdHJva2U9IiNiNWJjYzciCiAgc3Ryb2tlLXdpZHRoPSIyIgogIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIKICBzdHJva2UtbGluZWpvaW49InJvdW5kIgo+CiAgPGNpcmNsZSBjeD0iMTgiIGN5PSIxOCIgcj0iMyIgLz4KICA8Y2lyY2xlIGN4PSI2IiBjeT0iNiIgcj0iMyIgLz4KICA8cGF0aCBkPSJNMTMgNmgzYTIgMiAwIDAgMSAyIDJ2NyIgLz4KICA8bGluZSB4MT0iNiIgeDI9IjYiIHkxPSI5IiB5Mj0iMjEiIC8+Cjwvc3ZnPgo=","grok":"data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjZDlkZGU0IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGhlaWdodD0iMWVtIiBzdHlsZT0iZmxleDpub25lO2xpbmUtaGVpZ2h0OjEiIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjFlbSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+R3JvazwvdGl0bGU+PHBhdGggZD0iTTkuMjcgMTUuMjlsNy45NzgtNS44OTdjLjM5MS0uMjkuOTUtLjE3NyAxLjEzNy4yNzIuOTggMi4zNjkuNTQyIDUuMjE1LTEuNDEgNy4xNjktMS45NTEgMS45NTQtNC42NjcgMi4zODItNy4xNDkgMS40MDZsLTIuNzExIDEuMjU3YzMuODg5IDIuNjYxIDguNjExIDIuMDAzIDExLjU2Mi0uOTUzIDIuMzQxLTIuMzQ0IDMuMDY2LTUuNTM5IDIuMzg4LTguNDJsLjAwNi4wMDdjLS45ODMtNC4yMzIuMjQyLTUuOTI0IDIuNzUtOS4zODMuMDYtLjA4Mi4xMi0uMTY0LjE3OS0uMjQ4bC0zLjMwMSAzLjMwNXYtLjAxTDkuMjY3IDE1LjI5Mk03LjYyMyAxNi43MjNjLTIuNzkyLTIuNjctMi4zMS02LjgwMS4wNzEtOS4xODQgMS43NjEtMS43NjMgNC42NDctMi40ODMgNy4xNjYtMS40MjVsMi43MDUtMS4yNWE3LjgwOCA3LjgwOCAwIDAwLTEuODI5LTFBOC45NzUgOC45NzUgMCAwMDUuOTg0IDUuODNjLTIuNTMzIDIuNTM2LTMuMzMgNi40MzYtMS45NjIgOS43NjQgMS4wMjIgMi40ODctLjY1MyA0LjI0Ni0yLjM0IDYuMDIyLS41OTkuNjMtMS4xOTkgMS4yNTktMS42ODIgMS45MjVsNy42Mi02LjgxNSI+PC9wYXRoPjwvc3ZnPg=="}</script>
+  <script>
+    (() => {
+      const container=document.getElementById('mc-two-views');
+      const e=(tag,value='',className='')=>{const el=document.createElement(tag);el.textContent=value;if(className)el.className=className;return el;};
+      const iconAssets=JSON.parse(document.getElementById('mc-icon-assets').textContent);
+      const icon=name=>{const src=iconAssets[name];if(!src)return e('span',name==='history'?'↶':'·');const el=e('img');el.src=src;el.alt='';el.className='mc-tool-icon';return el;};
+      const toolIcon=tool=>{const el=e('img');el.src=iconAssets[tool==='Claude Code'?'claude':tool==='Codex'?'codex':tool==='Grok'?'grok':'opencode'];el.alt=tool;el.className='mc-tool-icon';return el;};
+      const btn=(label,fn,className='')=>{const b=e('button',label,className);b.type='button';b.addEventListener('click',fn);return b;};
+      const bases=[
+        {id:'portal',name:'client-portal',machine:'This Mac',folder:'~/work/client-portal',account:'Acme',project:'WEB',jira:'Jira MCP · work',github:'acme/client-portal',ghAccount:'Acme GitHub',issues:[{key:'WEB-142',title:'Fix login redirect',status:'To do',priority:'High'},{key:'WEB-156',title:'Improve account settings',status:'In progress',priority:'Medium'}],ghIssues:[{key:'#38',title:'Keyboard focus skips the search field',status:'Open · accessibility'}],prs:[{key:'#84',title:'Account settings',status:'Changes requested',checks:'2 checks failing',branch:'web-156-settings',issue:'WEB-156'},{key:'#92',title:'Locale fallback',status:'Your review requested',checks:'Checks passing',branch:'fix/locale',issue:'WEB-177'}]},
+        {id:'billing',name:'billing-api',machine:'dev-server',folder:'/srv/repos/billing-api',account:'North',project:'PAY',jira:'Jira CLI · north',github:'north/billing-api',ghAccount:'North GitHub',issues:[{key:'PAY-38',title:'Handle duplicate callbacks',status:'In progress',priority:'High'}],ghIssues:[{key:'#12',title:'Retry payment webhooks',status:'Open · bug'}],prs:[{key:'#17',title:'Idempotent callback handler',status:'Draft',checks:'Checks running',branch:'pay-38-callbacks',issue:'PAY-38'}]},
+        {id:'infra',name:'infrastructure',machine:'build-server',folder:'/srv/repos/infrastructure',account:'Operations',project:'OPS',jira:'Jira API · operations',github:'ops/infrastructure',ghAccount:'Operations GitHub',issues:[{key:'OPS-91',title:'Repair health checks',status:'To do',priority:'High'}],ghIssues:[{key:'#9',title:'Rotate preview environments',status:'Open · maintenance'}],prs:[{key:'#11',title:'Deployment health check',status:'Your review requested',checks:'1 check failing',branch:'ops-91-health',issue:'OPS-91'}]}
+      ];
+      const machines=['This Mac','dev-server','build-server'];
+      const repos=[...bases];for(let n=4;n<=128;n++)repos.push({id:'repo-'+n,name:'service-'+String(n).padStart(3,'0'),machine:machines[(n-1)%3],folder:'~/work/service-'+n,account:'Not configured',project:'—',jira:'Not connected',github:'',ghAccount:'Not connected',issues:[],ghIssues:[],prs:[]});
+
+      for(const repo of bases) {
+        repo.jiraUrl='https://'+repo.account.toLowerCase()+'.example.test';
+        repo.issues.forEach(item=>item.workflow=item.status==='In progress'?'progress':'todo');
+        repo.issues.push({key:repo.project+'-100',title:'Improve validation messages',status:'Done',workflow:'done',priority:'Medium'});
+        repo.ghIssues[0].workflow='todo';
+        repo.ghIssues.push({key:'#41',title:'Handle keyboard shortcuts consistently',status:'In progress',workflow:'progress'},{key:'#33',title:'Improve empty-state feedback',status:'Done',workflow:'done'});
+      }
+      const tools=['Claude Code','Codex','Grok','OpenCode'];
+      const initialAgents=Array.from({length:24},(_,n)=>({id:'agent-'+n,sessionId:'session-live-'+n,repoId:bases[n%3].id,tool:['Codex','Claude Code','OpenCode'][n%3],title:n===0?'Fix login redirect':n===1?'Duplicate payment callbacks':n===2?'Repair deployment health checks':'Task '+(n+1),key:bases[n%3].issues[0].key,status:n===1?'Needs input':n===2?'Done':'Working',context:Math.max(8,63-n*2)}));
+      initialAgents[0].key='WEB-156';initialAgents[0].title='Improve account settings';
+      initialAgents[2].key='OPS-100';initialAgents[2].title='Improve validation messages';
+      for(let n=3;n<initialAgents.length;n++)initialAgents[n].key=bases[n%3].project+'-'+(200+n);
+      const previous=bases.flatMap((r,n)=>[{id:'history-'+r.id,repoId:r.id,tool:n===1?'Claude Code':'Codex',title:n===0?'Investigate login redirect':n===1?'Webhook retry strategy':'Deployment rollout review',key:r.issues[0].key,branch:n===0?'fix/login-redirect':'main',when:'Yesterday',running:false},{id:'history-older-'+r.id,repoId:r.id,tool:'Claude Code',title:'Repository architecture review',key:'Review',branch:'main',when:'3 days ago',running:false}]);
+      let localPreferences={};try{localPreferences=JSON.parse(localStorage.getItem('mission-control-preview-preferences')||'{}');}catch{}const saved={...localPreferences,...(window.openai?.widgetState?.privateContent||{})};
+      const state={repoId:repos.some(r=>r.id===saved?.repoId)?saved.repoId:'portal',scope:saved?.scope==='all'?'all':'space',order:saved?.order==='spaces'?'spaces':'priority',source:['jira','github','prs','sessions'].includes(saved?.source)?saved.source:'jira',agents:initialAgents,history:previous,profiles:{'Claude Code':'Work','Codex':'Work'},pinned:Array.isArray(saved.pinned)?saved.pinned.filter(t=>t===''||tools.includes(t)).slice(0,3):['Claude Code','Codex','Grok'],hidden:[],repoDefaults:saved.repoDefaults&&typeof saved.repoDefaults==='object'?saved.repoDefaults:{},closed:[{type:'agent',repoId:'portal',tool:'Claude Code',title:'Login investigation',id:'closed-agent-1'},{type:'terminal',repoId:'billing',tool:'Terminal',title:'Shell',id:'closed-tab-1'}]};
+      const apps=[...container.querySelectorAll('[data-mock]')].map(root=>({root,mode:root.dataset.mock,limit:3,agentLimit:3,terminal:'agent',panelOpen:false,q:role=>root.querySelector('[data-role="'+role+'"]')}));
+      function current(){return repos.find(r=>r.id===state.repoId);}
+      function save() {
+        const preferences={repoId:state.repoId,scope:state.scope,order:state.order,source:state.source,pinned:state.pinned,repoDefaults:state.repoDefaults};
+        try{localStorage.setItem('mission-control-preview-preferences',JSON.stringify(preferences));}catch{}
+        if(window.openai?.setWidgetState)Promise.resolve(window.openai.setWidgetState({modelContent:{selectedRepo:current().name,scope:state.scope,sidePanel:state.source,quickAgents:state.pinned.filter(Boolean)},privateContent:preferences})).catch(()=>{});
+      }
+      function togglePinned(tool) {
+        if(state.pinned.includes(tool))state.pinned=state.pinned.filter(t=>t!==tool);
+        else if(state.pinned.filter(Boolean).length<3)state.pinned=[...state.pinned.filter(Boolean),tool];
+        else state.pinned=[...state.pinned.slice(0,2),tool];
+        refresh();save();
+      }
+      function refresh(){apps.forEach(render);}
+      function notify(app,message){const el=app.q('toast');el.textContent=message;el.hidden=false;}
+      function dialog(app,title){app.q('dialog-title').textContent=title;const body=app.q('dialog-body');body.replaceChildren();app.q('overlay').hidden=false;return body;}
+      function close(app){app.q('overlay').hidden=true;}
+      function field(parent,label,control){const wrap=e('div','','mc-field');const caption=e('label',label);const id='mc-field-'+Math.random().toString(36).slice(2);control.id=id;caption.htmlFor=id;wrap.append(caption,control);parent.append(wrap);return control;}
+      function select(options){const el=e('select');for(const item of options)el.append(e('option',item));return el;}
+      function openLaunch(app,repo,item=null,kind='new',tool='Codex',action='Work on issue'){
+        const title=kind==='new'?'New agent in '+repo.name:action+' · '+item.key;
+        const body=dialog(app,title);body.append(e('div',repo.name+' · '+repo.machine,'mc-small'),e('div',repo.folder,'mc-small'));
+        if(item)body.append(e('p',item.title));if(kind==='pr')body.append(e('div','PR branch: '+item.branch,'mc-small'));
+        const picker=field(body,'Installed agent',select(tools));picker.value=tool;
+        const account=field(body,'Account profile · optional module',select(['Work','Personal']));account.value=state.profiles[tool]||'Work';picker.addEventListener('change',()=>{account.value=state.profiles[picker.value]||'Work';});
+        const toggleLabel=e('label','','mc-inline-label');const toggle=e('input');toggle.type='checkbox';toggle.checked=kind==='jira'||kind==='github'?state.repoDefaults[repo.id]?.worktree!==false:false;toggleLabel.append(toggle,e('span','Create a new worktree'));body.append(toggleLabel);
+        const branchWrap=e('div');const branch=field(branchWrap,kind==='pr'?'Existing PR branch in new worktree':'Branch for new worktree',e('input'));branch.value=kind==='pr'?item.branch:item?worktreeName(repo,item,kind):'feature/new-task';branchWrap.hidden=!toggle.checked;body.append(branchWrap);toggle.addEventListener('change',()=>{branchWrap.hidden=!toggle.checked;});
+        const instructions=field(body,'Instructions',e('textarea'));instructions.rows=2;instructions.placeholder='What should this agent do?';
+        const advanced=e('details');advanced.append(e('summary','Model, reasoning & skill'));field(advanced,'Model',select(['Agent default','Configured model']));field(advanced,'Reasoning',select(['Agent default','Low','Medium','High']));const skill=field(advanced,'Skill prefix',e('input'));skill.placeholder='/skill-name';body.append(advanced);
+        body.append(btn('Start agent',()=>{const key=item?.key||'New task';const sessionId='example-'+Date.now();const agent={id:sessionId,sessionId,repoId:repo.id,tool:picker.value,title:item?.title||instructions.value||'New task',key,status:'Working',context:null};state.agents.unshift(agent);state.history.unshift({id:sessionId,repoId:repo.id,tool:picker.value,title:agent.title,key,branch:toggle.checked?branch.value:'Current checkout',when:'Just now',running:true});state.repoId=repo.id;app.focusedAgent=agent.id;app.mode='classic';app.terminal='agent';close(app);refresh();save();notify(app,'Example launch: '+picker.value+' · '+repo.name+(toggle.checked?' · new worktree':' · current checkout'));},'mc-primary'));
+      }
+      function resume(app,session){state.repoId=session.repoId;let agent=state.agents.find(a=>a.sessionId===session.id);const wasRunning=Boolean(agent);if(!agent){agent={id:session.id,sessionId:session.id,repoId:session.repoId,tool:session.tool,title:session.title,key:session.key,status:'Working',context:null};state.agents.unshift(agent);session.running=true;}app.focusedAgent=agent.id;app.mode='classic';app.terminal='agent';close(app);refresh();save();notify(app,'Example: '+(wasRunning?'opened':'resumed')+' exact session '+session.id+' · '+current().name);}
+      function historyRows(app,target,repo){target.replaceChildren();const list=state.history.filter(s=>s.repoId===repo.id);if(!list.length){target.append(e('div','No saved sessions for this example repo.','mc-item mc-small'));return;}for(const session of list.slice(0,5)){const row=e('div','','mc-session');const copy=e('div');copy.append(e('div',session.title),e('div',session.tool+' · '+session.when+' · '+session.branch,'mc-small'));row.append(copy,btn(session.running?'Go to agent':'Resume',()=>resume(app,session)));target.append(row);}}
+      function openHistory(app,repo){const body=dialog(app,'Sessions · '+repo.name);body.append(e('div',repo.machine+' · '+repo.folder,'mc-small'));const list=e('div');body.append(list);historyRows(app,list,repo);}
+      function openSpaceMenu(app,repo){const body=dialog(app,repo.name);body.append(e('div',repo.machine+' · '+repo.folder,'mc-small'));for(const [label,fn]of[['New agent…',()=>openLaunch(app,repo)],['Open in Finder',()=>{close(app);notify(app,repo.machine==='This Mac'?'Example: Finder would open '+repo.folder:'Remote repo: a local mount must be configured for Finder.');}],['Previous sessions…',()=>openHistory(app,repo)]]){const row=e('div','','mc-menu-row');row.append(btn(label,fn));body.append(row);}}
+      function openAgentMenu(app){const repo=current();const body=dialog(app,'Start an agent');body.append(e('div',repo.name+' · '+repo.machine,'mc-small'));const search=e('input');search.placeholder='Find installed agent…';search.setAttribute('aria-label','Find an installed agent');search.className='mc-search';body.append(search);const rows=e('div');body.append(rows);let edit=false;const customize=btn('Customize agents',()=>{edit=!edit;customize.textContent=edit?'Done':'Customize agents';renderMenu();});body.append(customize);function renderMenu(){rows.replaceChildren();const list=tools.filter(t=>(edit||!state.hidden.includes(t))&&t.toLowerCase().includes(search.value.toLowerCase())).sort((a,b)=>Number(state.pinned.includes(b))-Number(state.pinned.includes(a)));for(const tool of list){const row=e('div','','mc-menu-row');const launch=btn(tool,()=>{if(!edit)openLaunch(app,repo,null,'new',tool);});launch.prepend(toolIcon(tool));row.append(launch);if(edit){const actions=e('div','','mc-actions');actions.append(btn(state.pinned.includes(tool)?'Unpin':'Pin',()=>{togglePinned(tool);renderMenu();}),btn(state.hidden.includes(tool)?'Show':'Hide',()=>{state.hidden=state.hidden.includes(tool)?state.hidden.filter(t=>t!==tool):[...state.hidden,tool];renderMenu();}));row.append(actions);}else row.append(e('span',state.pinned.includes(tool)?'Pinned':'Installed','mc-small'));rows.append(row);}if(!list.length)rows.append(e('div','No matching tools','mc-item mc-small'));}search.addEventListener('input',renderMenu);renderMenu();}
+      function reopen(app,agentOnly){let at=-1;for(let n=state.closed.length-1;n>=0;n--)if(!agentOnly||state.closed[n].type==='agent'){at=n;break;}if(at<0){close(app);notify(app,'No more closed '+(agentOnly?'agents':'tabs')+' in this example.');return;}const item=state.closed.splice(at,1)[0];state.repoId=item.repoId;if(item.type==='agent'){const session={id:item.id,repoId:item.repoId,tool:item.tool,title:item.title,key:'Restored session',branch:'main',when:'Reopened now',running:false};state.history.unshift(session);resume(app,session);}else{app.mode='classic';app.terminal='shell';close(app);refresh();save();notify(app,'Example: reopened Shell in '+current().name+' · '+current().machine);}}
+      function openReopen(app){const body=dialog(app,'Reopen');for(const [label,only]of[['Reopen last tab',false],['Reopen last agent',true]]){const row=e('div','','mc-menu-row');row.append(btn(label,()=>reopen(app,only)));body.append(row);}body.append(e('p','Restore to the original repo space and machine.','mc-small'));}
+      function openUtilities(app){const body=dialog(app,'Workspace tools');for(const [label,fn]of[['New agent…',()=>openAgentMenu(app)],['Previous sessions…',()=>openHistory(app,current())],['Reopen last tab',()=>reopen(app,false)],['Reopen last agent',()=>reopen(app,true)],['Accounts · optional',()=>openAccounts(app)]]){const row=e('div','','mc-menu-row');row.append(btn(label,fn));body.append(row);}}
+      function openSettings(app,section) {
+        const body=dialog(app,section==='machines'?'Add machine':section==='agents'?'Agent shortcuts':'Settings');
+        if(section==='agents') {
+          body.append(e('p','Pin up to three installed agents for one-click issue starts.','mc-small'));
+          for(let slot=0;slot<3;slot++) {
+            const pick=field(body,'Quick-launch slot '+(slot+1),select(['Not pinned',...tools]));
+            pick.value=state.pinned[slot]||'Not pinned';
+            pick.addEventListener('change',()=>{
+              const value=pick.value==='Not pinned'?'':pick.value;
+              const old=state.pinned[slot]||'';
+              const other=state.pinned.findIndex((tool,index)=>index!==slot&&tool===value&&value!=='');
+              if(other>=0)state.pinned[other]=old;
+              state.pinned[slot]=value;
+              refresh();save();openSettings(app,'agents');
+            });
+          }
+          const repo=current();body.append(e('p','Start defaults for '+repo.name,'mc-small'));
+          const label=e('label','','mc-inline-label');const worktree=e('input');worktree.type='checkbox';worktree.checked=state.repoDefaults[repo.id]?.worktree!==false;label.append(worktree,e('span','Create issue worktrees automatically'));body.append(label);
+          body.append(e('div','Name: '+repo.name+'-<issue-id>','mc-small'));
+          worktree.addEventListener('change',()=>{state.repoDefaults[repo.id]={...state.repoDefaults[repo.id],worktree:worktree.checked};save();});
+          body.append(btn('Done',()=>close(app),'mc-primary'));
+        }else if(section==='machines'){
+          body.append(e('div','Connected machines','mc-small'));for(const machine of machines)body.append(e('p',machine));const host=field(body,'SSH host',e('input'));host.placeholder='user@server';body.append(btn('Preview connection',()=>notify(app,'Design preview: machine connection would be managed by Herdr.')));
+        }else{
+          body.append(e('p','Appearance: Graphite'),e('p','Terminal font: monospace'));
+          body.append(btn('Agent shortcuts',()=>openSettings(app,'agents')),btn('Machines',()=>openSettings(app,'machines')));
+        }
+      }
+      function meter(parent,label,value,kind=''){const caption=e('div','','mc-meter-label');caption.append(e('span',label),e('span',value===null?'Unavailable':value+'% left'));parent.append(caption);if(value===null)return;const track=e('div','','mc-context '+kind);track.setAttribute('role','progressbar');track.setAttribute('aria-label',label);track.setAttribute('aria-valuenow',String(value));track.setAttribute('aria-valuemin','0');track.setAttribute('aria-valuemax','100');const fill=e('div');fill.style.width=value+'%';track.append(fill);parent.append(track);}
+      function openAccounts(app){const body=dialog(app,'Accounts · optional mod');body.append(e('div',current().machine+' · profile selection for new sessions','mc-small'));const tabs=e('div','','mc-group');const list=e('div');body.append(tabs,list);let provider='Claude Code';function draw(){tabs.replaceChildren();for(const name of ['Claude Code','Codex']){const b=btn(name,()=>{provider=name;draw();});b.setAttribute('aria-pressed',String(name===provider));tabs.append(b);}list.replaceChildren();for(const name of ['Work','Personal']){const row=e('div','','mc-menu-row');const copy=e('div');copy.append(e('div',name),e('div',name==='Work'?'work@example.test':'personal@example.test','mc-small'));const selected=state.profiles[provider]===name;const action=btn(selected?'Selected':'Use profile',()=>{state.profiles[provider]=name;draw();notify(app,'Example profile selected for new '+provider+' sessions: '+name);});action.disabled=selected;row.append(copy,action);list.append(row);}list.append(e('p','Optional concept. Account usage telemetry and switching running sessions still need validation.','mc-small'));}draw();}
+      function quickTools() {
+        const available=tools.filter(tool=>!state.hidden.includes(tool));
+        return state.pinned.filter(tool=>available.includes(tool)).slice(0,3);
+      }
+      function worktreeName(repo,item,source) {
+        const id=source==='github'?'GH-'+item.key.replace('#',''):item.key;
+        return (repo.name+'-'+id).replace(/[^A-Za-z0-9._-]+/g,'-');
+      }
+      function quickStart(app,repo,item,source,tool) {
+        const existing=state.agents.find(agent=>agent.repoId===repo.id&&agent.key===item.key&&agent.tool===tool&&(agent.source||'jira')===source);
+        if(existing){state.repoId=repo.id;app.focusedAgent=existing.id;app.mode='classic';app.terminal='agent';close(app);refresh();save();notify(app,'Focused existing '+tool+' session for '+item.key);return;}
+        const name=worktreeName(repo,item,source);
+        const withWorktree=state.repoDefaults[repo.id]?.worktree!==false;
+        const id='quick-'+Date.now()+'-'+Math.random().toString(36).slice(2,6);
+        const agent={id,sessionId:id,repoId:repo.id,tool,title:item.title,key:item.key,source,status:'Working',context:null,worktree:withWorktree?name:null};
+        state.agents.unshift(agent);
+        state.history.unshift({id,repoId:repo.id,tool,title:item.title,key:item.key,branch:withWorktree?name:'Current checkout',when:'Just now',running:true});
+        state.repoId=repo.id;app.focusedAgent=id;app.mode='classic';app.terminal='agent';close(app);refresh();save();
+        notify(app,'Preview: '+tool+' started for '+item.key+' · '+(withWorktree?'worktree '+name:'current checkout'));
+      }
+      function openIssueOptions(app,repo,item,source) {
+        const body=dialog(app,item.key+' · start work');
+        body.append(e('div',repo.name+' · '+repo.machine,'mc-small'));
+        for(const tool of tools){const row=e('div','','mc-menu-row');const launch=btn(tool,()=>quickStart(app,repo,item,source,tool));launch.prepend(toolIcon(tool));row.append(launch);body.append(row);}
+        body.append(btn('Configure this launch…',()=>openLaunch(app,repo,item,source,quickTools()[0]||'Codex')));
+      }
+      function issueLink(item,repo,source,text,className) {
+        const link=e('a',text,className);
+        link.href=source==='jira'?repo.jiraUrl+'/browse/'+encodeURIComponent(item.key):'https://github.com/'+repo.github+'/issues/'+item.key.replace('#','');
+        link.target='_blank';link.rel='noopener noreferrer';return link;
+      }
+      function issuePanel(app,source) {
+        const panel=e('section','','mc-panel');
+        const titles={jira:'Jira',github:'GitHub issues',prs:'Pull requests'};
+        panel.setAttribute('aria-label',titles[source]);
+        const relevant=state.scope==='all'?bases:[current()];
+        if(source!=='prs') {
+          const metadata=relevant.length===1?(source==='jira'?relevant[0].account+' · '+relevant[0].project+' · '+relevant[0].jira:relevant[0].github+' · '+relevant[0].ghAccount):'Configured work across '+relevant.length+' repositories';
+          panel.append(e('div',metadata,'mc-binding'));
+          const board=e('div','','mc-board');
+          for(const [workflow,label] of [['todo','To do'],['progress','In progress'],['done','Done']]) {
+            const column=e('section','','mc-column');column.dataset.workflow=workflow;
+            const items=relevant.flatMap(repo=>(source==='jira'?repo.issues:repo.ghIssues).filter(item=>item.workflow===workflow).map(item=>({repo,item})));
+            const heading=e('div','','mc-column-heading');heading.append(e('span','','mc-status-dot '+workflow),e('span',label),e('span',String(items.length),'mc-small'));column.append(heading);
+            for(const {repo,item} of items) {
+              const card=e('article','','mc-issue-card');card.dataset.issue=item.key;card.dataset.repo=repo.id;card.dataset.source=source;
+              const head=e('div','','mc-issue-card-head');head.append(issueLink(item,repo,source,item.key,'mc-issue-key'));
+              const options=btn('',()=>openIssueOptions(app,repo,item,source),'mc-icon-button mc-more');options.append(e('span','','mc-ellipsis'));options.setAttribute('aria-label','More options for '+item.key);head.append(options);
+              card.append(head,issueLink(item,repo,source,item.title,'mc-issue-summary'));
+              const footer=e('div','','mc-issue-card-footer');footer.append(e('span',state.scope==='all'?repo.name:(item.priority||'Issue'),'mc-small'));
+              const shortcuts=e('div','','mc-quick-launch');
+              for(const tool of quickTools()){const launch=btn('',()=>quickStart(app,repo,item,source,tool));launch.append(toolIcon(tool));launch.setAttribute('aria-label','Start '+item.key+' with '+tool);launch.dataset.quickTool=tool;launch.dataset.worktree=worktreeName(repo,item,source);shortcuts.append(launch);}
+              footer.append(shortcuts);card.append(footer);column.append(card);
+            }
+            if(!items.length)column.append(e('div','No issues','mc-empty-column'));
+            board.append(column);
+          }
+          panel.append(board);return panel;
+        }
+        let count=0;
+        for(const repo of relevant){if(!repo.prs.length)continue;panel.append(e('div',(state.scope==='all'?repo.name+' · ':'')+repo.github+' · '+repo.ghAccount,'mc-binding'));for(const item of repo.prs){count++;const row=e('div','','mc-item');row.append(e('div',item.key+' · '+item.issue,'mc-key'),e('div',item.title,'mc-item-title'),e('div',item.status,'mc-small'),e('div',item.checks,item.checks.includes('failing')?'mc-small mc-bad':'mc-small'));const actions=e('div','','mc-actions');actions.append(btn('Review',()=>openLaunch(app,repo,item,'pr','Codex','Review PR')));if(item.status==='Changes requested')actions.append(btn('Address comments',()=>openLaunch(app,repo,item,'pr','Claude Code','Address comments')));if(item.checks.includes('failing'))actions.append(btn('Fix checks',()=>openLaunch(app,repo,item,'pr','Codex','Fix checks')));row.append(actions);panel.append(row);}}
+        if(!count)panel.append(e('div','No pull requests configured for this example repo.','mc-item mc-small'));
+        return panel;
+      }
+      function render(app) {
+        const repo=current();
+        const activeAgent=state.agents.find(a=>a.id===app.focusedAgent&&a.repoId===repo.id)||state.agents.find(a=>a.repoId===repo.id);
+        app.root.dataset.layout=app.mode;
+        app.q('brand').textContent='Herdr';
+        app.root.querySelector('[data-action=swap]').textContent=app.mode==='mission'?'Classic view →':'Mission Control →';
+        app.q('overview').hidden=app.mode!=='mission';
+        app.q('classic').hidden=app.mode!=='classic';
+        app.q('classic').classList.toggle('mc-panel-open',app.panelOpen);
+        app.root.querySelector('.mc-side').hidden=!app.panelOpen;
+        app.q('repo-name').textContent=repo.name;
+        app.q('repo-info').textContent=repo.machine+' · '+repo.folder+' · main';
+        app.q('spaces-title').textContent='Spaces · '+repos.length;
+        app.q('agents-title').textContent='Agents · '+state.agents.length;
+        const query=app.q('space-search').value.toLowerCase();
+        const matching=repos.filter(r=>(r.name+' '+r.machine).toLowerCase().includes(query));
+        const visible=matching.slice(0,app.limit);
+        const spaces=app.q('spaces');
+        spaces.replaceChildren();
+        for(const machine of machines) {
+          const group=visible.filter(r=>r.machine===machine);
+          if(!group.length)continue;
+          spaces.append(e('div',machine,'mc-machine'));
+          for(const item of group) {
+            const row=e('div','','mc-space-row');
+            const choose=btn(item.name,()=>{state.repoId=item.id;refresh();save();},'mc-space');
+            choose.setAttribute('aria-pressed',String(item.id===repo.id));
+            choose.append(e('small',item.project==='—'?'Repo space':item.project+' · '+item.account));
+            const menu=btn('',()=>openSpaceMenu(app,item),'mc-icon-button mc-more');
+            menu.append(e('span','','mc-ellipsis'));
+            menu.setAttribute('aria-label','Actions for '+item.name);
+            row.append(choose,menu);
+            row.addEventListener('contextmenu',ev=>{ev.preventDefault();openSpaceMenu(app,item);});
+            spaces.append(row);
+          }
+        }
+        if(matching.length>visible.length)spaces.append(btn('Show more · '+(matching.length-visible.length)+' remaining',()=>{app.limit+=6;render(app);},'mc-small'));
+        if(!matching.length)spaces.append(e('div','No matching spaces','mc-small'));
+        app.root.querySelectorAll('[data-order]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.order===state.order)));
+        app.root.querySelectorAll('[data-scope]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.scope===state.scope)));
+        app.root.querySelectorAll('[data-source]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.source===state.source)));
+        const statusOrder=['Needs input','Done','Working','Idle'];
+        const sorted=[...state.agents].sort((a,b)=>state.order==='spaces'?a.repoId.localeCompare(b.repoId):statusOrder.indexOf(a.status)-statusOrder.indexOf(b.status));
+        const agentList=app.q('agents');
+        agentList.replaceChildren();
+        let previousRepo='';
+        for(const agent of sorted.slice(0,app.agentLimit)) {
+          const target=repos.find(r=>r.id===agent.repoId);
+          if(state.order==='spaces'&&previousRepo!==target.id){agentList.append(e('div',target.name,'mc-machine'));previousRepo=target.id;}
+          const card=e('div','','mc-agent');
+          const title=e('div','','mc-agent-name');
+          const focus=btn(agent.title,()=>{state.repoId=agent.repoId;app.focusedAgent=agent.id;app.mode='classic';app.terminal='agent';refresh();save();notify(app,'Focused '+agent.title+' in '+target.name);});
+          focus.setAttribute('aria-label','Focus '+agent.title+' using '+agent.tool);
+          title.append(toolIcon(agent.tool),focus);
+          card.append(title,e('small',agent.key+' · '+target.name),e('div',agent.status,'mc-agent-state mc-small'+(agent.status==='Needs input'?' mc-attention':'')));
+          meter(card,'Context',agent.context);
+          const quota=agent.tool==='Codex'?42:agent.tool==='Claude Code'?8:null;
+          meter(card,'Quota · Work',quota,'mc-quota');
+          agentList.append(card);
+        }
+        if(sorted.length>app.agentLimit)agentList.append(btn('Show more agents',()=>{app.agentLimit+=4;render(app);},'mc-small'));
+        const trackers=app.q('trackers');
+        trackers.replaceChildren();
+        trackers.hidden=state.source==='sessions';
+        app.q('history').parentElement.hidden=state.source!=='sessions';
+        if(state.source!=='sessions')trackers.append(issuePanel(app,state.source));
+        historyRows(app,app.q('history'),repo);
+        const side=app.q('side-content');
+        side.replaceChildren();
+        const scopeButton=btn(state.scope==='space'?'This space ▾':'All spaces ▾',()=>{state.scope=state.scope==='space'?'all':'space';refresh();save();},'mc-small');
+        side.append(scopeButton);
+        if(state.source==='sessions'){const panel=e('div','','mc-panel');historyRows(app,panel,repo);side.append(panel);}else side.append(issuePanel(app,state.source));
+        const tabs=app.q('terminal-tabs');
+        tabs.replaceChildren();
+        for(const [label,type]of [[activeAgent?.title||'Agent','agent'],['Terminal','shell']]) {
+          const b=btn(label,()=>{app.terminal=type;render(app);});
+          if(type==='agent'&&activeAgent)b.prepend(toolIcon(activeAgent.tool));
+          b.setAttribute('aria-pressed',String(app.terminal===type));
+          tabs.append(b);
+        }
+        const plus=btn('+',()=>openAgentMenu(app));
+        plus.setAttribute('aria-label','Open agent menu');
+        tabs.append(plus);
+        const spacer=e('span');spacer.style.flex='1';tabs.append(spacer);
+        tabs.append(btn(app.panelOpen?'Hide panel':'Work panel',()=>{app.panelOpen=!app.panelOpen;render(app);},'mc-panel-toggle'));
+        const utility=btn('',()=>openUtilities(app),'mc-icon-button mc-more');utility.append(e('span','','mc-ellipsis'));utility.setAttribute('aria-label','Workspace tools');tabs.append(utility);
+        const terminal=app.q('console');
+        terminal.replaceChildren();
+        if(app.terminal==='shell')terminal.append(e('p',repo.name+' · '+repo.machine,'mc-small'),e('p','❯ '+repo.folder,'mc-prompt'),e('p','▌','mc-prompt'));
+        else terminal.append(e('p',(activeAgent?.tool||'Agent')+' · '+repo.name+' · example session','mc-small'),e('p','› '+(activeAgent?.title||'Work in this repository'),'mc-prompt'),e('p','Inspecting the repository and its contributor instructions.'),e('p','Reviewing the relevant code and the linked issue.'),e('p','› Add a follow-up instruction…','mc-prompt'));
+        app.q('footer').textContent=machines.length+' machines · '+repos.length+' spaces · '+state.agents.length+' agents · Design preview';
+      }
+      for(const app of apps){for(const tab of app.root.querySelectorAll('[data-source]'))tab.prepend(icon({jira:'jira',github:'github',prs:'pull-request',sessions:'history'}[tab.dataset.source]));app.root.querySelector('[data-setting-icon]').append(icon('settings'));app.q('space-search').addEventListener('input',()=>{app.limit=6;render(app);});app.root.querySelectorAll('[data-order]').forEach(b=>b.addEventListener('click',()=>{state.order=b.dataset.order;refresh();save();}));app.root.querySelectorAll('[data-scope]').forEach(b=>b.addEventListener('click',()=>{state.scope=b.dataset.scope;refresh();save();}));app.root.querySelectorAll('[data-source]').forEach(b=>b.addEventListener('click',()=>{state.source=b.dataset.source;refresh();save();}));for(const b of app.root.querySelectorAll('[data-action]'))b.addEventListener('click',()=>{const action=b.dataset.action;if(action==='swap'){app.mode=app.mode==='mission'?'classic':'mission';render(app);}if(action==='new-agent')openAgentMenu(app);if(action==='sessions')openHistory(app,current());if(action==='reopen')openReopen(app);if(action==='accounts')openAccounts(app);if(action==='settings')openSettings(app,'look');if(action==='add-machine')openSettings(app,'machines');if(action==='close-dialog')close(app);});app.root.addEventListener('keydown',event=>{if(event.key==='Escape')close(app);});}
+      window.addEventListener('openai:set_globals',event=>{const s=event.detail?.globals?.widgetState?.privateContent;if(!s)return;if(repos.some(r=>r.id===s.repoId))state.repoId=s.repoId;if(['space','all'].includes(s.scope))state.scope=s.scope;if(['priority','spaces'].includes(s.order))state.order=s.order;if(['jira','github','prs','sessions'].includes(s.source))state.source=s.source;if(Array.isArray(s.pinned))state.pinned=s.pinned.filter(t=>t===''||tools.includes(t)).slice(0,3);if(s.repoDefaults&&typeof s.repoDefaults==='object')state.repoDefaults=s.repoDefaults;refresh();});
+      refresh();
+    })();
+  </script>
+</div>

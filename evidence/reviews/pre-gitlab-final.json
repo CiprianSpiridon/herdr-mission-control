@@ -1,0 +1,445 @@
+{
+  "schemaVersion": 1,
+  "verdict": "APPROVE",
+  "plans": [
+    {
+      "name": "mission-control",
+      "reviewer": "founder_layout_accounts",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "53cee17b9a6300228f7e6c8a2922a954ffc290f8a5aef1ab41c41669a2c9cae2",
+        "md": "61aae1860d1f4fd609562faf54fa00a3c4ee95969921bd0352a4b55c3b6cb6f7"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 16,
+      "producerVerification": "Current pairs and actual execution ledger re-read in forked FULL review. TASK032/033 existing paths are Modify; both reopened owners are absent from completed with historical receipts preserved. Dependent adapters and setup remain gated on replacement validation. Canonical Jira baseUrl, custom displayUrl guidance, same-route pre-save probe, fixed gateway and MCP Basic/Bearer ownership are explicit."
+    },
+    {
+      "name": "mission-control-accounts",
+      "reviewer": "founder_layout_accounts",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "d465a6f75cc887da87c46fc95f8fa20baecac7503a1d1b9c399979809b5fa4f8",
+        "md": "0ff6b1475a1081ea54fd2c8c051287de5ccab326578a2185244c4e3bdeebb859"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 3,
+      "producerVerification": "Current pairs and actual execution ledger re-read in forked FULL review. TASK032/033 existing paths are Modify; both reopened owners are absent from completed with historical receipts preserved. Dependent adapters and setup remain gated on replacement validation. Canonical Jira baseUrl, custom displayUrl guidance, same-route pre-save probe, fixed gateway and MCP Basic/Bearer ownership are explicit."
+    },
+    {
+      "name": "mission-control-agent-menu",
+      "reviewer": "founder_menu_spaces_agents",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "7a8aebd47f7242b527bce814a19fc8b11c71640f5feddbf85d561ceb0be1e5cc",
+        "md": "f74f45742bd803f1a6f43e39414c5c26579129c1a4066aab9d8ddd1eb4590830"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 8,
+      "producerVerification": "Current pairs and actual execution ledger re-read in forked FULL review. TASK032/033 existing paths are Modify; both reopened owners are absent from completed with historical receipts preserved. Dependent adapters and setup remain gated on replacement validation. Canonical Jira baseUrl, custom displayUrl guidance, same-route pre-save probe, fixed gateway and MCP Basic/Bearer ownership are explicit."
+    },
+    {
+      "name": "mission-control-agents",
+      "reviewer": "founder_menu_spaces_agents",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "9b09b20978d40ebe5df00a5f2d1bedc8b812fa1914a79dbb96d03fb773e468b5",
+        "md": "4d4bae4da26dd6d44cff5d0720791a491e9ba97c9e1b7f9ac1145507cdc40f04"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 14,
+      "producerVerification": "Current pairs and actual execution ledger re-read in forked FULL review. TASK032/033 existing paths are Modify; both reopened owners are absent from completed with historical receipts preserved. Dependent adapters and setup remain gated on replacement validation. Canonical Jira baseUrl, custom displayUrl guidance, same-route pre-save probe, fixed gateway and MCP Basic/Bearer ownership are explicit.",
+      "previousApprovalHashes": {
+        "json": "48b8a135001a60538538b32b511727fc6c6f1ecb0bf6a26363baa6d951dbbf97",
+        "md": "7a45732e5d60ac9ec56e32ac957e91bb20b8006bb7a50c73ddacc0f278b2201e"
+      }
+    },
+    {
+      "name": "mission-control-spaces",
+      "reviewer": "founder_menu_spaces_agents",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "169e40c12bd9a1f745422c0cc415443c25fc4f2a5e37893ccee6f35c4b016b25",
+        "md": "c01c4ce7b39a7a1aebe46466bdffdf2457d9f372c8bfa19d3c45fd16e4f7c022"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 4,
+      "producerVerification": "Current pairs and actual execution ledger re-read in forked FULL review. TASK032/033 existing paths are Modify; both reopened owners are absent from completed with historical receipts preserved. Dependent adapters and setup remain gated on replacement validation. Canonical Jira baseUrl, custom displayUrl guidance, same-route pre-save probe, fixed gateway and MCP Basic/Bearer ownership are explicit."
+    },
+    {
+      "name": "mission-control-jira",
+      "reviewer": "founder_trackers",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "0ce366ed1b35f343d96da70110c75f2a2e84a0927b83cc2b873861e6ffa82dbe",
+        "md": "219122c04139360a4e435eb77b9228feb4d5183a6d579e4056c83cd71898f336"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 10,
+      "producerVerification": "Current pairs and actual execution ledger re-read in forked FULL review. TASK032/033 existing paths are Modify; both reopened owners are absent from completed with historical receipts preserved. Dependent adapters and setup remain gated on replacement validation. Canonical Jira baseUrl, custom displayUrl guidance, same-route pre-save probe, fixed gateway and MCP Basic/Bearer ownership are explicit."
+    },
+    {
+      "name": "mission-control-github",
+      "reviewer": "founder_trackers",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "26ad8839e27ba9ff66d200b553b107d38bc805d0b8754154e729b071c16cf418",
+        "md": "c1dab64e0ace6e1a2a1818d85f0395913ceb8034f7b59222da84d43e1e57e745"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 8,
+      "producerVerification": "Current pairs and actual execution ledger re-read in forked FULL review. TASK032/033 existing paths are Modify; both reopened owners are absent from completed with historical receipts preserved. Dependent adapters and setup remain gated on replacement validation. Canonical Jira baseUrl, custom displayUrl guidance, same-route pre-save probe, fixed gateway and MCP Basic/Bearer ownership are explicit."
+    },
+    {
+      "name": "mission-control-tabs",
+      "reviewer": "founder_tabs_history",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "c7090035d219ae4b9c03a7fd603074acd739524e46df61eaff60c47f06a98a63",
+        "md": "1cd5b406c56ce681529330f76c1067d8ab9f2e40e6e3c3608373243489ee759c"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 6,
+      "producerVerification": "Current pairs and actual execution ledger re-read in forked FULL review. TASK032/033 existing paths are Modify; both reopened owners are absent from completed with historical receipts preserved. Dependent adapters and setup remain gated on replacement validation. Canonical Jira baseUrl, custom displayUrl guidance, same-route pre-save probe, fixed gateway and MCP Basic/Bearer ownership are explicit."
+    },
+    {
+      "name": "mission-control-reopen",
+      "reviewer": "founder_tabs_history",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "cc185d6f8437bb55912c0667a52f4da2ec6c74293df1b96c884feabb240dbfe6",
+        "md": "1a928fcade13378879ad37807f7f7f2727da143b9a1b9c6455babdacbf566e94"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 5,
+      "producerVerification": "Current pairs and actual execution ledger re-read in forked FULL review. TASK032/033 existing paths are Modify; both reopened owners are absent from completed with historical receipts preserved. Dependent adapters and setup remain gated on replacement validation. Canonical Jira baseUrl, custom displayUrl guidance, same-route pre-save probe, fixed gateway and MCP Basic/Bearer ownership are explicit."
+    },
+    {
+      "name": "mission-control-sessions",
+      "reviewer": "founder_tabs_history",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "03bc3936745dcb7b78b04310a4751729b408c52b2489b171104e814e3c6f3f8c",
+        "md": "92afef830250cbbcb450c4507f2e86583bbec18c84d61b4b2817edb931e3be28"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 5,
+      "producerVerification": "Current pairs and actual execution ledger re-read in forked FULL review. TASK032/033 existing paths are Modify; both reopened owners are absent from completed with historical receipts preserved. Dependent adapters and setup remain gated on replacement validation. Canonical Jira baseUrl, custom displayUrl guidance, same-route pre-save probe, fixed gateway and MCP Basic/Bearer ownership are explicit."
+    }
+  ],
+  "dependencyJsonSha256": {
+    "mission-control": "53cee17b9a6300228f7e6c8a2922a954ffc290f8a5aef1ab41c41669a2c9cae2",
+    "mission-control-accounts": "d465a6f75cc887da87c46fc95f8fa20baecac7503a1d1b9c399979809b5fa4f8",
+    "mission-control-agent-menu": "7a8aebd47f7242b527bce814a19fc8b11c71640f5feddbf85d561ceb0be1e5cc",
+    "mission-control-agents": "9b09b20978d40ebe5df00a5f2d1bedc8b812fa1914a79dbb96d03fb773e468b5",
+    "mission-control-spaces": "169e40c12bd9a1f745422c0cc415443c25fc4f2a5e37893ccee6f35c4b016b25",
+    "mission-control-jira": "0ce366ed1b35f343d96da70110c75f2a2e84a0927b83cc2b873861e6ffa82dbe",
+    "mission-control-github": "26ad8839e27ba9ff66d200b553b107d38bc805d0b8754154e729b071c16cf418",
+    "mission-control-tabs": "c7090035d219ae4b9c03a7fd603074acd739524e46df61eaff60c47f06a98a63",
+    "mission-control-reopen": "cc185d6f8437bb55912c0667a52f4da2ec6c74293df1b96c884feabb240dbfe6",
+    "mission-control-sessions": "03bc3936745dcb7b78b04310a4751729b408c52b2489b171104e814e3c6f3f8c"
+  },
+  "closedIntegrationFindings": [
+    "Shared repo resolver moved into TASK-020-owned src/shared/space-repo.js with direct consumer dependencies and coverage map.",
+    "Canonical repoRoot identity separated from captured checkoutRoot execution, with same-common-directory validation and real linked-worktree regression.",
+    "Generic omitted checkoutRoot rejected before side effects; canonical fallback restricted to validated tracker sources.",
+    "PRActionRequest captures checkoutRoot before async work and forwards it unchanged; explicit linked-current and All-spaces routing tests.",
+    "TASK-024 explicitly owns the shared JavaScript ProviderObservation validator; its Python protocol test covers cross-language agreement and both consumers already depend on it.",
+    "Jira scoped-token cloudId gateway routing and exact OAuth tenant selection added; MCP HTTP Basic/Bearer auth has shared credential resolver and owned tests.",
+    "JIRA-B1: changed completed TASK032/033 existing files reclassified Modify, with truthful current source-state contract.",
+    "JIRA-B2: both owners explicitly reopened and removed from completed; prior receipts retained and downstream dependencies cannot skip fresh validation.",
+    "JIRA-C1: canonical serverInfo.baseUrl vs displayUrl pinned, same-route setup probe before save preserves prior configuration, and custom-domain diagnostics/tests assigned."
+  ],
+  "reviewRound": "auth-route-round-2",
+  "reviewedExecutionSha256": "fea19931282e60c18c5e0d47217089fb762c5f00037c887eaff19f983e973156"
+}

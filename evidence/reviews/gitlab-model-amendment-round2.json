@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "founder_gitlab_model_amendment",
+  "mode": "FULL",
+  "plan": "mission-control-gitlab",
+  "revision": 4,
+  "verdict": "REJECT",
+  "blocks": 2,
+  "concerns": 0,
+  "sha256": {
+    "json": "425bd1c74b25c92b8f3b67ebded5af2c64b340b788860b87bc2f6afd92e4cd77",
+    "md": "024cb3888654220aa1f69c5a0e13bd56099ae38e03341437103fd308c9fdc9de"
+  },
+  "sections": [
+    {
+      "section": "Codebase Reality",
+      "status": "PASS"
+    },
+    {
+      "section": "Scope & Strategy",
+      "status": "PASS"
+    },
+    {
+      "section": "Architecture & Integration",
+      "status": "FAIL"
+    },
+    {
+      "section": "Risk & Recovery",
+      "status": "PASS"
+    },
+    {
+      "section": "Test Coverage",
+      "status": "FAIL"
+    },
+    {
+      "section": "Execution Feasibility",
+      "status": "PASS"
+    }
+  ],
+  "findings": [
+    {
+      "id": "B1",
+      "severity": "BLOCK",
+      "title": "Readable empty discussions contradict required action evidence",
+      "evidence": [
+        "revision4 md64/66 permits addressComments without notes while md78/398 requires actual evidence."
+      ],
+      "requiredChange": "Require notes.length>0; complete empty => NO_ACTIONABLE_COMMENTS, incomplete empty => DISCUSSIONS_PARTIAL, partial nonempty may enable with marker; test087/090."
+    },
+    {
+      "id": "B2",
+      "severity": "BLOCK",
+      "title": "MR/tool deduplication needs explicit truthful focus-only behavior",
+      "evidence": [
+        "launch.js14/28 source key excludes action;103-105 and139-144 reuse without task resend.",
+        "tests/github-prs.test.mjs84 already proves this behavior for GitHub."
+      ],
+      "requiredChange": "Preserve global source.id and one exact MR/tool slot. Isolate087 first-launch tests, pin090 Open agent/no new task sent copy and sequential different-action regression, and retain closed-slot resume/history boundary."
+    }
+  ],
+  "observations": [
+    "All four revision3 findings closed by revision4.",
+    "Native-safe split and bounded comment/job context are coherent; no further budget/endpoint issue found."
+  ],
+  "boundary": "Read-only FULL forked review. No source edits, runtime/provider tests or existing Herdr/core access."
+}

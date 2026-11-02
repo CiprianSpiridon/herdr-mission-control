@@ -1,0 +1,10 @@
+{
+  "title": "Mission Control · Reopen",
+  "place": "bottom",
+  "size": 28,
+  "overlay": {
+    "kind": "popup",
+    "width": 340,
+    "height": 440
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "plan": "mission-control-github",
+  "revision": 5,
+  "reviewer": "founder_github_pr_model",
+  "mode": "FULL",
+  "verdict": "REJECT",
+  "sha256": {
+    "json": "5de0c796625b804eb19e96942a1538af2a38be3805841d9b8abfc4349190032e",
+    "md": "b9ef5700b0b0526aae3bc284baba8d404cb698348aa4b4652023b6e34e5ed70f"
+  },
+  "blocks": [
+    "Same-number PR launch identity collapses different bound GitHub repos",
+    "No independent discussion aggregate for Address comments availability",
+    "No controlled action-to-universal-task mapping"
+  ],
+  "concerns": [
+    "Required PR author absent",
+    "Projects probe/helper packet public schemas missing",
+    "TASK045 amended paths lack explicit test obligations"
+  ],
+  "fullReport": "Retained in founder_github_pr_model conversation final report; this file summarizes actual findings, not a replacement approval."
+}

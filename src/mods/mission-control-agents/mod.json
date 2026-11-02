@@ -1,0 +1,6 @@
+{
+  "title": "Mission Control · Agents",
+  "place": "none",
+  "build": { "collector": true },
+  "overlay": { "kind": "popup", "width": 320, "height": 560 }
+}

@@ -1,0 +1,632 @@
+[
+  {
+    "name": "mission-control",
+    "round": 1,
+    "reviewer": "founder_layout_accounts",
+    "mode": "FULL",
+    "verdict": "REJECT",
+    "sha256": {
+      "json": "ff8f4150d272226a2f8eca63f28191572b7325cbd3dfdb945becb6eac52fb3d1",
+      "md": "a5690eb1ef37077082a8238b74efd1341e803876e5831b7b87348458dd361015"
+    },
+    "sections": [
+      {
+        "section": "Codebase Reality",
+        "status": "PASS"
+      },
+      {
+        "section": "Scope & Strategy",
+        "status": "PASS"
+      },
+      {
+        "section": "Architecture & Integration",
+        "status": "PASS"
+      },
+      {
+        "section": "Risk & Recovery",
+        "status": "PASS"
+      },
+      {
+        "section": "Test Coverage",
+        "status": "PASS"
+      },
+      {
+        "section": "Execution Feasibility",
+        "status": "FAIL"
+      }
+    ],
+    "findings": [
+      {
+        "id": "R1-mission-control-1",
+        "severity": "BLOCK",
+        "message": "TASK-008 lacks TASK-002 even though its validator is scripts/project.mjs; actual-copy NOTICE reconciliation is also scheduled before implementation choices are final.",
+        "status": "open"
+      },
+      {
+        "id": "R1-mission-control-2",
+        "severity": "CONCERN",
+        "message": "Greenfield 11-task work is classified HOLD despite the rubric; update mode or record an explicit governance exception.",
+        "status": "open"
+      },
+      {
+        "id": "R1-mission-control-3",
+        "severity": "CONCERN",
+        "message": "Both layouts lack owned installed settings-preview assets/root preview paths; public preview.png is deliberately not installed.",
+        "status": "open"
+      }
+    ]
+  },
+  {
+    "name": "mission-control-accounts",
+    "round": 1,
+    "reviewer": "founder_layout_accounts",
+    "mode": "FULL",
+    "verdict": "APPROVE",
+    "sha256": {
+      "json": "07bdd3de6d00006a3890f252d667efc7c9ca077d6a4b421692767137e37818f2",
+      "md": "dbb84386ffc66dd4b6ecf364cdcef339485c7c10a09968ac4af7ae6ef367ad42"
+    },
+    "sections": [
+      {
+        "section": "Codebase Reality",
+        "status": "PASS"
+      },
+      {
+        "section": "Scope & Strategy",
+        "status": "PASS"
+      },
+      {
+        "section": "Architecture & Integration",
+        "status": "PASS"
+      },
+      {
+        "section": "Risk & Recovery",
+        "status": "PASS"
+      },
+      {
+        "section": "Test Coverage",
+        "status": "PASS"
+      },
+      {
+        "section": "Execution Feasibility",
+        "status": "PASS"
+      }
+    ],
+    "findings": [
+      {
+        "id": "R1-mission-control-accounts-1",
+        "severity": "CONCERN",
+        "message": "TASK-067 toy process proves environment/routing only, not exact provider-session resume.",
+        "status": "open"
+      },
+      {
+        "id": "R1-mission-control-accounts-2",
+        "severity": "CONCERN",
+        "message": "Replace generic package/install failure rows with official-doc/version drift, OS credential-store access, secret-output and keychain ambiguity containment.",
+        "status": "open"
+      }
+    ]
+  },
+  {
+    "name": "mission-control-agent-menu",
+    "round": 1,
+    "reviewer": "founder_menu_spaces_agents",
+    "mode": "FULL",
+    "verdict": "REJECT",
+    "sha256": {
+      "json": "1113a9473cea860116cdf8773c2686721313d0f818a17f571e3ae6725e05daad",
+      "md": "714ce54bcce418115c71a68111fc5208959ae8d609ee73568ff577bab9413e2f"
+    },
+    "sections": [
+      {
+        "section": "Codebase Reality",
+        "status": "PASS"
+      },
+      {
+        "section": "Scope & Strategy",
+        "status": "PASS"
+      },
+      {
+        "section": "Architecture & Integration",
+        "status": "FAIL"
+      },
+      {
+        "section": "Risk & Recovery",
+        "status": "PASS"
+      },
+      {
+        "section": "Test Coverage",
+        "status": "PASS"
+      },
+      {
+        "section": "Execution Feasibility",
+        "status": "PASS"
+      }
+    ],
+    "findings": [
+      {
+        "id": "R1-mission-control-agent-menu-1",
+        "severity": "BLOCK",
+        "message": "Source-less generic launches lack distinct intent identity and may deduplicate legitimate independent starts.",
+        "status": "open"
+      },
+      {
+        "id": "R1-mission-control-agent-menu-2",
+        "severity": "BLOCK",
+        "message": "TASK-013 treats failed help probing as launch failure despite promising generic installed shell-function/wrapper support.",
+        "status": "open"
+      },
+      {
+        "id": "R1-mission-control-agent-menu-3",
+        "severity": "CONCERN",
+        "message": "Credit inspected shipped worktree/menu semantics and decide clean-room/reference attribution.",
+        "status": "open"
+      },
+      {
+        "id": "R1-mission-control-agent-menu-4",
+        "severity": "CONCERN",
+        "message": "TASK-014 does not consume TASK-013; parallelize them and make launch depend on both.",
+        "status": "open"
+      },
+      {
+        "id": "R1-mission-control-agent-menu-5",
+        "severity": "CONCERN",
+        "message": "Test independent generic intents separately from same-key retries.",
+        "status": "open"
+      },
+      {
+        "id": "R1-mission-control-agent-menu-6",
+        "severity": "CONCERN",
+        "message": "Test installed wrapper/shell-function agents whose base launch works but direct help exec fails.",
+        "status": "open"
+      }
+    ]
+  },
+  {
+    "name": "mission-control-spaces",
+    "round": 1,
+    "reviewer": "founder_menu_spaces_agents",
+    "mode": "FULL",
+    "verdict": "REJECT",
+    "sha256": {
+      "json": "11ca13062a1f5085b47f4e2b27837badb0c3dd4b46e35ed6bbe823c2970c03c7",
+      "md": "9e962dbba90779bcea80aa170f5597ae17e9e094fdebd4f61c85c98a42c9f05d"
+    },
+    "sections": [
+      {
+        "section": "Codebase Reality",
+        "status": "PASS"
+      },
+      {
+        "section": "Scope & Strategy",
+        "status": "PASS"
+      },
+      {
+        "section": "Architecture & Integration",
+        "status": "FAIL"
+      },
+      {
+        "section": "Risk & Recovery",
+        "status": "PASS"
+      },
+      {
+        "section": "Test Coverage",
+        "status": "WARN"
+      },
+      {
+        "section": "Execution Feasibility",
+        "status": "PASS"
+      }
+    ],
+    "findings": [
+      {
+        "id": "R1-mission-control-spaces-1",
+        "severity": "BLOCK",
+        "message": "Canonical live-cwd repository discovery is claimed by a pure model without an owned host-aware git transport.",
+        "status": "open"
+      },
+      {
+        "id": "R1-mission-control-spaces-2",
+        "severity": "CONCERN",
+        "message": "Credit inspected shipped spaces semantics.",
+        "status": "open"
+      },
+      {
+        "id": "R1-mission-control-spaces-3",
+        "severity": "CONCERN",
+        "message": "Pin Add machine to run(\"app.settings\",{section:\"machines\"}).",
+        "status": "open"
+      },
+      {
+        "id": "R1-mission-control-spaces-4",
+        "severity": "CONCERN",
+        "message": "Native scenario must launch from a right-clicked space while a different one is selected.",
+        "status": "open"
+      },
+      {
+        "id": "R1-mission-control-spaces-5",
+        "severity": "CONCERN",
+        "message": "Add rail/narrow width, overflow, footer, icons and UTF-8 gates.",
+        "status": "open"
+      }
+    ]
+  },
+  {
+    "name": "mission-control-agents",
+    "round": 1,
+    "reviewer": "founder_menu_spaces_agents",
+    "mode": "FULL",
+    "verdict": "REJECT",
+    "sha256": {
+      "json": "4a780704dab7bf8f856ec50f0f7b4921b8fe465773295e1a7e6dea70f837ee02",
+      "md": "979a0593c92fb7a99ed17a5cdbaf108ddffd175aab347a6b3ec93c012c89645d"
+    },
+    "sections": [
+      {
+        "section": "Codebase Reality",
+        "status": "WARN"
+      },
+      {
+        "section": "Scope & Strategy",
+        "status": "PASS"
+      },
+      {
+        "section": "Architecture & Integration",
+        "status": "FAIL"
+      },
+      {
+        "section": "Risk & Recovery",
+        "status": "FAIL"
+      },
+      {
+        "section": "Test Coverage",
+        "status": "PASS"
+      },
+      {
+        "section": "Execution Feasibility",
+        "status": "PASS"
+      }
+    ],
+    "findings": [
+      {
+        "id": "R1-mission-control-agents-1",
+        "severity": "BLOCK",
+        "message": "ContextReading lacks machine/provider/root/credential-qualified SessionIdentity.",
+        "status": "open"
+      },
+      {
+        "id": "R1-mission-control-agents-2",
+        "severity": "BLOCK",
+        "message": "QuotaReading lacks machine/credential/pool identity and explicit available/stale/unavailable state.",
+        "status": "open"
+      },
+      {
+        "id": "R1-mission-control-agents-3",
+        "severity": "BLOCK",
+        "message": "No producer binds current Herdr terminal to exact provider session; current AgentInfo and hc Status have no provider session ID. Never infer from cwd/title/recency.",
+        "status": "open"
+      },
+      {
+        "id": "R1-mission-control-agents-4",
+        "severity": "BLOCK",
+        "message": "Promised opt-in root reading lacks owned settings, enable/revoke and allowed-root behavior.",
+        "status": "open"
+      },
+      {
+        "id": "R1-mission-control-agents-5",
+        "severity": "CONCERN",
+        "message": "Credit inspected shipped agents behavior.",
+        "status": "open"
+      },
+      {
+        "id": "R1-mission-control-agents-6",
+        "severity": "CONCERN",
+        "message": "Pin supported legacy snapshot filenames/fields and account/session scope instead of vague compatibility.",
+        "status": "open"
+      },
+      {
+        "id": "R1-mission-control-agents-7",
+        "severity": "CONCERN",
+        "message": "Split collector security/protocol from three provider parsers.",
+        "status": "open"
+      },
+      {
+        "id": "R1-mission-control-agents-8",
+        "severity": "CONCERN",
+        "message": "Add real local-provider compatibility evidence before shipping, distinct from fixture rendering.",
+        "status": "open"
+      },
+      {
+        "id": "R1-mission-control-agents-9",
+        "severity": "CONCERN",
+        "message": "Define ambiguous-correlation, source disable/revocation and rotating-file containment.",
+        "status": "open"
+      }
+    ]
+  },
+  {
+    "name": "mission-control-jira",
+    "round": 1,
+    "reviewer": "founder_trackers",
+    "mode": "FULL",
+    "verdict": "REJECT",
+    "sha256": {
+      "json": "bac1affea0792036d79913b5b870424edbbab027b8651494137d641ac535e3a1",
+      "md": "b1458990e387319999635d37bdfe0195797fda41065a09f6d25a5eb1bd38cf0b"
+    },
+    "sections": [
+      {
+        "section": "Codebase Reality",
+        "status": "PASS"
+      },
+      {
+        "section": "Scope & Strategy",
+        "status": "PASS"
+      },
+      {
+        "section": "Architecture & Integration",
+        "status": "FAIL"
+      },
+      {
+        "section": "Risk & Recovery",
+        "status": "PASS"
+      },
+      {
+        "section": "Test Coverage",
+        "status": "PASS"
+      },
+      {
+        "section": "Execution Feasibility",
+        "status": "FAIL"
+      }
+    ],
+    "findings": [
+      {
+        "id": "R1-mission-control-jira-1",
+        "severity": "BLOCK",
+        "message": "Jira connection discrimination, Basic/Bearer auth references, CLI/MCP execution host and remote helper mechanics are unpinned.",
+        "status": "open"
+      },
+      {
+        "id": "R1-mission-control-jira-2",
+        "severity": "BLOCK",
+        "message": "Native harness provides no actual mounted GPUI click/input driver for TASK-040.",
+        "status": "open"
+      },
+      {
+        "id": "R1-mission-control-jira-3",
+        "severity": "CONCERN",
+        "message": "Confirmed status filters are missing.",
+        "status": "open"
+      },
+      {
+        "id": "R1-mission-control-jira-4",
+        "severity": "CONCERN",
+        "message": "Plain Node GPUI tests require a virtual module/recording loader or pure contract seam.",
+        "status": "open"
+      }
+    ]
+  },
+  {
+    "name": "mission-control-github",
+    "round": 1,
+    "reviewer": "founder_trackers",
+    "mode": "FULL",
+    "verdict": "REJECT",
+    "sha256": {
+      "json": "553c559924e27ade84f9d50df9aca3e5179338a46f9c1363cb9c9a3d719d95e4",
+      "md": "cfac109b0470868c005854c8c7f68ccabf3b940fa44acbe7eae4a60cd9fa71b7"
+    },
+    "sections": [
+      {
+        "section": "Codebase Reality",
+        "status": "PASS"
+      },
+      {
+        "section": "Scope & Strategy",
+        "status": "PASS"
+      },
+      {
+        "section": "Architecture & Integration",
+        "status": "FAIL"
+      },
+      {
+        "section": "Risk & Recovery",
+        "status": "PASS"
+      },
+      {
+        "section": "Test Coverage",
+        "status": "FAIL"
+      },
+      {
+        "section": "Execution Feasibility",
+        "status": "PASS"
+      }
+    ],
+    "findings": [
+      {
+        "id": "R1-mission-control-github-1",
+        "severity": "BLOCK",
+        "message": "Projects v2 status field contract lacks stable option-ID-to-workflow-group mapping.",
+        "status": "open"
+      },
+      {
+        "id": "R1-mission-control-github-2",
+        "severity": "BLOCK",
+        "message": "Native harness provides no mounted GPUI click/input driver for TASK-048.",
+        "status": "open"
+      },
+      {
+        "id": "R1-mission-control-github-3",
+        "severity": "CONCERN",
+        "message": "Pin exact PullRequest v1 producer/consumer/action shape.",
+        "status": "open"
+      },
+      {
+        "id": "R1-mission-control-github-4",
+        "severity": "CONCERN",
+        "message": "Explicitly test All-spaces PR action after active-space change.",
+        "status": "open"
+      },
+      {
+        "id": "R1-mission-control-github-5",
+        "severity": "CONCERN",
+        "message": "Define the Node GPUI test-loader/recording seam.",
+        "status": "open"
+      }
+    ]
+  },
+  {
+    "name": "mission-control-tabs",
+    "round": 1,
+    "reviewer": "founder_tabs_history",
+    "mode": "FULL",
+    "verdict": "REJECT",
+    "sha256": {
+      "json": "7ea35bc4f7934c17b5e886a880e4d7897635f6945631a351a6ea4963d6c7a0d0",
+      "md": "4b0e87895eb382d566146ff3826d3b620b8c80590c5f84e90182d2507132e4e2"
+    },
+    "sections": [
+      {
+        "section": "Codebase Reality",
+        "status": "PASS"
+      },
+      {
+        "section": "Scope & Strategy",
+        "status": "PASS"
+      },
+      {
+        "section": "Architecture & Integration",
+        "status": "FAIL"
+      },
+      {
+        "section": "Risk & Recovery",
+        "status": "PASS"
+      },
+      {
+        "section": "Test Coverage",
+        "status": "PASS"
+      },
+      {
+        "section": "Execution Feasibility",
+        "status": "PASS"
+      }
+    ],
+    "findings": [
+      {
+        "id": "R1-mission-control-tabs-1",
+        "severity": "BLOCK",
+        "message": "Tab-name ownership keyed only by machine/tab cannot preserve manual names when exact resume creates a new tab. Add upstream stable session/origin identity and regression.",
+        "status": "open"
+      }
+    ]
+  },
+  {
+    "name": "mission-control-reopen",
+    "round": 1,
+    "reviewer": "founder_tabs_history",
+    "mode": "FULL",
+    "verdict": "REVISE",
+    "sha256": {
+      "json": "974c9ca35da4d96a126058a05e78160bb0927466e0c9421e80cbe32e8ed31345",
+      "md": "5ec76ea9b9705bd56654f256c7182fab2f86aa266adfbb524f932ef5093f83a1"
+    },
+    "sections": [
+      {
+        "section": "Codebase Reality",
+        "status": "PASS"
+      },
+      {
+        "section": "Scope & Strategy",
+        "status": "PASS"
+      },
+      {
+        "section": "Architecture & Integration",
+        "status": "PASS"
+      },
+      {
+        "section": "Risk & Recovery",
+        "status": "PASS"
+      },
+      {
+        "section": "Test Coverage",
+        "status": "PASS"
+      },
+      {
+        "section": "Execution Feasibility",
+        "status": "PASS"
+      }
+    ],
+    "findings": [
+      {
+        "id": "R1-mission-control-reopen-1",
+        "severity": "CONCERN",
+        "message": "Pin remote closed-history transport via exec(...,{on:machine}), not a nonexistent hc on option.",
+        "status": "open"
+      },
+      {
+        "id": "R1-mission-control-reopen-2",
+        "severity": "CONCERN",
+        "message": "Bound all-history source scans, cadence, high-water behavior, overflow and recovery within 8 MiB exec limit.",
+        "status": "open"
+      },
+      {
+        "id": "R1-mission-control-reopen-3",
+        "severity": "CONCERN",
+        "message": "Test identical local tab/terminal IDs on two hosts through disconnect/reconnect and one real close.",
+        "status": "open"
+      }
+    ]
+  },
+  {
+    "name": "mission-control-sessions",
+    "round": 1,
+    "reviewer": "founder_tabs_history",
+    "mode": "FULL",
+    "verdict": "REJECT",
+    "sha256": {
+      "json": "f9f121d954baa5105322ce8a81d75199c392b57314e3ddf5eba87324001a4c51",
+      "md": "7dacb3e8cd1ff1de7a9e375849d34fe1aa20ad297acd9c0ad2b601da0bb8fe36"
+    },
+    "sections": [
+      {
+        "section": "Codebase Reality",
+        "status": "PASS"
+      },
+      {
+        "section": "Scope & Strategy",
+        "status": "PASS"
+      },
+      {
+        "section": "Architecture & Integration",
+        "status": "FAIL"
+      },
+      {
+        "section": "Risk & Recovery",
+        "status": "PASS"
+      },
+      {
+        "section": "Test Coverage",
+        "status": "PASS"
+      },
+      {
+        "section": "Execution Feasibility",
+        "status": "PASS"
+      }
+    ],
+    "findings": [
+      {
+        "id": "R1-mission-control-sessions-1",
+        "severity": "BLOCK",
+        "message": "Standalone resume has no upstream producer for a preserved manual Herdr tab name across new tab IDs.",
+        "status": "open"
+      },
+      {
+        "id": "R1-mission-control-sessions-2",
+        "severity": "CONCERN",
+        "message": "Native proof must close manually named session A, keep newer B, resume non-last A into a new tab and assert exact identity/name once.",
+        "status": "open"
+      }
+    ]
+  }
+]

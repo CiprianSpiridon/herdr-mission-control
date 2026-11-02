@@ -1,0 +1,497 @@
+{
+  "schemaVersion": 1,
+  "verdict": "APPROVE",
+  "state": "approved",
+  "reviewRound": "private-isolation-v2-round2",
+  "plans": [
+    {
+      "name": "mission-control",
+      "reviewer": "founder_layout_accounts",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "55c10bc4bc0d20652614e64c13dbbd67085d5b63199722513097566e239c6add",
+        "md": "76f7ba052eecf8292d28951fbeaf353f5c4d05d13e68b28cfa5bbd6c28da11b0"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 16,
+      "validForCurrentHash": true,
+      "producerVerification": "Fresh forked FULL round2 read-only review against actual source/ledger and exact root receipt/environment contracts. Native source remains legacy pending implementation; no runtime/provider/authentication proof is implied."
+    },
+    {
+      "name": "mission-control-accounts",
+      "reviewer": "founder_layout_accounts",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "ee60b4593521acd69467098f9e68c559ac733b7bef93e33731ab76aa98b53d9b",
+        "md": "e2dcb08f47f8759ef7b0f9e839c15e2d542f60a73ede222ca7312e551a09fe4a"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 3,
+      "validForCurrentHash": true,
+      "producerVerification": "Fresh forked FULL round2 read-only review against actual source/ledger and exact root receipt/environment contracts. Native source remains legacy pending implementation; no runtime/provider/authentication proof is implied."
+    },
+    {
+      "name": "mission-control-agent-menu",
+      "reviewer": "founder_menu_spaces_agents",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "413af310c945c79fe44fad713ccc318ed2d9cb82e95f2b54db685c5816def1cb",
+        "md": "1c24fc7b768112fef56c0a2bc7569874c574e49c2a584684ccdbdf136491afcd"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 8,
+      "validForCurrentHash": true,
+      "producerVerification": "Fresh forked FULL round2 read-only review against actual source/ledger and exact root receipt/environment contracts. Native source remains legacy pending implementation; no runtime/provider/authentication proof is implied."
+    },
+    {
+      "name": "mission-control-spaces",
+      "reviewer": "founder_menu_spaces_agents",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "b9cc5550df3c60e244af4df8f0d9a08303455a91b04f932b12a58e67109527a5",
+        "md": "1ab4dc2571db08d13f27bcdf8c518e8c9e3704a08adbe61ec660d494f44cb51e"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 4,
+      "validForCurrentHash": true,
+      "producerVerification": "Fresh forked FULL round2 read-only review against actual source/ledger and exact root receipt/environment contracts. Native source remains legacy pending implementation; no runtime/provider/authentication proof is implied."
+    },
+    {
+      "name": "mission-control-agents",
+      "reviewer": "founder_menu_spaces_agents",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "ea3eb45a220dbb1ba44e3650f3da5d98fd4df545281578ebc66db15475d9468b",
+        "md": "c9f9c705419c316db9f6d38477571e7bfd7b33e80c4f11ff890534e7c5850181"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 14,
+      "validForCurrentHash": true,
+      "producerVerification": "Fresh forked FULL round2 read-only review against actual source/ledger and exact root receipt/environment contracts. Native source remains legacy pending implementation; no runtime/provider/authentication proof is implied."
+    },
+    {
+      "name": "mission-control-github",
+      "reviewer": "founder_github_pr_model",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "bb8d8c0cea0af2e86413289c464851192a6c62bb126ff39cc62ad6e37b638a0a",
+        "md": "f2876851c07b67c0541f5f3e40dc5fbc2944cad7cc1141f6f933489c05e612d3"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 8,
+      "validForCurrentHash": true,
+      "producerVerification": "Fresh forked FULL round2 read-only review against actual source/ledger and exact root receipt/environment contracts. Native source remains legacy pending implementation; no runtime/provider/authentication proof is implied."
+    },
+    {
+      "name": "mission-control-jira",
+      "reviewer": "founder_trackers",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "6d417096ab6e40b2bae6e71d8a82ba353f3bc25ca3b2c4b0d15bfbced30a84cf",
+        "md": "6b98d1b77455271de4268c873aa3d99bd2a063ccb744f148097d5c8f732902d9"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 10,
+      "validForCurrentHash": true,
+      "producerVerification": "Fresh forked FULL round2 read-only review against actual source/ledger and exact root receipt/environment contracts. Native source remains legacy pending implementation; no runtime/provider/authentication proof is implied."
+    },
+    {
+      "name": "mission-control-gitlab",
+      "reviewer": "founder_trackers",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "99524704a4745944da7e1db65695d8ccc53e24a76420fe0f42d266cdd7512dda",
+        "md": "18aa3175cb653a15c0a701baa4bf67b91980ea7316523bde8e89559e9fcdfbf1"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 14,
+      "validForCurrentHash": true,
+      "producerVerification": "Fresh forked FULL round2 read-only review against actual source/ledger and exact root receipt/environment contracts. Native source remains legacy pending implementation; no runtime/provider/authentication proof is implied."
+    },
+    {
+      "name": "mission-control-tabs",
+      "reviewer": "founder_tabs_history",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "646bed541a002739403c2207c5eadde893e76d39ff222fae464b073e7f7741d6",
+        "md": "caa1fe43b3ce3a5ae480de7167892b59ebea78152a5487e7bdc675bbe2464963"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 6,
+      "validForCurrentHash": true,
+      "producerVerification": "Fresh forked FULL round2 read-only review against actual source/ledger and exact root receipt/environment contracts. Native source remains legacy pending implementation; no runtime/provider/authentication proof is implied."
+    },
+    {
+      "name": "mission-control-sessions",
+      "reviewer": "founder_tabs_history",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "98dedcd38a6806aabca0f66228cd1dab9bc011777c45f8c3b7a992bb240963bb",
+        "md": "c6e6246d95edf758d4eb725e50bd6bc76e8593e387cafc81e70dabccf9a76d1a"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 5,
+      "validForCurrentHash": true,
+      "producerVerification": "Fresh forked FULL round2 read-only review against actual source/ledger and exact root receipt/environment contracts. Native source remains legacy pending implementation; no runtime/provider/authentication proof is implied."
+    },
+    {
+      "name": "mission-control-reopen",
+      "reviewer": "founder_tabs_history",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "870f2947b4e8e73c614672d703a0e50863741980c8ec669460992059d05ef513",
+        "md": "eb6cc1acc4822d38feef5cd4c361e45cbdcbe716289c8b859cc68627f3789d9c"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 5,
+      "validForCurrentHash": true,
+      "producerVerification": "Fresh forked FULL round2 read-only review against actual source/ledger and exact root receipt/environment contracts. Native source remains legacy pending implementation; no runtime/provider/authentication proof is implied."
+    }
+  ],
+  "pending": [],
+  "dependencyJsonSha256": {
+    "mission-control": "55c10bc4bc0d20652614e64c13dbbd67085d5b63199722513097566e239c6add",
+    "mission-control-accounts": "ee60b4593521acd69467098f9e68c559ac733b7bef93e33731ab76aa98b53d9b",
+    "mission-control-agent-menu": "413af310c945c79fe44fad713ccc318ed2d9cb82e95f2b54db685c5816def1cb",
+    "mission-control-spaces": "b9cc5550df3c60e244af4df8f0d9a08303455a91b04f932b12a58e67109527a5",
+    "mission-control-agents": "ea3eb45a220dbb1ba44e3650f3da5d98fd4df545281578ebc66db15475d9468b",
+    "mission-control-github": "bb8d8c0cea0af2e86413289c464851192a6c62bb126ff39cc62ad6e37b638a0a",
+    "mission-control-jira": "6d417096ab6e40b2bae6e71d8a82ba353f3bc25ca3b2c4b0d15bfbced30a84cf",
+    "mission-control-gitlab": "99524704a4745944da7e1db65695d8ccc53e24a76420fe0f42d266cdd7512dda",
+    "mission-control-tabs": "646bed541a002739403c2207c5eadde893e76d39ff222fae464b073e7f7741d6",
+    "mission-control-sessions": "98dedcd38a6806aabca0f66228cd1dab9bc011777c45f8c3b7a992bb240963bb",
+    "mission-control-reopen": "870f2947b4e8e73c614672d703a0e50863741980c8ec669460992059d05ef513"
+  },
+  "structuralCheck": {
+    "plans": 11,
+    "tasks": 93,
+    "required": 90,
+    "optional": 3,
+    "result": "passed"
+  },
+  "closedIntegrationFindings": [
+    "L1/A1 exact versioned native receipt schema, current-source digest, forbidden legacy fields and three immutable historical path/raw/harness pins",
+    "L2 reopened019/023/031 directly depend on reopened005 validator producer",
+    "G1 exact fixtureEnvironment record/forbidden keys/allowlist/merge/import-purity ABI and consumer-owned regression"
+  ],
+  "previousRejectedRound": "evidence/reviews/private-isolation-v2-round1.json"
+}

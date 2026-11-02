@@ -1,0 +1,270 @@
+{
+  "schemaVersion": 1,
+  "round": "private-isolation-v2-round1",
+  "verdict": "REJECT",
+  "mode": "FULL",
+  "plans": [
+    {
+      "name": "mission-control",
+      "reviewer": "founder_layout_accounts",
+      "verdict": "REJECT",
+      "blocks": 2,
+      "concerns": 0,
+      "sections": [
+        "PASS",
+        "PASS",
+        "FAIL",
+        "FAIL",
+        "FAIL",
+        "FAIL"
+      ],
+      "sha256": {
+        "json": "282f96d682f57dd79c8def3b2f3730f757f6172cee21f29f679b797c51e3428a",
+        "md": "5164e033e9e51997455109634047ef462fc96c4ce35834c9f30c626b9bda0df3"
+      },
+      "findings": [
+        {
+          "id": "L1",
+          "level": "BLOCK",
+          "detail": "Pin exact v2 receipt/validator semantics, current harness digest, forbidden old PID claims and immutable historical path/file/harness digest allowlist."
+        },
+        {
+          "id": "L2",
+          "level": "BLOCK",
+          "detail": "Add direct TASK005 to reopened TASK019/023/031."
+        }
+      ]
+    },
+    {
+      "name": "mission-control-accounts",
+      "reviewer": "founder_layout_accounts",
+      "verdict": "REJECT",
+      "blocks": 1,
+      "concerns": 0,
+      "sections": [
+        "PASS",
+        "PASS",
+        "FAIL",
+        "FAIL",
+        "FAIL",
+        "PASS"
+      ],
+      "sha256": {
+        "json": "bd17999b5810a98f3e6b63bb181c5e8f093a9f9882fe2942db0399b778ad3a9c",
+        "md": "58969a0328d40d062028870a926295b6c5cb20d5dc090c6a522110d59ac2b850"
+      },
+      "findings": [
+        {
+          "id": "L1",
+          "level": "BLOCK",
+          "detail": "Pin exact v2 receipt/validator semantics, current harness digest, forbidden old PID claims and immutable historical path/file/harness digest allowlist."
+        }
+      ]
+    },
+    {
+      "name": "mission-control-agent-menu",
+      "reviewer": "founder_menu_spaces_agents",
+      "verdict": "REJECT",
+      "blocks": 1,
+      "concerns": 0,
+      "sections": [
+        "PASS",
+        "PASS",
+        "FAIL",
+        "PASS",
+        "PASS",
+        "FAIL"
+      ],
+      "sha256": {
+        "json": "cbdf86f8a01491fec504fa2eabce6bd67355a77ec42ca2e8ecb8e0749352dce5",
+        "md": "e32bc32461a0002d5ab4d2ce3f6da396a2eb7dab06971b9ae3b978218393ccf9"
+      },
+      "findings": [
+        {
+          "id": "L2",
+          "level": "BLOCK",
+          "detail": "Reopened package validator consumers depend only on completed intermediate native tasks; add direct TASK005."
+        }
+      ]
+    },
+    {
+      "name": "mission-control-spaces",
+      "reviewer": "founder_menu_spaces_agents",
+      "verdict": "REJECT",
+      "blocks": 1,
+      "concerns": 0,
+      "sections": [
+        "PASS",
+        "PASS",
+        "FAIL",
+        "PASS",
+        "PASS",
+        "FAIL"
+      ],
+      "sha256": {
+        "json": "78d00a95eca5f07c8d76fde8b9693e1124a0ae9bbb1ed5321e0439aa019bb8e4",
+        "md": "c55368d2f5c9ba9b51db3ea940d3d05ccf35f599b9ea4df4a01b61216127b5de"
+      },
+      "findings": [
+        {
+          "id": "L2",
+          "level": "BLOCK",
+          "detail": "Reopened package validator consumers depend only on completed intermediate native tasks; add direct TASK005."
+        }
+      ]
+    },
+    {
+      "name": "mission-control-agents",
+      "reviewer": "founder_menu_spaces_agents",
+      "verdict": "REJECT",
+      "blocks": 1,
+      "concerns": 0,
+      "sections": [
+        "PASS",
+        "PASS",
+        "FAIL",
+        "PASS",
+        "PASS",
+        "FAIL"
+      ],
+      "sha256": {
+        "json": "7f543b4835fabd25f24d2c0da63907fd279886235b9dbf2e1f18ff7d7931379f",
+        "md": "21d6f56f92c20b1b20e244fab48bb5945d09c340e2265491edfc3d65c7cd379f"
+      },
+      "findings": [
+        {
+          "id": "L2",
+          "level": "BLOCK",
+          "detail": "Reopened package validator consumers depend only on completed intermediate native tasks; add direct TASK005."
+        }
+      ]
+    },
+    {
+      "name": "mission-control-github",
+      "reviewer": "founder_github_pr_model",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 1,
+      "sections": [
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS"
+      ],
+      "sha256": {
+        "json": "d582b4e786b89ab91b5f0563c6325a4e476cc77026e1e7717f13dd6c86b350cd",
+        "md": "58849d68b102ca70e47193eff9de4ee906988cc6dc9cb6ced354b2353567f261"
+      },
+      "findings": [
+        {
+          "id": "G1",
+          "level": "CONCERN",
+          "detail": "Pin fixtureEnvironment exact plain-record ABI, reserved keys, merge order and parent-environment non-mutation/child allowlist regression."
+        }
+      ]
+    },
+    {
+      "name": "mission-control-jira",
+      "reviewer": "founder_trackers",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sections": [
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS"
+      ],
+      "sha256": {
+        "json": "b4d7761078d3ca3cb8a77ae272f26b3f010cad929ac7bd52dd9b973f3a0770c6",
+        "md": "ff2788ee1270e826acc378791301f83fd0d759d9d0d9026d10518fbe784e55cd"
+      },
+      "findings": []
+    },
+    {
+      "name": "mission-control-gitlab",
+      "reviewer": "founder_trackers",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sections": [
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS"
+      ],
+      "sha256": {
+        "json": "9ece6d08e7503e1c9d2fbd36d998e18a0df84940bbbf9ae8c05931c413a2e815",
+        "md": "9547724a2dc63be935ce30225a14d7684d4eba2a582551f61a6a3a0dbb8ec579"
+      },
+      "findings": []
+    },
+    {
+      "name": "mission-control-tabs",
+      "reviewer": "founder_tabs_history",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sections": [
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS"
+      ],
+      "sha256": {
+        "json": "147c4879c61f8857e5ca78fa652b36bd2d6cf932ea54d5fcc64660efb85420d6",
+        "md": "0045f0f9b4f60eea48f103a712627a507d4b918a50aa9e3a4896763a14d9e514"
+      },
+      "findings": []
+    },
+    {
+      "name": "mission-control-sessions",
+      "reviewer": "founder_tabs_history",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sections": [
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS"
+      ],
+      "sha256": {
+        "json": "dc96001ed5e82c69ca8b4f2a990f28183be46b700e7ee45c21af761d447d73a4",
+        "md": "1f7e487bba096d85a23648ab3acc9b928bd71ff78d6257e690bc0a88d7556d35"
+      },
+      "findings": []
+    },
+    {
+      "name": "mission-control-reopen",
+      "reviewer": "founder_tabs_history",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sections": [
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS"
+      ],
+      "sha256": {
+        "json": "e1a6316d9e1d23b559c31bcf187c102d7ea258b2fef97fd4e21c063477edf98d",
+        "md": "caa94a0e7efa851cb517d2b06f2a1e2e02aebd2dcaa319d77e9ced7ac3072eab"
+      },
+      "findings": []
+    }
+  ],
+  "boundary": "Fresh forked read-only FULL reviews. No native or credential operations. Source implementation remains unstarted."
+}

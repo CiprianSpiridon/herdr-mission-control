@@ -1,0 +1,6415 @@
+{
+  "v": 2,
+  "ok": true,
+  "code": null,
+  "error": null,
+  "cleanupError": null,
+  "completedMs": 1793544759286,
+  "nonce": "a7b0a29134dbd5916255b882",
+  "isolation": {
+    "method": "private-ownership-v2",
+    "existingInstancesQueried": false,
+    "context": {
+      "root": "/private/tmp/mcqa-EOnron",
+      "nonce": "a7b0a29134dbd5916255b882",
+      "session": "mcqa-a7b0a29134dbd5916255b882",
+      "uid": 502,
+      "createdMs": 1793544594040,
+      "directory": {
+        "dev": "16777233",
+        "ino": "810360619",
+        "uid": 502,
+        "mode": 448,
+        "birthMs": 1793544594040
+      },
+      "selectors": {
+        "HOME": "/private/tmp/mcqa-EOnron/h",
+        "USERPROFILE": "/private/tmp/mcqa-EOnron/h",
+        "TMPDIR": "/private/tmp/mcqa-EOnron/t",
+        "XDG_CONFIG_HOME": "/private/tmp/mcqa-EOnron/c",
+        "XDG_DATA_HOME": "/private/tmp/mcqa-EOnron/d",
+        "XDG_STATE_HOME": "/private/tmp/mcqa-EOnron/s",
+        "XDG_CACHE_HOME": "/private/tmp/mcqa-EOnron/k",
+        "XDG_RUNTIME_DIR": "/private/tmp/mcqa-EOnron/r",
+        "HERDR_APP_HOME": "/private/tmp/mcqa-EOnron/app",
+        "HC_SESSION": "mcqa-a7b0a29134dbd5916255b882"
+      }
+    },
+    "core": {
+      "id": "94c1cf5cf94467699b7b920c924486dc",
+      "process": {
+        "pid": 37640,
+        "uid": 502,
+        "startedMs": 1793544594000,
+        "executable": "/Users/ciprian/.local/bin/herdr-core",
+        "fingerprint": "09e813ffab1ef942bdf1d618396f9b3913b7074d5647e5356a5bb2775ab51a2a"
+      },
+      "socket": {
+        "path": "/private/tmp/mcqa-EOnron/r/herdr-core/mcqa-a7b0a29134dbd5916255b882.sock",
+        "dev": "16777233",
+        "ino": "810360636",
+        "uid": 502,
+        "mode": 493,
+        "ownerPids": [
+          37640
+        ]
+      },
+      "holder": {
+        "process": {
+          "pid": 37820,
+          "uid": 502,
+          "startedMs": 1793544594000,
+          "executable": "/Users/ciprian/.local/bin/herdr-core",
+          "fingerprint": "a4839587ae3e1b8d40df65ae41b30eb796bc2673795769ea69189138f2fc8184"
+        },
+        "socket": {
+          "path": "/private/tmp/mcqa-EOnron/r/herdr-core/mcqa-a7b0a29134dbd5916255b882.holder.a73dec9e.sock",
+          "dev": "16777233",
+          "ino": "810360704",
+          "uid": 502,
+          "mode": 493,
+          "ownerPids": [
+            37820
+          ]
+        }
+      }
+    },
+    "app": {
+      "process": {
+        "pid": 37904,
+        "uid": 502,
+        "startedMs": 1793544595000,
+        "executable": "/Applications/Herdr.app/Contents/MacOS/Herdr",
+        "fingerprint": "f8bc9e900e9155570fdd6c9154343c12661acf020d60542845c0fdbfd6f237a8"
+      },
+      "socket": {
+        "path": "/private/tmp/mcqa-EOnron/app/herdr-app.sock",
+        "dev": "16777233",
+        "ino": "810361198",
+        "uid": 502,
+        "mode": 493,
+        "ownerPids": [
+          37904
+        ]
+      }
+    },
+    "commandAudit": [
+      {
+        "sequence": 1,
+        "at": 1793544594051,
+        "kind": "hc",
+        "command": "server start",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "boot",
+        "result": "ok"
+      },
+      {
+        "sequence": 2,
+        "at": 1793544594101,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "boot",
+        "result": "ok"
+      },
+      {
+        "sequence": 3,
+        "at": 1793544594220,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 4,
+        "at": 1793544594722,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 5,
+        "at": 1793544594782,
+        "kind": "hc",
+        "command": "run",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 6,
+        "at": 1793544594884,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 7,
+        "at": 1793544595056,
+        "kind": "hc",
+        "command": "ls",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 8,
+        "at": 1793544595115,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 9,
+        "at": 1793544595228,
+        "kind": "hc",
+        "command": "get t1",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 10,
+        "at": 1793544595339,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 11,
+        "at": 1793544595457,
+        "kind": "app",
+        "command": "check /private/tmp/mcqa-EOnron/app/mods/mission-control-spaces",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 12,
+        "at": 1793544595688,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 13,
+        "at": 1793544596376,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 14,
+        "at": 1793544596603,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 15,
+        "at": 1793544596685,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 16,
+        "at": 1793544596875,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 17,
+        "at": 1793544596943,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 18,
+        "at": 1793544597056,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 19,
+        "at": 1793544597118,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 20,
+        "at": 1793544597292,
+        "kind": "app",
+        "command": "layout.switch",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 21,
+        "at": 1793544597387,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 22,
+        "at": 1793544597553,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 23,
+        "at": 1793544597620,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 24,
+        "at": 1793544597795,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 25,
+        "at": 1793544599873,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 26,
+        "at": 1793544600173,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 27,
+        "at": 1793544600344,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 28,
+        "at": 1793544600424,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 29,
+        "at": 1793544600596,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 30,
+        "at": 1793544600673,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 31,
+        "at": 1793544600842,
+        "kind": "app",
+        "command": "tab.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 32,
+        "at": 1793544600923,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 33,
+        "at": 1793544601096,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 34,
+        "at": 1793544601175,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 35,
+        "at": 1793544601346,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 36,
+        "at": 1793544601423,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 37,
+        "at": 1793544601595,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 38,
+        "at": 1793544601678,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 39,
+        "at": 1793544601852,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 40,
+        "at": 1793544601928,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 41,
+        "at": 1793544602103,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 42,
+        "at": 1793544602181,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 43,
+        "at": 1793544602357,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 44,
+        "at": 1793544602435,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 45,
+        "at": 1793544602606,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 46,
+        "at": 1793544602683,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 47,
+        "at": 1793544602852,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 48,
+        "at": 1793544602931,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 49,
+        "at": 1793544603107,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 50,
+        "at": 1793544603181,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 51,
+        "at": 1793544603348,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 52,
+        "at": 1793544603422,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 53,
+        "at": 1793544603587,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 54,
+        "at": 1793544603661,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 55,
+        "at": 1793544603826,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 56,
+        "at": 1793544603904,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 57,
+        "at": 1793544604076,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 58,
+        "at": 1793544604153,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 59,
+        "at": 1793544604323,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 60,
+        "at": 1793544604399,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 61,
+        "at": 1793544604573,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 62,
+        "at": 1793544604650,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 63,
+        "at": 1793544604832,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 64,
+        "at": 1793544604909,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 65,
+        "at": 1793544605079,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 66,
+        "at": 1793544605157,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 67,
+        "at": 1793544605332,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 68,
+        "at": 1793544605418,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 69,
+        "at": 1793544605589,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 70,
+        "at": 1793544605677,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 71,
+        "at": 1793544605849,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 72,
+        "at": 1793544605933,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 73,
+        "at": 1793544606110,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 74,
+        "at": 1793544606194,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 75,
+        "at": 1793544606372,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 76,
+        "at": 1793544606454,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 77,
+        "at": 1793544606643,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 78,
+        "at": 1793544606720,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 79,
+        "at": 1793544606890,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 80,
+        "at": 1793544606973,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 81,
+        "at": 1793544607140,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 82,
+        "at": 1793544607220,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 83,
+        "at": 1793544607388,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 84,
+        "at": 1793544607469,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 85,
+        "at": 1793544607641,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 86,
+        "at": 1793544607718,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 87,
+        "at": 1793544607889,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 88,
+        "at": 1793544607970,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 89,
+        "at": 1793544608144,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 90,
+        "at": 1793544608222,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 91,
+        "at": 1793544608395,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 92,
+        "at": 1793544608473,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 93,
+        "at": 1793544608647,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 94,
+        "at": 1793544608726,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 95,
+        "at": 1793544608896,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 96,
+        "at": 1793544608976,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 97,
+        "at": 1793544609145,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 98,
+        "at": 1793544609222,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 99,
+        "at": 1793544609395,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 100,
+        "at": 1793544609473,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 101,
+        "at": 1793544609642,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 102,
+        "at": 1793544609727,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 103,
+        "at": 1793544609903,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 104,
+        "at": 1793544609985,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 105,
+        "at": 1793544610155,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 106,
+        "at": 1793544610233,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 107,
+        "at": 1793544610407,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 108,
+        "at": 1793544610488,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 109,
+        "at": 1793544610654,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 110,
+        "at": 1793544610732,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 111,
+        "at": 1793544610903,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 112,
+        "at": 1793544610984,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 113,
+        "at": 1793544611165,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 114,
+        "at": 1793544611249,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 115,
+        "at": 1793544611425,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 116,
+        "at": 1793544611506,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 117,
+        "at": 1793544611677,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 118,
+        "at": 1793544611757,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 119,
+        "at": 1793544611928,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 120,
+        "at": 1793544612010,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 121,
+        "at": 1793544612181,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 122,
+        "at": 1793544612261,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 123,
+        "at": 1793544612438,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 124,
+        "at": 1793544612519,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 125,
+        "at": 1793544612698,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 126,
+        "at": 1793544612780,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 127,
+        "at": 1793544612954,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 128,
+        "at": 1793544613035,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 129,
+        "at": 1793544613207,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 130,
+        "at": 1793544613284,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 131,
+        "at": 1793544613457,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 132,
+        "at": 1793544613534,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 133,
+        "at": 1793544613703,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 134,
+        "at": 1793544613784,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 135,
+        "at": 1793544613951,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 136,
+        "at": 1793544614029,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 137,
+        "at": 1793544614202,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 138,
+        "at": 1793544614280,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 139,
+        "at": 1793544614454,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 140,
+        "at": 1793544614536,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 141,
+        "at": 1793544614718,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 142,
+        "at": 1793544614818,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 143,
+        "at": 1793544614994,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 144,
+        "at": 1793544615078,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 145,
+        "at": 1793544615257,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 146,
+        "at": 1793544615341,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 147,
+        "at": 1793544615527,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 148,
+        "at": 1793544615608,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 149,
+        "at": 1793544615783,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 150,
+        "at": 1793544615863,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 151,
+        "at": 1793544616046,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 152,
+        "at": 1793544616129,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 153,
+        "at": 1793544616312,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 154,
+        "at": 1793544616391,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 155,
+        "at": 1793544616583,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 156,
+        "at": 1793544616665,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 157,
+        "at": 1793544616836,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 158,
+        "at": 1793544616916,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 159,
+        "at": 1793544617085,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 160,
+        "at": 1793544617161,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 161,
+        "at": 1793544617334,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 162,
+        "at": 1793544617415,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 163,
+        "at": 1793544617584,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 164,
+        "at": 1793544617673,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 165,
+        "at": 1793544617850,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 166,
+        "at": 1793544617929,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 167,
+        "at": 1793544618104,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 168,
+        "at": 1793544618192,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 169,
+        "at": 1793544618367,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 170,
+        "at": 1793544618451,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 171,
+        "at": 1793544618626,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 172,
+        "at": 1793544618708,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 173,
+        "at": 1793544618884,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 174,
+        "at": 1793544618965,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 175,
+        "at": 1793544619139,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 176,
+        "at": 1793544619231,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 177,
+        "at": 1793544619411,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 178,
+        "at": 1793544619490,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 179,
+        "at": 1793544619665,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 180,
+        "at": 1793544619750,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 181,
+        "at": 1793544619922,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 182,
+        "at": 1793544620003,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 183,
+        "at": 1793544620169,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 184,
+        "at": 1793544620274,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 185,
+        "at": 1793544620451,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 186,
+        "at": 1793544620535,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 187,
+        "at": 1793544620711,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 188,
+        "at": 1793544620789,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 189,
+        "at": 1793544620964,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 190,
+        "at": 1793544621046,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 191,
+        "at": 1793544621230,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 192,
+        "at": 1793544621310,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 193,
+        "at": 1793544621484,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 194,
+        "at": 1793544621565,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 195,
+        "at": 1793544621738,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 196,
+        "at": 1793544621815,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 197,
+        "at": 1793544621992,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 198,
+        "at": 1793544622071,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 199,
+        "at": 1793544622249,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 200,
+        "at": 1793544622331,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 201,
+        "at": 1793544622508,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 202,
+        "at": 1793544622591,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 203,
+        "at": 1793544622768,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 204,
+        "at": 1793544622854,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 205,
+        "at": 1793544623038,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 206,
+        "at": 1793544623125,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 207,
+        "at": 1793544623294,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 208,
+        "at": 1793544623379,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 209,
+        "at": 1793544623553,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 210,
+        "at": 1793544623632,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 211,
+        "at": 1793544623809,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 212,
+        "at": 1793544623890,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 213,
+        "at": 1793544624070,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 214,
+        "at": 1793544624150,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 215,
+        "at": 1793544624321,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 216,
+        "at": 1793544624402,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 217,
+        "at": 1793544624576,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 218,
+        "at": 1793544624664,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 219,
+        "at": 1793544624852,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 220,
+        "at": 1793544624933,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 221,
+        "at": 1793544625113,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 222,
+        "at": 1793544625196,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 223,
+        "at": 1793544625388,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 224,
+        "at": 1793544625470,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 225,
+        "at": 1793544625651,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 226,
+        "at": 1793544625731,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 227,
+        "at": 1793544625907,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 228,
+        "at": 1793544625987,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 229,
+        "at": 1793544626155,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 230,
+        "at": 1793544626232,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 231,
+        "at": 1793544626409,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 232,
+        "at": 1793544626503,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 233,
+        "at": 1793544626688,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 234,
+        "at": 1793544626770,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 235,
+        "at": 1793544626951,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 236,
+        "at": 1793544627031,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 237,
+        "at": 1793544627217,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 238,
+        "at": 1793544627298,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 239,
+        "at": 1793544627480,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 240,
+        "at": 1793544627561,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 241,
+        "at": 1793544627737,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 242,
+        "at": 1793544627819,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 243,
+        "at": 1793544627997,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 244,
+        "at": 1793544628081,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 245,
+        "at": 1793544628256,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 246,
+        "at": 1793544628340,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 247,
+        "at": 1793544628517,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 248,
+        "at": 1793544628601,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 249,
+        "at": 1793544628774,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 250,
+        "at": 1793544628861,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 251,
+        "at": 1793544629033,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 252,
+        "at": 1793544629114,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 253,
+        "at": 1793544629290,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 254,
+        "at": 1793544629374,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 255,
+        "at": 1793544629540,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 256,
+        "at": 1793544629624,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 257,
+        "at": 1793544629799,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 258,
+        "at": 1793544629881,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 259,
+        "at": 1793544630057,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 260,
+        "at": 1793544630138,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 261,
+        "at": 1793544630317,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 262,
+        "at": 1793544630399,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 263,
+        "at": 1793544630585,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 264,
+        "at": 1793544630666,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 265,
+        "at": 1793544630842,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 266,
+        "at": 1793544630931,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 267,
+        "at": 1793544631111,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 268,
+        "at": 1793544631196,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 269,
+        "at": 1793544631371,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 270,
+        "at": 1793544631452,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 271,
+        "at": 1793544631631,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 272,
+        "at": 1793544631714,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 273,
+        "at": 1793544631888,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 274,
+        "at": 1793544631980,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 275,
+        "at": 1793544632163,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 276,
+        "at": 1793544632245,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 277,
+        "at": 1793544632429,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 278,
+        "at": 1793544632509,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 279,
+        "at": 1793544632680,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 280,
+        "at": 1793544632768,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 281,
+        "at": 1793544632943,
+        "kind": "app",
+        "command": "space.new",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 282,
+        "at": 1793544633024,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 283,
+        "at": 1793544633202,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 284,
+        "at": 1793544636302,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 285,
+        "at": 1793544636485,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 286,
+        "at": 1793544638561,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 287,
+        "at": 1793544638735,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 288,
+        "at": 1793544638801,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 289,
+        "at": 1793544638973,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 290,
+        "at": 1793544639279,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 291,
+        "at": 1793544639459,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 292,
+        "at": 1793544640263,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 293,
+        "at": 1793544640439,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 294,
+        "at": 1793544641942,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 295,
+        "at": 1793544642117,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 296,
+        "at": 1793544648181,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 297,
+        "at": 1793544648362,
+        "kind": "app",
+        "command": "space.select",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 298,
+        "at": 1793544652421,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 299,
+        "at": 1793544652597,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 300,
+        "at": 1793544655480,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 301,
+        "at": 1793544655671,
+        "kind": "app",
+        "command": "space.select",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 302,
+        "at": 1793544673136,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 303,
+        "at": 1793544673259,
+        "kind": "hc",
+        "command": "get t50",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 304,
+        "at": 1793544673323,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 305,
+        "at": 1793544673500,
+        "kind": "app",
+        "command": "space.select",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 306,
+        "at": 1793544679648,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 307,
+        "at": 1793544679770,
+        "kind": "hc",
+        "command": "ls",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 308,
+        "at": 1793544679842,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 309,
+        "at": 1793544680018,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 310,
+        "at": 1793544680821,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 311,
+        "at": 1793544681003,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 312,
+        "at": 1793544681071,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 313,
+        "at": 1793544681191,
+        "kind": "hc",
+        "command": "ls",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 314,
+        "at": 1793544682001,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 315,
+        "at": 1793544682171,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 316,
+        "at": 1793544682471,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 317,
+        "at": 1793544682644,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 318,
+        "at": 1793544683759,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 319,
+        "at": 1793544683940,
+        "kind": "app",
+        "command": "pane.focus",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 320,
+        "at": 1793544701604,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 321,
+        "at": 1793544701790,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 322,
+        "at": 1793544701861,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 323,
+        "at": 1793544702041,
+        "kind": "app",
+        "command": "space.select",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 324,
+        "at": 1793544705980,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 325,
+        "at": 1793544706165,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 326,
+        "at": 1793544707001,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 327,
+        "at": 1793544707174,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 328,
+        "at": 1793544707480,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 329,
+        "at": 1793544707647,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 330,
+        "at": 1793544708964,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 331,
+        "at": 1793544709084,
+        "kind": "hc",
+        "command": "machine add",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 332,
+        "at": 1793544710167,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 333,
+        "at": 1793544710341,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 334,
+        "at": 1793544710510,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 335,
+        "at": 1793544710686,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 336,
+        "at": 1793544710857,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 337,
+        "at": 1793544711032,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 338,
+        "at": 1793544711099,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 339,
+        "at": 1793544711282,
+        "kind": "app",
+        "command": "space.rename",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 340,
+        "at": 1793544711351,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 341,
+        "at": 1793544711528,
+        "kind": "app",
+        "command": "space.select",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 342,
+        "at": 1793544716250,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 343,
+        "at": 1793544716431,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 344,
+        "at": 1793544717233,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 345,
+        "at": 1793544717403,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 346,
+        "at": 1793544717709,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 347,
+        "at": 1793544717896,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 348,
+        "at": 1793544743276,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 349,
+        "at": 1793544743450,
+        "kind": "app",
+        "command": "space.select",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 350,
+        "at": 1793544755684,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 351,
+        "at": 1793544755872,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 352,
+        "at": 1793544755944,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 353,
+        "at": 1793544756066,
+        "kind": "hc",
+        "command": "machine rm",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 354,
+        "at": 1793544756558,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 355,
+        "at": 1793544756800,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 356,
+        "at": 1793544756977,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 357,
+        "at": 1793544757046,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 358,
+        "at": 1793544757226,
+        "kind": "app",
+        "command": "app.quit",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 359,
+        "at": 1793544757346,
+        "kind": "app",
+        "command": "verify exit",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 360,
+        "at": 1793544757405,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 361,
+        "at": 1793544757530,
+        "kind": "hc",
+        "command": "server stop",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 362,
+        "at": 1793544759233,
+        "kind": "hc",
+        "command": "verify exit",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 363,
+        "at": 1793544759242,
+        "kind": "hc",
+        "command": "verify exit",
+        "selectorSha256": "a39800c6ab76e5cc734f9c4fa79defe2df17f89fbe4c0a8f0fe7a41fb3e736cc",
+        "phase": "cleanup",
+        "result": "ok"
+      }
+    ]
+  },
+  "privateCoreId": "94c1cf5cf94467699b7b920c924486dc",
+  "privateCorePid": 37640,
+  "privateHolderPid": 37820,
+  "appPid": 37904,
+  "launcherPid": 37904,
+  "launcherExitCode": 0,
+  "assertions": [
+    {
+      "label": "Fresh positively verified private core starts empty",
+      "passed": true
+    },
+    {
+      "label": "Exact nonce sentinel belongs to the verified private core",
+      "passed": true
+    },
+    {
+      "label": "Full sentinel generation and QA ownership verified",
+      "passed": true
+    },
+    {
+      "label": "Private app uses the original verified core generation",
+      "passed": true
+    },
+    {
+      "label": "No native layout/mod errors",
+      "passed": true
+    },
+    {
+      "label": "Only the owned fixture window was positioned; system permissions were left unchanged",
+      "passed": true
+    },
+    {
+      "label": "Actual private model contains 128 spaces",
+      "passed": true
+    },
+    {
+      "label": "Native search reaches and selects the 128th space",
+      "passed": true
+    },
+    {
+      "label": "Collapsing Spaces leaves the separate native Agents section accessible",
+      "passed": true
+    },
+    {
+      "label": "Bottom Settings opens the native Settings view while Spaces is collapsed",
+      "passed": true
+    },
+    {
+      "label": "Bottom Add machine opens the shipped machine-add host dialog",
+      "passed": true
+    },
+    {
+      "label": "Collapsing/expanding preserves the search query",
+      "passed": true
+    },
+    {
+      "label": "Collapsing the machine group hides its rows",
+      "passed": true
+    },
+    {
+      "label": "Right-clicking B preserves selected space A",
+      "passed": true
+    },
+    {
+      "label": "Native Finder control opens B rather than selected A",
+      "passed": true
+    },
+    {
+      "label": "Right-click New agent keeps B repository, space and host",
+      "passed": true
+    },
+    {
+      "label": "Actual agent starts in B new worktree",
+      "passed": true
+    },
+    {
+      "label": "Ambiguous inactive space cannot launch an agent",
+      "passed": true
+    },
+    {
+      "label": "Ambiguous inactive space cannot open Finder",
+      "passed": true
+    },
+    {
+      "label": "Explicit focused checkout supplies the captured repository",
+      "passed": true
+    },
+    {
+      "label": "Non-Git folder has no launch fallback",
+      "passed": true
+    },
+    {
+      "label": "Unmapped remote repository cannot open its server path locally",
+      "passed": true
+    },
+    {
+      "label": "Remote Finder uses only the explicitly configured validated local mount",
+      "passed": true
+    },
+    {
+      "label": "Named-machine launch actually belongs to the separate core/repository",
+      "passed": true
+    },
+    {
+      "label": "Empty search retains the native footer",
+      "passed": true
+    },
+    {
+      "label": "No native errors across Spaces interactions",
+      "passed": true
+    },
+    {
+      "label": "Only the standalone Spaces custom mod is installed",
+      "passed": true
+    },
+    {
+      "label": "Scenario used real native input and captured a native frame",
+      "passed": true
+    }
+  ],
+  "inputActions": [
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 501,
+      "y": 444,
+      "control": "Find a space",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-1.png",
+        "sha256": "83fe644066368e3b01d596b62a4cb07febe0a5b9967bbeefffcb73e82a521794",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "cmd-a"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "backspace"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "1"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "2"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "7"
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 454.97674377545394,
+      "y": 509.1735539020951,
+      "control": "space-127",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-2.png",
+        "sha256": "8ee134ec598ff1c5900edba307662fbc85689f578bdf703f2db749acde249953",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 410,
+      "y": 412,
+      "control": "Collapse Spaces",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-3.png",
+        "sha256": "ba25082b7e490341d7190fe6fddfb4fa2ce3daef88d82b81d9a18f992958b37e",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 451.8757256527132,
+      "y": 1018.7417355371902,
+      "control": "Settings",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-5.png",
+        "sha256": "000958f923041534694a14de838d05a9326705757b790a64bdde7c26b244c44b",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "escape"
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 464.7325114169388,
+      "y": 1050.492637314394,
+      "control": "Add machine",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-6.png",
+        "sha256": "f2881618c17cb138986881515c9c8e31acf6e1b67621d640466d3d9d32ee1cf5",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "escape"
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 410,
+      "y": 412
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 434.78125,
+      "y": 478.74999999999994,
+      "control": "This Mac",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-10.png",
+        "sha256": "ff8c4cca6d9741e2334820b1bc154121231df6f36c3aa5d24e4eba0d651c38eb",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 431.7240164796533,
+      "y": 478.7242594166484,
+      "control": "This Mac",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-12.png",
+        "sha256": "d913d0310e35fc2e51a5a89077d9686abe4f04eca2875613a8bef4f52e510d00",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 501,
+      "y": 444,
+      "control": "Find a space",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-13.png",
+        "sha256": "13cbcc10411c4620df31a44a4b0349406c25726a17e827fec13dfaab7110a05e",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "cmd-a"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "backspace"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "c"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "l"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "i"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "e"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "n"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "t"
+    },
+    {
+      "kind": "pointer",
+      "button": "right",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 459.44185957209305,
+      "y": 509.1735537933884,
+      "control": "Right-click client-portal",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-14.png",
+        "sha256": "394228beb31ace96131190d8089050312b8a8b4f716916c6c161f7779daf457a",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 541.3023259269219,
+      "y": 607.4524793512396,
+      "control": "Open in Finder",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-16.png",
+        "sha256": "15f3e5a33b8943174d26af68c748e56862f64738b19b812acc0d707220cb85ad",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "activation",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 990,
+      "y": 652,
+      "after": "Finder"
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 501,
+      "y": 444,
+      "control": "Find a space",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-17.png",
+        "sha256": "44c78b54d28b2e58b931416c45449879d74d59ace3d974905ba01492475fe659",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "cmd-a"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "backspace"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "c"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "l"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "i"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "e"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "n"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "t"
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 589,
+      "y": 509.17355379338846,
+      "control": "Space menu",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-18.png",
+        "sha256": "394228beb31ace96131190d8089050312b8a8b4f716916c6c161f7779daf457a",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 662.6046516414148,
+      "y": 570.0578512396694,
+      "control": "New agent",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-20.png",
+        "sha256": "cfb24e1441d5862ca009e5c4189519ad265e17762b738efb69b85baa28eb655d",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 698.3255842945086,
+      "y": 483.96694220454543,
+      "control": "QA Claude fixture",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-21.png",
+        "sha256": "5deaeed90ea01b5e38f3491c75efc1d27e6de788a5155e8140998c60fda4af86",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 810.6976735714095,
+      "y": 527,
+      "control": "New worktree",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-22.png",
+        "sha256": "07a962aa096d9fbe0742590e7fe9dbe73dd420edcee634791efa3d6f6f07692f",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 1118.7906993423578,
+      "y": 1006.7768597913325,
+      "control": "Start agent",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-23.png",
+        "sha256": "6812a5c98de4bb6d915ccc9358d7cf02aafd7926780f48b40acc5e7537387c3f",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 501,
+      "y": 444,
+      "control": "Find a space",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-24.png",
+        "sha256": "aaf13c7f6b81396c4f578737e59f051521ab9fecded56a103953a2ae24e81fa7",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "cmd-a"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "backspace"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "a"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "m"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "b"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "i"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "g"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "u"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "o"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "u"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "s"
+    },
+    {
+      "kind": "pointer",
+      "button": "right",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 475.9593015069768,
+      "y": 509.06198347107437,
+      "control": "Right-click ambiguous-space",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-25.png",
+        "sha256": "5faf02b9534c3770cf924ed173248dbc66ee2affba1840aeb9a73e1689a58540",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 549.4883730879798,
+      "y": 570.165289368759,
+      "control": "New agent",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-28.png",
+        "sha256": "decbf208f29fe52bce2d3a923999c17849cfcbc21a1d3dc4d432da1434864693",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 557.8561046511628,
+      "y": 606.7024793884298,
+      "control": "Open in Finder",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-29.png",
+        "sha256": "1a4b50a4dc3b220db6b2e718568c8b735f43073fa6697ef725927fc88b17c3f0",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "escape"
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 475.8139531162791,
+      "y": 509.1735538677686,
+      "control": "ambiguous-space",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-30.png",
+        "sha256": "e426989858838be036a31108805ac5910aef5e708b4f8c4133ec154202947d47",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 990,
+      "y": 652
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 501,
+      "y": 444,
+      "control": "Find a space",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-32.png",
+        "sha256": "c6b7c1edd3751ce1d67d9400694f87538d9e14e310811e4722185ccff65b700f",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "cmd-a"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "backspace"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "a"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "m"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "b"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "i"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "g"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "u"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "o"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "u"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "s"
+    },
+    {
+      "kind": "pointer",
+      "button": "right",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 476.55813914418604,
+      "y": 509.1735538677686,
+      "control": "Right-click ambiguous-space",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-33.png",
+        "sha256": "b2c01c042e1681115fb0d696292995e5feaf8837d6419f4eac1e251529ce68f2",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 549.4883720458349,
+      "y": 570.1652892421142,
+      "control": "New agent",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-35.png",
+        "sha256": "d1b20f534a7f78f94d5c8cc2ed4e70390bbda9c3627bff6c529bd460443d6b60",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 698.3255842945086,
+      "y": 483.96694220454543,
+      "control": "QA Claude fixture",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-36.png",
+        "sha256": "165c9938cff8e0e64820477663f44aebc330b8905f08a50262ec50e028585896",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "escape"
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 501,
+      "y": 444,
+      "control": "Find a space",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-38.png",
+        "sha256": "e426989858838be036a31108805ac5910aef5e708b4f8c4133ec154202947d47",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "cmd-a"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "backspace"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "n"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "o"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "t"
+    },
+    {
+      "kind": "pointer",
+      "button": "right",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 445.3023258052153,
+      "y": 509.9173555048409,
+      "control": "Right-click not-git",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-39.png",
+        "sha256": "d4d3c8b8fb1ec460724d6be3157fabf032a565e3d0feb1554a1aadaf5d20d7f1",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 518.2325582294137,
+      "y": 571.6528928685607,
+      "control": "New agent",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-42.png",
+        "sha256": "a6333f0b7a417b5289d6149d36a7bb9dc19bb9f9d080503713afa372d05bc5ac",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "escape"
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 501,
+      "y": 444,
+      "control": "Find a space",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-43.png",
+        "sha256": "54c0ae7ad5ed23051ef63fb1f5ae2743bbf3db97c6639ee1424a223b58b12bfa",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "cmd-a"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "backspace"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "s"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "e"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "r"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "v"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "e"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "r"
+    },
+    {
+      "kind": "pointer",
+      "button": "right",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 458.69767377860467,
+      "y": 509.17355377851237,
+      "control": "Right-click server-repo",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-44.png",
+        "sha256": "295386eccf0162ff6fc167f6f417b2304a4d082488eafdb4dc31d7502b44b1a1",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 541.3023259269219,
+      "y": 607.4524793512396,
+      "control": "Open in Finder",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-46.png",
+        "sha256": "aca9fa3061f0706397b3756640ed8040613d612ecd935d9db04bb83568d13410",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "escape"
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 501,
+      "y": 444,
+      "control": "Find a space",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-47.png",
+        "sha256": "32d457238951eb94633876261167917e308fb91943b0c5545dde0d7690069d43",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "cmd-a"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "backspace"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "s"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "e"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "r"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "v"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "e"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "r"
+    },
+    {
+      "kind": "pointer",
+      "button": "right",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 458.69767377860467,
+      "y": 509.17355377851237,
+      "control": "Right-click server-repo",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-48.png",
+        "sha256": "c2cdb7779b8fd5e1ad64f057075d85f8a1aef40699dd031c3953b01890dc557b",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 541.3023259269219,
+      "y": 607.4524793512396,
+      "control": "Open in Finder",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-50.png",
+        "sha256": "b81be545a2f4487d9f2866cd43747609cc14d06d59303348e7ffc49cc7116e41",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "activation",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 990,
+      "y": 652,
+      "after": "Finder"
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 501,
+      "y": 444,
+      "control": "Find a space",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-51.png",
+        "sha256": "32d457238951eb94633876261167917e308fb91943b0c5545dde0d7690069d43",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "cmd-a"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "backspace"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "s"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "e"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "r"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "v"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "e"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "r"
+    },
+    {
+      "kind": "pointer",
+      "button": "right",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 458.69767377860467,
+      "y": 509.17355377851237,
+      "control": "Right-click server-repo",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-52.png",
+        "sha256": "295386eccf0162ff6fc167f6f417b2304a4d082488eafdb4dc31d7502b44b1a1",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 531.6279061874292,
+      "y": 570.1652893246546,
+      "control": "New agent",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-54.png",
+        "sha256": "4c61a6a6bc92401bd113de784a94c7adad63f4ec88ea0fb29085e4e6969c2faa",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 698.3255842945086,
+      "y": 483.96694220454543,
+      "control": "QA Claude fixture",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-55.png",
+        "sha256": "cbb6483e43c84ee88a96de6100b0509aeaf7eef35b947e773037f48f7cd411c6",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 697.5813942257851,
+      "y": 527,
+      "control": "Current checkout",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-56.png",
+        "sha256": "672b00fd3831eaf2fbfaa3cd289bb83566cba7aeb3885fd42a8b90a7ee1c67fb",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 1118.7906993423578,
+      "y": 1006.7768597913325,
+      "control": "Start agent",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-57.png",
+        "sha256": "6675d0433f415a201216e453f05cfa3cf0e4ab2fa4f56ae966131a4ebf686a21",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 501,
+      "y": 444,
+      "control": "Find a space",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-58.png",
+        "sha256": "32d457238951eb94633876261167917e308fb91943b0c5545dde0d7690069d43",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "cmd-a"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "backspace"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "m"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "i"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "s"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "s"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "i"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "n"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "g"
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 37904,
+      "windowId": 12509,
+      "x": 501,
+      "y": 444,
+      "control": "Find a space",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-61.png",
+        "sha256": "ed1a01b712eab4ca86e31972604a6ebe7afe3b4e35a071ceeced7c03f4053918",
+        "width": 2048,
+        "height": 1440
+      }
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "cmd-a"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "backspace"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "c"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "l"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "i"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "e"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "n"
+    },
+    {
+      "kind": "key",
+      "pid": 37904,
+      "key": "t"
+    }
+  ],
+  "frames": [
+    {
+      "label": "spaces-observe-1",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-1.png",
+      "sha256": "83fe644066368e3b01d596b62a4cb07febe0a5b9967bbeefffcb73e82a521794",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-2",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-2.png",
+      "sha256": "8ee134ec598ff1c5900edba307662fbc85689f578bdf703f2db749acde249953",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-3",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-3.png",
+      "sha256": "ba25082b7e490341d7190fe6fddfb4fa2ce3daef88d82b81d9a18f992958b37e",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-4",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-4.png",
+      "sha256": "000958f923041534694a14de838d05a9326705757b790a64bdde7c26b244c44b",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-5",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-5.png",
+      "sha256": "000958f923041534694a14de838d05a9326705757b790a64bdde7c26b244c44b",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-6",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-6.png",
+      "sha256": "f2881618c17cb138986881515c9c8e31acf6e1b67621d640466d3d9d32ee1cf5",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-7",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-7.png",
+      "sha256": "2dc93bc2dfa1c6f7fac831d8d80bf3fab07fb2424acdd25c088bea42dd34a76d",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-8",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-8.png",
+      "sha256": "2dc93bc2dfa1c6f7fac831d8d80bf3fab07fb2424acdd25c088bea42dd34a76d",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-9",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-9.png",
+      "sha256": "f2881618c17cb138986881515c9c8e31acf6e1b67621d640466d3d9d32ee1cf5",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-10",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-10.png",
+      "sha256": "ff8c4cca6d9741e2334820b1bc154121231df6f36c3aa5d24e4eba0d651c38eb",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-11",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-11.png",
+      "sha256": "46839835ebc61e6a05fbc901c9210f86a5ab88650048dbd48d3aac71e1b124d1",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-12",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-12.png",
+      "sha256": "d913d0310e35fc2e51a5a89077d9686abe4f04eca2875613a8bef4f52e510d00",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-13",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-13.png",
+      "sha256": "13cbcc10411c4620df31a44a4b0349406c25726a17e827fec13dfaab7110a05e",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-14",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-14.png",
+      "sha256": "394228beb31ace96131190d8089050312b8a8b4f716916c6c161f7779daf457a",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-15",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-15.png",
+      "sha256": "15f3e5a33b8943174d26af68c748e56862f64738b19b812acc0d707220cb85ad",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-16",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-16.png",
+      "sha256": "15f3e5a33b8943174d26af68c748e56862f64738b19b812acc0d707220cb85ad",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-17",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-17.png",
+      "sha256": "44c78b54d28b2e58b931416c45449879d74d59ace3d974905ba01492475fe659",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-18",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-18.png",
+      "sha256": "394228beb31ace96131190d8089050312b8a8b4f716916c6c161f7779daf457a",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-19",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-19.png",
+      "sha256": "cfb24e1441d5862ca009e5c4189519ad265e17762b738efb69b85baa28eb655d",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-20",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-20.png",
+      "sha256": "cfb24e1441d5862ca009e5c4189519ad265e17762b738efb69b85baa28eb655d",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-21",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-21.png",
+      "sha256": "5deaeed90ea01b5e38f3491c75efc1d27e6de788a5155e8140998c60fda4af86",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-22",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-22.png",
+      "sha256": "07a962aa096d9fbe0742590e7fe9dbe73dd420edcee634791efa3d6f6f07692f",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-23",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-23.png",
+      "sha256": "6812a5c98de4bb6d915ccc9358d7cf02aafd7926780f48b40acc5e7537387c3f",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-24",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-24.png",
+      "sha256": "aaf13c7f6b81396c4f578737e59f051521ab9fecded56a103953a2ae24e81fa7",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-25",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-25.png",
+      "sha256": "5faf02b9534c3770cf924ed173248dbc66ee2affba1840aeb9a73e1689a58540",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-26",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-26.png",
+      "sha256": "74f1de51da2cec8d729d6c7e049f13a1286d353f6ecadb11201d7ad15f581e35",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-27",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-27.png",
+      "sha256": "74f1de51da2cec8d729d6c7e049f13a1286d353f6ecadb11201d7ad15f581e35",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-28",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-28.png",
+      "sha256": "decbf208f29fe52bce2d3a923999c17849cfcbc21a1d3dc4d432da1434864693",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-29",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-29.png",
+      "sha256": "1a4b50a4dc3b220db6b2e718568c8b735f43073fa6697ef725927fc88b17c3f0",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-30",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-30.png",
+      "sha256": "e426989858838be036a31108805ac5910aef5e708b4f8c4133ec154202947d47",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-31",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-31.png",
+      "sha256": "991458f2eeca0524ba66475824909e4b4975fbda64fbd0b567b51d0451f44d8d",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-32",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-32.png",
+      "sha256": "c6b7c1edd3751ce1d67d9400694f87538d9e14e310811e4722185ccff65b700f",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-33",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-33.png",
+      "sha256": "b2c01c042e1681115fb0d696292995e5feaf8837d6419f4eac1e251529ce68f2",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-34",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-34.png",
+      "sha256": "d1b20f534a7f78f94d5c8cc2ed4e70390bbda9c3627bff6c529bd460443d6b60",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-35",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-35.png",
+      "sha256": "d1b20f534a7f78f94d5c8cc2ed4e70390bbda9c3627bff6c529bd460443d6b60",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-36",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-36.png",
+      "sha256": "165c9938cff8e0e64820477663f44aebc330b8905f08a50262ec50e028585896",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-37",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-37.png",
+      "sha256": "b762141c1813376d5a605353eaafa86d04f6fc98823f21d42c84b253459a5ed1",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-38",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-38.png",
+      "sha256": "e426989858838be036a31108805ac5910aef5e708b4f8c4133ec154202947d47",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-39",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-39.png",
+      "sha256": "d4d3c8b8fb1ec460724d6be3157fabf032a565e3d0feb1554a1aadaf5d20d7f1",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-40",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-40.png",
+      "sha256": "54c0ddda2a79ab2815feb03d546ac9d5853138df635fe127f3be38465c3bb890",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-41",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-41.png",
+      "sha256": "54c0ddda2a79ab2815feb03d546ac9d5853138df635fe127f3be38465c3bb890",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-42",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-42.png",
+      "sha256": "a6333f0b7a417b5289d6149d36a7bb9dc19bb9f9d080503713afa372d05bc5ac",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-43",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-43.png",
+      "sha256": "54c0ae7ad5ed23051ef63fb1f5ae2743bbf3db97c6639ee1424a223b58b12bfa",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-44",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-44.png",
+      "sha256": "295386eccf0162ff6fc167f6f417b2304a4d082488eafdb4dc31d7502b44b1a1",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-45",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-45.png",
+      "sha256": "712c4296344ae1e129a49555feebb627c5c10f0acd36fff72498739a2cd90fc1",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-46",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-46.png",
+      "sha256": "aca9fa3061f0706397b3756640ed8040613d612ecd935d9db04bb83568d13410",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-47",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-47.png",
+      "sha256": "32d457238951eb94633876261167917e308fb91943b0c5545dde0d7690069d43",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-48",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-48.png",
+      "sha256": "c2cdb7779b8fd5e1ad64f057075d85f8a1aef40699dd031c3953b01890dc557b",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-49",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-49.png",
+      "sha256": "712c4296344ae1e129a49555feebb627c5c10f0acd36fff72498739a2cd90fc1",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-50",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-50.png",
+      "sha256": "b81be545a2f4487d9f2866cd43747609cc14d06d59303348e7ffc49cc7116e41",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-51",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-51.png",
+      "sha256": "32d457238951eb94633876261167917e308fb91943b0c5545dde0d7690069d43",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-52",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-52.png",
+      "sha256": "295386eccf0162ff6fc167f6f417b2304a4d082488eafdb4dc31d7502b44b1a1",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-53",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-53.png",
+      "sha256": "712c4296344ae1e129a49555feebb627c5c10f0acd36fff72498739a2cd90fc1",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-54",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-54.png",
+      "sha256": "4c61a6a6bc92401bd113de784a94c7adad63f4ec88ea0fb29085e4e6969c2faa",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-55",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-55.png",
+      "sha256": "cbb6483e43c84ee88a96de6100b0509aeaf7eef35b947e773037f48f7cd411c6",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-56",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-56.png",
+      "sha256": "672b00fd3831eaf2fbfaa3cd289bb83566cba7aeb3885fd42a8b90a7ee1c67fb",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-57",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-57.png",
+      "sha256": "6675d0433f415a201216e453f05cfa3cf0e4ab2fa4f56ae966131a4ebf686a21",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-58",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-58.png",
+      "sha256": "32d457238951eb94633876261167917e308fb91943b0c5545dde0d7690069d43",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-59",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-59.png",
+      "sha256": "f5d6a5b971300bc897d853f1c4a8ba09fb828626d0262d65cc84845b61412130",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-60",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-60.png",
+      "sha256": "f5d6a5b971300bc897d853f1c4a8ba09fb828626d0262d65cc84845b61412130",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-observe-61",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-observe-61.png",
+      "sha256": "ed1a01b712eab4ca86e31972604a6ebe7afe3b4e35a071ceeced7c03f4053918",
+      "width": 2048,
+      "height": 1440
+    },
+    {
+      "label": "spaces-preview",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-a7b0a29134dbd5916255b882/spaces-preview.png",
+      "sha256": "b47d92aaed459278d5f8ccc89e58882f85db3f3406714569606c62bff1b0036b",
+      "width": 2048,
+      "height": 1440
+    }
+  ],
+  "appCommands": [
+    {
+      "kind": "setup-or-service-command",
+      "command": "layout.switch",
+      "argumentKeys": [
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "tab.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "space"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.new",
+      "argumentKeys": [
+        "argv",
+        "folder",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.select",
+      "argumentKeys": [
+        "id"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.select",
+      "argumentKeys": [
+        "id"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.select",
+      "argumentKeys": [
+        "id"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "pane.focus",
+      "argumentKeys": [
+        "terminal"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.select",
+      "argumentKeys": [
+        "id"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.rename",
+      "argumentKeys": [
+        "id",
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.select",
+      "argumentKeys": [
+        "id"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "space.select",
+      "argumentKeys": [
+        "id"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "app.quit",
+      "argumentKeys": []
+    }
+  ],
+  "packages": [
+    {
+      "name": "mission-control-spaces",
+      "nativeCheck": true,
+      "manifest": {
+        "v": 1,
+        "name": "mission-control-spaces",
+        "artifacts": {
+          "assets/agent.svg": "e1b2039d6c2635ffcfddceff99109fb03e8ccb40359aed00fa88a6f3d8ad3eed",
+          "assets/branch.svg": "3e84ff73535eefd357b9709e871d3a0f47b5fd6dbd9966eaad804c88b021def7",
+          "assets/check.svg": "1c80d14e7bbcd7fd3ce3027c7c72d4fc07192ff3fb9b96e86b26d1ab3d7b314e",
+          "assets/chevron-down.svg": "1d2065b24da0cf4b3936203004eb8ef7b15a985a0658426517ad0113c29d0fc8",
+          "assets/chevron-right.svg": "efc8ab93d789d1e04bbd5c062e1560267280b570d6efaa09d2a77e601d64ee5f",
+          "assets/close.svg": "28e7ce6d33be8f07dedad8e80ee59e816b81a0e845f64613e3bb51c357da925b",
+          "assets/external.svg": "e4c8ed502be1e53c147361f58d8776337ab259794054e8f3d1e8fd29722d3195",
+          "assets/folder.svg": "3a46023f1ff23f2112b9e0955ad32690139e8f1c071ccfdbcae8e85295365f66",
+          "assets/github.svg": "b4ababc5c6d3ed662798989f5e1a3c4b819767438997b1e1ca020542b77337bf",
+          "assets/gitlab.svg": "349804ee06f6ee8d48643f682491db781f34f932ded32ffff323e5e2fc0bbe2e",
+          "assets/issue.svg": "3d676661dab61f8b1611d3dc6d5c33ec4c311d40e40f755332c8d9f4d5118315",
+          "assets/jira.svg": "2e3db07f926b1f7a2467c0769c23627e8c887f83231e6c46c96ac349e4e0d3a3",
+          "assets/layout.svg": "991e3e3ef8165e8c057236ee43ab157a22d12479251bd3da3710db3837326cfd",
+          "assets/more.svg": "a82bebdebdd8c147ef583c00b87788c4a196e04fce2a5e4a10f0ccbc432fdbe4",
+          "assets/panel.svg": "9c88b7e44f25d82d3f37d069b69167c98a06cf4a6cb7f9da7dc52cc2ca10c187",
+          "assets/pin.svg": "2211c66b64ec8a722b08abf49deac42bba57ec7ca21c72dbf270d28a9b6cb9e6",
+          "assets/plus.svg": "bc30fdf06276287fcef7802da8dd282e9854ea130bbaea9e327dca61914417ca",
+          "assets/priority.svg": "344a528c607fe010fd4013e703eebc5f08306589560e69e237e6e2cca5b5d2f8",
+          "assets/pull-request.svg": "93efcc8c2e7e799df7b597de85ee1e0ae2e7d3fb402bff6d96428afbaf17e7d4",
+          "assets/refresh.svg": "a4ef0613fb0794ae6554ccacbe332a0f7a6bfd346ebe94d209b112796462640a",
+          "assets/search.svg": "73a02b45b12746984a4e5d9689a3ca5578f5d329e4e0b0598bd5139d81c0bdce",
+          "assets/server.svg": "4a6a50b128185781455b2a145fbde0bb57e6deff93830168388a97a1f240e2c8",
+          "assets/sessions.svg": "40c70935bd80015005b85b9b42368e4dfdf44ac6a3392e2f6b7fd18a59159d9d",
+          "assets/settings.svg": "c0d3295d7dc3261c7f6e9e6eb4217b044b834d680215ac1e38f9c1efb11b2dc9",
+          "assets/spaces.svg": "01d3d618b27ef141c8251358657d7533abef2bbc40b447f53728c768fa4a593b",
+          "main.js": "2f1afc8fd4246e40dbe95cabe07c1b9e1f1c538aabc3bd04f07d4df662f9e9fa",
+          "mod.json": "41df98eff1763db4eb75492429c15cecc448426d0f1ac5eca1aa08e088d571d4",
+          "NOTICE.md": "f20f37f2705da9d37b502d64fbe21f68f7db7280f83369013586be19e747c873"
+        },
+        "sources": {
+          "src/assets/icons.json": "e15e5fd5234d4d3f8edc59a30bc4f45c878aa0bc662defde22877855704c1254",
+          "src/mods/mission-control-spaces/main.js": "acf6de92ab60c2f7d4c95770a57eb34047bc3edc5b03f674b5ee37b7ac453a86",
+          "src/mods/mission-control-spaces/mod.json": "ef29f289f09165bf4297729fa5ae3c8abaab9b9b6ec7ae1ec772d94be0ca4111",
+          "src/mods/mission-control-spaces/model.js": "dc7fe964c5be8c14106baad87c18d019c3785a564f54eea76958ed848c6601c9",
+          "src/shared/config.js": "2cea2d16c0faed2eef2f8105b0adc0c6098cf556a84297249b5bd9895eddf9a7",
+          "src/shared/launch-dialog.js": "5155469f382d117b8425ce00b7f5463679d42168a293b35aa79afecf2a4b9fc6",
+          "src/shared/launch-preferences.js": "c70132d68a264054de91a25704c44c7f6c6cb2e380c93f6807842bdca5558fd9",
+          "src/shared/launch.js": "66cc52240b4c3563edfe2a52f83400d98581c4e08dfab188703b09fd7d7d8b55",
+          "src/shared/name-ownership.js": "24f4e7060bffdb1559e76091039fc1b1e076095d72cc8b44c14596d8a37ae784",
+          "src/shared/session-bindings.js": "8ce735273c2d4e8ee9e63bed0036276d8afa69fc92f40c22fa30ddd10c815d99",
+          "src/shared/session-identity.js": "9cb414ff020c4c49c66018f8146f41261975790a4d4349da18f278f60131617e",
+          "src/shared/space-repo.js": "464ff46525dc00fd74813104bb9fcc770d10fef2eb366decc6f18125a6f62d07",
+          "src/shared/tool-capabilities.js": "31bbf19a27d0621a8d758fdcb6d4f46a1788bd96d5d80331a938999df9012f05",
+          "src/shared/ui.js": "63653a7db2c610678b687fe0263aa078f9458336d411b5be4335cba2a4b8533b",
+          "src/shared/worktrees.js": "f9c7a8a8f60af73170ab2f0449178fd6ea597cc0a7fb68c18c0403d3fffe4cbb"
+        }
+      }
+    }
+  ],
+  "appErrors": [],
+  "cleanup": {
+    "attempted": true,
+    "stoppedOnlyOwnedProcesses": true,
+    "existingInstancesQueried": false,
+    "verifiedPrivateCore": true,
+    "verifiedPrivateApp": true,
+    "resourcesRemoved": true,
+    "refused": false
+  },
+  "harnessSourceSha256": "7be8b4073f5a08b52bde177d18f6cd4c64175b23351553d5a991c2067bafd851",
+  "boundary": "Task-owned GPUI app/core with PID-bound native input. Existing instances were not queried. Provider authentication is not proven."
+}

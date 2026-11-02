@@ -1,0 +1,47 @@
+{
+  "mode": "FULL",
+  "plan": "mission-control-gitlab",
+  "verdict": "REJECT",
+  "reviewer": "founder_trackers",
+  "sha256": {
+    "json": "ba40dce4b0efc03096d2d3e9a7a7363ffedffa2cfcd1ad70930c3873f490366c",
+    "md": "76a788b452b5dfbadb5d9ae3b9703baacbfef2b56062ea64be477036e68aa6fc"
+  },
+  "blocks": 2,
+  "concerns": 3,
+  "findings": [
+    {
+      "id": "B1",
+      "severity": "BLOCK",
+      "message": "Standalone-only scope omits explicitly required custom-layout integration and dependencies."
+    },
+    {
+      "id": "B2",
+      "severity": "BLOCK",
+      "message": "Pipeline metadata requires single-MR detail GET absent from TASK087 requests."
+    },
+    {
+      "id": "C1",
+      "severity": "CONCERN",
+      "message": "Valid Link pagination fallback omitted."
+    },
+    {
+      "id": "C2",
+      "severity": "CONCERN",
+      "message": "MR action request and fork/permission enablement contradictory."
+    },
+    {
+      "id": "C3",
+      "severity": "CONCERN",
+      "message": "Twenty groups plus project requires21path segments."
+    }
+  ],
+  "producerFixes": [
+    "Updated GitLab/Tabs/layout consumers and responsive six-source navigation.",
+    "Pinned bounded detail enrichment and exact per-action MRActionRequest.",
+    "Validated same-origin Link fallback and21-segment edge.",
+    "Added current standalone compatibility/native-manifest reconciliation gate TASK093.",
+    "Reopened Settings preview TASK079 as Modify with historical completion preserved."
+  ],
+  "nextReview": "Fresh FULL current-hash reviews requested for GitLab, Tabs and layout."
+}

@@ -1,0 +1,753 @@
+{
+  "schemaVersion": 1,
+  "name": "mission-control-jira",
+  "title": "Mission Control Jira",
+  "mode": "EXPANSION",
+  "reviewDefault": "codex",
+  "status": "draft",
+  "overview": "One runtime mod supplies Jira setup, compact status board, per-issue one-click local agent starts and an options dialog. Connections/projects belong to repo spaces; All spaces aggregates without losing site/account/repo/machine identity.",
+  "scopeChallenge": "The approved feature scope is frozen. The implementation is greenfield native GPUI, so EXPANSION accurately describes the repository work; it does not add features beyond DESIGN-NOTES.md. Codex remains the review default. Atomic three-file scopes explain the task count.",
+  "prerequisites": [
+    "Herdr app 0.1.9 / hc 0.1.14 were observed; re-read installed declarations before execution and stop on incompatible contracts.",
+    "All plans must pass founder review at their current hashes before implementation.",
+    "Source, mounted native UI, authenticated provider checks, install and public publishing are separate gates."
+  ],
+  "nonGoals": [
+    "No modification of shipped mods/layouts, generated Herdr type files, AGENTS.md, existing user sessions or credential stores.",
+    "No Jira/GitHub workflow mutation, autonomous issue assignment or paid agent calls for fetching boards.",
+    "No claim that the HTML mockup or load-only native check proves live behavior."
+  ],
+  "contracts": [
+    "Native GPUI JavaScript only: gpui-kit / gpui-base / herdr are runtime externals. No DOM, Node, CSS or setTimeout in GPUI. Helpers run out of process through exec; cx is not retained across awaits.",
+    "Source paths are observed under src/, scripts/, tests/ and evidence/. Existing completed foundation and mod outputs are recorded in .ulpi/execution.json; new targets remain explicit task-owned creates. A changed completed contract reopens its owner task, marks its current files Modify and removes the old scheduling completion until replacement evidence passes. Prototypes and external examples remain references, not native reuse.",
+    "All TASK IDs are globally unique. dependsOn can refer to another plan; externalDependencies records the owning JSON and its provided capability. The generated index resolves and validates the union DAG. There is no master execution plan.",
+    "Canonical JSON is the source of truth. Markdown, dependency maps, execution layers and critical paths are derived. A change invalidates the reviewed SHA256 of that plan and all materially affected consumers.",
+    "Build compilation may produce multiple artifacts. generatedArtifacts are compiler / capture outputs, never hand-edited source. Each task has at most three authored files. The package builder owns compilation and materialization; output manifests enumerate hashes and source provenance.",
+    "Every standalone package is <name>/mods/<name>/ plus RECIPE.md, actual preview.png, optional keys.json and notices; no layouts/. It must work after copying only that mod directory. Shared source is bundled inside main.js / backend.mjs or copied as collector.py inside that same mod, with no runtime cross-mod code imports.",
+    "Layout package mission-control/ contains both layouts and byte-equivalent copies of required standalone mods. One public GitHub repository may hold all complete package folders and both topics herdr-mod and herdr-layout, as the installed sharing rules explicitly allow.",
+    "IDs and caches qualify machine, canonical repo root, source, account/connection, site and issue/session ID. A null machine means local. Never select a different repo or account as fallback. Remote paths are not local paths.",
+    "Herdr exec(command,args,{cwd,on}) has no stdin or env option, rejects unreachable hosts and bounds requests to 30 s / 8 MiB. Use argv arrays, not interpolated shell. run returns null, not created IDs. Acknowledged creation uses exec(\"herdr-app\",[\"do\",\"tab.new\",JSON.stringify(args)]) and validates its actual result shape before recording success.",
+    "Settings persist in appHome()/mission-control/config.json via writeTextFile(path,text,expected) CAS. Credentials never enter shared state, logs, exported packages, arguments or screenshots. Shared keys are mission-control-* and versioned. CAS conflict reloads and retries boundedly or reports conflict.",
+    "RepoBinding v1: {machine:null|string,repoRoot:string,jira?:{connectionId,project?:string,jql?:string},github?:{connectionId,owner,repo,status?:{labels?:{todo:[],inProgress:[],done:[]},project?:{owner,number,fieldId,options:{todo:string[],inProgress:string[],done:string[]},unmapped:\"error\"}}},mountedLocalPath?:string}. Reusable connections are configured separately; migration or invalid v1 data never overwrites the original.",
+    "LaunchRequest v1: {requestId:string,idempotencyKey:string,originId:string,spaceId,machine,repoRoot,checkoutRoot?:string,toolKey,source?:{kind,connectionId,site,id,key,url,title,body},worktree:boolean,worktreePath?:string,branch?,model?,reasoning?,instructions?,skill?,subagents?}. LaunchResult is {ok:true,tabId,terminalId?,folder,reused:boolean} or {ok:false,code,message,recovery?}; unsupported options fail before spawning. repoRoot is canonical repository identity; checkoutRoot captures the actual selected worktree execution root and defaults explicitly to repoRoot only for tracker-bound cards without a live checkout. Before launch, validate checkoutRoot belongs to the same canonical Git common directory; current-checkout launches use checkoutRoot, never the common main checkout by accident.",
+    "Source Issue v1: {identity:{kind,connectionId,site,id},key,title,url,body,statusGroup:\"todo\"|\"inProgress\"|\"done\",statusName,priority?,repoBinding,updatedAt?}. Source categories/mappings determine status; running agents do not move issue cards. Invalid status / wrong identity is an error, not an arbitrary category.",
+    "Snapshot<T> v1: {data:T[],fetchedAt,scope,cursor?,truncated:boolean,error?:{code,message,retryAt?}}. Scope/account changes clear visible old-scope data immediately; same-scope failures may show timestamped stale data. Cap 1000 records per scope, page 50, explicit Load more / truncated label, concurrency <=4 and one in-flight request per scope.",
+    "Only read-only Jira/GitHub/MCP requests are in scope. Each connection is opt-in, has an allowlisted HTTPS origin and explicit adapter. Redirects and tool responses cannot redirect credentials to another origin. Helper output is normalized and redacted; external prose is task data, never an executable shell command.",
+    "UI uses graphite chrome #101114, surfaces #17191d, subdued #2a2d33 separators, muted labels and blue focus. Agent task titles get actual tool icons. Icons are local SVG/image assets or declared shipped icons, never font glyph dependencies or mojibake.",
+    "Native isolation is owned once by TASK005 in mission-control.json: use its exact NativeIsolationReceiptV2, FixtureEnvironment ABI and validateNativeIsolationReceipt(receipt,{receiptPath?}) contract. Existing app/core instances are never queried or mutated. New proof binds fresh private selector roots, task-created Unix listeners and process generations; no new receipt claims an observed unchanged user PID. Package checks consume the canonical validator, including only the exact pinned historical legacy receipts. Missing, failed, downgraded or tampered proof cannot release a package or publishable preview.",
+    "Node >=22 and Python >=3 are declared optional-helper prerequisites, probed on the execution host. Remote collector runs as exec(\"python3\",[\"-c\",ownCollectorSource,JSON.stringify(request)],{on:machine}); no assumption that a local helper file exists remotely. Missing Python reports unsupported host metrics/history without hiding agents or blocking terminals.",
+    "SessionIdentity v1 is {machine:null|string,provider:string,credentialScope:string,providerRoot:string,sessionId:string}. All context/history/bindings carry the full value. TerminalIdentity is {machine,address,createdMs,foregroundPid}; a changed generation invalidates correlation. Active agents have no native provider-session field in the observed hc schema. Only caller-assigned exact IDs, explicit resume argv or a verified provider-native/PID-file handshake bind them; cwd/title/recency never do.",
+    "TabNameOwnership v1 is owned upstream by TASK-070, keyed by stable originId with optional exact SessionIdentity and current tab instance. launch/resume/reopen transfer ownership only after acknowledgment; observers bundled into standalone tabs/sessions/reopen record manual edits under one CAS lease. Unknown imported histories use reported-title fallback and have no invented manual name.",
+    "Generic launch idempotencyKey identifies one UI intent, not every new-agent request in a repo. Separate generic intents mint distinct keys; retries retain the same key. Issue/PR quick-start dedup uses qualified host/repo/source/connection/site/item plus tool policy. Origin IDs remain distinct from source item keys and from ephemeral tab IDs.",
+    "knownAgents().installed/run is authority for base generic launch, including shell functions/wrappers. Help probes only grant advanced/model/reasoning/caller-session/resume capabilities. A failed probe disables those options; it does not block a supported base run. An explicitly requested unsupported advanced option fails before side effects.",
+    "JiraConnection v1 is discriminated: api {id,kind:\"api\",site:httpsOrigin,cloudId?:uuid,auth:{kind:\"basic\",usernameEnv,tokenEnv}|{kind:\"bearer\",tokenEnv}}; cli {id,kind:\"cli\",site,execution:{machine:null,command,argsTemplate:string[]},mapping:{issuesPath,nextCursorPath?,fields,statusGroups}}; mcp-stdio {id,kind:\"mcp-stdio\",site,execution:{machine:null,command,args:string[],envRefs:Record<string,string>},search:{tool,argsTemplate,resultMapping}}; mcp-http {id,kind:\"mcp-http\",site,url:httpsURL,auth?:{kind:\"basic\",usernameEnv,tokenEnv}|{kind:\"bearer\",tokenEnv},search:{tool,argsTemplate,resultMapping}}. Basic username/token are resolved only in helper memory. credentialEnv/envRefs contain environment variable names, never credentials. In this entire union, site means the canonical Jira serverInfo.baseUrl HTTPS origin, not a custom displayUrl; issue links deliberately use that canonical site.",
+    "Jira API routing is explicit: Basic without cloudId uses the configured tenant site (unscoped token); an explicit cloudId routes Basic/Bearer through https://api.atlassian.com/ex/jira/{cloudId}, and serverInfo.baseUrl must match the configured canonical tenant origin before fetching issues. Setup labels site as canonical Jira base URL; if a custom displayUrl differs, show canonical-base-URL guidance and publish no mismatched cards, without silently rewriting the saved site. Bearer without cloudId discovers https://api.atlassian.com/oauth/token/accessible-resources, selects the unique Jira-scoped resource matching the exact tenant URL, then uses that gateway route. Never infer token type or select the first accessible site. OAuth access tokens are existing env references; this release does not implement OAuth login/refresh. Credential origins are only the configured tenant or the fixed official gateway for the selected route; issue links always retain the tenant site. cloudId/auth/profile/query changes invalidate cursors and cached scope.",
+    "Jira CLI and stdio MCP execute locally in the panel helper in this release; execution.machine must be null and a remote value is a setup error, never local fallback. Repo execution machine is independent and can be remote. A remote integration may expose explicitly configured HTTPS MCP; no local backend path is assumed present on a server. Existing agent MCP configuration requires explicit server/tool/profile selection, not automatic process sharing.",
+    "GitHub Projects mapping uses stable fieldId and option IDs grouped into todo/inProgress/done; setup fetches field/options and saves explicit selection. Unknown/unmapped or multiply mapped option is an actionable configuration error. Without any status mapping, closed is Done and open is To do with an explicit unmapped-progress explanation.",
+    "GitHub PullRequest v1 and PRActionRequest v1 are defined once by TASK044 in .ulpi/plans/mission-control-github.json, including author, explicit ref availability, independent discussion access and action-specific task mapping. That owning contract is canonical; this plan does not duplicate or redefine the PR schema. The layout consumes the GitHub mod views; unrelated mods do not acquire a runtime dependency on its model.",
+    "All Node tests that import GPUI modules use node --import ./tests/support/native-loader.mjs --test <owned test>. TASK-078 supplies a strict recording tree/action seam, not a real renderer. Actual UI proof requires TASK-077 PID-bound native input plus before/after status/frame assertions; structural commands alone never prove a click.",
+    "Usage/history source access implements the already-requested features: read-only documented standard provider session roots on their own host, with source settings and exact path disclosures, no extra permission prompt. Extra roots/legacy cache paths are explicitly configured. Disable/change cancels publication, clears related bindings/caches and stops subsequent reads. No auth files, credential copying or automatic hook rewrites.",
+    "Launch source.id is stable provider identity; source.key is the visible naming snapshot. Issue mappings copy identity.id separately from key. GitHub PR canonical owner/repo#number identity, immutable captured checkout and action task mapping are owned by TASK044 in .ulpi/plans/mission-control-github.json. Existing source/path/ref snapshots stay immutable for acknowledged requests; unsafe or occupied fresh worktree targets remain errors."
+  ],
+  "existingCodeLeverage": [
+    {
+      "file": "AGENTS.md",
+      "use": "Existing repository guidance; preserve this file unchanged.",
+      "classification": "inspected reference"
+    },
+    {
+      "file": "DESIGN-NOTES.md",
+      "use": "Accepted requirements and explicit packaging / planning instructions.",
+      "classification": "inspected reference"
+    },
+    {
+      "file": "work/mission-control-two-views.html",
+      "use": "Visual / interaction reference only; no HTML is used by the native runtime.",
+      "classification": "inspected reference"
+    },
+    {
+      "file": "/Users/ciprian/.config/herdr-app/AGENTS.md",
+      "use": "Installed Herdr rules, read on 2026-10-30, including sharing / recipe requirements at lines 403-457.",
+      "classification": "inspected reference"
+    },
+    {
+      "file": "/Users/ciprian/.config/herdr-app/herdr.d.ts",
+      "use": "Installed API truth: exec, knownAgents, readTextFile, writeTextFile, spaces, agents, layout and overlay commands.",
+      "classification": "inspected reference"
+    },
+    {
+      "file": "/Users/ciprian/.config/herdr-app/mods/tabs/main.js",
+      "use": "External installed implementation inspected for tab semantics; do not import or read another mod at runtime.",
+      "classification": "inspected reference"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "TASK-032",
+      "title": "Implement the private read-only tracker helper transport",
+      "description": "REOPENED after the Jira auth contract revision: modify the existing transport and tests, replace the old completion evidence, and keep dependent TASK-034 blocked until this task passes again. Own a Node helper request envelope {v:1,operation:\"issues\"|\"pulls\"|\"probe\",connection,binding,cursor?} and result Snapshot/error. GPUI invokes only its own bundled backend.mjs through exec node; backend resolves approved credentialEnv references in memory and applies HTTPS origin, redirect, timeout, output-size and redaction policy. No plaintext tokens in request args/shared state. Backend command schemas reject wrong-shape input before side effects. Validate the exact discriminated JiraConnection v1 contract. Local Node helper owns API Basic/Bearer and MCP HTTP auth resolution; CLI/stdio execution.machine must be null. Never interpret the repo execution machine as the tracker helper location. Accept optional API cloudId UUID and both Basic/Bearer MCP HTTP auth. Export one credentialHeaders(auth, env) resolver shared by API and MCP; reject literal credentials and malformed cloud IDs before any network effect.",
+      "type": "feature",
+      "priority": "P1",
+      "effort": "L",
+      "agent": "nodejs-cli-senior-engineer",
+      "dependsOn": [
+        "TASK-001",
+        "TASK-003"
+      ],
+      "acceptanceCriteria": [
+        "Two connection profiles resolve Basic/Bearer credentials in helper memory without changing global CLI login; scoped cloudId and MCP Basic/Bearer unions validate, malformed cloud IDs and literal credentials fail before effects, and only the selected allowed origin receives authorization.",
+        "Wrong operation/shape, cross-origin redirect or token-like error output is rejected/redacted and no success snapshot is emitted."
+      ],
+      "filesToModify": [
+        "src/shared/tracker-transport.mjs",
+        "tests/tracker-transport.test.mjs"
+      ],
+      "filesToCreate": [],
+      "writeScope": [
+        {
+          "file": "src/shared/tracker-transport.mjs",
+          "role": "Read-only helper protocol, credential env resolution, origin allowlist, bounded HTTP and standardized redacted failures."
+        },
+        {
+          "file": "tests/tracker-transport.test.mjs",
+          "role": "Local HTTPS/test-server integration for auth isolation, malicious redirect, timeout, huge payload and redaction."
+        }
+      ],
+      "validateCommand": "node --test tests/tracker-transport.test.mjs",
+      "review": "codex"
+    },
+    {
+      "id": "TASK-033",
+      "title": "Define tracker configuration and board normalization",
+      "description": "REOPENED after the Jira auth contract revision: preserve existing board/model behavior, validate route/account fingerprint invalidation, replace the old completion evidence, and keep dependent TASK-034 blocked until this task passes again. Own Issue v1 validation, workflow groups, repo binding selection, All spaces identity and cached-snapshot rules. Jira connection schema includes HTTPS site, API/CLI/MCP adapter, project or validated JQL, explicit account reference and mapping/tool configuration. Integration setup edits only this repo binding and reusable connection records through shared config. Configure API Basic usernameEnv/tokenEnv or Bearer tokenEnv, local CLI/MCP-stdio or HTTPS MCP transport using the pinned schema; remote CLI/stdio machine values are a visible unsupported setup error. Include cloudId and all auth environment-reference names in the stable scope fingerprint so route/account changes clear cards and reject old cursors.",
+      "type": "feature",
+      "priority": "P1",
+      "effort": "L",
+      "agent": "general-purpose",
+      "dependsOn": [
+        "TASK-003"
+      ],
+      "acceptanceCriteria": [
+        "To do/In progress/Done groups use actual normalized source status and include completed items; aggregation preserves repo/machine/account identity.",
+        "A source/account/cloudId/auth-reference switch clears old-scope cards before loading; stale tickets and invalid status/URL/binding data fail validation rather than becoming plausible cards."
+      ],
+      "filesToModify": [
+        "src/shared/tracker-model.js",
+        "tests/tracker-model.test.mjs"
+      ],
+      "filesToCreate": [],
+      "writeScope": [
+        {
+          "file": "src/shared/tracker-model.js",
+          "role": "Shared issue/config/status/snapshot model consumed by Jira and GitHub views."
+        },
+        {
+          "file": "tests/tracker-model.test.mjs",
+          "role": "Duplicate issue IDs across sites/repos, done groups, invalid URLs/mappings and account switches."
+        }
+      ],
+      "validateCommand": "node --test tests/tracker-model.test.mjs",
+      "review": "codex"
+    },
+    {
+      "id": "TASK-034",
+      "title": "Fetch Jira Cloud issues with pagination and real status categories",
+      "description": "Implement GET /rest/api/3/search/jql with 50 issues per page and explicit fields summary,description,status,priority,updated,project. A complete configured JQL takes precedence over project-only JQL; never append clauses after its ORDER BY. Implement all three pinned Jira API routing modes, exact accessible-resources tenant/Jira-scope selection and explicit-cloudId serverInfo tenant verification. Bound the entire refresh deadline, page count and cumulative issue count (1000); scope-bound opaque continuation cursors carry token, seen-token hashes, cumulative count and issuedAt, reject repeated/cross-scope tokens and expire no later than seven days. Validate optional isLast/nextPageToken metadata; contradictory metadata fails, missing completeness or experimental warnings yields a truthful truncated/error state. Normalize actual statusCategory new/indeterminate/done, rejecting unknown categories, and bounded ADF plain task text including links without fetching them. Build issue links from the configured tenant, retain stable issue IDs separately from visible keys, and normalize actual priority/timestamp. Snapshot caching and same-scope stale retention belong to TASK-037, not this adapter. Never assume Jira development info is a PR provider. Export a read-only API setup probe using the same route resolver; it checks serverInfo.baseUrl for both classic and gateway routes without requiring a project/JQL issue read.",
+      "type": "feature",
+      "priority": "P1",
+      "effort": "L",
+      "agent": "nodejs-cli-senior-engineer",
+      "dependsOn": [
+        "TASK-032",
+        "TASK-033"
+      ],
+      "acceptanceCriteria": [
+        "Local TLS fixtures cover all three auth routes (classic Basic, explicit cloudId Basic/Bearer, discovered OAuth Bearer), exact tenant selection and site mismatch rejection; only the selected tenant/fixed gateway receives auth. Scoped/gateway tests inject trusted transport routing solely into the owned TLS fixture, never the live service. A serverInfo baseUrl different from displayUrl verifies the canonical tenant only; custom display-domain input fails with canonical-site setup guidance.",
+        "Multiple pages preserve todo/inProgress/done, stable identity, bounded ADF and tenant /browse/WEB-142 links; cap, warnings, missing or contradictory completeness, repeated/expired/cross-query/account/cloudId cursors are tested and cannot claim complete data.",
+        "Auth/rate-limit/timeout and unknown-category errors retain only redacted static guidance plus safe retry metadata; no mutation, global auth switch or upstream text reflection occurs."
+      ],
+      "filesToModify": [],
+      "filesToCreate": [
+        "src/mods/mission-control-jira/api.mjs",
+        "tests/jira-api.test.mjs"
+      ],
+      "writeScope": [
+        {
+          "file": "src/mods/mission-control-jira/api.mjs",
+          "role": "Direct read-only Jira Cloud adapter using shared transport and schema."
+        },
+        {
+          "file": "tests/jira-api.test.mjs",
+          "role": "HTTP fixture integration: nextPageToken, done issues, ADF, 401/403/429, same key on two sites and status categories."
+        }
+      ],
+      "validateCommand": "node --test tests/jira-api.test.mjs",
+      "review": "codex"
+    },
+    {
+      "id": "TASK-035",
+      "title": "Support explicit installed Jira CLI adapter profiles",
+      "description": "Provide an argv-only command adapter with profile-declared command/args templates and JSON result paths/status mapping. Resolve the installed command locally on the configured integration host; map binding/project/query/cursor as data arguments. Unknown vendor CLIs need a declared JSON bridge configuration instead of guessed flags; never discover credentials by dumping agent settings. For this release the integration host is local only (execution.machine:null); reject a remote value before spawn and explain HTTPS MCP/local bridge alternatives. Work on fetched issues may still execute on any repo machine.",
+      "type": "feature",
+      "priority": "P1",
+      "effort": "L",
+      "agent": "nodejs-cli-senior-engineer",
+      "dependsOn": [
+        "TASK-032",
+        "TASK-033"
+      ],
+      "acceptanceCriteria": [
+        "A configured CLI returns normalized issues for its selected repo project/account with direct issue URLs and status groups.",
+        "Shell metacharacters in JQL/title cannot execute; missing CLI or non-JSON/unmapped output returns setup/error without inventing issues."
+      ],
+      "filesToModify": [],
+      "filesToCreate": [
+        "src/mods/mission-control-jira/cli.mjs",
+        "tests/jira-cli.test.mjs"
+      ],
+      "writeScope": [
+        {
+          "file": "src/mods/mission-control-jira/cli.mjs",
+          "role": "CLI protocol adapter and configuration validation."
+        },
+        {
+          "file": "tests/jira-cli.test.mjs",
+          "role": "A real temporary CLI fixture tests argv boundaries, pagination/mappings, nonzero exit, malformed JSON and account isolation."
+        }
+      ],
+      "validateCommand": "node --test tests/jira-cli.test.mjs",
+      "review": "codex"
+    },
+    {
+      "id": "TASK-036",
+      "title": "Support explicit read-only Jira MCP profiles",
+      "description": "Use the official MCP SDK Client for stdio and streamable HTTP. Connect only to a user-selected configured server, discover tools, validate a declared read-only issue-search tool and argument/result mapping, then normalize to Issue v1. No automatic assumption that another coding agent shares its MCP process/auth/session. Track disconnect, pagination, timeout and tool-returned errors. Stdio server executes locally with environment values resolved from envRefs in helper memory; HTTP endpoint and Jira site have separate explicit allowlisted origins, and optional Basic/Bearer auth is resolved through credentialHeaders and sent only to its endpoint. Atlassian API-token MCP profiles may include explicit cloudId as a literal declared tool argument; do not guess tenant IDs or share another agent's OAuth session. Remote stdio execution is unsupported and never auto-falls back.",
+      "type": "feature",
+      "priority": "P1",
+      "effort": "L",
+      "agent": "nodejs-cli-senior-engineer",
+      "dependsOn": [
+        "TASK-032",
+        "TASK-033"
+      ],
+      "acceptanceCriteria": [
+        "A configured MCP search produces all three source status groups and preserves Jira site/account/project scope.",
+        "A missing/changed tool, mutation-only server, cross-origin redirect or expired Basic/Bearer auth fails with setup/reconnect guidance; tests prove auth isolation and no unrelated MCP tool invocation."
+      ],
+      "filesToModify": [],
+      "filesToCreate": [
+        "src/mods/mission-control-jira/mcp.mjs",
+        "tests/jira-mcp.test.mjs"
+      ],
+      "writeScope": [
+        {
+          "file": "src/mods/mission-control-jira/mcp.mjs",
+          "role": "SDK-based client adapter and explicit read-only tool allowlist/mapping."
+        },
+        {
+          "file": "tests/jira-mcp.test.mjs",
+          "role": "Real local SDK test server for stdio/HTTP sessions, tool schemas, pagination, tool errors and credential-origin checks."
+        }
+      ],
+      "validateCommand": "node --test tests/jira-mcp.test.mjs",
+      "review": "codex"
+    },
+    {
+      "id": "TASK-037",
+      "title": "Wire adapter dispatch and repo integration setup",
+      "description": "Own the Jira helper entrypoint and native async bridge. Route selected connection.kind to exactly one API/CLI/MCP adapter; validate binding, requested scope/cursor and snapshot before caching. Provide repo setup view model to select an existing connection or configure an explicit profile. Read-only credentials remain helper-local. Setup models expose optional API cloudId with explicit classic/scoped/OAuth route explanation and MCP HTTP Basic/Bearer environment references; reject mismatched route/schema before saving. Probe uses the same selected routing rules as reads. Label site as the canonical Jira base URL from serverInfo.baseUrl; custom displayUrl mismatch yields canonical-URL guidance, never silent config replacement. Before persisting a new API profile, probe its selected classic/gateway route and validate canonical baseUrl; a mismatch or failed probe preserves prior config and returns canonical-site guidance. MCP setup probes its selected MCP endpoint and does not send its credentials to the REST API.",
+      "type": "feature",
+      "priority": "P1",
+      "effort": "L",
+      "agent": "nodejs-cli-senior-engineer",
+      "dependsOn": [
+        "TASK-034",
+        "TASK-035",
+        "TASK-036",
+        "TASK-002"
+      ],
+      "acceptanceCriteria": [
+        "Saved per-space connection/project loads via its chosen real adapter and All spaces retains each binding; manual and 60s refresh share one in-flight request/scope.",
+        "Changing selection during a slow response cannot show previous-account cards; helper failure has a redacted actionable error and no fake fallback data. API profile save requires the selected-route canonical-site probe; a distinct custom displayUrl, mismatch or failed probe cannot overwrite the prior config."
+      ],
+      "filesToModify": [],
+      "filesToCreate": [
+        "src/mods/mission-control-jira/backend.mjs",
+        "src/mods/mission-control-jira/data.js",
+        "tests/jira-backend.test.mjs"
+      ],
+      "writeScope": [
+        {
+          "file": "src/mods/mission-control-jira/backend.mjs",
+          "role": "Executable JSON-envelope dispatcher bundled as own backend.mjs."
+        },
+        {
+          "file": "src/mods/mission-control-jira/data.js",
+          "role": "GPUI helper invocation, per-binding cache/refresh/cancel and setup model."
+        },
+        {
+          "file": "tests/jira-backend.test.mjs",
+          "role": "Real subprocess end-to-end through each fixture adapter; wrong host/site and overlapping refresh tests."
+        }
+      ],
+      "validateCommand": "node --test tests/jira-backend.test.mjs",
+      "review": "codex",
+      "generatedArtifacts": [
+        "mission-control-jira/mods/mission-control-jira/backend.mjs"
+      ]
+    },
+    {
+      "id": "TASK-038",
+      "title": "Build the shared compact native issue board",
+      "description": "Create a GPUI board component with To do/In progress/Done, compact cards, direct key/title links, priority/status metadata and up to three pinned installed-tool icon actions. Render scope/search/refresh/setup affordances; active source tab is its heading, no repeated Jira/GitHub content heading. At narrow panel width use compact vertically stacked groups or horizontal board scrolling, never long stretched rows. Include a status-group filter (All/To do/In progress/Done) independent of text search, preserving a clear active filter and result count.",
+      "type": "feature",
+      "priority": "P1",
+      "effort": "L",
+      "agent": "general-purpose",
+      "dependsOn": [
+        "TASK-033",
+        "TASK-016",
+        "TASK-004",
+        "TASK-078"
+      ],
+      "acceptanceCriteria": [
+        "Cards expose real tracker links and one-click starts for the saved installed pins; options remain compact and separate. Status filters and text search compose without modifying source status or losing Done.",
+        "Clicking launch does not open the issue link or setup dialog; done/empty/unavailable columns stay explicit and invalid URLs cannot open."
+      ],
+      "filesToModify": [],
+      "filesToCreate": [
+        "src/shared/issue-board.js",
+        "tests/issue-board.test.mjs"
+      ],
+      "writeScope": [
+        {
+          "file": "src/shared/issue-board.js",
+          "role": "Reusable native board/cards and scoped launch event contract, bundled into each issue mod."
+        },
+        {
+          "file": "tests/issue-board.test.mjs",
+          "role": "Group/card/link/pin action contracts, three pins, narrow mode, empty and stale states."
+        }
+      ],
+      "validateCommand": "node --import ./tests/support/native-loader.mjs --test tests/issue-board.test.mjs",
+      "review": "codex"
+    },
+    {
+      "id": "TASK-039",
+      "title": "Register one Jira mod with panel, setup and launch roles",
+      "description": "Wire the single GPUI mod entry to the board, helper data, private setup, same-mod launch/settings props and shared launch service. Use active repo or props-bound repo; All spaces cards capture their own binding rather than whichever repo is selected later. Issue starts use saved worktree/pins and issue body as task data. Map Issue.identity.id and Issue.key to separate LaunchRequest.source.id/key fields. Use TASK-020 src/shared/space-repo.js for current-space/setup scope before resolveBinding; ambiguous/unbound states require a repo choice. All-spaces cards keep their captured RepoBinding and must never be re-resolved against a subsequently active space. Current-space cards capture checkoutRoot from the live resolved worktree separately from canonical RepoBinding.repoRoot; All-spaces cards retain that captured root or explicitly default checkoutRoot to their canonical repoRoot. Tests must distinguish live current-checkout selection from immutable All-spaces routing across later selection changes. Private setup renders API cloudId and Basic/Bearer credential-reference inputs plus the resolved route description. MCP HTTP setup supports both Basic and Bearer and declared literal cloudId tool arguments. Never show or store token values; changing cloudId/profile clears old-scope cards immediately. The site input explicitly asks for canonical Jira base URL; tests cover a distinct custom displayUrl and actionable mismatch guidance.",
+      "type": "feature",
+      "priority": "P1",
+      "effort": "L",
+      "agent": "general-purpose",
+      "dependsOn": [
+        "TASK-037",
+        "TASK-038",
+        "TASK-015",
+        "TASK-002",
+        "TASK-078",
+        "TASK-020"
+      ],
+      "acceptanceCriteria": [
+        "Jira standalone works as docked panel or overlay; its own launch dialog is part of the same mod and default clicks start the chosen installed tool in <space>-<issue-id>.",
+        "A repeat start focuses existing same-tool work; a conflicting different-tool launch/offline host cannot create unsafe work or silently switch spaces/accounts. Tests cover saving API cloudId and MCP Basic env references, invalid route input, no plaintext token state and stale-card clearing."
+      ],
+      "filesToModify": [],
+      "filesToCreate": [
+        "src/mods/mission-control-jira/main.js",
+        "src/mods/mission-control-jira/mod.json",
+        "tests/jira.test.mjs"
+      ],
+      "writeScope": [
+        {
+          "file": "src/mods/mission-control-jira/main.js",
+          "role": "Native View for board/setup/launch roles, lifecycle, links and one-click dispatch."
+        },
+        {
+          "file": "src/mods/mission-control-jira/mod.json",
+          "role": "Single Jira runtime manifest with panel placement and refresh command."
+        },
+        {
+          "file": "tests/jira.test.mjs",
+          "role": "UI-to-adapter-to-launch contract, clicked issue scope, options role and no duplicate heading."
+        }
+      ],
+      "validateCommand": "node --import ./tests/support/native-loader.mjs --test tests/jira.test.mjs && node scripts/project.mjs check mission-control-jira",
+      "review": "codex",
+      "generatedArtifacts": [
+        "mission-control-jira/mods/mission-control-jira/main.js",
+        "mission-control-jira/mods/mission-control-jira/mod.json",
+        "mission-control-jira/mods/mission-control-jira/assets/*.svg"
+      ]
+    },
+    {
+      "id": "TASK-040",
+      "title": "Prove jira in an isolated native window",
+      "description": "Mount only Jira with its own helpers. Configure two fixture sites/accounts/projects, click real fixture links, verify all three workflow groups and Claude/Codex/Grok pins where installed. Exercise one-click launch, worktree, repeat focus, settings pin change, API/CLI/MCP errors and All spaces routing. Authenticated live Jira is an additional explicit gate only if a configured account exists; fixture proof is labeled as such. Click the status filters and verify counts/groups/search combinations using the native input driver. Include native setup interactions for cloudId and MCP Basic credential references; authenticated tenant access is still a separate explicitly labelled gate. Export only explicit synthetic fixtureEnvironment for the TASK005 private runtime instead of mutating ambient process.env. The GitHub core-free preflight supplies that export to its own child environment explicitly. Preserve all current scenario assertions and exact preview/source-hash gates. Use the exact plain-record FixtureEnvironment ABI owned by TASK005, no aliases of ambient credentials. Import must leave parent process.env unchanged, and children get only the ordinary allowlist plus explicit synthetic entries and immutable private selectors.",
+      "type": "test",
+      "priority": "P1",
+      "effort": "L",
+      "agent": "general-purpose",
+      "dependsOn": [
+        "TASK-039",
+        "TASK-005"
+      ],
+      "acceptanceCriteria": [
+        "A standalone install containing only this mod passes herdr-app check and the mounted scenario; capture its actual rendered preview with zero app errors.",
+        "A missing capability / empty-state scenario is exercised; no generated success receipt or screenshot is accepted when an assertion or isolation proof fails."
+      ],
+      "filesToModify": [
+        "tests/native/jira.mjs",
+        "evidence/native/jira.json"
+      ],
+      "filesToCreate": [],
+      "writeScope": [
+        {
+          "file": "tests/native/jira.mjs",
+          "role": "Native scenario, uses the shared harness and asserts actual UI / command outcomes."
+        },
+        {
+          "file": "evidence/native/jira.json",
+          "role": "Machine-readable commands, outcomes, isolation identities, errors and screenshot hashes; generated evidence, no private content."
+        }
+      ],
+      "validateCommand": "node scripts/native-harness.mjs run jira",
+      "review": "codex",
+      "generatedArtifacts": [
+        "mission-control-jira/preview.png"
+      ]
+    },
+    {
+      "id": "TASK-041",
+      "title": "Package jira as a standalone Herdr mod",
+      "description": "Write the six-part reconstruction brief from the finished files. Validate the package in a fresh folder with no other custom mod installed; include access / program / network disclosures and applicable attribution.",
+      "type": "docs",
+      "priority": "P1",
+      "effort": "L",
+      "agent": "general-purpose",
+      "dependsOn": [
+        "TASK-040"
+      ],
+      "acceptanceCriteria": [
+        "Copying only mods/mission-control-jira/ is sufficient; no sibling mod code or repository path is read at runtime.",
+        "The exact preview hash matches the passed native receipt; missing recipe, fake/absent preview or any layouts/ folder fails package validation."
+      ],
+      "filesToModify": [],
+      "filesToCreate": [
+        "mission-control-jira/RECIPE.md",
+        "tests/package-jira.test.mjs",
+        "mission-control-jira/preview.png"
+      ],
+      "writeScope": [
+        {
+          "file": "mission-control-jira/RECIPE.md",
+          "role": "Recipe in Herdr order: summary + preview, What you see, How it behaves, Built from, Watch out, Done when."
+        },
+        {
+          "file": "tests/package-jira.test.mjs",
+          "role": "Asserts self-contained runtime imports, own assets/helpers, recipe sections and absence of layouts/."
+        },
+        {
+          "file": "mission-control-jira/preview.png",
+          "role": "Actual native frame from the preceding scenario, not a browser mock or generated illustration."
+        }
+      ],
+      "validateCommand": "node scripts/project.mjs build mission-control-jira && node --test tests/package-jira.test.mjs",
+      "review": "codex",
+      "generatedArtifacts": [
+        "mission-control-jira/mods/mission-control-jira/main.js",
+        "mission-control-jira/mods/mission-control-jira/mod.json",
+        "mission-control-jira/mods/mission-control-jira/assets/*.svg"
+      ]
+    }
+  ],
+  "failureModes": [
+    [
+      "Invalid / outdated config",
+      "Keep the original bytes, display the validation error and edit/retry; never reset silently."
+    ],
+    [
+      "Offline host / missing executable / timeout",
+      "Keep correctly scoped timestamped data, disable only the affected action, show host and retry; never execute locally as fallback."
+    ],
+    [
+      "Partial install / package collision",
+      "Refuse overwrites, retain the previous layout and owned-file receipt; rollback removes only newly installed matching-hash files."
+    ],
+    [
+      "Wrong account or malformed provider output",
+      "Reject the response, redact error details and clear wrong-scope data. Authentication never switches global CLI state."
+    ],
+    [
+      "Jira query pagination / status mapping drift",
+      "Reject unknown mappings, preserve last same-scope snapshot with age, expose setup and bounded Load more instead of silently dropping Done."
+    ],
+    [
+      "Task-local assertion / native check failure",
+      "Do not advance dependent tasks, install or publish. Fix within the task scope, rerun its scoped validation and refresh any invalidated consumer evidence."
+    ],
+    [
+      "Jira scoped token, wrong cloudId, OAuth resource ambiguity or MCP Basic auth",
+      "Expose the correct route and env-reference fields; validate cloudId/site through serverInfo, discover only the exact Jira-scoped OAuth resource, reject ambiguity before issue publication, and send Basic/Bearer only to the selected endpoint. No token-type guessing or global login changes."
+    ]
+  ],
+  "shipCut": "Do not publish or install a partially working package. A checked, self-contained standalone mod may ship after its own native evidence, recipe and real preview; the layout waits for all mandatory mod plans.",
+  "testCoverageMap": [
+    {
+      "task": "TASK-032",
+      "paths": [
+        "src/shared/tracker-transport.mjs",
+        "tests/tracker-transport.test.mjs"
+      ],
+      "type": "subprocess / network integration",
+      "command": "node --test tests/tracker-transport.test.mjs"
+    },
+    {
+      "task": "TASK-033",
+      "paths": [
+        "src/shared/tracker-model.js",
+        "tests/tracker-model.test.mjs"
+      ],
+      "type": "unit / contract plus native gate",
+      "command": "node --test tests/tracker-model.test.mjs"
+    },
+    {
+      "task": "TASK-034",
+      "paths": [
+        "src/mods/mission-control-jira/api.mjs",
+        "tests/jira-api.test.mjs"
+      ],
+      "type": "subprocess / network integration",
+      "command": "node --test tests/jira-api.test.mjs"
+    },
+    {
+      "task": "TASK-035",
+      "paths": [
+        "src/mods/mission-control-jira/cli.mjs",
+        "tests/jira-cli.test.mjs"
+      ],
+      "type": "subprocess / network integration",
+      "command": "node --test tests/jira-cli.test.mjs"
+    },
+    {
+      "task": "TASK-036",
+      "paths": [
+        "src/mods/mission-control-jira/mcp.mjs",
+        "tests/jira-mcp.test.mjs"
+      ],
+      "type": "subprocess / network integration",
+      "command": "node --test tests/jira-mcp.test.mjs"
+    },
+    {
+      "task": "TASK-037",
+      "paths": [
+        "src/mods/mission-control-jira/backend.mjs",
+        "src/mods/mission-control-jira/data.js",
+        "tests/jira-backend.test.mjs"
+      ],
+      "type": "subprocess / network integration",
+      "command": "node --test tests/jira-backend.test.mjs"
+    },
+    {
+      "task": "TASK-038",
+      "paths": [
+        "src/shared/issue-board.js",
+        "tests/issue-board.test.mjs"
+      ],
+      "type": "unit / contract plus native gate",
+      "command": "node --import ./tests/support/native-loader.mjs --test tests/issue-board.test.mjs"
+    },
+    {
+      "task": "TASK-039",
+      "paths": [
+        "src/mods/mission-control-jira/main.js",
+        "src/mods/mission-control-jira/mod.json",
+        "tests/jira.test.mjs"
+      ],
+      "type": "unit / contract plus native gate",
+      "command": "node --import ./tests/support/native-loader.mjs --test tests/jira.test.mjs && node scripts/project.mjs check mission-control-jira"
+    },
+    {
+      "task": "TASK-040",
+      "paths": [
+        "tests/native/jira.mjs",
+        "evidence/native/jira.json"
+      ],
+      "type": "mounted native integration",
+      "command": "node scripts/native-harness.mjs run jira"
+    },
+    {
+      "task": "TASK-041",
+      "paths": [
+        "mission-control-jira/RECIPE.md",
+        "tests/package-jira.test.mjs",
+        "mission-control-jira/preview.png"
+      ],
+      "type": "artifact / package validation",
+      "command": "node scripts/project.mjs build mission-control-jira && node --test tests/package-jira.test.mjs"
+    }
+  ],
+  "dependencies": {
+    "TASK-032": [
+      "TASK-001",
+      "TASK-003"
+    ],
+    "TASK-033": [
+      "TASK-003"
+    ],
+    "TASK-034": [
+      "TASK-032",
+      "TASK-033"
+    ],
+    "TASK-035": [
+      "TASK-032",
+      "TASK-033"
+    ],
+    "TASK-036": [
+      "TASK-032",
+      "TASK-033"
+    ],
+    "TASK-037": [
+      "TASK-034",
+      "TASK-035",
+      "TASK-036",
+      "TASK-002"
+    ],
+    "TASK-038": [
+      "TASK-033",
+      "TASK-016",
+      "TASK-004",
+      "TASK-078"
+    ],
+    "TASK-039": [
+      "TASK-037",
+      "TASK-038",
+      "TASK-015",
+      "TASK-002",
+      "TASK-078",
+      "TASK-020"
+    ],
+    "TASK-040": [
+      "TASK-039",
+      "TASK-005"
+    ],
+    "TASK-041": [
+      "TASK-040"
+    ]
+  },
+  "externalDependencies": {
+    "TASK-001": {
+      "plan": "mission-control",
+      "json": ".ulpi/plans/mission-control.json",
+      "provides": "Pin the build-only toolchain and publishing exclusions"
+    },
+    "TASK-003": {
+      "plan": "mission-control",
+      "json": ".ulpi/plans/mission-control.json",
+      "provides": "Define private repo/connection settings with CAS persistence"
+    },
+    "TASK-002": {
+      "plan": "mission-control",
+      "json": ".ulpi/plans/mission-control.json",
+      "provides": "Build self-contained native packages"
+    },
+    "TASK-016": {
+      "plan": "mission-control-agent-menu",
+      "json": ".ulpi/plans/mission-control-agent-menu.json",
+      "provides": "Build the shared native tool/worktree launch dialog"
+    },
+    "TASK-004": {
+      "plan": "mission-control",
+      "json": ".ulpi/plans/mission-control.json",
+      "provides": "Create shared GPUI styling and local icon artwork"
+    },
+    "TASK-078": {
+      "plan": "mission-control",
+      "json": ".ulpi/plans/mission-control.json",
+      "provides": "Provide a strict Node test seam for native GPUI modules"
+    },
+    "TASK-015": {
+      "plan": "mission-control-agent-menu",
+      "json": ".ulpi/plans/mission-control-agent-menu.json",
+      "provides": "Implement acknowledged, idempotent task launch and recovery"
+    },
+    "TASK-020": {
+      "plan": "mission-control-spaces",
+      "json": ".ulpi/plans/mission-control-spaces.json",
+      "provides": "Model scalable repo-space navigation"
+    },
+    "TASK-005": {
+      "plan": "mission-control",
+      "json": ".ulpi/plans/mission-control.json",
+      "provides": "Prove an isolated app AND core for native verification"
+    }
+  },
+  "executionSummary": {
+    "taskCount": 10,
+    "localRoots": [
+      "TASK-032",
+      "TASK-033"
+    ],
+    "criticalPath": [
+      "TASK-001",
+      "TASK-003",
+      "TASK-012",
+      "TASK-013",
+      "TASK-071",
+      "TASK-015",
+      "TASK-016",
+      "TASK-038",
+      "TASK-039",
+      "TASK-040",
+      "TASK-041"
+    ],
+    "layers": [
+      {
+        "layer": 3,
+        "tasks": [
+          "TASK-032",
+          "TASK-033"
+        ]
+      },
+      {
+        "layer": 4,
+        "tasks": [
+          "TASK-034",
+          "TASK-035",
+          "TASK-036"
+        ]
+      },
+      {
+        "layer": 5,
+        "tasks": [
+          "TASK-037"
+        ]
+      },
+      {
+        "layer": 8,
+        "tasks": [
+          "TASK-038"
+        ]
+      },
+      {
+        "layer": 9,
+        "tasks": [
+          "TASK-039"
+        ]
+      },
+      {
+        "layer": 10,
+        "tasks": [
+          "TASK-040"
+        ]
+      },
+      {
+        "layer": 11,
+        "tasks": [
+          "TASK-041"
+        ]
+      }
+    ]
+  },
+  "revision": 6
+}

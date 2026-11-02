@@ -1,0 +1,2567 @@
+{
+  "schemaVersion": 1,
+  "goal": "Build, validate, install and publicly publish the reviewed Mission Control packages under Herdr rules",
+  "planReviews": "evidence/reviews/final.json",
+  "completed": {
+    "TASK-001": {
+      "files": [
+        "package.json",
+        "package-lock.json",
+        ".gitignore"
+      ],
+      "validation": "npm ci --cache /private/tmp/mission-control-npm-cache && npm ls --depth=0",
+      "exitCode": 0,
+      "result": "Exact installed dependencies: esbuild 0.28.2 and @modelcontextprotocol/sdk 1.32.2; private/runtime/browser artifacts excluded."
+    },
+    "TASK-002": {
+      "files": [
+        "scripts/project.mjs",
+        "tests/project.test.mjs"
+      ],
+      "validation": "node --test tests/project.test.mjs",
+      "exitCode": 0,
+      "result": "10 fixture/integration tests pass, including failed manifest-commit recovery and excluded crash remnants. Layout SVG materialization now also rejects malformed XML-subset geometry and symlink escape before replacing a bundle."
+    },
+    "TASK-003": {
+      "files": [
+        "src/shared/config.js",
+        "tests/config.test.mjs"
+      ],
+      "validation": "node --test tests/config.test.mjs",
+      "exitCode": 0,
+      "result": "7 real-file/contract tests pass: missing config, repo/machine/account isolation, concurrent CAS edits, malformed-file preservation, credential-reference validation, bounded contention and local private-directory creation."
+    },
+    "TASK-069": {
+      "files": [
+        "src/shared/session-identity.js",
+        "tests/session-identity.test.mjs"
+      ],
+      "validation": "node --test tests/session-identity.test.mjs",
+      "exitCode": 0,
+      "result": "5 tests pass, including observed alphanumeric core addresses (t1b/t1z), exact host/path boundaries, provider/root/profile identity and full terminal generations. The 32-agent native run exposed the numeric-only defect; the shared validator is fixed."
+    },
+    "TASK-004": {
+      "files": [
+        "src/shared/ui.js",
+        "src/assets/icons.json",
+        "tests/ui.test.mjs"
+      ],
+      "validation": "node --import ./tests/support/native-loader.mjs --test tests/ui.test.mjs",
+      "exitCode": 0,
+      "result": "5 tests pass for actual icon-only handlers, tool tint metadata, honest metrics, retained search events and local SVG provenance."
+    },
+    "TASK-012": {
+      "files": [
+        "src/shared/launch-preferences.js",
+        "tests/launch-preferences.test.mjs"
+      ],
+      "validation": "node --test tests/launch-preferences.test.mjs",
+      "exitCode": 0,
+      "result": "3 tests pass for three defaults, saved ordering/hiding, per-host installation and invalid options."
+    },
+    "TASK-013": {
+      "files": [
+        "src/shared/tool-capabilities.js",
+        "tests/tool-capabilities.test.mjs"
+      ],
+      "validation": "node --test tests/tool-capabilities.test.mjs",
+      "exitCode": 0,
+      "result": "5 tests pass, including current installed Claude/Codex/Grok help, foreground Codex, exact resumes and shell-wrapper fallback."
+    },
+    "TASK-014": {
+      "files": [
+        "src/shared/worktrees.js",
+        "tests/worktrees.test.mjs"
+      ],
+      "validation": "node --test tests/worktrees.test.mjs",
+      "exitCode": 0,
+      "result": "5 real-Git tests pass including conditional generic checkoutRoot rejection, validated tracker fallback, linked-current execution/base HEAD and same-common-directory validation."
+    },
+    "TASK-070": {
+      "files": [
+        "src/shared/name-ownership.js",
+        "tests/name-ownership.test.mjs"
+      ],
+      "validation": "node --test tests/name-ownership.test.mjs",
+      "exitCode": 0,
+      "result": "4 real-store tests pass for exact session manual name transfer, unknown history, observer leases and last-moment user rename protection."
+    },
+    "TASK-071": {
+      "files": [
+        "src/shared/session-bindings.js",
+        "tests/session-bindings.test.mjs"
+      ],
+      "validation": "node --test tests/session-bindings.test.mjs",
+      "exitCode": 0,
+      "result": "8 real-store tests pass for durable exact correlation, cross-host/profile/generation rejection, no-ID unknowns, exact argv/PID proofs, TTL recovery, CAS races, deterministic GC, capacity and disable."
+    },
+    "TASK-015": {
+      "files": [
+        "src/shared/launch.js",
+        "tests/launch.test.mjs"
+      ],
+      "validation": "node --test tests/launch.test.mjs",
+      "exitCode": 0,
+      "result": "8 real-Git/journal tests pass including explicit single-profile source selection; no account/root guessing, uncertain creation recovery and binding-only retries."
+    },
+    "TASK-020": {
+      "files": [
+        "src/mods/mission-control-spaces/model.js",
+        "tests/spaces-model.test.mjs",
+        "src/shared/space-repo.js"
+      ],
+      "validation": "node --test tests/spaces-model.test.mjs",
+      "exitCode": 0,
+      "result": "5 tests pass for 128 spaces, shared resolver re-export, real linked-worktree/common binding, focused/conflicting panes, host isolation and explicit validated mounts."
+    },
+    "TASK-016": {
+      "files": [
+        "src/shared/launch-dialog.js",
+        "tests/launch-dialog.test.mjs"
+      ],
+      "validation": "node --import ./tests/support/native-loader.mjs --test tests/launch-dialog.test.mjs",
+      "exitCode": 0,
+      "result": "6 native event-contract tests pass, including snapshotting the originating focused pane before overlay focus/loading."
+    },
+    "TASK-017": {
+      "files": [
+        "src/mods/mission-control-agent-menu/main.js",
+        "src/mods/mission-control-agent-menu/mod.json",
+        "tests/agent-menu.test.mjs"
+      ],
+      "validation": "node --import ./tests/support/native-loader.mjs --test tests/agent-menu.test.mjs + isolated checkPackage",
+      "exitCode": 0,
+      "result": "4 standalone entry/role/shortcut tests and real Herdr native check pass in an isolated app home/core. No mounted feature proof yet."
+    },
+    "TASK-018": {
+      "files": [
+        "tests/native/agent-menu.mjs",
+        "evidence/native/agent-menu.json"
+      ],
+      "validation": "node scripts/native-harness.mjs run agent-menu",
+      "exitCode": 0,
+      "result": "31 actual native assertions pass on the current shared terminal-address validator: local keyboard scope, pins, captured linked checkout, exact durable binding, real-core retry, two independent worktrees and ambiguous/unbound containment. Current manifest/WindowServer captures and private-core cleanup are pinned; the user core ID/PID remained unchanged.",
+      "receipt": "evidence/native/agent-menu.json"
+    },
+    "TASK-021": {
+      "files": [
+        "src/mods/mission-control-spaces/main.js",
+        "src/mods/mission-control-spaces/mod.json",
+        "tests/spaces.test.mjs"
+      ],
+      "validation": "node --import ./tests/support/native-loader.mjs --test tests/spaces.test.mjs + isolated checkPackage",
+      "exitCode": 0,
+      "result": "5 action-contract tests and actual native load check pass; bottom footer commands, captured context, local-only Finder and optional installed Sessions route verified."
+    },
+    "TASK-022": {
+      "files": [
+        "tests/native/spaces.mjs",
+        "evidence/native/spaces.json"
+      ],
+      "validation": "node scripts/native-harness.mjs run spaces",
+      "exitCode": 0,
+      "result": "29 current mounted assertions pass: 128 spaces, 220px sidebar, search/collapse, native footer destinations, clicked-vs-selected launch and Finder, ambiguous/unbound guards, explicit remote mount and actual second-core launch. Only the PID/window-verified private fixture window was repositioned with the public AX API around an unrelated system privacy alert; OS permissions and the user core were unchanged.",
+      "receipt": "evidence/native/spaces.json"
+    },
+    "TASK-024": {
+      "files": [
+        "src/shared/collector.py",
+        "tests/collector_test.py",
+        "src/shared/provider-observation.js"
+      ],
+      "validation": "python3 -m unittest discover -s tests -p collector_test.py",
+      "exitCode": 0,
+      "result": "14 bounded synthetic/cross-language protocol tests pass; full Python suite is 30. Python and JavaScript both reject malformed/out-of-range date fields before native ISO formatting. Exact source scope, DTO union, 50/page, 1000-record index, 4 MiB/10s budgets, symlink/rotation safety and explicit compressed-format unavailability remain covered."
+    },
+    "TASK-072": {
+      "files": [
+        "src/shared/provider_codex.py",
+        "tests/provider_codex_test.py"
+      ],
+      "validation": "python3 -m unittest discover -s tests -p provider_codex_test.py",
+      "exitCode": 0,
+      "result": "6 synthetic parser tests pass. Canonical thread ID remains distinct from shared runtime session ID; copied parent headers and usage are isolated. Only reported windows are used; creation-account identity is never serving-account proof. Real installed compatibility remains TASK-076."
+    },
+    "TASK-073": {
+      "files": [
+        "src/shared/provider_claude.py",
+        "tests/provider_claude_test.py"
+      ],
+      "validation": "python3 -m unittest discover -s tests -p provider_claude_test.py",
+      "exitCode": 0,
+      "result": "6 synthetic parser tests pass. Exact conversation IDs, reported request/cache token counts and explicit legacy statusline maps are parsed without guessed capacities or global account fallback. Quota dates remain per-window; merged-cache context age stays unknown. Real installed compatibility remains TASK-076."
+    },
+    "TASK-074": {
+      "files": [
+        "src/shared/provider_grok.py",
+        "tests/provider_grok_test.py"
+      ],
+      "validation": "python3 -m unittest discover -s tests -p provider_grok_test.py",
+      "exitCode": 0,
+      "result": "4 synthetic parser tests pass. Observed summary.info.id and updates.params.sessionId establish history identity. Cumulative cost/token totals do not imply context or quota ratios; unknown schemas stay unavailable. Real installed compatibility remains TASK-076."
+    },
+    "TASK-025": {
+      "files": [
+        "src/shared/context.js",
+        "tests/context.test.mjs"
+      ],
+      "validation": "node --test tests/context.test.mjs",
+      "exitCode": 0,
+      "result": "5 tests pass. Exact session and whole-envelope validation, reported compaction boundaries versus window estimates, contradictory limits and source age."
+    },
+    "TASK-026": {
+      "files": [
+        "src/shared/quota.js",
+        "tests/quota.test.mjs"
+      ],
+      "validation": "node --test tests/quota.test.mjs",
+      "exitCode": 0,
+      "result": "6 tests pass. Account/pool/profile/host-safe sharing, per-window dates, session-only reports, stale/reset states and actual bounded Python legacy adapter integration."
+    },
+    "TASK-075": {
+      "files": [
+        "src/shared/usage-sources.js",
+        "tests/usage-sources.test.mjs"
+      ],
+      "validation": "node --test tests/usage-sources.test.mjs",
+      "exitCode": 0,
+      "result": "9 lifecycle tests pass, including source disable/root changes, stale-form CAS and malformed-config preservation. A minimal real GPUI reproduction verifies direct async source serialization completes with concurrent discovery; deferred Promise callbacks had lost native effect ownership."
+    },
+    "TASK-027": {
+      "files": [
+        "src/shared/telemetry.js",
+        "tests/telemetry.test.mjs"
+      ],
+      "validation": "node --import ./tests/support/native-loader.mjs --test tests/telemetry.test.mjs",
+      "exitCode": 0,
+      "result": "11 local Python/durable-file and recording-transport tests pass. Direct native-task queues avoid cross-task effect ownership loss. Tool discovery cannot occupy a configured host collector queue. Per-refresh indexed context/account snapshots keep validation out of rendering while exact proof expiry, disable, PID restart and malformed/wrong-scope containment remain enforced. Full native behavior stays TASK-030."
+    },
+    "TASK-028": {
+      "files": [
+        "src/mods/mission-control-agents/model.js",
+        "tests/agents-model.test.mjs"
+      ],
+      "validation": "node --test tests/agents-model.test.mjs",
+      "exitCode": 0,
+      "result": "7 tests pass: stable priority and space grouping, 64 searchable agents, manual/task title hierarchy, qualified host identities, bounded sub-agent traversal/peek and unavailable-vs-estimated metrics. Alphanumeric sub-agent addresses retain their own peek target."
+    },
+    "TASK-076": {
+      "files": [
+        "scripts/provider-compatibility.mjs",
+        "tests/provider-compatibility.test.mjs",
+        "evidence/native/provider-compatibility.json"
+      ],
+      "validation": "node --test tests/provider-compatibility.test.mjs && node scripts/provider-compatibility.mjs verify",
+      "exitCode": 0,
+      "result": "4 anti-fabrication/privacy/opt-out tests and actual installed metadata check pass. Codex 0.166.0, Claude 2.1.314 and Grok 1.0.70 schema observations are verified. No user-side committed bindings exist, so measured active context/quota counts remain zero. Claude/Grok standard files lack reported context windows/account quota; no such support is claimed.",
+      "receipt": "evidence/native/provider-compatibility.json"
+    },
+    "TASK-029": {
+      "files": [
+        "src/mods/mission-control-agents/main.js",
+        "src/mods/mission-control-agents/mod.json",
+        "tests/agents.test.mjs"
+      ],
+      "validation": "node --import ./tests/support/native-loader.mjs --test tests/agents.test.mjs + isolated checkPackage",
+      "exitCode": 0,
+      "result": "8 UI/event/build tests and prior native load check pass. Configured sources and readings initialize independently of advisory tool discovery; source settings retain captured paths and CAS fingerprints. Actual mounted evidence has verified distinct context, quota and parent/child focus, but the full TASK-030 scenario remains pending."
+    },
+    "TASK-030": {
+      "files": [
+        "tests/native/agents.mjs",
+        "evidence/native/agents.json"
+      ],
+      "validation": "node scripts/native-harness.mjs run agents",
+      "exitCode": 0,
+      "result": "111 actual mounted assertions and 61 native input actions pass with 32 disposable fixture agents. Distinct context, proven shared quota, missing/unbound states, parent focus/child peek, actual displayed keyboard ordering, grouping/collapse, source disable during a real collector exec, late-result rejection, kept-process loss and empty state are verified. No native errors or interrupted-render banner; user core identity/PID unchanged. Native terminal status and workspace ordering are respected rather than fixture creation order.",
+      "receipt": "evidence/native/agents.json"
+    },
+    "TASK-033": {
+      "files": [
+        "src/shared/tracker-model.js",
+        "tests/tracker-model.test.mjs"
+      ],
+      "validation": "node --test tests/tracker-model.test.mjs",
+      "exitCode": 0,
+      "tests": 8,
+      "result": "Eight model/real-CAS tests pass, including cloudId and username/token environment-reference scope changes, immediate cloud-scope card clearing and late-ticket rejection; existing source normalization/identity/status/snapshot/CAS behavior remains covered.",
+      "sourceSha256": {
+        "src/shared/tracker-model.js": "6166c7e4ad85b0a1c6220d55573782d23e2f7947c50941f5001b0cf34616e4ac",
+        "tests/tracker-model.test.mjs": "b89c0da3fb9d80ab6ccd7cff8772660328edbec04827cb8634e5b93176d674e1"
+      },
+      "replacesHistoricalCompletion": true
+    },
+    "TASK-034": {
+      "files": [
+        "src/mods/mission-control-jira/api.mjs",
+        "tests/jira-api.test.mjs"
+      ],
+      "validation": "node --test tests/jira-api.test.mjs",
+      "exitCode": 0,
+      "tests": 12,
+      "result": "Twelve owned local TLS/adapter tests pass: classic Basic, explicit cloudId Basic/Bearer and exact-tenant OAuth discovery; canonical baseUrl vs custom displayUrl probes; enhanced JQL pagination/status/ADF; scope/age/repeat/route cursor rejection;1000item/7MiB caps; warnings/unknown completeness; safe auth/rate/timeout errors. Gateway requests are routed by injected trusted test transport to the owned TLS fixture; no live Atlassian credentials or service access.",
+      "sourceSha256": {
+        "src/mods/mission-control-jira/api.mjs": "f0d83c7b2ea5cc3429659c38b3128ac166fa1ede95482c46e7e331d3eaa699b2",
+        "tests/jira-api.test.mjs": "3bab3db731825669c77be6fa1a483eedb9b9c6a440de3d6108e327cd7790533c"
+      }
+    },
+    "TASK-035": {
+      "files": [
+        "src/mods/mission-control-jira/cli.mjs",
+        "tests/jira-cli.test.mjs"
+      ],
+      "validation": "node --test tests/jira-cli.test.mjs",
+      "exitCode": 0,
+      "tests": 9,
+      "result": "Nine real temporary CLI subprocess tests pass: host-independent read-only JSON bridge, whole-argv query data, profile/site isolation, status/path mappings, scoped/expired/repeated cursors, page50/count1000/7MiB output limits, static errors without stderr, timeout/cancellation with exact owned PID exit proof. No actual Jira CLI login or user credential state was changed. Pre-save probe also validates the configured search argument placeholders/schema without issuing a search call; all37 CLI/MCP/backend tests passed before native UI work.",
+      "sourceSha256": {
+        "src/mods/mission-control-jira/cli.mjs": "b0f332b70eae8e667921247bc1e1341d550fc25fc399eb2ea5c66fd534f7ea72",
+        "tests/jira-cli.test.mjs": "2659958333f06681a0d82658b3096a8e84f4f5626bea9d1054265bb596acb750"
+      }
+    },
+    "TASK-037": {
+      "files": [
+        "src/mods/mission-control-jira/data.js",
+        "src/mods/mission-control-jira/main.js",
+        "tests/jira-backend.test.mjs"
+      ],
+      "validation": "node --import ./tests/support/native-loader.mjs --test --test-concurrency=1 tests/*.test.mjs",
+      "tests": 498,
+      "exitCode": 1,
+      "log": ".harness/abandoned-load-full-tests.log",
+      "sourceSha256": {
+        "src/mods/mission-control-jira/data.js": "166abb0bde5e9a438f2bcc22fa99229dd0f93661ff5d52cffbc4d148bc6d8fcb",
+        "src/mods/mission-control-jira/main.js": "726b13634cbc7d08b3726e72541610496188c007f48b9460f69d57184ac4214b",
+        "tests/jira-backend.test.mjs": "19c81da9455a85b26f9fd3c7b5a9401c4de901e3dd33edbe090205c2d81206e7"
+      },
+      "result": "492 of 498 full-suite tests pass, including the new jira abandoned-load regression; the six failures are the pre-existing TASK093 hash pins for earlier compiled packages. The bridge reloads a pending ticket without its live load or older than STALE_LOAD_MS=90000; a 5 s timer retries abandoned loads; helper slots/jobs that an ended continuation can never release expire. main.js received only the recovery timer. Mounted jira revalidation remains TASK093."
+    },
+    "TASK-039": {
+      "files": [
+        "src/mods/mission-control-jira/main.js",
+        "src/mods/mission-control-jira/mod.json",
+        "tests/jira.test.mjs"
+      ],
+      "validation": "node --import ./tests/support/native-loader.mjs --test tests/jira.test.mjs + isolated NativeRuntime.installPackage",
+      "tests": 11,
+      "exitCode": 0,
+      "result": "Eleven real-Git/native-contract tests pass: current live linked checkout, immutable All-space root routing, exact source ID/key, persisted defaults/real new worktree, same-tool retry/different-tool conflict, offline/wrong-root guards, same-mod launch/settings, local direct links, API cloudId and MCP Basic env-reference forms, probe-before-save and stale-draft cancellation. Full standalone build and actual native load check pass; only private processes stopped and user core ID/PID unchanged. Mounted workflow remains TASK040.",
+      "sourceSha256": {
+        "src/mods/mission-control-jira/main.js": "0249bf884808250f846d0bd4fca2fe2b86f13232e81cafff1582640e31420d74",
+        "src/mods/mission-control-jira/mod.json": "a99c1d7490c3aaf53d17697493d18f7c3fc2b9772b1e7ba61ff4906f5a43640e",
+        "tests/jira.test.mjs": "c05b6afe4b14eb9a91f262f413f60ba40b1911ed1d42490c9214f46fa4b6ceba"
+      },
+      "receipt": ".harness/jira-load-check.json"
+    },
+    "TASK-038": {
+      "files": [
+        "src/shared/issue-board.js",
+        "tests/issue-board.test.mjs"
+      ],
+      "validation": "node --import ./tests/support/native-loader.mjs --test tests/issue-board.test.mjs",
+      "tests": 11,
+      "exitCode": 0,
+      "result": "Eleven issue-board contracts and22 combined Jira/board tests pass with native-valid optional child insertion, top-aligned full-height workflow columns and explicit18px title line height. Actual isolated native Jira already proves the three groups and visible issue titles plus composing status/text filters; the complete mounted scenario remains TASK040.",
+      "sourceSha256": {
+        "src/shared/issue-board.js": "7c987a694611d3ef77b7f568233c3a4990d2105f6652d5f2bf489031cf958f49",
+        "tests/issue-board.test.mjs": "076741482346d62c57f897751ba00bd99add27447870c5e13aef3393f85a3173"
+      }
+    },
+    "TASK-079": {
+      "files": [
+        "src/layouts/mission-control.svg",
+        "src/layouts/mission-control-classic.svg",
+        "tests/layout-previews.test.mjs"
+      ],
+      "validation": "node --test tests/project.test.mjs tests/layout-previews.test.mjs",
+      "exitCode": 0,
+      "result": "Both Settings SVGs validate and copy byte-for-byte through a fixture layout bundle. Overview now declares all six source slots, including GitLab issues/MRs; Classic remains terminal-first.12combined project/preview tests pass; invalid SVG/symlink/missing-source rollback still covered. Installed Settings and real layout inclusion remain downstream.",
+      "sourceSha256": {
+        "src/layouts/mission-control.svg": "5923938e9f689e5808779a94c6b4db775533822629639ff7295f3512961a5470",
+        "src/layouts/mission-control-classic.svg": "e78955c0f2c0d02179fee0a7418167ee558e1f19890d0f6eaae141b4f58b85f7",
+        "tests/layout-previews.test.mjs": "ee831d994a3206b83e5326874f602e467c2b9e85a16b70a9db1dde9ac25c674f"
+      }
+    },
+    "TASK-036": {
+      "files": [
+        "src/mods/mission-control-jira/mcp.mjs",
+        "tests/jira-mcp.test.mjs"
+      ],
+      "validation": "node --import ./tests/support/native-loader.mjs --test --test-concurrency=1 tests/*.test.mjs",
+      "exitCode": 0,
+      "tests": 12,
+      "result": "Twelve official-SDK MCP regressions pass, including real stateful HTTP/SSE success, missing selected-tool errors, active connection failure, and stateful/stateless timeout and cancellation. A consumer-cancelled response no longer reports a pending read as a transport failure; only intentional final teardown suppresses transport callbacks. SDK request timeouts retain the static REQUEST_TIMEOUT reason. Seventeen bundled backend tests also pass. Fixture proof only; mounted Jira TASK040 is still open.",
+      "sourceSha256": {
+        "src/mods/mission-control-jira/mcp.mjs": "e546b963403091cab4bfeb47b35a80fb0e6cdb483a671475989dc58decec74f7",
+        "tests/jira-mcp.test.mjs": "0c92364ea0cad0e9a11dae85c60e620b34fd7a677c6e4c61ae636478704c4768"
+      },
+      "logs": [
+        ".harness/stateful-mcp-tests.log",
+        ".harness/stateful-mcp-full-tests.log",
+        ".harness/stateful-mcp-sequential-full-tests.log"
+      ]
+    },
+    "TASK-077": {
+      "files": [
+        "scripts/native-driver.swift",
+        "scripts/native-driver.mjs",
+        "tests/native-driver.test.mjs"
+      ],
+      "validation": "node --test tests/native-driver.test.mjs && node scripts/native-driver.mjs probe",
+      "exitCode": 0,
+      "tests": 6,
+      "result": "Six guard/ownership tests and the current actual native input probe pass. Repeated private socket lookups use Unix selection with numeric names and exact-path/all-owner matching; regular/closed endpoints are explicitly rejected. Unique owner, PID/generation, foreground/window geometry and hit-test guards remain. Actual AX/keyDown/click/right-click/drag/scroll pass at current source hashes. The full detached Herdr Jira scenario remains040.",
+      "receipt": "evidence/native/input-probe.json",
+      "sourceSha256": {
+        "scripts/native-driver.swift": "330ac10d44424fc097ee5139afb65c5268dd0b7c9706623fe69ddeacac00232c",
+        "scripts/native-driver.mjs": "7c1e17f9d8088ed6ddeb76bf2afc6d332d3288236ea2560c99c6a81c8c3536b8",
+        "tests/native-driver.test.mjs": "eee56e3130cf01dd1942edc6b6e2d37645408b315734a21cad1680377bc4ab68"
+      }
+    },
+    "TASK-042": {
+      "files": [
+        "src/mods/mission-control-github/auth.mjs",
+        "tests/github-auth.test.mjs"
+      ],
+      "validation": "node --test tests/github-auth.test.mjs",
+      "tests": 9,
+      "exitCode": 0,
+      "result": "Nine real temporary-gh/TLS tests pass. GitHub profiles use kind github with explicit canonical site/apiBase and exactly one credentialEnv or gh{host,account}. Public, Enterprise Cloud data-residency and Enterprise Server API routes are checked before credential lookup. Concurrent selected accounts read their own fixture repositories; ambient GH token/debug/repo overrides are removed only from copied child env. Explicit host/user flags are verified from installed command help, no-refresh is used when available, unsupported refresh behavior is refused. No global auth switch/login/logout or credential-store write occurs. Headers stay helper-local and non-enumerable; errors are static. Output, deadline, cancellation and owned-process exit are proved, including oversized stderr. Fixtures use the supported25s lookup budget; production default remains8s and an independent5s deadline test proves bounded termination. Source/fixture proof only; no live GitHub credential read, provider access, native UI or package is claimed.",
+      "sourceSha256": {
+        "src/mods/mission-control-github/auth.mjs": "608b182bf14b7451a03fd72fc8000be791418df79e00da7a3c745d2194ae04c5",
+        "tests/github-auth.test.mjs": "a2b99fb79cdbb670f0aa4f6a4603863de4232ce1a9da860c8e01908d70cf9272"
+      },
+      "log": ".harness/github-auth-tests.log",
+      "priorCombinedRecheck": {
+        "tests": 29,
+        "pass": 26,
+        "exitCode": 1,
+        "log": ".harness/github-auth-shared-checks.log",
+        "note": "All20 config/transport/native-driver checks passed; three auth process startup timeout failures were subsequently resolved by the current passing9-test auth run. No source timeout was increased."
+      }
+    },
+    "TASK-032": {
+      "files": [
+        "src/shared/tracker-transport.mjs",
+        "tests/tracker-transport.test.mjs"
+      ],
+      "validation": "node --import ./tests/support/native-loader.mjs --test --test-concurrency=1 tests/*.test.mjs",
+      "tests": 9,
+      "regressionTests": 264,
+      "exitCode": 0,
+      "log": ".harness/github-issues-full-tests.log",
+      "sourceSha256": {
+        "src/shared/tracker-transport.mjs": "9911b1a3c92be3c0600425e1c8ec2b2f5b4619cf14fdef76aa81a09c45ca63f7",
+        "tests/tracker-transport.test.mjs": "ef084589c461b4af19612cb375a36233f0f8bfdc965144de4d38ea843547396e"
+      },
+      "result": "Current full264JS suite passes. Nine HTTP transport contracts retain body-only defaults, bounded opt-in response metadata and zero-redirect policy. Explicit exhausted rate budget stays distinct from ordinary permission denial. INCOMPLETE_RESULTS is provider-neutral; Jira native data retains its own display copy. Header/body limits, credential-origin, cancellation, deadline and redacted failure checks remain green."
+    },
+    "TASK-043": {
+      "files": [
+        "src/mods/mission-control-github/issues.mjs",
+        "tests/github-issues.test.mjs"
+      ],
+      "validation": "node --test tests/github-issues.test.mjs",
+      "tests": 16,
+      "exitCode": 0,
+      "log": ".harness/github-issues-concurrency-tests.log",
+      "sourceSha256": {
+        "src/mods/mission-control-github/issues.mjs": "7dbc13ee84a17d9d0cadc8cc4c1356fc7c96c5881ad43775b2a8d55dfa9b29f7",
+        "tests/github-issues.test.mjs": "d12e9812bdb8ae0fdf79c88a41eb446ab2303cbb2b70ed6f8cf105d4ac1a82e0"
+      },
+      "result": "Sixteen owned HTTPS/GraphQL fixture tests pass. Adds options.concurrency integer1..4/default4; explicit1 proves serialized actual Projects reads, and invalid limits fail before network in both issue fetch and repo probe. Existing all-state/status/link/cursor/permission/count/deadline/cancel cases remain green. Source/fixture proof only; no live GitHub or Herdr access."
+    },
+    "TASK-044": {
+      "files": [
+        "src/mods/mission-control-github/pulls.mjs",
+        "src/mods/mission-control-github/pull-model.js",
+        "tests/github-pulls.test.mjs"
+      ],
+      "validation": "node --test tests/github-pulls.test.mjs",
+      "tests": 16,
+      "regressionValidation": "node --import ./tests/support/native-loader.mjs --test --test-concurrency=1 tests/*.test.mjs",
+      "regressionTests": 282,
+      "exitCode": 0,
+      "log": ".harness/github-pulls-tests.log",
+      "regressionLog": ".harness/github-pulls-full-tests.log",
+      "sourceSha256": {
+        "src/mods/mission-control-github/pulls.mjs": "8cb8841bd1c0c1b1db46ae1852a634d4be5135e96bf7380a7bcaac2a25e25b76",
+        "src/mods/mission-control-github/pull-model.js": "e413e41e480a15bd3bdba91e46504c8f07c233a739c4d84ad52b5defc4ebd6e0",
+        "tests/github-pulls.test.mjs": "e29abc811875c4462adc806b9b8e9d09c73f602dd12d84899d16db840a3e380f"
+      },
+      "schemaAudit": "evidence/reviews/github-pr-schema-audit.json",
+      "result": "Sixteen pure-model/owned HTTPS/GraphQL tests and the full282JS suite pass. The bundled pure model executes without Node/URL/DOM/GPUI globals, with exact author, ref availability, independent review/discussion/check unions, source scope and immutable action/checkout capture. Canonical owner/repo#number IDs distinguish rebound same-number PRs; every action maps to a controlled bounded title/body for the existing universal launch task. REST summaries retain open/closed/merged/draft/authors and defer per-card enrichment. A selected immutable detail uses3read requests, verifies full source identity plus expected head/base refs/SHAs, and independently preserves denied/null/partial metadata. Accessible-fork Review, unavailable/deleted refs, actionable complete threads and actual readable failed checks obey action rules. Linked source URLs are deduplicated associations and never fetched; hostile links, scope/expiry/recreated-repo cursors, pagination, count/byte bounds, malformed records, rate errors, deadline and cancellation pass. Official public schema audit verifies64selected GraphQL fields and25consumed REST properties at this adapter hash; this is offline schema/fixture proof, not live GitHub, native UI, package or actual tab.new delivery proof. TASK047 owns actual task/focus integration; TASK048 owns mounted native proof."
+    },
+    "TASK-046": {
+      "files": [
+        "src/mods/mission-control-github/main.js",
+        "src/mods/mission-control-github/mod.json",
+        "tests/github.test.mjs"
+      ],
+      "validation": "node --import ./tests/support/native-loader.mjs --test tests/github.test.mjs",
+      "tests": 14,
+      "exitCode": 0,
+      "log": ".harness/github-view-tests.log",
+      "regressionValidation": "node --import ./tests/support/native-loader.mjs --test --test-concurrency=1 tests/*.test.mjs",
+      "regressionTests": 311,
+      "regressionLog": ".harness/github-view-full-tests.log",
+      "nativeValidation": "node .harness/check-github-native-load.mjs (checkPackage with verified private env, invoking herdr-app check)",
+      "nativeReceipt": ".harness/github-load-check.json",
+      "sourceSha256": {
+        "src/mods/mission-control-github/main.js": "48c1f25218a065eb4a51d975dad21fb203d5de1f9834b0ce0bc9f5b5903d3f47",
+        "src/mods/mission-control-github/mod.json": "1718dcc6cf19b5f2df49667efe079070ce015ee8a5f7b409b06e76ee3df239b1",
+        "tests/github.test.mjs": "23ad6788096a58ae89e26d55314e5513e3082dba7bf9cd9866ea62a37b2560cd"
+      },
+      "generatedArtifacts": {
+        "assets/agent.svg": "e1b2039d6c2635ffcfddceff99109fb03e8ccb40359aed00fa88a6f3d8ad3eed",
+        "assets/branch.svg": "3e84ff73535eefd357b9709e871d3a0f47b5fd6dbd9966eaad804c88b021def7",
+        "assets/check.svg": "1c80d14e7bbcd7fd3ce3027c7c72d4fc07192ff3fb9b96e86b26d1ab3d7b314e",
+        "assets/chevron-down.svg": "1d2065b24da0cf4b3936203004eb8ef7b15a985a0658426517ad0113c29d0fc8",
+        "assets/chevron-right.svg": "efc8ab93d789d1e04bbd5c062e1560267280b570d6efaa09d2a77e601d64ee5f",
+        "assets/close.svg": "28e7ce6d33be8f07dedad8e80ee59e816b81a0e845f64613e3bb51c357da925b",
+        "assets/external.svg": "e4c8ed502be1e53c147361f58d8776337ab259794054e8f3d1e8fd29722d3195",
+        "assets/folder.svg": "3a46023f1ff23f2112b9e0955ad32690139e8f1c071ccfdbcae8e85295365f66",
+        "assets/github.svg": "b4ababc5c6d3ed662798989f5e1a3c4b819767438997b1e1ca020542b77337bf",
+        "assets/issue.svg": "3d676661dab61f8b1611d3dc6d5c33ec4c311d40e40f755332c8d9f4d5118315",
+        "assets/jira.svg": "2e3db07f926b1f7a2467c0769c23627e8c887f83231e6c46c96ac349e4e0d3a3",
+        "assets/layout.svg": "991e3e3ef8165e8c057236ee43ab157a22d12479251bd3da3710db3837326cfd",
+        "assets/more.svg": "a82bebdebdd8c147ef583c00b87788c4a196e04fce2a5e4a10f0ccbc432fdbe4",
+        "assets/panel.svg": "9c88b7e44f25d82d3f37d069b69167c98a06cf4a6cb7f9da7dc52cc2ca10c187",
+        "assets/pin.svg": "2211c66b64ec8a722b08abf49deac42bba57ec7ca21c72dbf270d28a9b6cb9e6",
+        "assets/plus.svg": "bc30fdf06276287fcef7802da8dd282e9854ea130bbaea9e327dca61914417ca",
+        "assets/priority.svg": "344a528c607fe010fd4013e703eebc5f08306589560e69e237e6e2cca5b5d2f8",
+        "assets/pull-request.svg": "93efcc8c2e7e799df7b597de85ee1e0ae2e7d3fb402bff6d96428afbaf17e7d4",
+        "assets/refresh.svg": "a4ef0613fb0794ae6554ccacbe332a0f7a6bfd346ebe94d209b112796462640a",
+        "assets/search.svg": "73a02b45b12746984a4e5d9689a3ca5578f5d329e4e0b0598bd5139d81c0bdce",
+        "assets/server.svg": "4a6a50b128185781455b2a145fbde0bb57e6deff93830168388a97a1f240e2c8",
+        "assets/sessions.svg": "40c70935bd80015005b85b9b42368e4dfdf44ac6a3392e2f6b7fd18a59159d9d",
+        "assets/settings.svg": "c0d3295d7dc3261c7f6e9e6eb4217b044b834d680215ac1e38f9c1efb11b2dc9",
+        "assets/spaces.svg": "01d3d618b27ef141c8251358657d7533abef2bbc40b447f53728c768fa4a593b",
+        "backend.mjs": "957dc15d7d46980d2705cd4baf63c6d9e426ad1fffc2ef01472ff57807a4f0ca",
+        "main.js": "63993ae21e26393743357b49b696563354ff367d8f2c7e540d602cf0d30ae4be",
+        "mod.json": "0465ac8f0599cf876bd27a29dec75eb3ffea9a1a3713889df29a95116af944ef",
+        "NOTICE.md": "a5a806e0237bd4701502ab14d5ff65939923cc06e93052cd04eb22a87cb1bf8d"
+      },
+      "result": "Fourteen strict native event-contract tests, the full311JS suite, and the actual Herdr one-shot load/render check pass. The standalone issues/default panel role uses the shared compact three-status board, direct validated URLs, three installed tool icons, own-mod launch/options/settings and explicit unmapped-progress guidance without repeating the source heading in layouts. Current-space actions capture the live linked checkout; All-spaces cards retain captured checkouts or explicitly default to the canonical root, preserving origin machine/repo/account across later active-space changes. Disposable real Git proves workspace-plus-GH-key worktrees, focus-only repeat reuse and cross-tool conflicts. Props-bound panels/settings follow their own repository; offline/mismatched targets cannot launch. Setup supports environment references or explicitly selected existing gh accounts, label mapping including commas and Projects discovery with explicit field/option selection. Failed/edited probes preserve configuration/drafts; saved standalone forms preserve their mapping. Changed projects cancel old discovery without blocking a fresh load. Own-dialog shortcut saves signal a versioned preferences event so cards update immediately without refetching tracker scopes. Native check used a private app home/unique session with inherited selectors removed and no existing-instance query. This is source/contract plus load-only evidence, not the mounted interaction proof owned by048, user installation or publication."
+    },
+    "TASK-066": {
+      "files": [
+        "docs/account-profile-capabilities.md",
+        "tests/account-profile-probe.test.mjs"
+      ],
+      "classification": "feasibility-only; outside90required tasks",
+      "validation": "node --test tests/account-profile-probe.test.mjs",
+      "tests": 4,
+      "exitCode": 0,
+      "log": ".harness/account-profile-probes-tests.log",
+      "receipt": ".harness/account-profile-probes.json",
+      "cliProbes": 14,
+      "versions": {
+        "codex": "codex-cli 0.166.0",
+        "claude": "2.1.314 (Claude Code)"
+      },
+      "sourceSha256": {
+        "docs/account-profile-capabilities.md": "9851a560c71052394e616995792bac581a92e33c202c05927b645cb36642e1de",
+        "tests/account-profile-probe.test.mjs": "b6fd47b396785f940e72389092906c83c2d5cdb153f619f4d44639b0c1049985"
+      },
+      "regressionValidation": "node --import ./tests/support/native-loader.mjs --test --test-concurrency=1 tests/*.test.mjs",
+      "regressionTests": 335,
+      "regressionLog": ".harness/accounts-feasibility-full-tests.log",
+      "result": "Official-source matrix distinguishes anonymous A/B profile routing, credential backends and existing-session limits. Installed Codex0.166.0 loads both CODEX_HOME configs; invalid B backend is rejected while A stays anonymous. Claude2.1.314 reports each CLAUDE_CONFIG_DIR and anonymous authMethod. Four tests execute14 bounded help/status probes in a child macOS sandbox denying network, all Mach lookup, security helper execution, existing-home/managed provider configuration reads and writes outside owned roots. Kernel canary, unowned-write and helper-execution denials pass. No login/logout, credential copying, existing auth/config read/hash, paid turn or Herdr request. Claude keyless Console sign-ins are documented as not directory-isolated; Codex OS-store scope is unsupported by this anonymous gate. Authenticated isolation, native launch identity and resume/hot switching remain unproven; the requested separate account mod remains open."
+    },
+    "TASK-005": {
+      "files": [
+        "scripts/native-harness.mjs",
+        "tests/native-harness.test.mjs"
+      ],
+      "validation": "node --test tests/native-harness.test.mjs && node scripts/native-harness.mjs probe",
+      "exitCode": 0,
+      "tests": 29,
+      "receipt": "evidence/native/isolation.json",
+      "result": "29 adversarial/unit/TLS/MCP tests and actual private-only GPUI probe pass. Six native assertions, real PID-bound pointer input, changed WindowServer frames and 35 audited controls; independently verified app/core/holder exit and original root removal. No existing-instance query, global process enumeration or unchanged-user-PID claim. Strict current-V2 and immutable legacy receipt union validate.",
+      "sourceSha256": {
+        "scripts/native-harness.mjs": "8ff087956ff72229fb8867c9da630197aec1e6e6a8d010f3af30254b055f1f60",
+        "tests/native-harness.test.mjs": "bae1db9c67a4e96b3eadb5939fd9805342c28472448d1e2a17f8f9ace2cf23ae"
+      },
+      "logs": [
+        ".harness/private-isolation-v2-unit.log",
+        ".harness/private-isolation-v2-probe.log"
+      ]
+    },
+    "TASK-019": {
+      "files": [
+        "mission-control-agent-menu/RECIPE.md",
+        "tests/package-agent-menu.test.mjs",
+        "mission-control-agent-menu/preview.png"
+      ],
+      "validation": "node scripts/project.mjs build mission-control-agent-menu && node --test tests/package-agent-menu.test.mjs",
+      "exitCode": 0,
+      "result": "Canonical async ownership validator consumes the actual retained immutable legacy receipt path. Both standalone recipe/preview/source/artifact and copied-folder import/asset checks pass. Historical receipt and native preview bytes were preserved; no existing-instance query was made.",
+      "tests": 2,
+      "sourceSha256": {
+        "tests/package-agent-menu.test.mjs": "653c925ac71f0d603b623ea31ee04f2db64a192a4c8133067baf78f521635a7d"
+      }
+    },
+    "TASK-023": {
+      "files": [
+        "mission-control-spaces/RECIPE.md",
+        "tests/package-spaces.test.mjs",
+        "mission-control-spaces/preview.png"
+      ],
+      "validation": "node scripts/project.mjs build mission-control-spaces && node --test tests/package-spaces.test.mjs",
+      "exitCode": 0,
+      "result": "Canonical async ownership validator consumes the actual retained immutable legacy receipt path. Both standalone recipe/preview/source/artifact and copied-folder import/asset checks pass. Historical receipt and native preview bytes were preserved; no existing-instance query was made.",
+      "tests": 2,
+      "sourceSha256": {
+        "tests/package-spaces.test.mjs": "d3ebc8bbea97ce954648891e24b1b05d1d604e7fe5fb065e272b29ddc754695b"
+      }
+    },
+    "TASK-031": {
+      "files": [
+        "mission-control-agents/RECIPE.md",
+        "tests/package-agents.test.mjs",
+        "mission-control-agents/preview.png"
+      ],
+      "validation": "node scripts/project.mjs build mission-control-agents && node --test tests/package-agents.test.mjs",
+      "exitCode": 0,
+      "result": "Canonical async ownership validator consumes the actual retained immutable legacy receipt path. Both standalone recipe/preview/source/artifact and copied-folder import/asset checks pass. Historical receipt and native preview bytes were preserved; no existing-instance query was made.",
+      "tests": 2,
+      "sourceSha256": {
+        "tests/package-agents.test.mjs": "0e388c010431e9a6c7215dc563d7c7e377c7e5c360d9a273060b58fa6d2bd9ef"
+      }
+    },
+    "TASK-040": {
+      "files": [
+        "tests/native/jira.mjs",
+        "evidence/native/jira.json"
+      ],
+      "validation": "node scripts/native-harness.mjs run jira",
+      "exitCode": 0,
+      "receipt": "evidence/native/jira.json",
+      "result": "36 actual mounted assertions and 78 PID-bound native inputs pass. Two synthetic TLS Jira sites/accounts/projects, three workflow groups and filters, three pinned tool actors, real worktrees, repeat focus, All-space account/repo routing, setup validation, MCP Basic environment references, API/CLI/MCP errors and actual issue link opening verified. Zero app errors; ownership-v2 validates all private app/core/holder exits and root removal. Real native preview inspected. No authenticated tenant claim.",
+      "sourceSha256": {
+        "tests/native/jira.mjs": "8e271a03ff8d7d7dd9c72aee41a6008c12b788546e0a66f0fbe774972745a37f"
+      },
+      "log": ".harness/private-isolation-v2-jira.log"
+    },
+    "TASK-041": {
+      "files": [
+        "mission-control-jira/RECIPE.md",
+        "tests/package-jira.test.mjs",
+        "mission-control-jira/preview.png"
+      ],
+      "validation": "node scripts/project.mjs build mission-control-jira && node --test tests/package-jira.test.mjs",
+      "exitCode": 0,
+      "tests": 2,
+      "result": "Six-part real-file reconstruction recipe and actual WindowServer preview pass canonical V2 ownership, exact current build/source/artifact/frame hashes and standalone import/assets checks. Copied backend both imports and executes without adjacent node_modules or sibling code. No layouts folder or custom key merge required.",
+      "sourceSha256": {
+        "mission-control-jira/RECIPE.md": "7befcac5969cdcb530b877a38f379869f9bba3bde0c4d7a261b1b57dcce417df",
+        "tests/package-jira.test.mjs": "b9f37d254d75f2d0c519e05c6c1bec9b3730588f6bced2ed672f6ab8e2002903",
+        "mission-control-jira/preview.png": "162391adf63af444398df0f31590dfc3496d719114ef320721aa5ad082384715"
+      }
+    },
+    "TASK-078": {
+      "files": [
+        "tests/support/native-loader.mjs",
+        "tests/support/native-recording.mjs",
+        "tests/native-recording.test.mjs"
+      ],
+      "validation": "node --test tests/native-recording.test.mjs",
+      "exitCode": 0,
+      "tests": 9,
+      "result": "Strict test-only module-specific exports, retained native View/Entity construction/update/release, foreign/released/duplicate mount rejection, explicit lazy-row range materialization, installed scalar child union, render/layout guards and deterministic ordinary/AsyncContext sleep/lifetime tests pass. Explicit injected schedulers/propagation spies retain fresh event contexts. Full369-test regression passes. This is contract evidence; separate120-card native API capability probe does not establish GitHub product completion.",
+      "sourceSha256": {
+        "tests/support/native-loader.mjs": "c90db8622addb890632b377d2c49dc4cc0c8ced6fee8c60d2749469d5cf951aa",
+        "tests/support/native-recording.mjs": "2eb2b8eba2c243cefe251a333fcdfc90000ad2e1b4fb7083b787af734f46fadb",
+        "tests/native-recording.test.mjs": "d492613a4d7fda616b0dd84470805802d21d0ba9a63f399f49cdde9e8d9834b6"
+      },
+      "logs": [
+        ".harness/native-retained-recording-tests.log",
+        ".harness/native-recorder-compat-tests.log",
+        ".harness/native-retained-recording-full-tests.log"
+      ]
+    },
+    "TASK-045": {
+      "files": [
+        "src/mods/mission-control-github/data.js",
+        "src/mods/mission-control-github/main.js",
+        "tests/github-backend.test.mjs"
+      ],
+      "validation": "node --import ./tests/support/native-loader.mjs --test --test-concurrency=1 tests/*.test.mjs",
+      "tests": 498,
+      "exitCode": 1,
+      "log": ".harness/abandoned-load-full-tests.log",
+      "sourceSha256": {
+        "src/mods/mission-control-github/data.js": "9d9f99b8774887105240534a53b2d907b69bc1314e8eb9d0d1feb2811aece4fb",
+        "src/mods/mission-control-github/main.js": "2642f3f69d49cf06985ce02e1e8403a7d1a8fb4fddc3f18387a1c69e86bebd26",
+        "tests/github-backend.test.mjs": "6a567da4fbb095afeef1fb9fd488e64d648924065398dcffef61185dbbe68d57"
+      },
+      "result": "492 of 498 full-suite tests pass, including the new github abandoned-load regression; the six failures are the pre-existing TASK093 hash pins for earlier compiled packages. The bridge reloads a pending ticket without its live load or older than STALE_LOAD_MS=90000; a 5 s timer retries abandoned loads; helper slots/jobs that an ended continuation can never release expire. main.js received only the recovery timer. Mounted github revalidation remains TASK093."
+    },
+    "TASK-047": {
+      "files": [
+        "src/mods/mission-control-github/main.js",
+        "src/mods/mission-control-github/pulls-view.js",
+        "tests/github-prs.test.mjs"
+      ],
+      "validation": "node --import ./tests/support/native-loader.mjs --test tests/github-prs.test.mjs",
+      "tests": 29,
+      "exitCode": 0,
+      "log": ".harness/github-human-links-tests.log",
+      "regressionValidation": "node --import ./tests/support/native-loader.mjs --test --test-concurrency=1 tests/*.test.mjs",
+      "regressionTests": 385,
+      "regressionLog": ".harness/github-human-links-full-tests.log",
+      "nativeValidation": "Current V2 private NativeRuntime.installPackage performs herdr-app check on the copied standalone mod",
+      "nativeReceipt": "evidence/native/github.json",
+      "sourceSha256": {
+        "src/mods/mission-control-github/main.js": "bfa98fd181cfc89e425b34b10728f0e41cff0fbbd107f33170563104c53e0b24",
+        "src/mods/mission-control-github/pulls-view.js": "f9290e4449229d8f98415c4bc3ce0b11a0ed8d8db57102f42f5bc35086fddceb",
+        "tests/github-prs.test.mjs": "57dbe6c7e3312838b36eb83aaa6b1daa98dc2e42a6712990f17e69507e9233ff"
+      },
+      "generatedArtifacts": {
+        "assets/agent.svg": "e1b2039d6c2635ffcfddceff99109fb03e8ccb40359aed00fa88a6f3d8ad3eed",
+        "assets/branch.svg": "3e84ff73535eefd357b9709e871d3a0f47b5fd6dbd9966eaad804c88b021def7",
+        "assets/check.svg": "1c80d14e7bbcd7fd3ce3027c7c72d4fc07192ff3fb9b96e86b26d1ab3d7b314e",
+        "assets/chevron-down.svg": "1d2065b24da0cf4b3936203004eb8ef7b15a985a0658426517ad0113c29d0fc8",
+        "assets/chevron-right.svg": "efc8ab93d789d1e04bbd5c062e1560267280b570d6efaa09d2a77e601d64ee5f",
+        "assets/close.svg": "28e7ce6d33be8f07dedad8e80ee59e816b81a0e845f64613e3bb51c357da925b",
+        "assets/external.svg": "e4c8ed502be1e53c147361f58d8776337ab259794054e8f3d1e8fd29722d3195",
+        "assets/folder.svg": "3a46023f1ff23f2112b9e0955ad32690139e8f1c071ccfdbcae8e85295365f66",
+        "assets/github.svg": "b4ababc5c6d3ed662798989f5e1a3c4b819767438997b1e1ca020542b77337bf",
+        "assets/issue.svg": "3d676661dab61f8b1611d3dc6d5c33ec4c311d40e40f755332c8d9f4d5118315",
+        "assets/jira.svg": "2e3db07f926b1f7a2467c0769c23627e8c887f83231e6c46c96ac349e4e0d3a3",
+        "assets/layout.svg": "991e3e3ef8165e8c057236ee43ab157a22d12479251bd3da3710db3837326cfd",
+        "assets/more.svg": "a82bebdebdd8c147ef583c00b87788c4a196e04fce2a5e4a10f0ccbc432fdbe4",
+        "assets/panel.svg": "9c88b7e44f25d82d3f37d069b69167c98a06cf4a6cb7f9da7dc52cc2ca10c187",
+        "assets/pin.svg": "2211c66b64ec8a722b08abf49deac42bba57ec7ca21c72dbf270d28a9b6cb9e6",
+        "assets/plus.svg": "bc30fdf06276287fcef7802da8dd282e9854ea130bbaea9e327dca61914417ca",
+        "assets/priority.svg": "344a528c607fe010fd4013e703eebc5f08306589560e69e237e6e2cca5b5d2f8",
+        "assets/pull-request.svg": "93efcc8c2e7e799df7b597de85ee1e0ae2e7d3fb402bff6d96428afbaf17e7d4",
+        "assets/refresh.svg": "a4ef0613fb0794ae6554ccacbe332a0f7a6bfd346ebe94d209b112796462640a",
+        "assets/search.svg": "73a02b45b12746984a4e5d9689a3ca5578f5d329e4e0b0598bd5139d81c0bdce",
+        "assets/server.svg": "4a6a50b128185781455b2a145fbde0bb57e6deff93830168388a97a1f240e2c8",
+        "assets/sessions.svg": "40c70935bd80015005b85b9b42368e4dfdf44ac6a3392e2f6b7fd18a59159d9d",
+        "assets/settings.svg": "c0d3295d7dc3261c7f6e9e6eb4217b044b834d680215ac1e38f9c1efb11b2dc9",
+        "assets/spaces.svg": "01d3d618b27ef141c8251358657d7533abef2bbc40b447f53728c768fa4a593b",
+        "backend.mjs": "957dc15d7d46980d2705cd4baf63c6d9e426ad1fffc2ef01472ff57807a4f0ca",
+        "main.js": "6d307407f0787ec1f0726e5fca4e02f81b698823b24ace45f76651521d1c54c2",
+        "mod.json": "0465ac8f0599cf876bd27a29dec75eb3ffea9a1a3713889df29a95116af944ef",
+        "NOTICE.md": "a5a806e0237bd4701502ab14d5ff65939923cc06e93052cd04eb22a87cb1bf8d"
+      },
+      "result": "Retained/lazy PR cards and captured-origin launches pass29 focused and385 full JavaScript tests, exact-source native load and the full45-assertion native workflow. Bounded preparation yields out of render, prunes old generations before replacement allocations and retains a clicked child until its captured launch task settles. Source leases preserve the original host/repository/account/checkout across visible source removal; head/rebind/config/close checks remain authoritative. Native120-PR pagination/Show more/offscreen link interaction, actual tool task delivery, focus-only reuse, independent metadata, source recovery and own-mod forms pass. Linked issues show human #number or repository#number while retaining opaque source IDs and exact URLs."
+    },
+    "TASK-048": {
+      "files": [
+        "tests/native/github.mjs",
+        "evidence/native/github.json"
+      ],
+      "validation": "node tests/native/github.mjs fixture-check && node scripts/native-harness.mjs run github",
+      "fixtureAssertions": 41,
+      "nativeAssertions": 45,
+      "nativeInputs": 219,
+      "exitCode": 0,
+      "fixtureLog": ".harness/github-human-links-native-fixtures.log",
+      "log": ".harness/github-human-links-native-run.log",
+      "receipt": "evidence/native/github.json",
+      "sourceSha256": {
+        "tests/native/github.mjs": "e4fcec2b320fc96edff91c8835b0a1b47995a88cb6fac99afca56c1c78ad4994"
+      },
+      "preview": {
+        "path": "mission-control-github/preview.png",
+        "sha256": "a809fda583eb5e9bf6e31f74bd9008efe816302033bb2ca36d5d9e0a613dc323"
+      },
+      "result": "Full standalone native scenario passes45 assertions with219 real inputs, zero app errors and validated ownership-v2 cleanup. Actual setup/label mapping/pin settings and exact system-browser URLs pass. Eleven normal PR variants per account plus real120-PR50/50/20 pagination, Show more and offscreen retained-card navigation pass under the stock host budget. A held remote detail launch survives removal of its visible source and executes its captured action/tool on the separate owned core. Reuse/no-resend, unavailable/fork/partial/deleted states, closed history and rebind worktree protection pass. The inspected native preview shows the normal collection and readable linked issue labels. Synthetic providers/tool actors only; authenticated tenant access is not claimed."
+    },
+    "TASK-049": {
+      "files": [
+        "mission-control-github/RECIPE.md",
+        "tests/package-github.test.mjs",
+        "mission-control-github/preview.png"
+      ],
+      "validation": "node scripts/project.mjs build mission-control-github && node --test tests/package-github.test.mjs",
+      "tests": 2,
+      "exitCode": 0,
+      "log": ".harness/github-package-tests.log",
+      "receipt": "evidence/native/github.json",
+      "sourceSha256": {
+        "mission-control-github/RECIPE.md": "da52c48e97b49c51bf24761083fddcfe6814062242e63fcf17e9caae42d686e4",
+        "tests/package-github.test.mjs": "d2432c68b1f0f51413d012ccdefbf13f90f0a571a7b7ef382f60cb71ce956eef",
+        "mission-control-github/preview.png": "a809fda583eb5e9bf6e31f74bd9008efe816302033bb2ca36d5d9e0a613dc323"
+      },
+      "result": "Standalone GitHub package has its real-file six-part reconstruction recipe, access/program/network disclosures and inspected native preview. Two package tests verify45-assertion ownership-v2 native proof, exact current source/artifact/preview hashes, true pagination/offscreen input evidence, no layouts/sibling mod, native import/asset resolution and copied backend import/direct execution without repository dependencies or node_modules. User installation and public release remain root integration gates."
+    },
+    "TASK-080": {
+      "files": [
+        "src/shared/config.js",
+        "tests/gitlab-config.test.mjs"
+      ],
+      "validation": "node --test tests/gitlab-config.test.mjs tests/config.test.mjs",
+      "tests": 13,
+      "newGitlabTests": 6,
+      "exitCode": 0,
+      "log": ".harness/gitlab-config-tests.log",
+      "sourceSha256": {
+        "src/shared/config.js": "2cea2d16c0faed2eef2f8105b0adc0c6098cf556a84297249b5bd9895eddf9a7",
+        "tests/gitlab-config.test.mjs": "51c834cf7bc63bd542889a9129ce1d4b69b28d6c86e5bd81aaadd2fe8a0ac306"
+      },
+      "result": "Six real-file GitLab tests plus seven existing config tests pass. One shared native-safe project-path grammar preserves spelling and enforces1..255 ASCII characters and1..21 valid segments. Optional GitLab bindings require an existing connection and exact supported fields; label groups are bounded, case-insensitive and disjoint. Invalid edits/persisted files preserve original bytes with zero writes; adding GitLab preserves serialized Jira/GitHub objects, profiles and preferences, and a CAS retry preserves concurrent Jira edits and independent remote bindings. Connection authentication remains the later GitLab helper producer; no provider/network/runtime proof is claimed."
+    },
+    "TASK-081": {
+      "files": [
+        "src/shared/tracker-model.js",
+        "src/shared/issue-board.js",
+        "tests/gitlab-model.test.mjs"
+      ],
+      "validation": "node --import ./tests/support/native-loader.mjs --test tests/gitlab-model.test.mjs tests/tracker-model.test.mjs tests/issue-board.test.mjs tests/gitlab-config.test.mjs tests/config.test.mjs",
+      "tests": 38,
+      "newGitlabModelTests": 6,
+      "exitCode": 0,
+      "log": ".harness/gitlab-model-tests.log",
+      "sourceSha256": {
+        "src/shared/tracker-model.js": "1ce2d3afde54d8f783308031680c4bf38084348170f58f4d0b30242688c44e2e",
+        "src/shared/issue-board.js": "de9f082291faaa5da7067dfc3b4d3c2c5b2e22b4558d363dd9bad2275cfca570",
+        "tests/gitlab-model.test.mjs": "4ab3af77d951a8a32a10b565c81e2122d2ca4701e0da98b2a62e68140b1939a2"
+      },
+      "result": "Six new model/board tests and32 existing/config checks pass. GitLab and GitLab-MR scopes use the optional nested project binding while legacy Jira/GitHub source roles retain their existing validations. GitLab Issue v1 preserves its decimal global ID independently of GL-iid and requires the exact canonical /project/path/-/issues/iid URL. Bad identities, mismatched scopes/URLs, missing bindings and overlapping labels have no launchable controls, including late mutation of an already-rendered card. Real binding saves preserve other provider objects/profiles and reject conflicting or invalid edits without writes. Board validates one presentation per card and still validates captured events. Native new-mod proof remains091; affected distribution proof remains093."
+    },
+    "TASK-082": {
+      "files": [
+        "src/shared/launch.js",
+        "src/shared/worktrees.js",
+        "tests/gitlab-launch.test.mjs"
+      ],
+      "validation": "node --test tests/gitlab-launch.test.mjs tests/launch.test.mjs tests/worktrees.test.mjs",
+      "tests": 17,
+      "newGitlabTests": 4,
+      "exitCode": 0,
+      "log": ".harness/gitlab-launch-tests.log",
+      "sourceSha256": {
+        "src/shared/launch.js": "691e51d5be2209a0591d2a9079a83d96f090fbfca01237aee783d4da1da06b33",
+        "src/shared/worktrees.js": "f9c7a8a8f60af73170ab2f0449178fd6ea597cc0a7fb68c18c0403d3fffe4cbb",
+        "tests/gitlab-launch.test.mjs": "1e912e5e5809d2c4afa70f6e6d8169d76b0af360b82bbcf17262ae5c5b2803a5"
+      },
+      "result": "GitLab issue and merge-request launch identities preserve global decimal IDs and human worktree labels. Seventeen scoped checks pass, including real Git worktree creation, owned retries, existing Jira/GitHub compatibility and rejection of unsafe or missing GitLab source URLs before I/O. Native GitLab proof remains TASK091; affected distribution revalidation remains TASK093."
+    },
+    "TASK-083": {
+      "files": [
+        "src/assets/icons.json",
+        "tests/gitlab-icon.test.mjs"
+      ],
+      "validation": "node --test tests/gitlab-icon.test.mjs",
+      "tests": 2,
+      "exitCode": 0,
+      "log": ".harness/gitlab-icon-tests.log",
+      "sourceSha256": {
+        "src/assets/icons.json": "e15e5fd5234d4d3f8edc59a30bc4f45c878aa0bc662defde22877855704c1254",
+        "tests/gitlab-icon.test.mjs": "33efe0f52e3095532fae77a748674aa9eea54cf7b428882a43fe1aca708c5852"
+      },
+      "result": "The actual standalone builder packages original MIT GitLab SVG artwork alongside unchanged Jira/GitHub/pull-request assets. External href and missing license are rejected by the production package validator while the previous good output remains intact. No downloaded trademark asset is included; merge requests retain the pull-request icon."
+    },
+    "TASK-084": {
+      "files": [
+        "src/shared/tracker-transport.mjs",
+        "tests/gitlab-transport.test.mjs"
+      ],
+      "validation": "node --test --test-concurrency=1 tests/gitlab-transport.test.mjs tests/tracker-transport.test.mjs",
+      "tests": 16,
+      "newGitlabTests": 7,
+      "exitCode": 0,
+      "log": ".harness/gitlab-transport-tests.log",
+      "sourceSha256": {
+        "src/shared/tracker-transport.mjs": "e8e890a65ea03d883948068999b0b8c09c3702f15f73d335092e85fb9896a563",
+        "tests/gitlab-transport.test.mjs": "8f5f29042f936f894eeb393e89100b077dde276ca97d7a7c622957a1ad8f34e2"
+      },
+      "result": "Seven new HTTPS pagination tests and nine existing tracker checks pass. JSON-only requestJson output is preserved. requestJsonPage returns only value/nextPage, handles numeric/empty next-page and RFC Link fallback, preserves nested endpoints and all non-page filters, rejects duplicate/foreign/backward/contradictory metadata without follow-up requests, and distinguishes short terminal pages from metadata-free full incomplete pages. Source-specific Jira/GitHub/GitLab operation validation remains isolated. Fixtures only; no authenticated provider calls."
+    },
+    "TASK-085": {
+      "files": [
+        "src/mods/mission-control-gitlab/auth.mjs",
+        "tests/gitlab-auth.test.mjs"
+      ],
+      "validation": "node --test tests/gitlab-auth.test.mjs",
+      "tests": 5,
+      "exitCode": 0,
+      "log": ".harness/gitlab-auth-tests.log",
+      "sourceSha256": {
+        "src/mods/mission-control-gitlab/auth.mjs": "4d7af4ca0ad8cd30f37450743b80859cb3b0f67848042536083edc73278e0642",
+        "tests/gitlab-auth.test.mjs": "6af035d8f76625f9b64fb02e94f59794600c2d05465b421a429ccec120f50ba7"
+      },
+      "result": "Exact GitLab API/bearer profiles resolve distinct environment references in helper memory and send only Authorization Bearer through bounded GET page reads to the selected origin /api/v4 base. Five tests pass, including simultaneous independent TLS accounts, private descriptor serialization, capture/mutation isolation, missing/bad credentials and invalid sites before I/O, route/query constraints, 401/403/429 redaction and redirect refusal. A permission-restricted subprocess succeeds with child-process execution and glab config reads forbidden. Only synthetic endpoints/tokens were used."
+    },
+    "TASK-086": {
+      "files": [
+        "src/mods/mission-control-gitlab/issues.mjs",
+        "tests/gitlab-issues.test.mjs"
+      ],
+      "validation": "node --test tests/gitlab-issues.test.mjs",
+      "tests": 9,
+      "exitCode": 0,
+      "log": ".harness/gitlab-issues-tests.log",
+      "sourceSha256": {
+        "src/mods/mission-control-gitlab/issues.mjs": "9a8d228d048ed3999600e7f8e764eec11a9b202c7b72bb9e3d701c812f0d600e",
+        "tests/gitlab-issues.test.mjs": "044d0a29cae352fbc7b28de6ecd7f92e57e12e9c28800f911c1122aae6a17044"
+      },
+      "result": "Nine real loopback HTTPS issue tests pass. A project probe binds global project ID to the exact nested path before issue reads; list requests use state=all, issue_type=issue and per_page=50. Global issue IDs remain distinct from GL-iid and canonical source URLs. Closed/open/default/case-insensitive label mapping, exclusion of ambiguous-label issues with scoped errors, unsupported type and foreign identity rejection, safe body truncation, page metadata, rate errors and repeated pages are covered. Scoped continuation resumes only the next unconsumed page across helper deadlines/output limits and rejects account/host/repo/selection/credential/project-ID/expiry drift. Exact1000 terminal versus capped results and resumed cumulative limits pass. One context shares a <=25s deadline and <=4 active HTTP operations; cancellation drains every queued reader without further I/O. Only synthetic providers/tokens; native GitLab and standalone distribution remain TASK091/092."
+    },
+    "TASK-087": {
+      "files": [
+        "src/mods/mission-control-gitlab/merge-model.js",
+        "src/mods/mission-control-gitlab/merges.mjs",
+        "tests/gitlab-merges.test.mjs"
+      ],
+      "validation": "node --test tests/gitlab-merges.test.mjs",
+      "tests": 11,
+      "exitCode": 0,
+      "log": ".harness/gitlab-merges-tests.log",
+      "sourceSha256": {
+        "src/mods/mission-control-gitlab/merge-model.js": "6860fb73851f9f64491b1e39b85fb84d7072377faee4712a8bcc7f10a57f8e03",
+        "src/mods/mission-control-gitlab/merges.mjs": "e99556716889289c7e4097512dac4c07ff54ec42cde18ed3164988d68c0f55db",
+        "tests/gitlab-merges.test.mjs": "d2a8aaa73685b51cea5838ba9a0c7f5e038677be80cff40ad417f39c00f60958"
+      },
+      "planReview": "evidence/reviews/gitlab-model-amendment-round3.json",
+      "result": "Native-safe MR/action model and separate Node HTTP adapter pass11 scoped checks. Neutral-platform bundle executes in a VM without Node/process/DOM/network/timer globals. Exact50-row MR lists are cheap and bounded; selected detail validates global id/iid/project/refs, permits null-to-known base SHA, and independently reads approvals,100-row object-mode discussions, closing issues and a bounded same-project failed-jobs page. CE/EE approved boolean,99/100/oversized discussions, partial/empty/denied/budget states, malformed identity, forks/locked states, origin-safe links, hostile descriptions/notes, record/output/deadline cursors and <=4 active HTTP reads are covered. Exact source tasks preserve global IDs and carry bounded real note text/positions or failed-pipeline/job evidence before clipped untrusted descriptions. Three isolated actual shared-launch first deliveries prove controlled goals/refs/evidence reach the selected fixture tool; missing context disables before launch. Sequential different-action focus-only reuse remains TASK090/091. No authenticated provider, native GitLab UI or standalone package completion is claimed."
+    },
+    "TASK-088": {
+      "files": [
+        "src/mods/mission-control-gitlab/data.js",
+        "src/mods/mission-control-gitlab/main.js",
+        "src/shared/tracker-model.js",
+        "tests/gitlab-backend.test.mjs"
+      ],
+      "validation": "node --import ./tests/support/native-loader.mjs --test --test-concurrency=1 tests/gitlab*.test.mjs tests/tracker-model.test.mjs tests/tracker-transport.test.mjs",
+      "tests": 126,
+      "exitCode": 0,
+      "log": ".harness/gitlab-abandoned-load-tests.log",
+      "sourceSha256": {
+        "src/mods/mission-control-gitlab/data.js": "26752e1facbacc337f94a5303468ae141275f8b83880837a624f24a72107f6ea",
+        "src/mods/mission-control-gitlab/main.js": "f17bb690a67feafc6c8286bcfd0ad196b034cd44f6964a56d96f3bc7e14810f4",
+        "src/shared/tracker-model.js": "ccff559b7b1f7160596e73fac10215d12eab265fb2b70fcf4c163216938ca66a",
+        "tests/gitlab-backend.test.mjs": "799502216454f48abd8e8dad910fb26ad248c6d81d5c3d6edcd98d9a044aa135"
+      },
+      "result": "All126 GitLab and shared tracker regressions pass, including two new abandoned-load checks. ScopedTrackerCache.abandon() releases an orphaned ticket and bumps its epoch so a late zombie result cannot publish. The bridge treats a pending ticket without its live load, or a load older than STALE_LOAD_MS=90000 (beyond every helper deadline), as abandoned and reloads it; a 5 s per-copy timer retries abandoned loads instead of showing Loading for ever. The shared helper queue expires holders and tails that an ended continuation can never release. main.js (TASK089/090) received only the recovery timer; tracker-model.js (TASK033/081) only the abandon() method. Mounted proof remains TASK091; GitHub and Jira bridges share the same begin-before-request pattern and are queued for the same fix before TASK093 revalidation."
+    },
+    "TASK-089": {
+      "files": [
+        "src/mods/mission-control-gitlab/main.js",
+        "src/mods/mission-control-gitlab/mod.json",
+        "tests/gitlab.test.mjs"
+      ],
+      "validation": "node --import ./tests/support/native-loader.mjs --test tests/gitlab.test.mjs",
+      "tests": 12,
+      "exitCode": 0,
+      "log": ".harness/gitlab-native-contract-tests.log",
+      "sourceSha256": {
+        "src/mods/mission-control-gitlab/main.js": "f4964a5ed70bc502c7b99f926e91ff6b49850b79586b4e387832e7179968e55f",
+        "src/mods/mission-control-gitlab/mod.json": "aac914b4e8d8a5e799bd754acd9e920b535141fb64843fd0a6d7f0166a9a800c",
+        "tests/gitlab.test.mjs": "0e45b3451c0edf36f837fd54d8c1e86604ee27354011a258f5c75f955bb60730"
+      },
+      "nativeLoadCheck": ".harness/gitlab-private-load-check.json",
+      "nativeLoadLog": ".harness/gitlab-private-load-check.log",
+      "result": "Standalone native issue/setup/launch roles pass12 event-contract checks and an actual herdr-app check through the current registered V2 private runtime. Compiled package was copied to a newly owned private app home, checked successfully, and only its positively verified private core/root were stopped/removed. No existing instance was queried and no window/feature/screenshot claim is made. UI uses compact shared issue cards, three icon-only saved tool starts plus overflow, direct canonical issue links, same-mod options, captured live linked checkout/remote/All-space routing and owned retry semantics. Real temporary Git proves workspace-plus-GL-issue worktree names. Setup has bearer environment references, nested project path, lossless one-label-per-line groups, explicit canonical path acceptance, immutable shared profiles and pending-edit cancellation. hideHeader suppresses embedded duplication. Merge-request role and full mounted proof remain090/091."
+    },
+    "TASK-090": {
+      "files": [
+        "src/mods/mission-control-gitlab/main.js",
+        "src/mods/mission-control-gitlab/merges-view.js",
+        "tests/gitlab-mrs.test.mjs"
+      ],
+      "validation": "node --import ./tests/support/native-loader.mjs --test --test-reporter=tap tests/gitlab-mrs.test.mjs tests/gitlab.test.mjs",
+      "tests": 43,
+      "mergeRequestTests": 31,
+      "issueRegressionTests": 12,
+      "exitCode": 0,
+      "log": ".harness/gitlab-mrs-and-issues-tests.log",
+      "sourceSha256": {
+        "src/mods/mission-control-gitlab/main.js": "f229e8e8426f2b24db30a2de36b71c0c499510ab8e1829d3dbfab17a0ae48f8e",
+        "src/mods/mission-control-gitlab/merges-view.js": "d9a89d92b503fa0ada3b1845372dfa80366b3a0f17b46b21dbd11434f25ef502",
+        "tests/gitlab-mrs.test.mjs": "010edddcd44c720c501a31a2654b8f707205b9fb82eb453034204797b7315e59"
+      },
+      "nativeLoadCheck": ".harness/gitlab-native-attempt7.json",
+      "generatedArtifacts": {
+        "assets/agent.svg": "e1b2039d6c2635ffcfddceff99109fb03e8ccb40359aed00fa88a6f3d8ad3eed",
+        "assets/branch.svg": "3e84ff73535eefd357b9709e871d3a0f47b5fd6dbd9966eaad804c88b021def7",
+        "assets/check.svg": "1c80d14e7bbcd7fd3ce3027c7c72d4fc07192ff3fb9b96e86b26d1ab3d7b314e",
+        "assets/chevron-down.svg": "1d2065b24da0cf4b3936203004eb8ef7b15a985a0658426517ad0113c29d0fc8",
+        "assets/chevron-right.svg": "efc8ab93d789d1e04bbd5c062e1560267280b570d6efaa09d2a77e601d64ee5f",
+        "assets/close.svg": "28e7ce6d33be8f07dedad8e80ee59e816b81a0e845f64613e3bb51c357da925b",
+        "assets/external.svg": "e4c8ed502be1e53c147361f58d8776337ab259794054e8f3d1e8fd29722d3195",
+        "assets/folder.svg": "3a46023f1ff23f2112b9e0955ad32690139e8f1c071ccfdbcae8e85295365f66",
+        "assets/github.svg": "b4ababc5c6d3ed662798989f5e1a3c4b819767438997b1e1ca020542b77337bf",
+        "assets/gitlab.svg": "349804ee06f6ee8d48643f682491db781f34f932ded32ffff323e5e2fc0bbe2e",
+        "assets/issue.svg": "3d676661dab61f8b1611d3dc6d5c33ec4c311d40e40f755332c8d9f4d5118315",
+        "assets/jira.svg": "2e3db07f926b1f7a2467c0769c23627e8c887f83231e6c46c96ac349e4e0d3a3",
+        "assets/layout.svg": "991e3e3ef8165e8c057236ee43ab157a22d12479251bd3da3710db3837326cfd",
+        "assets/more.svg": "a82bebdebdd8c147ef583c00b87788c4a196e04fce2a5e4a10f0ccbc432fdbe4",
+        "assets/panel.svg": "9c88b7e44f25d82d3f37d069b69167c98a06cf4a6cb7f9da7dc52cc2ca10c187",
+        "assets/pin.svg": "2211c66b64ec8a722b08abf49deac42bba57ec7ca21c72dbf270d28a9b6cb9e6",
+        "assets/plus.svg": "bc30fdf06276287fcef7802da8dd282e9854ea130bbaea9e327dca61914417ca",
+        "assets/priority.svg": "344a528c607fe010fd4013e703eebc5f08306589560e69e237e6e2cca5b5d2f8",
+        "assets/pull-request.svg": "93efcc8c2e7e799df7b597de85ee1e0ae2e7d3fb402bff6d96428afbaf17e7d4",
+        "assets/refresh.svg": "a4ef0613fb0794ae6554ccacbe332a0f7a6bfd346ebe94d209b112796462640a",
+        "assets/search.svg": "73a02b45b12746984a4e5d9689a3ca5578f5d329e4e0b0598bd5139d81c0bdce",
+        "assets/server.svg": "4a6a50b128185781455b2a145fbde0bb57e6deff93830168388a97a1f240e2c8",
+        "assets/sessions.svg": "40c70935bd80015005b85b9b42368e4dfdf44ac6a3392e2f6b7fd18a59159d9d",
+        "assets/settings.svg": "c0d3295d7dc3261c7f6e9e6eb4217b044b834d680215ac1e38f9c1efb11b2dc9",
+        "assets/spaces.svg": "01d3d618b27ef141c8251358657d7533abef2bbc40b447f53728c768fa4a593b",
+        "backend.mjs": "aa192f3069f2c6e544112ee0e8ca2fdef0727e5116ea74e8e22fdc08817fa27c",
+        "main.js": "4f8bf17ee028e27aa47acfadb0540945aafad5dcf74c2894a60f1b1aead11967",
+        "mod.json": "c6c8cd9a9ab8f0c13c762a69b23ce8f85062dc18302f328768855f1ef8ef4a2f",
+        "NOTICE.md": "f20f37f2705da9d37b502d64fbe21f68f7db7280f83369013586be19e747c873"
+      },
+      "result": "Separate retained/lazy native MR cards and action dispatch pass30 contract checks,12 existing issue checks and an exact-source herdr-app check in a registered private home/core with verified cleanup. Captures/clones action, full binding, global id, tool, checkout and stable request/origin IDs before asynchronous work; retries and the own-mod options dialog retain intent. Independent approval/discussion/pipeline handling covers complete-empty, incomplete-empty and visibly partial nonempty comments, fork local review, locked actions and missing data. Actual shared launch/journal tests prove one delivered task followed by focus-only/no-resend for different actions and closed-slot history containment.120 multi-account cards exercise retained lifetimes, explicit visible ranges, offscreen controls, search/resize, bounded preparation, stale-generation rejection and prune-before-allocate. Saved pins update without provider reload. No existing Herdr instance queried; full mounted feature/preview/package gates remain091/092. Additional checkout-change regression proves the action rejection remains visible through automatic focus refresh. Cancellation reasons are displayed when the view remains open. Current43 scoped checks and exact-source native load proof pass; full mounted091 remains pending. Action feedback now overlays the existing footer, is dismissible, and never changes board geometry. Current43 scoped tests pass; actual native before/after search bounds match within2px. Full mounted scenario remains091.",
+      "nativeLoadBoundary": "Exact-current-source native check, real toolbar-bounds regression and cleanup passed. Overall mounted attempt failed a card-action OCR selector that also matched footer feedback;091 remains pending."
+    },
+    "TASK-050": {
+      "files": [
+        "src/shared/resume.js",
+        "tests/resume.test.mjs"
+      ],
+      "validation": "node --import ./tests/support/native-loader.mjs --test tests/resume.test.mjs tests/reopen.test.mjs tests/sessions.test.mjs tests/sessions-model.test.mjs",
+      "tests": 8,
+      "exitCode": 0,
+      "log": ".harness/resume-live-fix-tests.log",
+      "sourceSha256": {
+        "src/shared/resume.js": "8b8dbb58d08888d72929d29af3f5fd9854197cb34067d88c6a72fa3212f2eda8",
+        "tests/resume.test.mjs": "c206e9db64e9c3c88d366fbabd9762fcfccc5386b8839d5c40c50a27b22db528"
+      },
+      "result": "Seven real-Git/journal tests pass. resume() never throws; it checks host readiness, destination space, host tool capabilities, journal/bindings/live terminals before any side effect, focuses an exactly bound live terminal once, returns AMBIGUOUS_RUNNING_SESSION with zero side effects for an unbound plausible same-host/provider/repo terminal, and resumes only with help-verified exact-ID argv (Claude --resume, Codex resume) through launch() so journal/ack/binding/name-ownership transfer are reused. Missing worktree, wrong/offline host, unsupported tool, account mismatch and --last/--continue identities fail with locate/retry recovery and no writes. Same-session double clicks and concurrent intents create one tab; replayed request IDs stay idempotent. Interpretations: uncertain creation allows a fresh attempt only after 60 s with no plausible live terminal; subfolder-cwd sessions report CHECKOUT_MISMATCH; resume reads launches.json directly. No native proof (TASK-053). Revalidated: a finished bound terminal that hc still lists is resumed again, never focused (new regression proven to fail without the fix); resume, reopen and sessions suites pass 27/27."
+    },
+    "TASK-051": {
+      "files": [
+        "src/mods/mission-control-sessions/model.js",
+        "tests/sessions-model.test.mjs"
+      ],
+      "validation": "node --test tests/sessions-model.test.mjs",
+      "tests": 6,
+      "exitCode": 0,
+      "log": ".harness/sessions-model-tests.log",
+      "sourceSha256": {
+        "src/mods/mission-control-sessions/model.js": "020949e4196d6032f86d1a41340f7524360031f8f5d53dd782b8ecf677868dc1",
+        "tests/sessions-model.test.mjs": "c127987dbfb65ea493121a68834e083153a9de8840a89821604e7e0b9812ebde"
+      },
+      "result": "Six real-Git/collector tests pass. History comes only through the shared TelemetryBridge/collector; canonical repo/worktree membership (git worktree list, rev-parse for bounded subfolder checks, launch-journal hints) assigns sessions, so same-name siblings, nested repos, renamed repos and other hosts never merge. Rows are newest-first with stable exact identity, paged 50 and capped at 1000 with oldest eviction; prunable/pruned worktrees show a recoverable missing state; only exact live bindings count as running. Provider files are never written."
+    },
+    "TASK-052": {
+      "files": [
+        "src/mods/mission-control-sessions/main.js",
+        "src/mods/mission-control-sessions/mod.json",
+        "tests/sessions.test.mjs"
+      ],
+      "validation": "node --import ./tests/support/native-loader.mjs --test tests/sessions.test.mjs && isolated HERDR_APP_HOME herdr-app check of the built copy",
+      "tests": 7,
+      "exitCode": 0,
+      "log": ".harness/sessions-view-tests.log",
+      "nativeCheckLog": ".harness/sessions-native-check.log",
+      "sourceSha256": {
+        "src/mods/mission-control-sessions/main.js": "55695f7a86851ae61f3b36f0e6c817fa39108a368624cb2416f3fa3509e0a082",
+        "src/mods/mission-control-sessions/mod.json": "d9688ea682ea81aa5f72d4aeb3ad72d1d70d8137b8e040c836e6b0baad6a403b",
+        "tests/sessions.test.mjs": "809cb9bd1788f0a7f353fbad0a4a4238f44e321866ede7444418d7a8d6a9bb0f"
+      },
+      "result": "Seven native-seam view tests and an isolated-home herdr-app load check pass. Per-space and All-spaces history with search/tool filters, Newer/Older paging, real tool icons, host/branch/worktree details and no transcript text. Click runs shared resume() once (in-flight clicks ignored, stale guard recovers after 90 s, journal blocks duplicates); running rows focus; unsupported rows are labeled before click; Locate/Retry/Retry binding/Show recovery. The shared name observer runs under a CAS lease while the View is alive. Commands: refresh, all-spaces, this-space, older. Mounted proof remains TASK053."
+    },
+    "TASK-055": {
+      "files": [
+        "src/shared/closed-tabs.js",
+        "tests/closed-tabs.test.mjs"
+      ],
+      "validation": "node --test tests/closed-tabs.test.mjs",
+      "tests": 8,
+      "exitCode": 0,
+      "log": ".harness/closed-tabs-tests.log",
+      "sourceSha256": {
+        "src/shared/closed-tabs.js": "974b3c7dbf0fec07f5c7e12a82da699f65287be6fe0275f1447d93d3270f7b53",
+        "tests/closed-tabs.test.mjs": "256a4dc17a5f674876aa94f96ddb4a8e9025b0a136989b415db67f7d9c09021e"
+      },
+      "result": "Eight tests pass: last-100 CAS closed.json journal in close order; observation-based capture accepts disappearance only with valid follow-up data from the same ready host or an explicit confirmed close; identical local/remote tb1/t1 through disconnect/reconnect yields one record; restart rebaselines without inventing closures. The per-host python3 wrapper import is bounded to 4 MiB/5 s (its own hc client killed on overrun), never persists raw argv, and huge/hung/malformed/offline imports report OLDER_HISTORY_UNAVAILABLE leaving the journal byte-identical."
+    },
+    "TASK-056": {
+      "files": [
+        "src/shared/reopen.js",
+        "tests/reopen.test.mjs"
+      ],
+      "validation": "node --test tests/reopen.test.mjs",
+      "tests": 6,
+      "exitCode": 0,
+      "log": ".harness/reopen-tests.log",
+      "sourceSha256": {
+        "src/shared/reopen.js": "13c2caf2189411e0f1ee13560234e31cb7d27b542a5e3562f761e7b554a311a6",
+        "tests/reopen.test.mjs": "0f269f55dead65ec3a3e3df243a8e11b6da144388fa3142bb6cfa8c4ea62596a"
+      },
+      "result": "Six tests pass: Reopen last tab and Reopen last agent are distinct (agent skips shell-only tabs); restore on the original host/space through shared exact resume, shells get no argv, a deleted space is recreated only from a verified folder; records are consumed only after acknowledged success; failures keep the record with a reason; uncertain acknowledgments block blind retry; concurrent clicks/controllers create one tab; manual names transfer once. Exports ReopenController/reopen/reopenRecord for the tabs mod."
+    },
+    "TASK-057": {
+      "files": [
+        "src/mods/mission-control-reopen/main.js",
+        "src/mods/mission-control-reopen/mod.json",
+        "tests/reopen-mod.test.mjs"
+      ],
+      "validation": "node --import ./tests/support/native-loader.mjs --test tests/reopen-mod.test.mjs && isolated HERDR_APP_HOME herdr-app check of the built copy",
+      "tests": 6,
+      "exitCode": 0,
+      "log": ".harness/reopen-mod-tests.log",
+      "sourceSha256": {
+        "src/mods/mission-control-reopen/main.js": "55be1078040f083293c909abc72c5ae745bc46df2cceb4ee12ff2c7a00ea9ece",
+        "src/mods/mission-control-reopen/mod.json": "17b19c100087adbff937dc4bbb3be9f9d21700908a09c8c68a6c93718e5023c0",
+        "tests/reopen-mod.test.mjs": "dc2aa66408698a6763f4fd7a3d91358029596fd440bcaa334c1c07e44596d18b"
+      },
+      "result": "Six native-seam tests and an isolated-home herdr-app load check pass: standalone 28 px bottom bar running the single leased watcher, popup and help views, commands reopen-tab/reopen-agent/open/help/import with cross-copy 750 ms dedupe, no default keys, clear empty states and visible limitations. Two mounted copies record and consume one closure. Mounted proof remains TASK058.",
+      "nativeCheckLog": ".harness/reopen-native-check.log"
+    },
+    "TASK-060": {
+      "files": [
+        "src/shared/tab-names.js",
+        "tests/tab-names.test.mjs"
+      ],
+      "validation": "node --test tests/tab-names.test.mjs",
+      "tests": 11,
+      "exitCode": 0,
+      "log": ".harness/tab-names-tests.log",
+      "sourceSha256": {
+        "src/shared/tab-names.js": "35090195150943e8acdbc2a1596a2db9c5ce7ece167a8ac1fc1cfe88e0200204",
+        "tests/tab-names.test.mjs": "a4b3ef752ab21e321c6ac3ad181f9ed5bb6ecc2771721245651393aaec962c93"
+      },
+      "result": "Eleven tests pass for the pure naming state machine: issue/PR/MR key plus reported conversation title, task title, tool, running program and folder fallbacks; Jira/GH/GH-PR/GL/GL-MR keys kept once; non-title noise rejected; 80-code-point rename bound with 280px display labels and full hover text. names.json (TASK-070) origin ownership is authoritative; observed manual edits are never overwritten; identical names never re-emit; manual A closed and resumed into a new tab while newer B exists keeps its name once; history-only sessions get no manual state. Revalidated: shell self-reports (-zsh, \"zsh: ~/repo\", login, bash) are rejected while \"Login loop\", \"Shell script cleanup\" and \"Fish order bug\" are kept; tab-names/tab-service 23/23 and tabs/navigation 24/24 pass."
+    },
+    "TASK-061": {
+      "files": [
+        "src/shared/tab-service.js",
+        "tests/tab-service.test.mjs"
+      ],
+      "validation": "node --test tests/tab-service.test.mjs",
+      "tests": 12,
+      "exitCode": 0,
+      "log": ".harness/tab-service-tests.log",
+      "sourceSha256": {
+        "src/shared/tab-service.js": "e189325cdcac8c244b6abfab544e679366bfddab1b0551d63f267976a23ebe47",
+        "tests/tab-service.test.mjs": "9c6a54e9622676f4a5f778daf821a9fde74507a479d9fbb0a5cb8d1951d54261"
+      },
+      "result": "Twelve tests pass: one CAS lease per app home in tab-names.json, passes no faster than 3 s, at most four renames per pass, bounded expired-lease takeover; conflicts, stale snapshots and pending commands never revert names or loop; interrupted passes expire after 15 s and stop() blocks later emission. Drives the shared names observer only on snapshot change and the injected ReopenController on its own closed.json lease; two visible bars issue one rename per change.",
+      "knownLimits": [
+        "A concurrent observeNames caller that snapshots just before our recorded rename lands can classify our automatic name as manual (fails safe: automatic naming stops for that tab); fixing it needs a pending-name marker in name-ownership.js.",
+        "observeNames writes names.json on every call; calls are limited to snapshot changes with a 10 s retry floor."
+      ]
+    },
+    "TASK-062": {
+      "files": [
+        "src/mods/mission-control-tabs/main.js",
+        "src/mods/mission-control-tabs/mod.json",
+        "tests/tabs.test.mjs"
+      ],
+      "validation": "node --import ./tests/support/native-loader.mjs --test tests/tabs.test.mjs && isolated HERDR_APP_HOME herdr-app check of the built copy",
+      "tests": 16,
+      "exitCode": 0,
+      "log": ".harness/tabs-tests.log",
+      "nativeCheckLog": ".harness/tabs-native-check.log",
+      "sourceSha256": {
+        "src/mods/mission-control-tabs/main.js": "6bb992a06119f8a702d84d7d4ee4ff0f422d1bcf69921b7cc4e298fcfc62344c",
+        "src/mods/mission-control-tabs/mod.json": "1e142a57d9006b65ee318d23d59bfdd2c7fe609c8cf308ef9b1175e7df41fa1d",
+        "tests/tabs.test.mjs": "947db52b76cd31697384ee5c38bc141f48bb8d311fab2d736ca4931afaf02716"
+      },
+      "result": "Sixteen native-seam tests and an isolated load check pass: one topmost strip with selection, reorder, double-press rename, wheel, capture-first close through TabNameService.closeTab, four agent statuses with real tool icons and 280px labels with full hover, own bundled agent menu launching on the selected host/repo, Reopen last tab/agent via the bundled ReopenController, layout swap, traffic-light padding and window controls. A drag ending outside a tab never selects/moves/closes; no visible Actions word or nested strip; user names never overwritten. place:none avoids auto-docking a second strip."
+    },
+    "TASK-063": {
+      "files": [
+        "src/mods/mission-control-tabs/navigation.js",
+        "tests/navigation.test.mjs",
+        "src/mods/mission-control-tabs/main.js"
+      ],
+      "validation": "node --import ./tests/support/native-loader.mjs --test tests/navigation.test.mjs && isolated HERDR_APP_HOME herdr-app check",
+      "tests": 8,
+      "exitCode": 0,
+      "log": ".harness/navigation-tests.log",
+      "sourceSha256": {
+        "src/mods/mission-control-tabs/navigation.js": "e24cc7bfd653360334c07a4895c7fe7b97fbd5be79aedf83eb4a59353a7d1d05",
+        "tests/navigation.test.mjs": "7e77270eb15cefa3de8d27f5e7afffeff491b0fc74fd1b7862315c30d228e590",
+        "src/mods/mission-control-tabs/main.js": "6bb992a06119f8a702d84d7d4ee4ff0f422d1bcf69921b7cc4e298fcfc62344c"
+      },
+      "result": "Eight tests pass for roles topbar/navigation/menu/launch/settings/context and layout nodes mc-main, mc-work-panel (Classic, hidden initially) and mc-work-stack with children jira/github/pulls/gitlab/merges/sessions (GitLab view=issues/merges, all hideHeader:true). Six icon-labeled sources at wide widths, short labels at 516px (736px minus 220px rail) and icon-only with tooltips/accessibility labels below; swap runs layout.switch only and preserves source/scope round-trip without creating or closing tabs; missing nodes disable layout-only controls while the bar still works.",
+      "layoutContract": {
+        "root": {
+          "titlebar": "none",
+          "traffic_lights": "[x,y]"
+        },
+        "topbar": {
+          "mod": "mission-control-tabs",
+          "props": {
+            "view": "topbar"
+          },
+          "window_drag": true,
+          "first": true
+        },
+        "classicTopbarProps": {
+          "view": "topbar",
+          "swapTo": "mission-control",
+          "panel": true
+        },
+        "overviewTopbarProps": {
+          "view": "topbar",
+          "swapTo": "mission-control-classic"
+        },
+        "navigation": {
+          "mod": "mission-control-tabs",
+          "props": {
+            "view": "navigation"
+          },
+          "heightPx": 34
+        },
+        "nodes": [
+          "mc-main",
+          "mc-work-panel (Classic only, hidden:true, column [navigation, mc-work-stack])",
+          "mc-work-stack (stack, no header)"
+        ],
+        "stackChildren": {
+          "jira": {
+            "mod": "mission-control-jira",
+            "props": {
+              "view": "panel",
+              "hideHeader": true
+            }
+          },
+          "github": {
+            "mod": "mission-control-github",
+            "props": {
+              "view": "issues",
+              "hideHeader": true
+            }
+          },
+          "pulls": {
+            "mod": "mission-control-github",
+            "props": {
+              "view": "pulls",
+              "hideHeader": true
+            }
+          },
+          "gitlab": {
+            "mod": "mission-control-gitlab",
+            "props": {
+              "view": "issues",
+              "hideHeader": true
+            }
+          },
+          "merges": {
+            "mod": "mission-control-gitlab",
+            "props": {
+              "view": "merges",
+              "hideHeader": true
+            }
+          },
+          "sessions": {
+            "mod": "mission-control-sessions",
+            "props": {
+              "hideHeader": true
+            }
+          }
+        }
+      }
+    },
+    "TASK-006": {
+      "files": [
+        "src/layouts/mission-control.json",
+        "src/layouts/mission-control-classic.json",
+        "tests/layouts.test.mjs"
+      ],
+      "validation": "node --test tests/layouts.test.mjs",
+      "tests": 9,
+      "exitCode": 0,
+      "log": ".harness/layouts-tests.log",
+      "sourceSha256": {
+        "src/layouts/mission-control.json": "1c49de2251036fab749091a04ec6a040bc6cdf9221a1cbae859e0cea0a2b3b72",
+        "src/layouts/mission-control-classic.json": "9a16a7d83bc2069d40b27a8f874ccf817b8386547064f856324dd21663f00462",
+        "tests/layouts.test.mjs": "61f47849c73b87dd66d44bbdbe413596e2fc23ecebc18bf6039bc72338ac359e"
+      },
+      "result": "Nine tests pass, including 33 negative mutations of a tree checker that derives mountable roles from each mod source. Both layouts have one topmost mission-control-tabs bar (window_drag, traffic_lights [12,14], titlebar none), a 220px sidebar rail with separate Spaces and Agents blocks and the spaces footer (Settings/Add machine) as its last fixed child, mc-main, and mc-work-stack with the six exact source children (both GitLab roles hideHeader). Classic leads with terminals and hides mc-work-panel initially. Swap targets are the other layout; preview paths resolve to the TASK079 SVGs. bundleLayouts() accepted both trees in an isolated copy and collects agents, github, gitlab, jira, sessions, spaces and tabs.",
+      "interpretations": [
+        "Mission Control adds an mc-terminals block below the board so tab selection shows work; the mockup and TASK079 SVG omit it.",
+        "TASK079 SVGs draw the rail full height with the bar to its right; the contract puts the bar full width above the rail.",
+        "Reopen and the agent menu are provided by the tabs bar, so their standalone mods are not referenced and not bundled.",
+        "The in-repo bundle was not run because it would rebuild github/jira/spaces packages before TASK093; only the declared layout artifacts were written from a verified isolated bundle."
+      ]
+    },
+    "TASK-067": {
+      "validation": "node scripts/native-harness.mjs run account-profile (Terminal.app runner)",
+      "exitCode": 0,
+      "outcome": "gate-passed-local-new-launches",
+      "receipt": "evidence/native/account-profile.json",
+      "receiptSha256": "7865f624df1cf13e4f7e96039f124bd7413d0628a02faadac5ed38d9c97ae412",
+      "assertions": 82,
+      "log": ".harness/account-profile-native.log",
+      "result": "Launch routing gate PASSED for local new launches (tab.new env-wrapper argv, programs.json env wrapper, core hc run env argv) once the probe accounted for Herdr 0.1.11 passing the task as the last argument; remote unproven because the remote sh -c wrapper stays in the foreground; tab.new env argument, VAR=value argv and hc run --env refused. Canonical validator accepts the receipt.",
+      "completedAt": "2026-11-01T03:55:41.056Z",
+      "rerunAt": "2026-11-01T04:29:33Z",
+      "rerunNote": "Rerun after the harness descendant-owner fix and scenario wrapper fix; same PROFILE_ROUTING_UNSUPPORTED verdict.",
+      "harnessSourceSha256": "7be8b4073f5a08b52bde177d18f6cd4c64175b23351553d5a991c2067bafd851",
+      "completedMs": 1793546695957
+    },
+    "TASK-068": {
+      "validation": "node scripts/project.mjs inspect-docs docs/account-profile-capabilities.md docs/account-switching-decision.md",
+      "exitCode": 0,
+      "files": [
+        "docs/account-switching-decision.md"
+      ],
+      "decision": "DEFER",
+      "result": "DEFER: launch identity passed locally (TASK-067 receipt 7865f624...) but credential isolation is only candidate-level (TASK-066; feasibility may not sign in) and remote routing is unproven. Limits and reopen conditions recorded.",
+      "completedAt": "2026-11-01T03:55:41.123Z"
+    },
+    "TASK-091": {
+      "validation": "node scripts/native-harness.mjs run gitlab (Terminal.app runner, current harness)",
+      "exitCode": 0,
+      "log": ".harness/gitlab-native.log",
+      "receiptSha256": "e3aa5117bc4ab931206f185f6d0b8ce568b02330039224a326ae479ec2823888",
+      "assertions": 42,
+      "harnessSourceSha256": "7be8b4073f5a08b52bde177d18f6cd4c64175b23351553d5a991c2067bafd851",
+      "completedMs": 1793547099991,
+      "previewSha256": "3603bc15498aa6cfce88a5873152821605668957573ed536074c4a5e89064fe4",
+      "result": "GitLab passed natively on Herdr 0.1.11 at the current harness and source: 42 assertions.",
+      "completedAt": "2026-11-01T15:53:59.441Z"
+    },
+    "TASK-092": {
+      "validation": "gitlab-preview promoted + node --test tests/package-gitlab.test.mjs",
+      "exitCode": 0,
+      "log": ".harness/package-current.log",
+      "receiptSha256": "e3aa5117bc4ab931206f185f6d0b8ce568b02330039224a326ae479ec2823888",
+      "assertions": 42,
+      "harnessSourceSha256": "7be8b4073f5a08b52bde177d18f6cd4c64175b23351553d5a991c2067bafd851",
+      "completedMs": 1793547099991,
+      "previewSha256": "3603bc15498aa6cfce88a5873152821605668957573ed536074c4a5e89064fe4",
+      "result": "Validated preview promoted; package hashes match the passed native proof.",
+      "completedAt": "2026-11-01T15:53:59.555Z"
+    },
+    "TASK-058": {
+      "validation": "node scripts/native-harness.mjs run reopen (current harness)",
+      "exitCode": 0,
+      "log": ".harness/reopen-native.log",
+      "receiptSha256": "f18c5bc0c4214c58011b309b3916bea335ad8eecb52d05afb592aff3e49f635b",
+      "assertions": 34,
+      "harnessSourceSha256": "7be8b4073f5a08b52bde177d18f6cd4c64175b23351553d5a991c2067bafd851",
+      "completedMs": 1793547745521,
+      "previewSha256": "cd9e2a646b1872b922d496524f65e6eeba6ee75fb2ec06fad662cea66428aeaa",
+      "result": "Reopen passed natively at the current harness and source: 34 assertions.",
+      "completedAt": "2026-11-01T15:53:59.905Z"
+    },
+    "TASK-059": {
+      "validation": "reopen promote-preview + node --test tests/package-reopen.test.mjs",
+      "exitCode": 0,
+      "log": ".harness/package-current.log",
+      "receiptSha256": "f18c5bc0c4214c58011b309b3916bea335ad8eecb52d05afb592aff3e49f635b",
+      "assertions": 34,
+      "harnessSourceSha256": "7be8b4073f5a08b52bde177d18f6cd4c64175b23351553d5a991c2067bafd851",
+      "completedMs": 1793547745521,
+      "previewSha256": "cd9e2a646b1872b922d496524f65e6eeba6ee75fb2ec06fad662cea66428aeaa",
+      "result": "Validated preview promoted (neutral prompt); package hashes match.",
+      "completedAt": "2026-11-01T15:54:00.026Z"
+    },
+    "TASK-064": {
+      "validation": "node scripts/native-harness.mjs run tabs (current harness)",
+      "exitCode": 0,
+      "log": ".harness/tabs-native.log",
+      "receiptSha256": "92604787788b3cb65fad365df4ed1bd84bef100c14963a54ee0b440d130b34b4",
+      "assertions": 53,
+      "harnessSourceSha256": "7be8b4073f5a08b52bde177d18f6cd4c64175b23351553d5a991c2067bafd851",
+      "completedMs": 1793546553114,
+      "previewSha256": "3fb19b9c9e647e8f4dfa1ae2e9bc11398cff3bb518d0fe5dacd94c0b9fb5fa99",
+      "result": "Tabs passed natively at the current harness and source: 53 assertions.",
+      "completedAt": "2026-11-01T15:54:00.144Z"
+    },
+    "TASK-065": {
+      "validation": "tabs promote-preview + node --test tests/package-tabs.test.mjs",
+      "exitCode": 0,
+      "log": ".harness/package-current.log",
+      "receiptSha256": "92604787788b3cb65fad365df4ed1bd84bef100c14963a54ee0b440d130b34b4",
+      "assertions": 53,
+      "harnessSourceSha256": "7be8b4073f5a08b52bde177d18f6cd4c64175b23351553d5a991c2067bafd851",
+      "completedMs": 1793546553114,
+      "previewSha256": "3fb19b9c9e647e8f4dfa1ae2e9bc11398cff3bb518d0fe5dacd94c0b9fb5fa99",
+      "result": "Validated preview promoted; package hashes match.",
+      "completedAt": "2026-11-01T15:54:00.270Z"
+    },
+    "TASK-053": {
+      "validation": "node scripts/native-harness.mjs run sessions (current harness and source)",
+      "exitCode": 0,
+      "log": ".harness/sessions-native.log",
+      "receiptSha256": "f6d7b98bdb1888a459c92bee114019f4337a91ed2ba7e124f07acd76131167ca",
+      "assertions": 41,
+      "harnessSourceSha256": "7be8b4073f5a08b52bde177d18f6cd4c64175b23351553d5a991c2067bafd851",
+      "completedMs": 1793552541541,
+      "previewSha256": "f0f554401e95c584993d3d6d9559d40a7fc95185c3031d60a9274865d895d2c0",
+      "result": "Sessions passed natively at the current harness and telemetry source: 41 assertions.",
+      "completedAt": "2026-11-01T17:12:36.586Z"
+    },
+    "TASK-054": {
+      "validation": "sessions promote-preview + node --test tests/package-sessions.test.mjs",
+      "tests": 2,
+      "exitCode": 0,
+      "log": ".harness/package-sessions.log",
+      "receiptSha256": "f6d7b98bdb1888a459c92bee114019f4337a91ed2ba7e124f07acd76131167ca",
+      "assertions": 41,
+      "harnessSourceSha256": "7be8b4073f5a08b52bde177d18f6cd4c64175b23351553d5a991c2067bafd851",
+      "completedMs": 1793552541541,
+      "previewSha256": "f0f554401e95c584993d3d6d9559d40a7fc95185c3031d60a9274865d895d2c0",
+      "result": "Validated preview promoted; package hashes match.",
+      "completedAt": "2026-11-01T17:12:36.707Z"
+    },
+    "TASK-007": {
+      "validation": "node scripts/native-harness.mjs run layout (Terminal runner, current harness and source) + promote-preview",
+      "exitCode": 0,
+      "log": ".harness/runner/runs/layout.log",
+      "receiptSha256": "9f84f838de4a12a020aac21ca3451b72495c3c249f596bf744b9f56649ac3958",
+      "assertions": 51,
+      "harnessSourceSha256": "7be8b4073f5a08b52bde177d18f6cd4c64175b23351553d5a991c2067bafd851",
+      "completedMs": 1793555205357,
+      "previewSha256": "c3cf3a8d000d394964b56657f3d306932c210ad64bc8ba87f629d807c7f339e2",
+      "result": "Both layouts passed in a private Herdr 0.1.11 window with all finished mods: 51 assertions including view swap, narrow width, 128 spaces and the controlled second core. The rendered overview preview was promoted.",
+      "completedAt": "2026-11-01T17:47:23.631Z"
+    },
+    "TASK-093": {
+      "validation": "node --test tests/gitlab-compatibility.test.mjs + node scripts/verify-gitlab-compatibility.mjs --reconcile-only (all five native receipts re-proved today at the current harness through the Terminal runner)",
+      "exitCode": 0,
+      "log": ".harness/compat.log",
+      "compatibilityReceiptSha256": "358f574dd41e89593d5b81d5ecb33c89cfbf16f8cd9646de7213ac9fb7282d56",
+      "compatibilityOk": true,
+      "receipts": {
+        "agent-menu": {
+          "sha256": "ea185947d243f1c12a427bcbbe6618c4e54c3f714b9a8d22e258111fcc310714",
+          "assertions": 30,
+          "completedMs": 1793544587401
+        },
+        "spaces": {
+          "sha256": "dc724795736231686a41647ff62bf1b10db2759bb05d0dec42e31b5cd97cddb6",
+          "assertions": 28,
+          "completedMs": 1793544759286
+        },
+        "agents": {
+          "sha256": "e088f333335c70fd1c4cb0b3b7fcab4cf02dab77b2ac168d5ad2160af2651c5f",
+          "assertions": 110,
+          "completedMs": 1793553321762
+        },
+        "jira": {
+          "sha256": "680f527e6f10262de6ffaa6da622d395ec2900573b884b69575e3b81cd68bf0c",
+          "assertions": 36,
+          "completedMs": 1793545139049
+        },
+        "github": {
+          "sha256": "010dc69f270ea32434739d0f8112dfc3c75f4013a492e4961d28c98f56b40eda",
+          "assertions": 45,
+          "completedMs": 1793555764600
+        }
+      },
+      "packageTests": "29/29 package tests pass except the layout recipe draft (TASK-009)",
+      "result": "All five earlier standalone packages reconcile at current artifact, source and preview hashes after GitHub passed natively (45 assertions).",
+      "completedAt": "2026-11-01T17:56:46.391Z"
+    },
+    "TASK-009": {
+      "validation": "node scripts/project.mjs bundle && node --test tests/package-layout.test.mjs",
+      "tests": 11,
+      "exitCode": 0,
+      "log": ".harness/package-layout.log",
+      "bundleManifestSha256": "fbef163b72c0dee5bebd16b79afbd52efbb17f3a556ad068df25524b60a2fcf3",
+      "previewSha256": "c3cf3a8d000d394964b56657f3d306932c210ad64bc8ba87f629d807c7f339e2",
+      "recipeSha256": "d8160d6531820b7903b9a664bd3dfdd3a80a13507a70e7a02f6309fa595a3a7e",
+      "layoutReceiptSha256": "9f84f838de4a12a020aac21ca3451b72495c3c249f596bf744b9f56649ac3958",
+      "mods": [
+        "mission-control-agents",
+        "mission-control-github",
+        "mission-control-gitlab",
+        "mission-control-jira",
+        "mission-control-sessions",
+        "mission-control-spaces",
+        "mission-control-tabs"
+      ],
+      "result": "Bundle holds both layouts, both Settings SVGs and the seven referenced mods byte-identical to their standalone builds; preview.png is the layout-preview frame of the passed integrated native run; Classic evidence is a separate native frame; recipe finalized from the real results.",
+      "completedAt": "2026-11-01T17:56:58.208Z"
+    },
+    "TASK-008": {
+      "validation": "node scripts/project.mjs inspect-docs README.md LICENSE NOTICE.md",
+      "exitCode": 0,
+      "log": ".harness/inspect-docs.log",
+      "result": "README Requirements, status, capability limits (Herdr 0.1.11 launch shape), GitLab provenance and the generated evidence-status block updated from current receipts; NOTICE reconciled against the Jira build manifest (17 compiled packages, exact versions) and every other manifest (repository source only). No claim of authenticated live Jira/GitHub/GitLab, account switching, split restore or --last/--continue resume. Install section leads with the herdr.dev and clone-and-install paths.",
+      "completedAt": "2026-11-01T17:57:48.323Z",
+      "readmeSha256": "cca546f05c5135cbfeacd970277d66a84d993f7bfdf487fcd25c7ef429eb9831",
+      "noticeSha256": "4b018c21a9806cb83c02be2999a989765802f6eca9dfaabb1987446a08e3b0d5",
+      "licenseSha256": "ae7008060919f4835ebe97eba0f5ecbc9dd7aa06121b3cbaea15b0243351e2d6"
+    },
+    "TASK-010": {
+      "validation": "node --test tests/install.test.mjs && node scripts/install.mjs --verify-receipt evidence/native/install.json",
+      "tests": 15,
+      "passed": 14,
+      "skipped": "1 (runs only while no real install exists)",
+      "exitCode": 0,
+      "log": ".harness/install.log",
+      "receiptSha256": "0bcf350e85f9d1b4b8a8394da92576ba3fef1e5b846b3f5346fa6eb6fba6de90",
+      "appHome": "/Users/ciprian/.config/herdr-app",
+      "layout": "mission-control",
+      "previousLayout": "classic-migrated",
+      "files": 198,
+      "checks": [
+        "herdr-app check mods/mission-control-agents:true",
+        "herdr-app check mods/mission-control-github:true",
+        "herdr-app check mods/mission-control-gitlab:true",
+        "herdr-app check mods/mission-control-jira:true",
+        "herdr-app check mods/mission-control-sessions:true",
+        "herdr-app check mods/mission-control-spaces:true",
+        "herdr-app check mods/mission-control-tabs:true",
+        "layout.switch mission-control:true",
+        "herdr-app status has no new errors:true",
+        "visible frame captured:true",
+        "existing terminals still running:true",
+        "root preview paths resolve in the app home:true"
+      ],
+      "terminals": {
+        "before": 57,
+        "after": 57,
+        "missing": []
+      },
+      "result": "Installed the layout bundle into the user’s real Herdr 0.1.11 (after the user restarted into the update): 198 new files, no collisions or key changes, all seven mods passed herdr-app check, layout.switch to mission-control, no new app errors, 57/57 terminals still running, Settings preview paths resolve. Rollback receipt kept private (evidence/native/install.json is excluded from publishing).",
+      "completedAt": "2026-11-02T02:24:48.521Z"
+    }
+  },
+  "active": "TASK-091 (blocked: native input permission); TASK-051/052 and TASK-055..057 source",
+  "optional": {
+    "mission-control-accounts": "TASK066 profile-contract feasibility complete. Isolated native routing and the requested separate account panel remain open under TASK067/068."
+  },
+  "evidenceBoundary": "76of90 required tasks and 1of3 account feasibility tasks are recorded complete. All source tasks are done; every remaining required task needs a native gate (091/093/053/058/064/007), packaging that consumes those receipts (092/054/059/065/009), the final docs pass (008), or a confirmed real install/publish (010/011). Native gates run through a Terminal.app runner (.harness/runner) because the user Herdr host lost TCC attribution after its 0.1.10 update; they need the Mac unlocked and untouched for the whole run.app terminal) lacks macOS Accessibility/post-event permission. Scenarios, recipes, package tests and docs are prepared and fixture-checked.",
+  "foundationSuite": {
+    "command": "node --import ./tests/support/native-loader.mjs --test --test-concurrency=1 tests/*.test.mjs",
+    "tests": 335,
+    "exitCode": 0,
+    "log": ".harness/accounts-feasibility-full-tests.log",
+    "python": {
+      "command": "python3 -m unittest discover -s tests -p '*_test.py'",
+      "tests": 30,
+      "exitCode": 0
+    },
+    "note": "Current335JS tests pass. Prior Python30 receipt retained at unchanged Python sources. Native interaction QA, packages, combined layout, installation and publication remain open."
+  },
+  "reopened": {
+    "TASK-032": {
+      "reason": "Keep shared INCOMPLETE_RESULTS copy provider-neutral now that GitHub Projects uses the same bounded metadata failure. Jira native data retains its own source-specific display text. Refresh current transport/helper evidence with the final GitHub issue run.",
+      "priorCompletion": {
+        "files": [
+          "src/shared/tracker-transport.mjs",
+          "tests/tracker-transport.test.mjs"
+        ],
+        "validation": "node --test --test-concurrency=1 tests/tracker-transport.test.mjs tests/github-auth.test.mjs tests/jira-api.test.mjs tests/jira-backend.test.mjs tests/jira-mcp.test.mjs",
+        "tests": 9,
+        "regressionTests": 59,
+        "exitCode": 0,
+        "log": ".harness/tracker-metadata-regression-tests.log",
+        "sourceSha256": {
+          "src/shared/tracker-transport.mjs": "4966207dd43ed28df2d41bf7a7ca732e16e3716c1f06e425c7969492232c7b3b",
+          "tests/tracker-transport.test.mjs": "ef084589c461b4af19612cb375a36233f0f8bfdc965144de4d38ea843547396e"
+        },
+        "result": "Previous59-test metadata regression run passed before the one-line provider-neutral error-copy correction.",
+        "historyRestoration": "Restored from the retained59-test log and the recorded single-line copy patch; the exact previous source digest was reconstructed by reversing only that patch. Current completion remains separately recorded at the264-test source digest."
+      },
+      "state": "revalidated",
+      "history": [
+        {
+          "reason": "Shared Jira auth/cloudId/MCP Basic contract changed; old completion must not release TASK-034. Existing paths are Modify and fresh validation replaces this evidence.",
+          "priorCompletion": {
+            "files": [
+              "src/shared/tracker-transport.mjs",
+              "tests/tracker-transport.test.mjs"
+            ],
+            "validation": "node --test tests/tracker-transport.test.mjs",
+            "exitCode": 0,
+            "result": "Six real local HTTPS/contract tests pass: pinned Jira API/CLI/MCP union, independent integration vs repo host, account-specific in-memory auth, selected-origin-only redirects, bounded JSON/UTF-8, status/retry metadata, timeout/cancellation and errors without upstream body/stderr/credential reflection. No global CLI login or auth state is changed."
+          },
+          "state": "revalidated",
+          "replacementCompletion": "TASK-032"
+        },
+        {
+          "reason": "GitHub pagination requires response Link metadata, including numeric repository paths. Extend the existing bounded HTTP reader with opt-in metadata and a zero-redirect policy; keep default body-only behavior. Preserve header bounds, selected origin, static errors and all Jira/CLI/MCP contracts.",
+          "priorCompletion": {
+            "files": [
+              "src/shared/tracker-transport.mjs",
+              "tests/tracker-transport.test.mjs"
+            ],
+            "validation": "node --test tests/tracker-transport.test.mjs",
+            "exitCode": 0,
+            "tests": 7,
+            "result": "Seven real local HTTPS/contract tests pass with the revised union: optional API cloudId UUID, shared private credentialHeaders for API/MCP Basic/Bearer, endpoint-origin isolation, literal/malformed credential and cloud-ID rejection, bounded redirects/timeouts/JSON and redacted safe errors. MCP credential-bearing endpoint query parameters are rejected before effects; the updated seven transport tests and full192-test suite pass.",
+            "sourceSha256": {
+              "src/shared/tracker-transport.mjs": "a8d3d4f3621118f309ccca5ff2589d897b07c7d9f3b00a07c113ef5f42114151",
+              "tests/tracker-transport.test.mjs": "acff02bafb4795f800e858180e8e890bafe1e2b7c121e8c7d184e7f862944b7f"
+            },
+            "replacesHistoricalCompletion": true
+          },
+          "state": "revalidated",
+          "replacementCompletion": "TASK-032"
+        }
+      ],
+      "replacementCompletion": "TASK-032"
+    },
+    "TASK-033": {
+      "reason": "Shared Jira auth/cloudId/MCP Basic contract changed; old completion must not release TASK-034. Existing paths are Modify and fresh validation replaces this evidence.",
+      "priorCompletion": {
+        "files": [
+          "src/shared/tracker-model.js",
+          "tests/tracker-model.test.mjs"
+        ],
+        "validation": "node --test tests/tracker-model.test.mjs",
+        "exitCode": 0,
+        "result": "Eight pure-model/real-CAS tests pass: To do/In progress/Done plus text/status filters, All-spaces qualified IDs, source/project/profile fingerprinting, direct same-site/repo URLs, strict source status mappings, immediate account-switch clearing, unique refresh tickets and late-result rejection, timestamped same-scope errors, bounded snapshots and source-preserving repo setup. Node helper remains the complete adapter-schema/effect authority."
+      },
+      "state": "revalidated",
+      "replacementCompletion": "TASK-033"
+    },
+    "TASK-078": {
+      "reason": "Amended PR retained/lazy architecture consumes installed Entity, list and Scrollbar APIs not yet supported by the strict opt-in test recorder. Extend the existing three-file foundation and validate lifecycle/phase guards before its consumer.",
+      "priorCompletion": {
+        "files": [
+          "tests/support/native-loader.mjs",
+          "tests/support/native-recording.mjs",
+          "tests/native-recording.test.mjs"
+        ],
+        "validation": "node --test tests/native-recording.test.mjs",
+        "tests": 3,
+        "exitCode": 0,
+        "result": "Three source contract tests pass: documented retained Textarea state, actual View action capture, and observed native child rejection for null/undefined/boolean/non-element values. This closes the recorder gap that hid the issue-board null-child bug. Native Jira fix verification remains pending.",
+        "sourceSha256": {
+          "tests/support/native-loader.mjs": "2408085feca614f16648973a8602306a7fc6fec1e1462467bc14ece4ce541261",
+          "tests/support/native-recording.mjs": "a8149741a92dca8b1fde3af702f89cdaa646a10ffb0085d1636b7f0144725cdf",
+          "tests/native-recording.test.mjs": "75a6b6049088bebbde1c0b54588c877933ce4aa3415125291c77922fd556712c"
+        }
+      },
+      "state": "revalidated",
+      "replacementCompletion": "TASK-078"
+    },
+    "TASK-038": {
+      "reason": "Actual native board shows vertically centered column headings; enforce full-height columns aligned to the top before mounted Jira approval.",
+      "priorCompletion": {
+        "files": [
+          "src/shared/issue-board.js",
+          "tests/issue-board.test.mjs"
+        ],
+        "validation": "node --import ./tests/support/native-loader.mjs --test tests/issue-board.test.mjs",
+        "tests": 11,
+        "exitCode": 0,
+        "result": "Eleven strict native-tree/action contracts pass: three compact source workflow groups, real direct issue key/title links,3saved installed-tool icons+separate options, stopped action propagation, immutable clicked issue capture, invalid/offline action guards, composing text/status filters, stacked220px mode and wrapped filters, honest empty/loading/error/stale/truncated states, per-machine pins, distinct All-spaces identities and the same GitHub-issue component. Structural contract proof only; mounted native appearance/click behavior remains TASK040. Actual isolated Jira native check exposed and now confirms the null-child banner fix;53 native contract tests and the full235JS tests pass.",
+        "sourceSha256": {
+          "src/shared/issue-board.js": "5aaeeb51392d9bff80ee17583d48b7a4d7dea3ff8e1e8f8245ee84616678b026",
+          "tests/issue-board.test.mjs": "158a76d1b8321f9363f017ff11c6917dd50557a6306444ff3a2c9e7883d0e724"
+        }
+      },
+      "state": "revalidated",
+      "replacementCompletion": "TASK-038"
+    },
+    "TASK-005": {
+      "reason": "Private-only native isolation replaces protected-instance baseline reads. Owner and actual receipt consumers must be revalidated under the reviewed protocol, preserving historical native artifacts.",
+      "priorCompletion": {
+        "files": [
+          "scripts/native-harness.mjs",
+          "tests/native-harness.test.mjs"
+        ],
+        "validation": "node --test tests/native-harness.test.mjs && node scripts/native-harness.mjs probe",
+        "exitCode": 0,
+        "result": "Five isolation/env/TLS/MCP contracts pass, including a real helper concurrently trusting two independently generated fixture certificates. Issuer names are unique while localhost/IP SANs remain explicit. Actual isolation/click probe passes and cleanup preserves the user core ID/PID.",
+        "receipt": "evidence/native/isolation.json",
+        "tests": 5,
+        "sourceSha256": {
+          "scripts/native-harness.mjs": "ed4496b3db8bad6fb7440e2b9eae0bfe4d6988eff6ec9c6fd7bc913375296531",
+          "tests/native-harness.test.mjs": "714aadc011b7df78299a4bd96f60a3eea10257cc550dcd72bec44368bec2a523"
+        }
+      },
+      "state": "revalidated",
+      "replacementCompletion": "TASK-005"
+    },
+    "TASK-079": {
+      "reason": "User added GitLab issues/MRs to both layouts; update the overview Settings artwork from four source slots to six and revalidate the existing authored SVG/test scope.",
+      "priorCompletion": {
+        "files": [
+          "src/layouts/mission-control.svg",
+          "src/layouts/mission-control-classic.svg",
+          "tests/layout-previews.test.mjs"
+        ],
+        "validation": "node --test tests/project.test.mjs tests/layout-previews.test.mjs",
+        "exitCode": 0,
+        "result": "Both Settings SVG sources parse as XML and copy byte-for-byte through a fixture bundle; malformed SVG, symlink escape and missing source fail while preserving the previous bundle. 12 combined tests pass. Real layout inclusion and installed Settings remain downstream gates."
+      },
+      "state": "revalidated",
+      "replacementCompletion": "TASK-079"
+    },
+    "TASK-077": {
+      "reason": "Native Jira rerun timed out in repeated broad lsof ownership scans. Restrict the same exact-path lookup to Unix sockets with -U/-a and disable name/service resolution; retain unique owner, PID generation, window and hit-test checks. Benchmark proved the identical owned PID with0.200s Unix-only versus2.552s broad lookup.",
+      "priorCompletion": {
+        "files": [
+          "scripts/native-driver.swift",
+          "scripts/native-driver.mjs",
+          "tests/native-driver.test.mjs"
+        ],
+        "validation": "node --test tests/native-driver.test.mjs && node scripts/native-driver.mjs probe",
+        "exitCode": 0,
+        "result": "Five source guards and the current actual native input probe pass. Explicit owned window binding is retained. Already-foreground targets avoid redundant activation and its400ms wait; every keyboard/pointer destination, PID/generation, geometry and hit-test guard remains. Actual AX/keyDown/click/right-click/drag/scroll all pass with current source hashes.",
+        "receipt": "evidence/native/input-probe.json",
+        "tests": 5,
+        "sourceSha256": {
+          "scripts/native-driver.swift": "330ac10d44424fc097ee5139afb65c5268dd0b7c9706623fe69ddeacac00232c",
+          "scripts/native-driver.mjs": "1e8016cec3dc3d10bab20e90787461c0d7358e8921ebc4dba78544df9f05ba41",
+          "tests/native-driver.test.mjs": "f4c4ff86402cbfca64c740fd08bab96def9d6f8cc3a7ec4a892c7817b8855f05"
+        }
+      },
+      "history": [
+        {
+          "reason": "macOS exposes additional owned utility/menu windows during native QA. Bind the verified main WindowServer id explicitly instead of inferring from every layer0 window; preserve all PID/generation/geometry guards and prove the binding in the actual input probe.",
+          "priorCompletion": {
+            "files": [
+              "scripts/native-driver.swift",
+              "scripts/native-driver.mjs",
+              "tests/native-driver.test.mjs"
+            ],
+            "validation": "node --test tests/native-driver.test.mjs && node scripts/native-driver.mjs probe",
+            "exitCode": 0,
+            "result": "4 guard tests plus actual owned AX, keyDown(1), pointer, right-click, drag and scroll pass. PID-guarded WindowServer keyboard transport replaces a bridge response without delivered-key proof. Native OCR uses owned WindowServer screenshots; current source hashes are pinned in receipt.",
+            "receipt": "evidence/native/input-probe.json"
+          },
+          "state": "revalidated",
+          "replacementCompletion": "TASK-077"
+        },
+        {
+          "reason": "Native input re-activated an already foreground app before every key/click, causing unnecessary macOS Space transitions and long per-key delays. Activate only when PID is not already foreground; retain all destination/hit-test checks.",
+          "priorCompletion": {
+            "files": [
+              "scripts/native-driver.swift",
+              "scripts/native-driver.mjs",
+              "tests/native-driver.test.mjs"
+            ],
+            "validation": "node --test tests/native-driver.test.mjs && node scripts/native-driver.mjs probe",
+            "exitCode": 0,
+            "result": "Five source guards pass, including explicit main-window selection among additional owned utility windows without PID/window-id fallback. Actual current-source probe passes AX, keyDown, pointer, right-click, drag, scroll and retained explicit window binding. Missing/stale/foreign window identities remain rejected. No OS permission action was used.",
+            "receipt": "evidence/native/input-probe.json",
+            "tests": 5,
+            "sourceSha256": {
+              "scripts/native-driver.swift": "8f3420692d92470d8e1a6c6c8540ad66d5981fa448643227bffc7731e5ada64c",
+              "scripts/native-driver.mjs": "1e8016cec3dc3d10bab20e90787461c0d7358e8921ebc4dba78544df9f05ba41",
+              "tests/native-driver.test.mjs": "f4c4ff86402cbfca64c740fd08bab96def9d6f8cc3a7ec4a892c7817b8855f05"
+            }
+          },
+          "state": "revalidated",
+          "replacementCompletion": "TASK-077"
+        }
+      ],
+      "state": "revalidated",
+      "replacementCompletion": "TASK-077"
+    },
+    "TASK-036": {
+      "reason": "Actual stateful MCP server emits a normal SSE AbortError during SDK close, masking the selected-tool error as MCP_UNAVAILABLE. Suppress only intentional-teardown callbacks and add real streaming/stateful SDK coverage while preserving external cancellation and failure guards.",
+      "priorCompletion": {
+        "files": [
+          "src/mods/mission-control-jira/mcp.mjs",
+          "tests/jira-mcp.test.mjs"
+        ],
+        "validation": "node --test tests/jira-mcp.test.mjs",
+        "exitCode": 0,
+        "tests": 11,
+        "result": "Eleven real official-SDK local TLS/stdio tests pass: explicit read-only tool discovery, typed arguments and JSON/structured/ADF results; all workflow groups; MCP Basic/Bearer/no-auth isolation; cross-origin redirect rejection; missing/changed/mutation-only tools; scoped/expired/repeated cursors; bounded catalog/page/count/output; safe errors; deadline/cancellation; local-only stdio envRefs, unrelated-env exclusion and exact owned PID exit. No live MCP account or agent session was accessed. Pre-save probe also validates the configured search argument placeholders/schema without issuing a search call; all37 CLI/MCP/backend tests passed before native UI work.",
+        "sourceSha256": {
+          "src/mods/mission-control-jira/mcp.mjs": "c76279a367bce8d0411e7c305062bd50e3354a7cf1a258d726ca77c237da3fca",
+          "tests/jira-mcp.test.mjs": "9dfc7cfcc21e9776848726f046d901aa6a756e78613be6c94d5134a65845da3e"
+        },
+        "bundleSmoke": {
+          "standaloneBundleImported": true,
+          "bytes": 747963,
+          "nodeModulesBesideBundle": false,
+          "note": "Built with the repository Node ESM/createRequire banner and imported from an owned temporary folder, then removed only that folder."
+        }
+      },
+      "state": "revalidated",
+      "replacementCompletion": "TASK-036"
+    },
+    "TASK-043": {
+      "reason": "Expose bounded per-helper HTTP concurrency so045 can schedule4helpers without a nested16-request pool. Existing paths become Modify; preserve all current issue/status/pagination behavior.",
+      "priorCompletion": {
+        "files": [
+          "src/mods/mission-control-github/issues.mjs",
+          "tests/github-issues.test.mjs"
+        ],
+        "validation": "node --import ./tests/support/native-loader.mjs --test --test-concurrency=1 tests/*.test.mjs",
+        "tests": 14,
+        "regressionTests": 264,
+        "exitCode": 0,
+        "log": ".harness/github-issues-full-tests.log",
+        "sourceSha256": {
+          "src/mods/mission-control-github/issues.mjs": "e19dd445d1e146cf5d96e374f5cd3d3550e4dd4aeb4198855ad54023b4a3bfb0",
+          "tests/github-issues.test.mjs": "5ff06b434dca071a2be17721ff720a9cc6f30722945fb7584e2407a31d833693"
+        },
+        "result": "Fourteen real local HTTPS/GraphQL fixture tests pass within the full264JS suite. Repo metadata proves canonical owner/repo/site and stable numeric repository ID before issue reads. REST reads all source states, excludes PR-shaped rows and maps closed to Done; labels and stable Projects field/option IDs control open progress, with an exported explicit setup hint. Archived membership and newer closed GraphQL state are handled without agent-state inference. Projects requests batch at most10visible open issues and at most4concurrent calls; missing permissions, unknown/duplicate mappings and incomplete metadata cannot fabricate categories. Link pagination accepts only selected named or verified numeric repo paths, checks page/filter/origin and reconstructs safe requests; full pages missing Link require a terminal-page proof. Scope/age/recreated-repo cursors, PR-only continuation, repeated pages,1000issues/100pages/7MiB bounds, body truncation, empty/disabled states, static errors/rate/deadline/cancel all pass. No live Github or native UI access is claimed."
+      },
+      "state": "closed",
+      "replacementCompletion": "completed.TASK-043"
+    },
+    "TASK-019": {
+      "reason": "Private-only native isolation replaces protected-instance baseline reads. Owner and actual receipt consumers must be revalidated under the reviewed protocol, preserving historical native artifacts.",
+      "priorCompletion": {
+        "files": [
+          "mission-control-agent-menu/RECIPE.md",
+          "tests/package-agent-menu.test.mjs",
+          "mission-control-agent-menu/preview.png"
+        ],
+        "validation": "node scripts/project.mjs build mission-control-agent-menu && node --test tests/package-agent-menu.test.mjs",
+        "exitCode": 0,
+        "result": "Six-part Herdr recipe, real preview and copied-mod-only import test pass. Preview/artifact/source hashes equal the passed native receipt; standalone contains no layouts folder."
+      },
+      "state": "revalidated",
+      "replacementCompletion": "TASK-019"
+    },
+    "TASK-023": {
+      "reason": "Private-only native isolation replaces protected-instance baseline reads. Owner and actual receipt consumers must be revalidated under the reviewed protocol, preserving historical native artifacts.",
+      "priorCompletion": {
+        "files": [
+          "mission-control-spaces/RECIPE.md",
+          "tests/package-spaces.test.mjs",
+          "mission-control-spaces/preview.png"
+        ],
+        "validation": "node scripts/project.mjs build mission-control-spaces && node --test tests/package-spaces.test.mjs",
+        "exitCode": 0,
+        "result": "Six-part recipe, exact mounted preview/build/source hashes and copied-mod-only import isolation pass. No layouts folder or sibling code required."
+      },
+      "state": "revalidated",
+      "replacementCompletion": "TASK-023"
+    },
+    "TASK-031": {
+      "reason": "Private-only native isolation replaces protected-instance baseline reads. Owner and actual receipt consumers must be revalidated under the reviewed protocol, preserving historical native artifacts.",
+      "priorCompletion": {
+        "files": [
+          "mission-control-agents/RECIPE.md",
+          "tests/package-agents.test.mjs",
+          "mission-control-agents/preview.png"
+        ],
+        "validation": "node scripts/project.mjs build mission-control-agents && node --test tests/package-agents.test.mjs",
+        "exitCode": 0,
+        "result": "Two standalone checks pass. Six-part reconstruction recipe, access disclosure, actual WindowServer preview, source/artifact hashes and collector equal the fully passed native package and refreshed installed-provider receipt. Copying only this mod resolves its imports/assets; no layouts folder. Provider-format compatibility does not claim measured live user sessions."
+      },
+      "state": "revalidated",
+      "replacementCompletion": "TASK-031"
+    },
+    "TASK-047": {
+      "reason": "Actual standalone native run reaches the dedicated PR board after issue launch, then shows a native re-render error banner with interrupted while app status errors remains empty. Six-card one-shot materialization and Node contracts did not expose it. Reopen the existing three-file UI slice for a real native root-cause fix; do not weaken scenario assertions or reduce fixture coverage.",
+      "priorCompletion": {
+        "files": [
+          "src/mods/mission-control-github/pulls-view.js",
+          "src/mods/mission-control-github/main.js",
+          "tests/github-prs.test.mjs"
+        ],
+        "validation": "node --import ./tests/support/native-loader.mjs --test tests/github-prs.test.mjs",
+        "tests": 20,
+        "exitCode": 0,
+        "log": ".harness/github-prs-tests.log",
+        "regressionValidation": "node --import ./tests/support/native-loader.mjs --test --test-concurrency=1 tests/*.test.mjs",
+        "regressionTests": 331,
+        "regressionLog": ".harness/github-prs-full-tests.log",
+        "nativeValidation": "node .harness/check-github-native-load.mjs + node .harness/check-github-pr-native-load.mjs (verified private app home/session only)",
+        "nativeReceipt": ".harness/github-load-check.json",
+        "nativePRMaterialization": ".harness/github-pr-native-check.json",
+        "sourceSha256": {
+          "src/mods/mission-control-github/pulls-view.js": "7a28cf2aec73809634e79fd2800c2c05ed338421f0aa8bb9bb4ff7f3c69b2abb",
+          "src/mods/mission-control-github/main.js": "ab7dbf12df80a5aa6d8e94f27e5cdb30153c868509051e9433bce61352da9521",
+          "tests/github-prs.test.mjs": "7d42f38e0a10e325fdb311c464b3e404f1fb8084d11ac8d35a765028b1f36e61"
+        },
+        "generatedArtifacts": {
+          "assets/agent.svg": "e1b2039d6c2635ffcfddceff99109fb03e8ccb40359aed00fa88a6f3d8ad3eed",
+          "assets/branch.svg": "3e84ff73535eefd357b9709e871d3a0f47b5fd6dbd9966eaad804c88b021def7",
+          "assets/check.svg": "1c80d14e7bbcd7fd3ce3027c7c72d4fc07192ff3fb9b96e86b26d1ab3d7b314e",
+          "assets/chevron-down.svg": "1d2065b24da0cf4b3936203004eb8ef7b15a985a0658426517ad0113c29d0fc8",
+          "assets/chevron-right.svg": "efc8ab93d789d1e04bbd5c062e1560267280b570d6efaa09d2a77e601d64ee5f",
+          "assets/close.svg": "28e7ce6d33be8f07dedad8e80ee59e816b81a0e845f64613e3bb51c357da925b",
+          "assets/external.svg": "e4c8ed502be1e53c147361f58d8776337ab259794054e8f3d1e8fd29722d3195",
+          "assets/folder.svg": "3a46023f1ff23f2112b9e0955ad32690139e8f1c071ccfdbcae8e85295365f66",
+          "assets/github.svg": "b4ababc5c6d3ed662798989f5e1a3c4b819767438997b1e1ca020542b77337bf",
+          "assets/issue.svg": "3d676661dab61f8b1611d3dc6d5c33ec4c311d40e40f755332c8d9f4d5118315",
+          "assets/jira.svg": "2e3db07f926b1f7a2467c0769c23627e8c887f83231e6c46c96ac349e4e0d3a3",
+          "assets/layout.svg": "991e3e3ef8165e8c057236ee43ab157a22d12479251bd3da3710db3837326cfd",
+          "assets/more.svg": "a82bebdebdd8c147ef583c00b87788c4a196e04fce2a5e4a10f0ccbc432fdbe4",
+          "assets/panel.svg": "9c88b7e44f25d82d3f37d069b69167c98a06cf4a6cb7f9da7dc52cc2ca10c187",
+          "assets/pin.svg": "2211c66b64ec8a722b08abf49deac42bba57ec7ca21c72dbf270d28a9b6cb9e6",
+          "assets/plus.svg": "bc30fdf06276287fcef7802da8dd282e9854ea130bbaea9e327dca61914417ca",
+          "assets/priority.svg": "344a528c607fe010fd4013e703eebc5f08306589560e69e237e6e2cca5b5d2f8",
+          "assets/pull-request.svg": "93efcc8c2e7e799df7b597de85ee1e0ae2e7d3fb402bff6d96428afbaf17e7d4",
+          "assets/refresh.svg": "a4ef0613fb0794ae6554ccacbe332a0f7a6bfd346ebe94d209b112796462640a",
+          "assets/search.svg": "73a02b45b12746984a4e5d9689a3ca5578f5d329e4e0b0598bd5139d81c0bdce",
+          "assets/server.svg": "4a6a50b128185781455b2a145fbde0bb57e6deff93830168388a97a1f240e2c8",
+          "assets/sessions.svg": "40c70935bd80015005b85b9b42368e4dfdf44ac6a3392e2f6b7fd18a59159d9d",
+          "assets/settings.svg": "c0d3295d7dc3261c7f6e9e6eb4217b044b834d680215ac1e38f9c1efb11b2dc9",
+          "assets/spaces.svg": "01d3d618b27ef141c8251358657d7533abef2bbc40b447f53728c768fa4a593b",
+          "backend.mjs": "957dc15d7d46980d2705cd4baf63c6d9e426ad1fffc2ef01472ff57807a4f0ca",
+          "main.js": "71ba02656fb5122abb3e6c19d91919a0da9254e44106df8abfca57f780b4a4a7",
+          "mod.json": "0465ac8f0599cf876bd27a29dec75eb3ffea9a1a3713889df29a95116af944ef",
+          "NOTICE.md": "a5a806e0237bd4701502ab14d5ff65939923cc06e93052cd04eb22a87cb1bf8d"
+        },
+        "result": "Dedicated PR role and retained independent filters render compact responsive cards with actual/deleted authors, validated direct source/author/linked-issue URLs and independent human review/thread/check states. Three pinned installed tool icons start the selected Review, Address comments or Fix checks task through the actual shared tab.new.task without optional instruction flags. Complete target/action/checkout snapshots precede details; current and All-spaces linked/canonical routing survive active-space changes, while changed head/account scopes cancel stale actions. Forks, unavailable refs, partial/denied discussions and nonfailing checks obey the pure model. UI-only qualified journal hints visibly label Open agent; the shared launcher remains authority, reopens exact PR/tool focus-only without fetching or resending a new task, and preserves the closed-session history boundary. Same-number PRs after a remote binding change cannot focus old work and cannot adopt an occupied default worktree. Own-mod options deliver controlled task content and emit slot events; pin settings update icons without refetching loaded details. Existing14 issue-role tests and the full331JS regression pass. Actual native mod load plus eager PR board materialization passed with synthetic narrow/wide loaded/unloaded/error data in a private app home/session; no existing instance query. Mounted interaction/screenshot proof remains TASK048, package completion049."
+      },
+      "state": "revalidated",
+      "replacementCompletion": "TASK-047",
+      "revalidationRound1": {
+        "files": [
+          "src/mods/mission-control-github/main.js",
+          "src/mods/mission-control-github/pulls-view.js",
+          "tests/github-prs.test.mjs"
+        ],
+        "validation": "node --import ./tests/support/native-loader.mjs --test tests/github-prs.test.mjs",
+        "tests": 27,
+        "exitCode": 0,
+        "log": ".harness/github-retained-prs-tests.log",
+        "regressionValidation": "node --import ./tests/support/native-loader.mjs --test --test-concurrency=1 tests/*.test.mjs",
+        "regressionTests": 383,
+        "regressionLog": ".harness/github-retained-full-tests-383.log",
+        "nativeValidation": "Current V2 private NativeRuntime.installPackage performs herdr-app check on the copied standalone mod",
+        "nativeReceipt": ".harness/github-retained-source-gate-native.json",
+        "sourceSha256": {
+          "src/mods/mission-control-github/main.js": "bfa98fd181cfc89e425b34b10728f0e41cff0fbbd107f33170563104c53e0b24",
+          "src/mods/mission-control-github/pulls-view.js": "c044b679eab962bb2f97348f0f5106d3ba5f7fd13a20f2dcb7a4927893c65a0f",
+          "tests/github-prs.test.mjs": "a100c91ed6dd6197ea96ee4e12f9a301981307d64d97037d55b39db2ae043741"
+        },
+        "generatedArtifacts": {
+          "assets/agent.svg": "e1b2039d6c2635ffcfddceff99109fb03e8ccb40359aed00fa88a6f3d8ad3eed",
+          "assets/branch.svg": "3e84ff73535eefd357b9709e871d3a0f47b5fd6dbd9966eaad804c88b021def7",
+          "assets/check.svg": "1c80d14e7bbcd7fd3ce3027c7c72d4fc07192ff3fb9b96e86b26d1ab3d7b314e",
+          "assets/chevron-down.svg": "1d2065b24da0cf4b3936203004eb8ef7b15a985a0658426517ad0113c29d0fc8",
+          "assets/chevron-right.svg": "efc8ab93d789d1e04bbd5c062e1560267280b570d6efaa09d2a77e601d64ee5f",
+          "assets/close.svg": "28e7ce6d33be8f07dedad8e80ee59e816b81a0e845f64613e3bb51c357da925b",
+          "assets/external.svg": "e4c8ed502be1e53c147361f58d8776337ab259794054e8f3d1e8fd29722d3195",
+          "assets/folder.svg": "3a46023f1ff23f2112b9e0955ad32690139e8f1c071ccfdbcae8e85295365f66",
+          "assets/github.svg": "b4ababc5c6d3ed662798989f5e1a3c4b819767438997b1e1ca020542b77337bf",
+          "assets/issue.svg": "3d676661dab61f8b1611d3dc6d5c33ec4c311d40e40f755332c8d9f4d5118315",
+          "assets/jira.svg": "2e3db07f926b1f7a2467c0769c23627e8c887f83231e6c46c96ac349e4e0d3a3",
+          "assets/layout.svg": "991e3e3ef8165e8c057236ee43ab157a22d12479251bd3da3710db3837326cfd",
+          "assets/more.svg": "a82bebdebdd8c147ef583c00b87788c4a196e04fce2a5e4a10f0ccbc432fdbe4",
+          "assets/panel.svg": "9c88b7e44f25d82d3f37d069b69167c98a06cf4a6cb7f9da7dc52cc2ca10c187",
+          "assets/pin.svg": "2211c66b64ec8a722b08abf49deac42bba57ec7ca21c72dbf270d28a9b6cb9e6",
+          "assets/plus.svg": "bc30fdf06276287fcef7802da8dd282e9854ea130bbaea9e327dca61914417ca",
+          "assets/priority.svg": "344a528c607fe010fd4013e703eebc5f08306589560e69e237e6e2cca5b5d2f8",
+          "assets/pull-request.svg": "93efcc8c2e7e799df7b597de85ee1e0ae2e7d3fb402bff6d96428afbaf17e7d4",
+          "assets/refresh.svg": "a4ef0613fb0794ae6554ccacbe332a0f7a6bfd346ebe94d209b112796462640a",
+          "assets/search.svg": "73a02b45b12746984a4e5d9689a3ca5578f5d329e4e0b0598bd5139d81c0bdce",
+          "assets/server.svg": "4a6a50b128185781455b2a145fbde0bb57e6deff93830168388a97a1f240e2c8",
+          "assets/sessions.svg": "40c70935bd80015005b85b9b42368e4dfdf44ac6a3392e2f6b7fd18a59159d9d",
+          "assets/settings.svg": "c0d3295d7dc3261c7f6e9e6eb4217b044b834d680215ac1e38f9c1efb11b2dc9",
+          "assets/spaces.svg": "01d3d618b27ef141c8251358657d7533abef2bbc40b447f53728c768fa4a593b",
+          "backend.mjs": "957dc15d7d46980d2705cd4baf63c6d9e426ad1fffc2ef01472ff57807a4f0ca",
+          "main.js": "9ad7a693171fd56eca251624b315d589175c7b02483112647adedd6c78a7b534",
+          "mod.json": "0465ac8f0599cf876bd27a29dec75eb3ffea9a1a3713889df29a95116af944ef",
+          "NOTICE.md": "a5a806e0237bd4701502ab14d5ff65939923cc06e93052cd04eb22a87cb1bf8d"
+        },
+        "result": "Retained PullCard native Views and variable-height lazy rows pass27 contract tests,383 full JavaScript regressions and the exact-current-source private native load check. Root-owned preparation yields before native effects and in count/byte/time batches; stale generations never publish or overwrite newer cards. A120-PR multi-account test materializes only explicit visible ranges and exercises Show more/offscreen controls/search/resize. Real native120-card capability diagnostic renders the actual card module with1ms root render; full mounted workflow remains048. Actual captured child launch after visibility-only source removal reaches the original remote repo/tool and releases bridge/UI origins after its native task settles. Fresh saved-config validation rejects unseen rebind for both launch/options; root close and early failures clean up handles. Existing PR actions, focus-only/no-resend, slot/source isolation, independent metadata, pin updates, linked checkout and issue role remain intact. Native full scenario now passes rendering/metadata but needs test selector repair; no completed GitHub native package/preview is claimed.",
+        "boundary": "Superseded during capacity audit: replacement collection allocated new children before pruning old ones. Fix and additional regression remain in progress."
+      },
+      "humanLabelPriorCompletion": {
+        "files": [
+          "src/mods/mission-control-github/main.js",
+          "src/mods/mission-control-github/pulls-view.js",
+          "tests/github-prs.test.mjs"
+        ],
+        "validation": "node --import ./tests/support/native-loader.mjs --test tests/github-prs.test.mjs",
+        "tests": 28,
+        "exitCode": 0,
+        "log": ".harness/github-retained-prs-tests.log",
+        "regressionValidation": "node --import ./tests/support/native-loader.mjs --test --test-concurrency=1 tests/*.test.mjs",
+        "regressionTests": 384,
+        "regressionLog": ".harness/github-retained-full-tests-384.log",
+        "nativeValidation": "Current V2 private NativeRuntime.installPackage performs herdr-app check on the copied standalone mod",
+        "nativeReceipt": ".harness/github-retained-source-gate-native.json",
+        "sourceSha256": {
+          "src/mods/mission-control-github/main.js": "bfa98fd181cfc89e425b34b10728f0e41cff0fbbd107f33170563104c53e0b24",
+          "src/mods/mission-control-github/pulls-view.js": "1839e1b4c921593066cf2f0e483b03b62fddf4c11cc554f9ce37f740f4175a38",
+          "tests/github-prs.test.mjs": "fa04217f2592d8a9fc9c5dd36e8f01d75e5a7c5e43e8a9e3346f293c8b06298c"
+        },
+        "generatedArtifacts": {
+          "assets/agent.svg": "e1b2039d6c2635ffcfddceff99109fb03e8ccb40359aed00fa88a6f3d8ad3eed",
+          "assets/branch.svg": "3e84ff73535eefd357b9709e871d3a0f47b5fd6dbd9966eaad804c88b021def7",
+          "assets/check.svg": "1c80d14e7bbcd7fd3ce3027c7c72d4fc07192ff3fb9b96e86b26d1ab3d7b314e",
+          "assets/chevron-down.svg": "1d2065b24da0cf4b3936203004eb8ef7b15a985a0658426517ad0113c29d0fc8",
+          "assets/chevron-right.svg": "efc8ab93d789d1e04bbd5c062e1560267280b570d6efaa09d2a77e601d64ee5f",
+          "assets/close.svg": "28e7ce6d33be8f07dedad8e80ee59e816b81a0e845f64613e3bb51c357da925b",
+          "assets/external.svg": "e4c8ed502be1e53c147361f58d8776337ab259794054e8f3d1e8fd29722d3195",
+          "assets/folder.svg": "3a46023f1ff23f2112b9e0955ad32690139e8f1c071ccfdbcae8e85295365f66",
+          "assets/github.svg": "b4ababc5c6d3ed662798989f5e1a3c4b819767438997b1e1ca020542b77337bf",
+          "assets/issue.svg": "3d676661dab61f8b1611d3dc6d5c33ec4c311d40e40f755332c8d9f4d5118315",
+          "assets/jira.svg": "2e3db07f926b1f7a2467c0769c23627e8c887f83231e6c46c96ac349e4e0d3a3",
+          "assets/layout.svg": "991e3e3ef8165e8c057236ee43ab157a22d12479251bd3da3710db3837326cfd",
+          "assets/more.svg": "a82bebdebdd8c147ef583c00b87788c4a196e04fce2a5e4a10f0ccbc432fdbe4",
+          "assets/panel.svg": "9c88b7e44f25d82d3f37d069b69167c98a06cf4a6cb7f9da7dc52cc2ca10c187",
+          "assets/pin.svg": "2211c66b64ec8a722b08abf49deac42bba57ec7ca21c72dbf270d28a9b6cb9e6",
+          "assets/plus.svg": "bc30fdf06276287fcef7802da8dd282e9854ea130bbaea9e327dca61914417ca",
+          "assets/priority.svg": "344a528c607fe010fd4013e703eebc5f08306589560e69e237e6e2cca5b5d2f8",
+          "assets/pull-request.svg": "93efcc8c2e7e799df7b597de85ee1e0ae2e7d3fb402bff6d96428afbaf17e7d4",
+          "assets/refresh.svg": "a4ef0613fb0794ae6554ccacbe332a0f7a6bfd346ebe94d209b112796462640a",
+          "assets/search.svg": "73a02b45b12746984a4e5d9689a3ca5578f5d329e4e0b0598bd5139d81c0bdce",
+          "assets/server.svg": "4a6a50b128185781455b2a145fbde0bb57e6deff93830168388a97a1f240e2c8",
+          "assets/sessions.svg": "40c70935bd80015005b85b9b42368e4dfdf44ac6a3392e2f6b7fd18a59159d9d",
+          "assets/settings.svg": "c0d3295d7dc3261c7f6e9e6eb4217b044b834d680215ac1e38f9c1efb11b2dc9",
+          "assets/spaces.svg": "01d3d618b27ef141c8251358657d7533abef2bbc40b447f53728c768fa4a593b",
+          "backend.mjs": "957dc15d7d46980d2705cd4baf63c6d9e426ad1fffc2ef01472ff57807a4f0ca",
+          "main.js": "36c7ad170ce6bdffbf9a2774e1cd3498f3c035b516db906314e7b61e6bc5f1d8",
+          "mod.json": "0465ac8f0599cf876bd27a29dec75eb3ffea9a1a3713889df29a95116af944ef",
+          "NOTICE.md": "a5a806e0237bd4701502ab14d5ff65939923cc06e93052cd04eb22a87cb1bf8d"
+        },
+        "result": "Retained/lazy native PR cards pass28 focused tests,384 full JavaScript regressions and exact-current-source private native load check. Preparation explicitly yields out of render before native effects, batches validation/creation/release, prunes old collections before replacement allocations, rejects stale jobs and atomically exposes the current generation. Large multi-account range tests preserve all controls across Show more/search/resize. Native workflow has passed30 assertions including actual Review/Address comments/Fix checks task delivery, focus-only reuse, unavailable/fork/partial/deleted states, a held remote launch after source removal, closed-session containment and rebind/worktree collision. Native own-mod options visibly opens; its title selector needs a bounds correction under048. Full native pagination/scroll/setup/preview proof remains048; no packaged GitHub success is claimed."
+      }
+    },
+    "TASK-045": {
+      "reason": "Same begin-before-request wedge found in GitLab TASK091 (see TASK-088 reopening): a Herdr-interrupted continuation leaves an orphaned ScopedTrackerCache ticket and a never-released helper slot/tail, so github cards could stay Loading for ever. Port the abandoned-load recovery and expiring queue before TASK093 rebuilds this standalone package.",
+      "priorCompletion": {
+        "files": [
+          "src/mods/mission-control-github/backend.mjs",
+          "src/mods/mission-control-github/data.js",
+          "tests/github-backend.test.mjs"
+        ],
+        "validation": "node --test tests/github-backend.test.mjs",
+        "tests": 24,
+        "exitCode": 0,
+        "log": ".harness/github-origin-lease-tests.log",
+        "regressionValidation": "node --import ./tests/support/native-loader.mjs --test --test-concurrency=1 tests/*.test.mjs",
+        "regressionTests": 377,
+        "regressionLog": ".harness/github-origin-lease-full-tests.log",
+        "sourceSha256": {
+          "src/mods/mission-control-github/backend.mjs": "18697943571e6ec868eaec147fe91b62b6061a529b7c184ab3c6a95ce9fc0fa7",
+          "src/mods/mission-control-github/data.js": "45c4db7787d1ad1aa1e03cb5078236c2e3a3f8e33a68d1be7e72466962df9eb2",
+          "tests/github-backend.test.mjs": "58d8edb0286f30eb460835edc99e0657bf59396a42bdb3ceef50f4d88b530425"
+        },
+        "result": "Indexed immutable PR snapshot membership and bounded captured-origin leases pass24 producer tests and377 full JavaScript regressions. Explicit leased detail reads survive visibility-only source removal without publishing/polling hidden data; nonleased coalesced callers still cancel. Fresh saved-config validation rejects unseen account/repository/credential changes and malformed config without writes. Capacity64, exact120000ms TTL, released/foreign tokens, observed head/base/membership changes, shared queue serialization, close and last-ref cleanup are exercised. Production retained child/launch consumer and mounted GitHub gate remain TASK047/048."
+      },
+      "earlierReopening": {
+        "reason": "Native eleven-PR reproduction proves detailState/pullEntry rescans and revalidates every row for every rendered card. Render terminates during its second pass; index current scoped snapshots once while preserving live head/base and account generation checks.",
+        "priorCompletion": {
+          "files": [
+            "src/mods/mission-control-github/backend.mjs",
+            "src/mods/mission-control-github/data.js",
+            "tests/github-backend.test.mjs"
+          ],
+          "validation": "node --test tests/github-backend.test.mjs",
+          "tests": 15,
+          "exitCode": 0,
+          "log": ".harness/github-backend-tests.log",
+          "regressionValidation": "node --import ./tests/support/native-loader.mjs --test --test-concurrency=1 tests/*.test.mjs",
+          "regressionTests": 297,
+          "regressionLog": ".harness/github-backend-full-tests.log",
+          "sourceSha256": {
+            "src/mods/mission-control-github/backend.mjs": "18697943571e6ec868eaec147fe91b62b6061a529b7c184ab3c6a95ce9fc0fa7",
+            "src/mods/mission-control-github/data.js": "7f1d9e1eac435709f9a6494e1e8b95a8dce981c5b973c31d554bb93957028498",
+            "tests/github-backend.test.mjs": "44fc90b07ef07ab31e06059b490056ed926897abec75eb60ac7d3ebb0ea66fa3"
+          },
+          "schemaAudit": "evidence/reviews/github-projects-schema-audit.json",
+          "result": "Fifteen executable-helper/native-safe bridge tests and the full297JS suite pass. A compiled helper copied alone into a private app home returns exact issue/PR/repo/Projects packet unions without Jira or runtime sibling imports. Both adapters receive a forced serial HTTP pool; actual Projects issue enrichment peak is1. Public list cursors qualify raw selected-profile scope and operation before provider access; detail selectors preserve full identity and expected head/base. Complete Projects discovery uses <=4HTTP reads including repo proof, <=3field pages and bounded single-select options, with no partial success. Unknown/null/oversized/duplicate metadata stays an explicit error. One module-local native queue caps4helper jobs across scopes/bridge instances, serializes same-scope list/detail reads, and drops closed queued work. Account changes clear old cards; late account/head results cannot publish actionable details. Same-scope failures retain timestamped real cards with static errors. Setup validates stable field/option IDs before CAS; denial, incomplete discovery, invalid mapping and cancellation preserve original bytes, while unrelated concurrent/Jira edits survive. Profile/project changes clear transient choices. Native data bundles without Node/URL/DOM/GPUI runtime dependencies. Offline primary-schema audit verifies43selected fields/24unique fields in the Projects query, not live-provider execution. This is source/owned-fixture proof only; native views and mounted/package/install/release gates remain pending."
+        },
+        "state": "revalidated",
+        "replacementCompletion": "TASK-045"
+      },
+      "state": "revalidated",
+      "replacementCompletion": "TASK-045"
+    },
+    "TASK-090": {
+      "reason": "Native search clicked the Merged filter after transient action feedback moved the toolbar between observation and click. Move feedback into the existing footer, preserving visible cancellation errors and stationary controls.",
+      "priorCompletion": {
+        "files": [
+          "src/mods/mission-control-gitlab/main.js",
+          "src/mods/mission-control-gitlab/merges-view.js",
+          "tests/gitlab-mrs.test.mjs"
+        ],
+        "validation": "node --import ./tests/support/native-loader.mjs --test --test-reporter=tap tests/gitlab-mrs.test.mjs tests/gitlab.test.mjs",
+        "tests": 43,
+        "mergeRequestTests": 31,
+        "issueRegressionTests": 12,
+        "exitCode": 0,
+        "log": ".harness/gitlab-mrs-and-issues-tests.log",
+        "sourceSha256": {
+          "src/mods/mission-control-gitlab/main.js": "7135d5507047dafc10b3908aa56509b4038297f2e95fbd1edb6e0fcc7c4b2751",
+          "src/mods/mission-control-gitlab/merges-view.js": "d9a89d92b503fa0ada3b1845372dfa80366b3a0f17b46b21dbd11434f25ef502",
+          "tests/gitlab-mrs.test.mjs": "010edddcd44c720c501a31a2654b8f707205b9fb82eb453034204797b7315e59"
+        },
+        "nativeLoadCheck": ".harness/gitlab-native-attempt4.json",
+        "generatedArtifacts": {
+          "assets/agent.svg": "e1b2039d6c2635ffcfddceff99109fb03e8ccb40359aed00fa88a6f3d8ad3eed",
+          "assets/branch.svg": "3e84ff73535eefd357b9709e871d3a0f47b5fd6dbd9966eaad804c88b021def7",
+          "assets/check.svg": "1c80d14e7bbcd7fd3ce3027c7c72d4fc07192ff3fb9b96e86b26d1ab3d7b314e",
+          "assets/chevron-down.svg": "1d2065b24da0cf4b3936203004eb8ef7b15a985a0658426517ad0113c29d0fc8",
+          "assets/chevron-right.svg": "efc8ab93d789d1e04bbd5c062e1560267280b570d6efaa09d2a77e601d64ee5f",
+          "assets/close.svg": "28e7ce6d33be8f07dedad8e80ee59e816b81a0e845f64613e3bb51c357da925b",
+          "assets/external.svg": "e4c8ed502be1e53c147361f58d8776337ab259794054e8f3d1e8fd29722d3195",
+          "assets/folder.svg": "3a46023f1ff23f2112b9e0955ad32690139e8f1c071ccfdbcae8e85295365f66",
+          "assets/github.svg": "b4ababc5c6d3ed662798989f5e1a3c4b819767438997b1e1ca020542b77337bf",
+          "assets/gitlab.svg": "349804ee06f6ee8d48643f682491db781f34f932ded32ffff323e5e2fc0bbe2e",
+          "assets/issue.svg": "3d676661dab61f8b1611d3dc6d5c33ec4c311d40e40f755332c8d9f4d5118315",
+          "assets/jira.svg": "2e3db07f926b1f7a2467c0769c23627e8c887f83231e6c46c96ac349e4e0d3a3",
+          "assets/layout.svg": "991e3e3ef8165e8c057236ee43ab157a22d12479251bd3da3710db3837326cfd",
+          "assets/more.svg": "a82bebdebdd8c147ef583c00b87788c4a196e04fce2a5e4a10f0ccbc432fdbe4",
+          "assets/panel.svg": "9c88b7e44f25d82d3f37d069b69167c98a06cf4a6cb7f9da7dc52cc2ca10c187",
+          "assets/pin.svg": "2211c66b64ec8a722b08abf49deac42bba57ec7ca21c72dbf270d28a9b6cb9e6",
+          "assets/plus.svg": "bc30fdf06276287fcef7802da8dd282e9854ea130bbaea9e327dca61914417ca",
+          "assets/priority.svg": "344a528c607fe010fd4013e703eebc5f08306589560e69e237e6e2cca5b5d2f8",
+          "assets/pull-request.svg": "93efcc8c2e7e799df7b597de85ee1e0ae2e7d3fb402bff6d96428afbaf17e7d4",
+          "assets/refresh.svg": "a4ef0613fb0794ae6554ccacbe332a0f7a6bfd346ebe94d209b112796462640a",
+          "assets/search.svg": "73a02b45b12746984a4e5d9689a3ca5578f5d329e4e0b0598bd5139d81c0bdce",
+          "assets/server.svg": "4a6a50b128185781455b2a145fbde0bb57e6deff93830168388a97a1f240e2c8",
+          "assets/sessions.svg": "40c70935bd80015005b85b9b42368e4dfdf44ac6a3392e2f6b7fd18a59159d9d",
+          "assets/settings.svg": "c0d3295d7dc3261c7f6e9e6eb4217b044b834d680215ac1e38f9c1efb11b2dc9",
+          "assets/spaces.svg": "01d3d618b27ef141c8251358657d7533abef2bbc40b447f53728c768fa4a593b",
+          "backend.mjs": "aa192f3069f2c6e544112ee0e8ca2fdef0727e5116ea74e8e22fdc08817fa27c",
+          "main.js": "b75327f2342cc197c5f717c454d87ea954ca099659a2c1a377d95e4adea903da",
+          "mod.json": "c6c8cd9a9ab8f0c13c762a69b23ce8f85062dc18302f328768855f1ef8ef4a2f",
+          "NOTICE.md": "f20f37f2705da9d37b502d64fbe21f68f7db7280f83369013586be19e747c873"
+        },
+        "result": "Separate retained/lazy native MR cards and action dispatch pass30 contract checks,12 existing issue checks and an exact-source herdr-app check in a registered private home/core with verified cleanup. Captures/clones action, full binding, global id, tool, checkout and stable request/origin IDs before asynchronous work; retries and the own-mod options dialog retain intent. Independent approval/discussion/pipeline handling covers complete-empty, incomplete-empty and visibly partial nonempty comments, fork local review, locked actions and missing data. Actual shared launch/journal tests prove one delivered task followed by focus-only/no-resend for different actions and closed-slot history containment.120 multi-account cards exercise retained lifetimes, explicit visible ranges, offscreen controls, search/resize, bounded preparation, stale-generation rejection and prune-before-allocate. Saved pins update without provider reload. No existing Herdr instance queried; full mounted feature/preview/package gates remain091/092. Additional checkout-change regression proves the action rejection remains visible through automatic focus refresh. Cancellation reasons are displayed when the view remains open. Current43 scoped checks and exact-source native load proof pass; full mounted091 remains pending.",
+        "nativeLoadBoundary": "The recorded private check passed on this exact compiled source and cleanup passed. The overall mounted run failed its partial-label OCR assertion; this is not a mounted feature success receipt."
+      },
+      "state": "revalidated",
+      "replacementCompletion": "TASK-090"
+    },
+    "TASK-088": {
+      "reason": "Mounted TASK091 attempt10 showed the first embedded hideHeader MR copy stuck on Loading. Herdr interrupts a continuation after roughly 400-800 ms (measured by private probes; budget is per continuation, not shared across copies) without running catch/finally. refreshEntry had already called ScopedTrackerCache.begin(), so the orphaned pending ticket made every later refresh, timer and manual refresh a no-op. Host calls (knownAgents, machines, spaces, panes, setShared, readTextFile) and GC pauses were measured as non-causal in an idle private instance; the overrun source in the busy full run remains unidentified.",
+      "priorCompletion": {
+        "files": [
+          "src/mods/mission-control-gitlab/backend.mjs",
+          "src/mods/mission-control-gitlab/data.js",
+          "tests/gitlab-backend.test.mjs"
+        ],
+        "validation": "node --test tests/gitlab-backend.test.mjs",
+        "tests": 14,
+        "exitCode": 0,
+        "log": ".harness/gitlab-backend-tests.log",
+        "sourceSha256": {
+          "src/mods/mission-control-gitlab/backend.mjs": "4f93dc1a3f3356fdd30ade1042bd85db9b80d4db9a121d9c6c23a1b6963c92fc",
+          "src/mods/mission-control-gitlab/data.js": "bda2e596d3e89191a3e9a76647ae8b35976b905a229b70ab119db5594a2786da",
+          "tests/gitlab-backend.test.mjs": "f5eac81279ea0248ca16d8f2b9412bef35cf9868a0928d0549959f40d58e077a"
+        },
+        "result": "Fourteen integration checks pass using copied mod-only Node bundles, real temporary TLS/subprocess fixtures and a neutral-platform native bridge VM. Own-folder issues/merges/probe dispatch and strict redacted packets use only GitLab/shared code. Public list cursors bind operation/account/repository; issue and MR caches are separate while helpers serialize the same scope. Weighted global scheduling bounds actual HTTP <=4 even with selected-MR metadata fanout. All-space local/remote roots/accounts/checkouts remain distinct and provider helpers stay local. Exact canonical path mismatches clear old cards, retain setup/canonical advice across refresh, preserve site and write nothing. Setup CAS saves preserve Jira/GitHub/preferences and reject profile conflicts; late probe/save results cancel after edits, space switches or same-space rebinds. Captured bounded MR origins survive visibility-only removal, retain a proven base SHA on fresh/coalesced/cache-hit paths, and revoke on config/head/base drift, foreign tokens, capacity, TTL and close. Malformed config remains byte-identical. Native UI/load/package proof remains TASK089..092; affected standalone revalidation remains093."
+      },
+      "state": "revalidated",
+      "replacementCompletion": "TASK-088",
+      "hostProbes": [
+        ".harness/host-budget-probe.json",
+        ".harness/host-budget-batch-probe.json",
+        ".harness/host-call-probe.json",
+        ".harness/host-gc-probe.json"
+      ]
+    },
+    "TASK-037": {
+      "reason": "Same begin-before-request wedge found in GitLab TASK091 (see TASK-088 reopening): a Herdr-interrupted continuation leaves an orphaned ScopedTrackerCache ticket and a never-released helper slot/tail, so jira cards could stay Loading for ever. Port the abandoned-load recovery and expiring queue before TASK093 rebuilds this standalone package.",
+      "priorCompletion": {
+        "files": [
+          "src/mods/mission-control-jira/backend.mjs",
+          "src/mods/mission-control-jira/data.js",
+          "tests/jira-backend.test.mjs"
+        ],
+        "validation": "node --test tests/jira-backend.test.mjs",
+        "tests": 17,
+        "exitCode": 0,
+        "result": "Seventeen backend/native-data contract tests pass: standalone bundled subprocess API/CLI/MCP HTTP/stdio dispatch, symlink and preserve-symlink entrypoint, exact requested-profile scope/cursors across URL normalization, four-helper cap with synchronous native effects, coalesced manual/60s refresh, retry metadata and timestamped stale data, wrong-account/queued/closed publication guards, canonical API probes before CAS save, scoped-token/MCP Basic setup, form cancellation, concurrent source-preserving config edits, All-spaces error isolation and accumulated-byte caps. Source/fixture proof only; native board/render/install remains pending.",
+        "sourceSha256": {
+          "src/mods/mission-control-jira/backend.mjs": "095e023d7357d511112fd556d1d2e0c73451eeed6021c20e5e55a6539521cc31",
+          "src/mods/mission-control-jira/data.js": "f3eb18498e81e89efa315cca0bfb7846171fcb6608feb7975cb84cac0b0551ea",
+          "tests/jira-backend.test.mjs": "689a78647112362237ff1c1f184045ac3c03c99d8f1060e62c1e65e755f0c309"
+        },
+        "generatedArtifact": {
+          "file": "mission-control-jira/mods/mission-control-jira/backend.mjs",
+          "sha256": "0a6f177b27bad27bb8af8de386fb1eb70e6e8390356abf78f415d5e8a4bc05e6",
+          "note": "Rebuilt current Jira helper includes opt-in metadata/zero-redirect policy and neutral shared incomplete-results copy; full264JS tests pass. Native Jira remains pending on read-only isolation-query permission."
+        }
+      },
+      "state": "revalidated",
+      "replacementCompletion": "TASK-037"
+    },
+    "TASK-050": {
+      "reason": "Reopen implementation found that hc keeps finished terminals until removal and a committed binding stays committed without Agents telemetry, so inspectHost focused a dead bound terminal instead of resuming. Require a live state for the exact-binding focus path.",
+      "priorCompletion": {
+        "files": [
+          "src/shared/resume.js",
+          "tests/resume.test.mjs"
+        ],
+        "validation": "node --import ./tests/support/native-loader.mjs --test tests/resume.test.mjs",
+        "tests": 7,
+        "exitCode": 0,
+        "log": ".harness/resume-tests.log",
+        "sourceSha256": {
+          "src/shared/resume.js": "b07da0e948b7c4a4152350f8919e3f78f4a5f62189dcc76f8aef8b581bc6a48f",
+          "tests/resume.test.mjs": "5b07ec37f1979f1398a284284d35466b4d9ec0aa019a75582b31a529a7ff1080"
+        },
+        "result": "Seven real-Git/journal tests pass. resume() never throws; it checks host readiness, destination space, host tool capabilities, journal/bindings/live terminals before any side effect, focuses an exactly bound live terminal once, returns AMBIGUOUS_RUNNING_SESSION with zero side effects for an unbound plausible same-host/provider/repo terminal, and resumes only with help-verified exact-ID argv (Claude --resume, Codex resume) through launch() so journal/ack/binding/name-ownership transfer are reused. Missing worktree, wrong/offline host, unsupported tool, account mismatch and --last/--continue identities fail with locate/retry recovery and no writes. Same-session double clicks and concurrent intents create one tab; replayed request IDs stay idempotent. Interpretations: uncertain creation allows a fresh attempt only after 60 s with no plausible live terminal; subfolder-cwd sessions report CHECKOUT_MISMATCH; resume reads launches.json directly. No native proof (TASK-053)."
+      },
+      "state": "revalidated",
+      "replacementCompletion": "TASK-050"
+    },
+    "TASK-060": {
+      "reason": "The TASK064 fixture-check found that reportedTitle rejected any title whose lowercased first word is a shell name, so real conversation titles such as \"Login loop\" or \"Shell script cleanup\" never named tabs. Match the first word as written (lowercase self-reports, leading - and trailing : ignored).",
+      "priorCompletion": {
+        "files": [
+          "src/shared/tab-names.js",
+          "tests/tab-names.test.mjs"
+        ],
+        "validation": "node --test tests/tab-names.test.mjs",
+        "tests": 11,
+        "exitCode": 0,
+        "log": ".harness/tab-names-tests.log",
+        "sourceSha256": {
+          "src/shared/tab-names.js": "412f4c566c3256d51e712e9d9ee3ba314c8440030f0f6e6dc630d5ca03bb3d17",
+          "tests/tab-names.test.mjs": "58a054a447c722f15839d9b52425a644b487e5e048d4beac891885a5ce222afe"
+        },
+        "result": "Eleven tests pass for the pure naming state machine: issue/PR/MR key plus reported conversation title, task title, tool, running program and folder fallbacks; Jira/GH/GH-PR/GL/GL-MR keys kept once; non-title noise rejected; 80-code-point rename bound with 280px display labels and full hover text. names.json (TASK-070) origin ownership is authoritative; observed manual edits are never overwritten; identical names never re-emit; manual A closed and resumed into a new tab while newer B exists keeps its name once; history-only sessions get no manual state."
+      },
+      "state": "revalidated",
+      "replacementCompletion": "TASK-060"
+    }
+  },
+  "validationGate": {
+    "state": "restored",
+    "fullSuite": {
+      "command": "node --import ./tests/support/native-loader.mjs --test --test-concurrency=1 tests/*.test.mjs",
+      "tests": 385,
+      "exitCode": 0,
+      "log": ".harness/github-human-links-full-tests.log"
+    },
+    "nativeCheck": {
+      "state": "passed",
+      "receipt": ".harness/github-load-check.json",
+      "prEagerMaterialization": ".harness/github-pr-native-check.json"
+    },
+    "nativeIsolationQueries": {
+      "state": "prohibited-read-superseded-by-private-only-design",
+      "action": "Read-only status/list requests to the existing Herdr window/core",
+      "reason": "Automatic approval review interpreted the retained do-not-touch-main-core boundary as including read-only queries",
+      "questionSent": true,
+      "authorized": false,
+      "resolution": "Existing-instance reads remain prohibited and were not retried. Private-only replacement implemented and proven by TASK005 with owned process/listener/UID/generation evidence and successful cleanup."
+    }
+  },
+  "sourceValidation": {
+    "state": "gitlab-source-integration-in-progress",
+    "currentScoped": {
+      "command": "node --import ./tests/support/native-loader.mjs --test --test-reporter=tap tests/gitlab-mrs.test.mjs tests/gitlab.test.mjs",
+      "tests": 43,
+      "exitCode": 0,
+      "log": ".harness/gitlab-mrs-and-issues-tests.log",
+      "nativeCheckReceipt": ".harness/gitlab-native-attempt7.json",
+      "nativeCheckPassed": true,
+      "mountedFeatureProof": false
+    },
+    "preGitlabBaseline": {
+      "tests": 385,
+      "exitCode": 0,
+      "log": ".harness/github-human-links-full-tests.log",
+      "additionalPackageChecks": 2,
+      "nativeGithubAssertions": 45
+    },
+    "pendingStandaloneRevalidation": "TASK-093",
+    "boundary": "GitLab080..090 source checks pass. Current43 scoped checks include31 MR and12 issue contracts plus an exact-source private native load check. Mounted GitLab proof remains091; combined affected standalone/native/package revalidation remains093."
+  },
+  "queuedExpansion": {
+    "name": "mission-control-gitlab",
+    "status": "TASK080..090 complete; TASK091 mounted run active",
+    "plans": [
+      ".ulpi/plans/mission-control-gitlab.md",
+      ".ulpi/plans/mission-control-gitlab.json"
+    ],
+    "tasks": 14,
+    "ids": "TASK-080..TASK-093",
+    "userRequirement": "Standalone mod plus issues/merge-request source views alongside Jira/GitHub in the installed layout; queue after GitHub.",
+    "implementationStarted": true,
+    "reviewer": "founder_trackers",
+    "integrationOwners": [
+      "TASK-063",
+      "TASK-006",
+      "TASK-007",
+      "TASK-008",
+      "TASK-009",
+      "TASK-079"
+    ],
+    "compatibilityGate": "TASK-093",
+    "firstReview": {
+      "verdict": "REJECT",
+      "blocks": 2,
+      "concerns": 3,
+      "jsonSha256": "ba40dce4b0efc03096d2d3e9a7a7363ffedffa2cfcd1ad70930c3873f490366c",
+      "mdSha256": "76a788b452b5dfbadb5d9ae3b9703baacbfef2b56062ea64be477036e68aa6fc"
+    },
+    "review": "evidence/reviews/gitlab-model-amendment-round3.json"
+  },
+  "planReviewsState": "All11 exact current plan pairs remain founder-approved. GitLab revision5 closes all model/action-context/paging/reuse findings; TASK087 source and11 scoped tests are complete. Other approved plan hashes remain unchanged.",
+  "latestValidation": {
+    "command": "node --import ./tests/support/native-loader.mjs --test --test-concurrency=1 tests/*.test.mjs",
+    "tests": 633,
+    "passed": 625,
+    "exitCode": 1,
+    "log": ".harness/full-suite-after-sources.log",
+    "note": "All eight failures are package gates awaiting native receipts (agent-menu, agents, spaces, jira, github, gitlab, sessions, reopen)."
+  },
+  "nativeJiraRemaining": {
+    "receipt": "evidence/native/jira.json",
+    "ok": true,
+    "next": "Standalone Jira source, native gate and recipe/package complete under TASK039/040/041; user installation and public release remain root integration gates.",
+    "boundary": "Owned fixture accounts and tool actors; authenticated Jira was not accessed."
+  },
+  "nextTaskGrounding": {
+    "task": "TASK-091",
+    "state": "mounted-run-in-progress",
+    "ownedPaths": [
+      "tests/native/gitlab.mjs",
+      "evidence/native/gitlab.json"
+    ],
+    "validateCommand": "node scripts/native-harness.mjs run gitlab",
+    "boundary": "Mount only this mod in a fresh positively owned private app/core and two synthetic sites/projects, including a verified second private core. Prove issues, MR actions, reuse, offscreen cards, exact captured routing and no existing-instance access. No success receipt or preview until every required assertion and cleanup succeeds."
+  },
+  "nativeGithubRemaining": {
+    "state": "passed",
+    "receipt": "evidence/native/github.json",
+    "nativeAssertions": 45,
+    "nativeInputs": 219,
+    "fixtureAssertions": 41,
+    "preview": "mission-control-github/preview.png",
+    "cleanupVerified": true,
+    "boundary": "Only synthetic providers/tool actors and positively owned app/core resources; no existing Herdr IPC."
+  },
+  "completionCounts": {
+    "required": 89,
+    "requiredTotal": 90,
+    "feasibility": 3,
+    "feasibilityTotal": 3,
+    "totalCompleted": 92
+  },
+  "nextIndependentTask": {
+    "task": "TASK-067",
+    "status": "eligible-for-source-preparation; mounted-run-gated",
+    "ownedPaths": [
+      "tests/native/account-profile.mjs",
+      "evidence/native/account-profile.json"
+    ],
+    "boundary": "Toy routing must prove actual agent/tool/task/machine identity. No credential access/copying, login/logout, paid turn, authenticated resume claim or removal of the requested account mod."
+  },
+  "sharedSourceRevalidationPending": {
+    "task": "TASK-093",
+    "packages": [
+      "mission-control-agent-menu",
+      "mission-control-spaces",
+      "mission-control-agents",
+      "mission-control-jira",
+      "mission-control-github"
+    ],
+    "changedPaths": [
+      "src/shared/config.js",
+      "src/shared/tracker-model.js",
+      "src/shared/issue-board.js",
+      "src/shared/launch.js",
+      "src/shared/worktrees.js",
+      "src/assets/icons.json",
+      "src/shared/tracker-transport.mjs",
+      "src/mods/mission-control-github/data.js",
+      "src/mods/mission-control-github/main.js",
+      "src/mods/mission-control-jira/data.js",
+      "src/mods/mission-control-jira/main.js"
+    ],
+    "boundary": "These completed package/native proofs remain evidence for their compiled pre-GitLab snapshots. Current repository source fingerprints differ after080. Rebuild and revalidate affected standalone distributions under093 before combined installation/release; do not claim a current full-package gate yet.",
+    "githubJiraAbandonedLoadFix": "applied; mounted proof pending TASK093"
+  },
+  "nativeGitlabRemaining": {
+    "state": "blocked-native-input-permission",
+    "task": "TASK-091",
+    "toolSession": null,
+    "log": ".harness/gitlab-full-diagnostic.log",
+    "fixturePreflight": ".harness/gitlab-native-fixtures.log",
+    "fixtureAssertions": 35,
+    "boundary": "The wrapped full run reproduced late embedded loading, but its inspector lookup used full-window rather than tracker bounds and did not collect state. The app acknowledged quit and exited; exact recorded core/holder were independently re-proven with current V2 selector checks and original process/socket identities, then SIGTERM and full exit/listener/root cleanup were separately recorded. The original failed cleanup report remains unchanged. No active private resources or releasable preview.",
+    "lastAttempt": ".harness/gitlab-native-attempt11.json",
+    "lastError": "Owned AX windows unavailable: the current host process tree (user Herdr.app terminal) reports accessibility=false and postEvents=false, so window positioning and native input cannot run. Previous attempts ran from a host with Accessibility granted.",
+    "lastValidated": "Cross-host captured launch, closed-slot history, own-mod options, provider failure/cache and credential-rebind clearing all passed in actual native input; embedded issues passed. Empty setup negative proof already passed.",
+    "negativeSetupCommand": "node tests/native/gitlab.mjs empty-setup-check",
+    "emptySetup": {
+      "passed": true,
+      "proof": ".harness/gitlab-empty-setup.json",
+      "log": ".harness/gitlab-empty-setup.log",
+      "publicReceiptUnchanged": true,
+      "publicPreviewUnchanged": true
+    },
+    "focusedDiagnostics": {
+      "twoCopies": ".harness/gitlab-embedded-diagnostic-two-copies.json",
+      "fourCopies": ".harness/gitlab-embedded-diagnostic-four-copies.json",
+      "largerDescriptions": ".harness/gitlab-embedded-diagnostic.json"
+    },
+    "cleanupRecovery": ".harness/gitlab-private-cleanup-recovery.json",
+    "previousError": "Embedded hideHeader=true merge-request copy remains Loading on first activation (attempt10); root cause fixed in TASK-088 revalidation."
+  },
+  "preparedArtifacts": {
+    "TASK-092": [
+      "mission-control-gitlab/RECIPE.md",
+      "tests/package-gitlab.test.mjs"
+    ],
+    "TASK-093": [
+      "scripts/verify-gitlab-compatibility.mjs",
+      "tests/gitlab-compatibility.test.mjs"
+    ],
+    "note": "Prepared ahead of their native prerequisites; not complete until their validate commands pass on real receipts.",
+    "TASK-010": [
+      "scripts/install.mjs",
+      "tests/install.test.mjs"
+    ],
+    "TASK-011": [
+      "scripts/release.mjs",
+      "tests/release.test.mjs"
+    ],
+    "TASK-053": [
+      "tests/native/sessions.mjs"
+    ],
+    "TASK-054": [
+      "mission-control-sessions/RECIPE.md",
+      "tests/package-sessions.test.mjs"
+    ],
+    "TASK-058": [
+      "tests/native/reopen.mjs"
+    ],
+    "TASK-059": [
+      "mission-control-reopen/RECIPE.md",
+      "tests/package-reopen.test.mjs"
+    ],
+    "TASK-067": [
+      "tests/native/account-profile.mjs"
+    ],
+    "TASK-064": [
+      "tests/native/tabs.mjs"
+    ],
+    "TASK-065": [
+      "mission-control-tabs/RECIPE.md",
+      "tests/package-tabs.test.mjs"
+    ],
+    "TASK-008": [
+      "README.md",
+      "LICENSE",
+      "NOTICE.md"
+    ],
+    "TASK-009": [
+      "mission-control/RECIPE.md",
+      "tests/package-layout.test.mjs"
+    ],
+    "TASK-007": [
+      "tests/native/layout.mjs"
+    ]
+  },
+  "preparedTooling": {
+    "files": [
+      "scripts/install.mjs",
+      "tests/install.test.mjs",
+      "scripts/release.mjs",
+      "tests/release.test.mjs"
+    ],
+    "sourceSha256": {
+      "scripts/install.mjs": "a2eb8ec317a1d9a0b9c952a917cc30582cac398bf5a1e7d645bd846b5779708f",
+      "tests/install.test.mjs": "022bc4550cba329beaad6ab1d0d16914ca0822fabe77419f192b0b6020f5a1ed",
+      "scripts/release.mjs": "e34b1c5bdc25743734086b73aaca580422e03df41e085686e7ae991acd240129",
+      "tests/release.test.mjs": "88053628ba1c9f54a94c13fd8344d94ba023b8b79a250ac50c826103575897ac"
+    },
+    "validation": "node --test --test-concurrency=1 tests/install.test.mjs tests/release.test.mjs",
+    "tests": 29,
+    "exitCode": 0,
+    "log": ".harness/install-release-tooling-tests.log",
+    "boundary": "Fixture-only: temp app homes, stub herdr-app/gh and a local bare git remote. No user-home install, git init or GitHub change occurred. TASK-010/011 stay open until a confirmed real install and publish write evidence/native/install.json and evidence/release.json and their verify commands pass. Collisions are refused rather than renamed; keys.json is never written; the native Settings picker needs a visual check on the real run."
+  },
+  "preparedNative": {
+    "sessions": {
+      "files": {
+        "tests/native/sessions.mjs": "48bf806672bc438cd16dce2ba1e7c87d8caabaa949bb140b9936c0af5595a47c",
+        "mission-control-sessions/RECIPE.md": "b1ecfe6280cd574e415cf4a7b927ee4ce62f428b0defaeac252f24df7b51e244",
+        "tests/package-sessions.test.mjs": "79e9a65c580fc4df81a0a7f77fb06b1456b838657722d3db98ecfa062b1d4d61"
+      },
+      "fixtureCheck": {
+        "command": "node tests/native/sessions.mjs fixture-check",
+        "assertions": 41,
+        "exitCode": 0,
+        "log": ".harness/sessions-fixture-check.log"
+      },
+      "runOrder": [
+        "node scripts/native-harness.mjs run sessions",
+        "node tests/native/sessions.mjs promote-preview",
+        "node scripts/project.mjs build mission-control-sessions && node --test tests/package-sessions.test.mjs"
+      ],
+      "boundary": "Scenario never run natively (no Accessibility). Unverified assumptions: tab-menu Rename prompt with Enter submit, herdr-app ls tab name field, tab.close {confirmed:true} without dialog, stopped server core listed as unavailable, OCR layout constants."
+    },
+    "reopen": {
+      "files": {
+        "tests/native/reopen.mjs": "d95a1ebad7cb2b0bb88a982100ab12e29ad0ac182775ebcbf6250c324f387c7c",
+        "mission-control-reopen/RECIPE.md": "cceb1fa9e76c81b4d970815785192e4579f3dac910d35b13f619e4b50d2da1cf",
+        "tests/package-reopen.test.mjs": "e4a389268259990fbdc7b7eb88d8f261a8270a87704c542d7d499246c63967cb"
+      },
+      "fixtureCheck": {
+        "command": "node tests/native/reopen.mjs fixture-check",
+        "log": ".harness/reopen-fixture-check.log"
+      },
+      "runOrder": [
+        "node scripts/native-harness.mjs run reopen",
+        "node tests/native/reopen.mjs promote-preview",
+        "node scripts/project.mjs build mission-control-reopen && node --test tests/package-reopen.test.mjs"
+      ],
+      "boundary": "Scenario never run natively. Unverified: hc auto-reconnect after transport drop (180 s wait), identical first tab/terminal IDs on both cores, split pane id from herdr-app ls, global mod-command key while a terminal is focused, overlay names, popup geometry/OCR."
+    },
+    "accountProfile": {
+      "files": {
+        "tests/native/account-profile.mjs": "aa9a06aa11b3867e409a4e820db169cb32a5a60df39ce2b15d4ebe0203c9327b"
+      },
+      "fixtureCheck": {
+        "command": "node tests/native/account-profile.mjs fixture-check",
+        "log": ".harness/account-profile-fixture-check.log"
+      },
+      "runOrder": [
+        "node scripts/native-harness.mjs run account-profile"
+      ],
+      "capabilityFindings": "hc 0.1.15 / herdr-app 0.1.10 help: hc exec has --env (one-shot, no terminal); hc run, tab.new, space.new, pane.split, terminal.open take no env; only an explicit /usr/bin/env VAR=root argv wrapper can route a per-process profile for a terminal launch.",
+      "decisionRule": "TASK068 = DEFER unless the canonical-validated receipt passes the launch-routing gate AND credential isolation is accepted; TASK066 proved only anonymous routing, so the credential half currently points to DEFER."
+    },
+    "tabs": {
+      "files": {
+        "tests/native/tabs.mjs": "c901be43de05307e842559bd6fafad30ccb04760ac6af327252f934f2a794ad1",
+        "mission-control-tabs/RECIPE.md": "1cb2baffb98e955054215d245d0bfca9963ed35dd7df3af6f35d04fbd4573783",
+        "tests/package-tabs.test.mjs": "37f43b3cfadc2a8ba0b75425fd3895d059baf0f87df6848f5e8787c8ffce4345"
+      },
+      "fixtureCheck": {
+        "command": "node tests/native/tabs.mjs fixture-check",
+        "log": ".harness/tabs-fixture-check.log"
+      },
+      "runOrder": [
+        "node scripts/native-harness.mjs run tabs",
+        "node tests/native/tabs.mjs promote-preview",
+        "node scripts/project.mjs build mission-control-tabs && node --test tests/package-tabs.test.mjs"
+      ],
+      "boundary": "Never run natively. Double press is unit-tested only (driver posts click state 1). Unverified: live layout() state updates, 736x760 AX window size, herdr-app ls/status field names, tooltip capture, status-color pixel thresholds, wheel delivery, knownAgents on qa-server."
+    },
+    "layout": {
+      "files": {
+        "tests/native/layout.mjs": "5c05b5da1ed8bdfa5fe53a2cf9b7d3d1cc5fd324da7a06ce33585487711981c5"
+      },
+      "fixtureCheck": {
+        "command": "node tests/native/layout.mjs fixture-check",
+        "log": ".harness/layout-fixture-check.log"
+      },
+      "runOrder": [
+        "(after TASK-093) node scripts/native-harness.mjs run layout",
+        "node tests/native/layout.mjs promote-preview",
+        "node scripts/project.mjs bundle && node --test tests/package-layout.test.mjs"
+      ],
+      "boundary": "Never run natively; estimated 30-60 min with an 1100-observation budget. A failed second-host setup writes layout-remote-gate.json and fails REMOTE_GATE_FAILED rather than claiming remote proof. Click geometry, panel-state colour detection, offline-host presentation, context/quota readings and the 736 px window remain unverified."
+    }
+  },
+  "preparedDocs": {
+    "files": {
+      "README.md": "104f97ccc593fd5b4a634f3b263664f79589fc5b3412b837c4068cb410f74e52",
+      "LICENSE": "ae7008060919f4835ebe97eba0f5ecbc9dd7aa06121b3cbaea15b0243351e2d6",
+      "NOTICE.md": "5cd868479111dbfb6427700786607016ac94e159fd0eac83f0232122134306b4",
+      "mission-control/RECIPE.md": "3f96433188bd7981e3d1a2be5914a2ffcc3763a7634a7d3c0dac26e023aa4792",
+      "tests/package-layout.test.mjs": "c43a6426d101d8c87de62b72903dcc94d33eed412aa6ffd213d8d3d03dae4bb7"
+    },
+    "inspectDocs": {
+      "command": "node scripts/project.mjs inspect-docs README.md LICENSE NOTICE.md mission-control/RECIPE.md",
+      "exitCode": 0,
+      "log": ".harness/docs-inspect.log"
+    },
+    "finalizeAfterNative": [
+      "Run TASK-007, promote layout-preview to mission-control/preview.png, then node scripts/project.mjs bundle after TASK-093 and run tests/package-layout.test.mjs",
+      "Remove the recipe draft comment after checking it against the real frames",
+      "Rewrite the README evidence-status block and TASK-008 provenance from final receipts/manifests"
+    ],
+    "workFolder": {
+      "decision": "User chose to publish work/ with notices (2026-11-01).",
+      "files": {
+        "work/THIRD-PARTY-NOTICES.md": "006a8be6b6447e1a17f05514c5fc01d0190170aca22f4749d5cc7fc456af1e2f",
+        "NOTICE.md": "4b018c21a9806cb83c02be2999a989765802f6eca9dfaabb1987446a08e3b0d5"
+      },
+      "evidence": "Embedded SVGs compared with ~/.config/herdr-app/icons (LICENSES.md): Claude Code and Codex byte-identical to Herdr-shipped LobeHub/agent marks; opencode, Grok and GitHub share path data (recoloured); Jira is Simple Icons format, not byte-verified; clock/settings/pull-request are Lucide. Full LobeHub MIT and Lucide ISC texts plus the Simple Icons CC0 dedication are included."
+    }
+  },
+  "userDecisions": {
+    "native-input": "User will grant Herdr.app macOS Accessibility; a watcher starts native gates when it flips (2026-11-01).",
+    "work-folder": "Publish work/ with recorded third-party notices."
+  },
+  "nativeForegroundNote": "Native gates need the Mac unlocked, awake and untouched (no app or desktop switching) for a whole run. Runs from 09:58-10:25 on 2026-11-01 failed with no visible windows, hit-test and focus errors, and the session was locked/asleep 10:28-11:51 (CGSSessionScreenIsLocked=Yes at 11:54). Earlier runs on the idle, unlocked Mac passed (GitLab x3, five compatibility packages, account-profile)."
+}

@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "reviewRound": "pr-lazy-render-final",
+  "verdict": "APPROVE",
+  "state": "approved",
+  "pending": [],
+  "plans": [
+    {
+      "name": "mission-control",
+      "reviewer": "founder_layout_accounts",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "5bde4a4e9db1512240f35eb63769286294ac2d35bca82124977c627095fb0f81",
+        "md": "38c12f5ab9f331a9eb5fc01b64b5f774ecbf37d0f77ad8c5e883c30e05faa848"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 16
+    },
+    {
+      "name": "mission-control-github",
+      "reviewer": "founder_github_pr_model",
+      "mode": "FULL",
+      "verdict": "APPROVE",
+      "blocks": 0,
+      "concerns": 0,
+      "sha256": {
+        "json": "b1d27be737338729fed1bc770cec9f2ccf8b94eef2d83b21dd5faa96964f9df0",
+        "md": "7ee75419a263fc1ef203657c6d8a354e37bd3bce3b62a88eaf51151397365980"
+      },
+      "sections": [
+        {
+          "section": "Codebase Reality",
+          "status": "PASS"
+        },
+        {
+          "section": "Scope & Strategy",
+          "status": "PASS"
+        },
+        {
+          "section": "Architecture & Integration",
+          "status": "PASS"
+        },
+        {
+          "section": "Risk & Recovery",
+          "status": "PASS"
+        },
+        {
+          "section": "Test Coverage",
+          "status": "PASS"
+        },
+        {
+          "section": "Execution Feasibility",
+          "status": "PASS"
+        }
+      ],
+      "findings": [],
+      "reviewedTaskCount": 8
+    }
+  ]
+}

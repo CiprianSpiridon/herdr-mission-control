@@ -1,0 +1,6 @@
+{
+  "title": "Mission Control · GitLab",
+  "place": "right",
+  "size": 380,
+  "overlay": { "kind": "dialog", "width": 1080, "height": 760 }
+}
