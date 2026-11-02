@@ -20,15 +20,15 @@
     "assets/search.svg": "73a02b45b12746984a4e5d9689a3ca5578f5d329e4e0b0598bd5139d81c0bdce",
     "assets/sessions.svg": "40c70935bd80015005b85b9b42368e4dfdf44ac6a3392e2f6b7fd18a59159d9d",
     "assets/settings.svg": "c0d3295d7dc3261c7f6e9e6eb4217b044b834d680215ac1e38f9c1efb11b2dc9",
-    "main.js": "2faf87fa70063bf40c483a01994c994dc0d1fa4f059ed7269e7d6d1191ca5c53",
+    "main.js": "ee03f6e50d4b578cf65dddd434f6fa240588ad4a251329d3d3a75e9ddcf02317",
     "mod.json": "21a3ac7b84f85a6c8de03c9f10bf72ac0d9f5c56d938db0fcf39d0b0aa11b4d0",
     "NOTICE.md": "4e408d28539b58cdd9b665e5a4fee5c505dd7afa3a3ad5a0b9755fff7fbcf6cd"
   },
   "sources": {
     "src/assets/icons.json": "e15e5fd5234d4d3f8edc59a30bc4f45c878aa0bc662defde22877855704c1254",
-    "src/mods/mission-control-tabs/main.js": "13bf83701652a6a8f49ca39c53b106bf230b3447a9a1d84fc296069e3ac8db07",
+    "src/mods/mission-control-tabs/main.js": "f88ffb230830634df7ed82c17adc9c397554a4de50a574471ca2d3e24c03681b",
     "src/mods/mission-control-tabs/mod.json": "1e142a57d9006b65ee318d23d59bfdd2c7fe609c8cf308ef9b1175e7df41fa1d",
-    "src/mods/mission-control-tabs/navigation.js": "04c5198fce7c28d220d683916a47bbfa199c46ff9c292b5f939427b59d291077",
+    "src/mods/mission-control-tabs/navigation.js": "0edf2678ae048cb28a6752a11baf1823e1e205dd1f4ff262467d9bb9e786b76e",
     "src/shared/closed-tabs.js": "dfd23b0a384fe8312426675dcd0b56e6ea5ecda811e55b481832ffa151c9db3e",
     "src/shared/config.js": "2cea2d16c0faed2eef2f8105b0adc0c6098cf556a84297249b5bd9895eddf9a7",
     "src/shared/launch-dialog.js": "5155469f382d117b8425ce00b7f5463679d42168a293b35aa79afecf2a4b9fc6",

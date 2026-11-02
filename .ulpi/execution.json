@@ -2643,6 +2643,23 @@
       "compatibility": "9ff2f3d381b6077b9dfbbd63ed99653bda3bcf276d5d55db21ff08ff45e9d70d",
       "providerCompatibility": "7e7f64f9497ce02edc83762b6dc076b7907ef4b60142e481d3d76b4c3bfd2e94",
       "packageTests": "29/29"
+    },
+    {
+      "at": "2026-11-02T14:25:26.352Z",
+      "reason": "Classic source buttons after the view swap (tabs). Tabs and both-layouts gates re-ran at the current harness.",
+      "receipts": {
+        "tabs": {
+          "ok": true,
+          "assertions": 55,
+          "sha256": "fb6fe28c050aacf42571148501cb088e39a15fa3e6347e05a799475a19305af3"
+        },
+        "layout": {
+          "ok": true,
+          "assertions": 52,
+          "sha256": "e0c649e003d902709b23fb181a96b1fe634c050e93675745429106d35fb87601"
+        }
+      },
+      "packageTests": "29/29"
     }
   ]
 }

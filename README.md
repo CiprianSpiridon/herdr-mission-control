@@ -14,7 +14,7 @@ Mission Control is a set of layouts and mods for the [Herdr](https://herdr.dev) 
 - **Review help for pull and merge requests.** Review, Address comments and Fix checks each send a ready-made task to an agent in that branch's checkout.
 - **Tabs that name themselves.** Tabs take the agent's own title or the issue key, and a name you type always wins.
 - **Undo for closing.** Reopen last tab brings back a closed shell in its folder. Reopen last agent resumes the exact conversation you closed.
-- **Two views, one button.** **Mission Control** is the overview. **Classic** keeps your terminals front and centre and opens the work queue as a side panel only when you ask. The button at the top right swaps between them without closing anything.
+- **Two views, one button.** **Mission Control** is the overview. **Classic** keeps your terminals front and centre and opens the work queue as a side panel only when you ask: a button for each source, with its service's icon, sits right after the view swap. The button at the top right swaps between them without closing anything.
 - **Show only what you use.** The gear next to that button turns individual sources off, for example GitLab if you don't use it.
 
 ## Install
@@ -66,7 +66,7 @@ Each folder is a complete package with its own recipe and screenshot. Click a sc
 | Package | Screenshot | What it is |
 | --- | --- | --- |
 | [`mission-control/`](mission-control/RECIPE.md) | <a href="mission-control/preview.png"><img src="mission-control/preview.png" width="240" alt="Mission Control layout"></a> | Both layouts with everything below that they use. Start here. |
-| [`mission-control-tabs/`](mission-control-tabs/RECIPE.md) | <a href="mission-control-tabs/preview.png"><img src="mission-control-tabs/preview.png" width="240" alt="Tabs"></a> | The top tab bar: self-naming tabs, the + agent menu, Reopen, the view swap and the Sources gear. |
+| [`mission-control-tabs/`](mission-control-tabs/RECIPE.md) | <a href="mission-control-tabs/preview.png"><img src="mission-control-tabs/preview.png" width="240" alt="Tabs"></a> | The top tab bar: self-naming tabs, the + agent menu, Reopen, the view swap, the Sources gear and Classic's source buttons. |
 | [`mission-control-spaces/`](mission-control-spaces/RECIPE.md) | <a href="mission-control-spaces/preview.png"><img src="mission-control-spaces/preview.png" width="240" alt="Spaces"></a> | The Spaces list, with a right-click menu per space and Settings / Add machine at the bottom. |
 | [`mission-control-agents/`](mission-control-agents/RECIPE.md) | <a href="mission-control-agents/preview.png"><img src="mission-control-agents/preview.png" width="240" alt="Agents"></a> | Every running agent with its tool icon, task, context and quota. |
 | [`mission-control-jira/`](mission-control-jira/RECIPE.md) | <a href="mission-control-jira/preview.png"><img src="mission-control-jira/preview.png" width="240" alt="Jira"></a> | Jira board with one-click agent starts. |

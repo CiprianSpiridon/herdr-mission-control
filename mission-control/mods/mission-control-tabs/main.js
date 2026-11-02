@@ -4402,6 +4402,14 @@ function renderNavigation({ mod, contract, width = null, scope = null, spaceName
   if (panel) root = root.child(iconButton(mod, "hide-work-panel", "close", "Hide work panel", (_e, cx) => onHide?.(cx), { size: 24 }));
   return root;
 }
+function renderSourceButtons(mod, contract, { hidden = /* @__PURE__ */ new Set(), onPick } = {}) {
+  if (!contract?.panel || !contract.stack) return null;
+  const open = contract.panel.hidden !== true, items = SOURCES2.filter((s) => sourceState(contract, s.id, hidden).enabled).map((s) => {
+    const shown = open && contract.active === s.id, label2 = shown ? `Hide ${s.label}` : `Open ${s.label} in the work panel`;
+    return iconButton(mod, "quick-" + s.id, s.icon, label2, (_e, cx) => onPick?.(s.id, shown, cx), { active: shown, size: 26 });
+  });
+  return items.length ? h_flex3().id("quick-sources").flex_none().gap(2).items_center().role("tab_list").accessibility_label("Work panel sources").children(items) : null;
+}
 function renderSwap(mod, contract, { compact = true, onSwap } = {}) {
   const t = colors(), s = contract.swap, hint = s.enabled ? "Switch to " + s.label : "View swap unavailable: " + s.reason;
   let el = h_flex3().id("view-swap").h(26).flex_none().items_center().justify_center().gap(6).rounded(6).border(1).border_color(t.border).text_size(12).text_color(s.enabled ? t.foreground : t.dim).role("button").tooltip(hint).accessibility_label(hint).on_mouse_down("left", (_e, cx) => cx.stop_propagation());
@@ -4657,6 +4665,11 @@ var MissionControlTabs = class extends View {
     }
     return openLaunchDialog(MOD, herdr, { view, spaceId: space.id, machine: space.machine ?? null });
   }
+  openSource(id2) {
+    const r = selectSource(id2, { contract: this.contract(), sharedFn: herdr.shared, setSharedFn: herdr.setShared, runFn: herdr.run, reveal: true });
+    if (!r.ok) herdr.notify({ title: "Work sources", body: r.message, level: "warning" });
+    return r;
+  }
   openSources() {
     herdr.openOverlay({ mod: MOD, kind: "popup", width: 300, height: 318, props: { view: "sources" } });
   }
@@ -4805,6 +4818,7 @@ var MissionControlTabs = class extends View {
     }
     this.pickRequest(cx);
     const ctx = { t, space, machine: machine2, primaries: primaryPanes(tabs, herdr.panes() || []) }, previews = this.previews(), panel = renderPanelToggle(MOD, contract, { onToggle: () => this.togglePanel() });
+    const quick = renderSourceButtons(MOD, contract, { hidden: hiddenSources(herdr.shared), onPick: (id2, shown) => shown ? this.togglePanel() : this.openSource(id2) });
     const plus = iconButton(MOD, "mc-new", "plus", space ? `New agent or terminal in ${space.name || "this space"}` : "Select a space to start an agent", () => this.openMenu(space), { disabled: !space, size: 26 });
     return h_flex4().id("mc-tabs").size_full().min_w(0).pl(lightsPadding({ win: w, tree, zoom })).pr(8).gap(4).items_center().bg(t.chrome).border_b(1).border_color(t.border).text_color(t.foreground).on_size_change((size, eventCx) => {
       if (size?.width !== this.width) {
@@ -4815,7 +4829,7 @@ var MissionControlTabs = class extends View {
       this.press = null;
     }).on_hover((hovered) => {
       if (!hovered) this.press = null;
-    }).on_scroll_wheel((event) => this.wheel(event)).child(h_flex4().id("mc-tab-strip").flex_1().min_w(0).h_full().gap(3).items_center().overflow_x_scroll().role("tab_list").accessibility_label(space ? "Tabs in " + (space.name || "this space") : "Tabs").children(tabs.map((tab, i) => this.tabItem(tab, i, ctx)))).child(plus).when(Boolean(previews), (el) => el.child(this.reopenButton("reopen-tab", "refresh", "tab", previews.tab)).child(this.reopenButton("reopen-agent", "agent", "agent", previews.agent))).when(Boolean(panel), (el) => el.child(panel)).child(iconButton(MOD, "mc-sources", "settings", "Mission Control sources: choose which work sources to show", () => this.openSources(), { size: 26 })).child(renderSwap(MOD, contract, { compact: !(this.width >= TOPBAR_WIDE), onSwap: () => this.swap() })).when(w?.buttons === true, (el) => el.child(this.windowButtons(t, w)));
+    }).on_scroll_wheel((event) => this.wheel(event)).child(h_flex4().id("mc-tab-strip").flex_1().min_w(0).h_full().gap(3).items_center().overflow_x_scroll().role("tab_list").accessibility_label(space ? "Tabs in " + (space.name || "this space") : "Tabs").children(tabs.map((tab, i) => this.tabItem(tab, i, ctx)))).child(plus).when(Boolean(previews), (el) => el.child(this.reopenButton("reopen-tab", "refresh", "tab", previews.tab)).child(this.reopenButton("reopen-agent", "agent", "agent", previews.agent))).when(Boolean(panel), (el) => el.child(panel)).child(iconButton(MOD, "mc-sources", "settings", "Mission Control sources: choose which work sources to show", () => this.openSources(), { size: 26 })).child(renderSwap(MOD, contract, { compact: !(this.width >= TOPBAR_WIDE), onSwap: () => this.swap() })).when(Boolean(quick), (el) => el.child(quick)).when(w?.buttons === true, (el) => el.child(this.windowButtons(t, w)));
   }
   navigation() {
     const contract = this.contract(), space = this.activeSpace();

@@ -29,7 +29,7 @@ Every native gate below ran on herdr-app 0.1.11 with hc 0.1.16, in a private, ta
 | Sessions | TASK-053 | `evidence/native/sessions.json` | Passed (41 assertions, 52 native inputs, 2026-11-02) |
 | Reopen | TASK-058 | `evidence/native/reopen.json` | Passed (34 assertions, 76 native inputs, 2026-11-02) |
 | Tabs | TASK-064 | `evidence/native/tabs.json` | Passed (55 assertions, 178 native inputs, 2026-11-02) |
-| Both layouts integrated | TASK-007 | `evidence/native/layout.json` | Passed (51 assertions, 172 native inputs, 2026-11-02) |
+| Both layouts integrated | TASK-007 | `evidence/native/layout.json` | Passed (52 assertions, 179 native inputs, 2026-11-02) |
 
 ### Packages, installation and release
 
