@@ -1,0 +1,35 @@
+# What each mod can access
+
+| Mod | Files outside its folder (under `appHome()/mission-control/`) | Programs | Network |
+| --- | --- | --- | --- |
+| Tabs | `config.json`, `tab-names.json`, `names.json`, `closed.json`, `launches.json`, `session-bindings.json` | `hc`, `herdr-app do/ls`, `git`, `python3`, `test`, `mkdir`, `sleep`, agent help/version probes and the chosen agent | None of its own |
+| Spaces | `config.json`, launch journal, session bindings, names | `git`, `python3`, `hc`, `herdr-app`, agent probes, `mkdir`, `sleep`, local `open` (Finder) | None of its own |
+| Agents | `config.json`, session bindings, names; provider session metadata under configured roots (defaults `~/.codex/sessions`, `~/.codex/archived_sessions`, `~/.claude/projects`, `~/.grok/sessions`), read-only; Claude Code's own process records `<claude root>/sessions/<pid>.json` (read-only, only the foreground PID's record and its job's record; never the `.key` files beside them) | `hc`, `python3`, tool discovery, `mkdir` | None |
+| Jira | `config.json`, launch/session/name journals | local Node.js 22+, configured Jira CLI or stdio MCP, `git`, `python3`, the chosen agent | The configured Jira HTTPS origin, the Atlassian gateway when a `cloudId` routes there, or the configured HTTPS MCP endpoint |
+| GitHub | `config.json`, launch/session/name journals | local Node.js 22+, optional `gh auth token`, `git`, `python3`, the chosen agent | The selected GitHub API origin only |
+| GitLab | `config.json`, launch/session/name journals | local Node.js 22+, `git`, `python3`, the chosen agent | The configured GitLab origin only |
+| Sessions | `config.json`, `launches.json`, `session-bindings.json`, `names.json`; provider history under the same default roots, read-only; Claude Code's own process records `<claude root>/sessions/<pid>.json` (read-only, only the foreground PID's record and its job's record; never the `.key` files beside them) | `python3`, `git`, `hc`, `herdr-app`, `mkdir`, `sleep`, agent probes and exact resume | None |
+| Agent menu | `config.json`, launch journal, session bindings, names | `git`, `python3`, `hc get`, `herdr-app do/ls`, agent probes, `mkdir`, `sleep` | None of its own |
+| Reopen | `closed.json`, `session-bindings.json`, `names.json`, `launches.json`; reads `config.json` | `hc`, `python3`, `git`, `test`, `herdr-app do/ls`, `mkdir`, `sleep`, agent probes and exact resume | None |
+
+Remote machines are reached only through Herdr's configured machine transport. Agents that a mod starts keep their own login and network access. Source links open in the system browser. Mods never read auth files, copy credentials, log in or out, or change global tool configuration. Each recipe has the full disclosure.
+
+## Capability limits
+
+- **Fixture-only provider proof.** Jira, GitHub and GitLab behaviour has been tested against synthetic local TLS servers, fixture accounts and disposable tool actors. No authenticated live Jira, GitHub or GitLab tenant has been accessed or proven.
+- **Read-only trackers.** No mod changes issue status, comments, reviews, approvals, threads, checks or pipelines. PR and MR actions only send a task to a local agent.
+- **No account switching.** There is no seamless switching of a running agent's account. The optional accounts mod is deferred. Resume never switches accounts; with several enabled profiles for one tool on a host it cannot tell which login the CLI will use.
+- **Exact-ID resume only.** Resume and Reopen last agent use an exact session ID with a flag the installed tool's own help verified: Claude Code `--resume <id>`, Codex `resume <id>`, Grok only when its help lists `--resume`. `--last` and `--continue` are never used. Anything else is shown as unsupported and starts nothing.
+- **No split-pane restore.** Reopen brings back the main terminal only; split geometry, extra panes and mod panes are not restored. A shell returns in the folder it started in, and its old command is never replayed.
+- **Honest readings.** Context remaining and quota appear only when a provider reports them for an exactly bound session; otherwise they read Unavailable or Stale. Quota is shared between agents only with evidence of the same account and host. Agents started from Mission Control (its agent menu, a card's tool button or a resume) are bound as they start. A Claude Code agent started any other way is adopted from Claude Code's own process record (`~/.claude/sessions/<pid>.json`) when that record names the terminal's foreground process and started during the terminal's life; a client attached to a background job reads that job's conversation. Codex and Grok agents started outside Mission Control stay Unavailable: those tools leave no exact process-to-session link. Claude Code reports context only through its status line, so its percentage comes from a status-line snapshot (`claude-statusline.json`, for example the one herdr-agent-usage writes) listed in the Claude source's `cacheRoots`. An idle agent keeps its last value, dimmed, with its age in the tooltip.
+- **No OAuth login or refresh.** Tokens come from existing environment variables, or from existing `gh` storage for GitHub.
+- **Bounds.** Boards keep at most 1,000 records or 7 MiB per scope, read 50 records per page and run at most four helper jobs at once.
+- **Local helpers.** Jira CLI and stdio MCP adapters run on this computer even for a remote repository; a remote integration needs an HTTPS MCP endpoint.
+- **Herdr 0.1.11 launch shape.** Herdr wraps a new tab's command in a `/bin/sh` login shell (`sh -c` on a remote host, where the shell stays in the foreground) and passes the task to the program as its last argument. Exact-session proof accepts exactly these forms and the earlier zsh/bash wrapper; any other extra argument is refused.
+
+## GitLab runtime provenance
+
+- `mission-control-gitlab` compiles only repository code: its build manifest lists sources under `src/mods/mission-control-gitlab/` and `src/shared/` plus `src/assets/icons.json`, with no `node_modules` input, and its `NOTICE.md` lists only original artwork.
+- Its helper `backend.mjs` runs locally under Node.js 22+. It sends GitLab REST v4 reads (projects, issues, merge requests, approvals, discussions, closing issues and head-pipeline jobs, in 50-record pages) only to the configured HTTPS `site` origin at `<site>/api/v4`, and refuses off-origin redirects.
+- It authenticates with the bearer token held in the environment variable named by the connection's `auth.tokenEnv`. The value stays in the helper's memory: no `glab` login, token persistence or OAuth refresh.
+- Its mounted native gate (TASK-091) passed in a private Herdr 0.1.11 window; see [evidence.md](evidence.md).
