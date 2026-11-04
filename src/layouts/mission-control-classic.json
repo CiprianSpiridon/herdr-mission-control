@@ -230,6 +230,16 @@
                           "hideHeader": true
                         }
                       }
+                    },
+                    {
+                      "id": "mods",
+                      "type": "block",
+                      "content": {
+                        "mod": "mission-control-mods",
+                        "props": {
+                          "hideHeader": true
+                        }
+                      }
                     }
                   ]
                 }

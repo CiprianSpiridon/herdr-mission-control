@@ -2,6 +2,7 @@
   <rect width="480" height="300" rx="8" fill="#101114"/>
   <path d="M94 0v300M94 25h386M0 263h94" stroke="#2a2d33"/>
   <rect x="104" y="7" width="86" height="12" rx="4" fill="#25282d"/><rect x="199" y="10" width="40" height="4" rx="2" fill="#6b7079"/>
+  <g fill="#91969f" data-region="source-buttons"><rect data-source="jira" x="250" y="8" width="10" height="10" rx="3"/><rect data-source="github" x="264" y="8" width="10" height="10" rx="3"/><rect data-source="pulls" x="278" y="8" width="10" height="10" rx="3"/><rect data-source="gitlab" x="292" y="8" width="10" height="10" rx="3"/><rect data-source="merges" x="306" y="8" width="10" height="10" rx="3"/><rect data-source="sessions" x="320" y="8" width="10" height="10" rx="3"/><rect data-source="mods" x="334" y="8" width="10" height="10" rx="3"/></g>
   <g fill="#91969f"><rect x="12" y="32" width="32" height="4" rx="2"/><rect x="12" y="123" width="29" height="4" rx="2"/><rect x="12" y="274" width="43" height="4" rx="2"/><rect x="12" y="286" width="54" height="4" rx="2"/></g>
   <rect x="7" y="47" width="80" height="15" rx="4" fill="#25282d"/>
   <g fill="#6b7079"><rect x="26" y="53" width="48" height="3" rx="1"/><rect x="26" y="75" width="37" height="3" rx="1"/><rect x="26" y="97" width="51" height="3" rx="1"/></g>

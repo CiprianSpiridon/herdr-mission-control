@@ -1590,6 +1590,27 @@
       "exitCode": 0,
       "result": "Mods panel: recover-first open, Updates/Layouts/Mods/Disabled/Built into Herdr/Removed sections with cached repo preview.png thumbnails, filters and search, Update review (files, access, keys) before Apply, conflict Keep mine/Take theirs/Open, Update all skipping risky items, confirmations naming layouts, 30-day uninstall notice, link/choose source; herdr-app check passes.",
       "completedAt": "2026-11-04T14:05:14.037Z"
+    },
+    "TASK-101": {
+      "validation": "node --import ./tests/support/native-loader.mjs --test tests/navigation.test.mjs tests/tabs.test.mjs",
+      "tests": 30,
+      "exitCode": 0,
+      "result": "Mods is the seventh source (existing layout icon, icons.json unchanged) with a fixed All installed scope and caption; source-mods, the Classic button and the Sources gear come from SOURCES. Full labels need 850 px, so 1024 px and 736 px show seven whole short labels.",
+      "completedAt": "2026-11-04T14:06:44.918Z"
+    },
+    "TASK-102": {
+      "validation": "node --import ./tests/support/native-loader.mjs --test tests/layouts.test.mjs (8 of 9; the preview artwork check is TASK-103)",
+      "tests": 8,
+      "exitCode": 0,
+      "result": "Both layouts mount seven sources in navigation order (mods last, hideHeader) under mc-work-stack with node IDs unchanged; Classic still starts hidden with terminals above 100 px at 736 px; the bundle now references mission-control-mods.",
+      "completedAt": "2026-11-04T14:07:16.968Z"
+    },
+    "TASK-103": {
+      "validation": "node --import ./tests/support/native-loader.mjs --test tests/layout-previews.test.mjs tests/layouts.test.mjs",
+      "tests": 11,
+      "exitCode": 0,
+      "result": "The overview preview draws seven source label slots in order; Classic draws its seven top-bar source buttons in order; both remain valid authored SVGs that copy byte-for-byte into the bundle.",
+      "completedAt": "2026-11-04T14:07:50.157Z"
     }
   },
   "active": "TASK-091 (blocked: native input permission); TASK-051/052 and TASK-055..057 source",
@@ -2385,11 +2406,11 @@
     "boundary": "Only synthetic providers/tool actors and positively owned app/core resources; no existing Herdr IPC."
   },
   "completionCounts": {
-    "required": 98,
+    "required": 101,
     "requiredTotal": 109,
     "feasibility": 3,
     "feasibilityTotal": 3,
-    "totalCompleted": 101
+    "totalCompleted": 104
   },
   "nextIndependentTask": {
     "task": "TASK-067",

@@ -190,7 +190,7 @@ const mutate=(name,edit)=>{const tree=clone(LAYOUTS[name].tree);edit(tree,id=>fi
 test('the derived mod contracts know every role the layouts and navigation use',()=>{
   const roles=Object.fromEntries([...REGISTRY].map(([name,m])=>[name,[...m.blockRoles].sort()]));
   assert.deepEqual(roles,{'mission-control-agent-menu':[],'mission-control-agents':['list'],'mission-control-github':['panel','pulls'],'mission-control-gitlab':['merges','panel'],'mission-control-jira':['panel'],
-    'mission-control-reopen':['bar'],'mission-control-sessions':['default'],'mission-control-spaces':['footer','list'],'mission-control-tabs':['navigation','topbar']});
+    'mission-control-mods':['default'],'mission-control-reopen':['bar'],'mission-control-sessions':['default'],'mission-control-spaces':['footer','list'],'mission-control-tabs':['navigation','topbar']});
   const t=REGISTRY.get(tabs.MOD);assert.ok([...t.compared].every(v=>tabs.VIEWS.includes(v)),'every tabs role compared in source is an exported view');
   assert.deepEqual([...t.dialog].sort(),['launch','menu','settings']);assert.ok(t.overlay.has('context'));
   assert.ok(REGISTRY.get('mission-control-agent-menu').dialogOnly,'the agent menu is only its own dialog');
@@ -218,7 +218,7 @@ test('exactly one topmost tab bar, swapping to the other layout with traffic-lig
     assert.equal(findAll(tree,n=>n.header!==undefined).length,0,'no stack header strip');
     assert.equal(tabs.leftOffset(tree,tabs.isTopbarBlock),0,'the bar spans the full window width');
     assert.equal(tabs.lightsPadding({win:{platform:'macos',titlebar:'none',fullscreen:false},tree}),tree.traffic_lights[0]+64);
-    // The tab bar's own reading of this tree: swap target, panel control and all six sources.
+    // The tab bar's own reading of this tree: swap target, panel control and all seven sources.
     const c=nav.layoutContract({tree,name,names:INSTALLED,props:bar.content.props});
     assert.deepEqual({main:c.main,stack:c.stack,children:c.children,active:c.active,panel:c.panel,panelControl:c.panelControl,swap:c.swap},
       {main:true,stack:true,children:[...nav.SOURCE_IDS],active:'jira',panel:classic?{hidden:true}:null,panelControl:classic,swap:{enabled:true,to:nav.LAYOUT_PAIR[name],label:nav.LAYOUT_LABELS[nav.LAYOUT_PAIR[name]]}});
@@ -226,13 +226,15 @@ test('exactly one topmost tab bar, swapping to the other layout with traffic-lig
   }
 });
 
-test('both layouts mount mc-main and the same six-source mc-work-stack; Classic starts with the panel hidden',()=>{
+test('both layouts mount mc-main and the same seven-source mc-work-stack; Classic starts with the panel hidden',()=>{
   for(const name of NAMES){
     const {tree}=LAYOUTS[name],stack=findId(tree,'mc-work-stack');
     assert.ok(findId(tree,'mc-main'));assert.equal(stack.node.header,undefined);
     assert.deepEqual(stack.node.children.map(c=>[c.id,c.content]),nav.SOURCES.map(s=>[s.id,{mod:s.mod,props:{...s.props}}]));
     assert.deepEqual(stack.node.children.filter(c=>c.content.mod==='mission-control-gitlab').map(c=>c.content.props),[{view:'issues',hideHeader:true},{view:'merges',hideHeader:true}]);
     assert.deepEqual(stack.parent.children[stack.index-1].content,{mod:tabs.MOD,props:{view:'navigation'}});
+    assert.deepEqual(stack.node.children.map(c=>c.id),['jira','github','pulls','gitlab','merges','sessions','mods'],'seven sources in navigation order');
+    assert.ok(stack.node.children.every(c=>c.content.props.hideHeader===true),'every embedded source hides its own heading');
   }
   const panel=findId(LAYOUTS[CLASSIC].tree,'mc-work-panel').node;
   assert.equal(panel.hidden,true);assert.deepEqual(panel.children.map(c=>c.id),['mc-navigation','mc-work-stack']);
@@ -260,13 +262,13 @@ test('preview paths resolve to the existing Settings SVGs beside each installed 
     assert.ok(fs.statSync(svg).isFile()&&!fs.lstatSync(svg).isSymbolicLink());assert.match(text,/^\s*<svg[\s>]/);assert.match(text,new RegExp(`data-view="${name}"`));
   }
   const slots=[...fs.readFileSync(path.join(layoutsDir,'mission-control.svg'),'utf8').matchAll(/data-source="([a-z]+)"/g)].map(m=>m[1]);
-  assert.deepEqual(slots,[...nav.SOURCE_IDS],'the overview artwork depicts the same six sources');
+  assert.deepEqual(slots,[...nav.SOURCE_IDS],'the overview artwork depicts the same seven sources');
 });
 
-test('the six sources stay reachable at 1024 and 736 px with a 220 px rail; Classic keeps terminal room',()=>{
+test('the seven sources stay reachable at 1024 and 736 px with a 220 px rail; Classic keeps terminal room',()=>{
   for(const width of [1024,736]){
     const mc=widthsAt(LAYOUTS['mission-control'].tree,width).get('mc-navigation');
-    assert.ok(mc>=nav.navigationMinWidth(),`overview navigation ${mc}px at ${width}`);if(width>=1024)assert.equal(nav.navigationMode(mc),'full');
+    assert.ok(mc>=nav.navigationMinWidth(),`overview navigation ${mc}px at ${width}`);assert.equal(nav.navigationMode(mc),'short',`seven whole short labels at ${width}px`);
     const open=widthsAt(LAYOUTS[CLASSIC].tree,width,{open:['mc-work-panel']}),closed=widthsAt(LAYOUTS[CLASSIC].tree,width);
     assert.ok(open.get('mc-navigation')>=nav.navigationMinWidth({panel:true}),`panel navigation at ${width}`);
     assert.ok(open.get('mc-terminals')>100&&closed.get('mc-terminals')>open.get('mc-terminals'),`Classic terminals ${open.get('mc-terminals')}/${closed.get('mc-terminals')}px at ${width}`);
@@ -275,7 +277,7 @@ test('the six sources stay reachable at 1024 and 736 px with a 220 px rail; Clas
 
 test('the bundle collects exactly the referenced Mission Control mods, all present in src/mods',()=>{
   const required=new Set();for(const name of NAMES)for(const r of modRefs(LAYOUTS[name].tree))if(r.mod.startsWith('mission-control-'))required.add(r.mod);
-  assert.deepEqual([...required].sort(),['mission-control-agents','mission-control-github','mission-control-gitlab','mission-control-jira','mission-control-sessions','mission-control-spaces','mission-control-tabs']);
+  assert.deepEqual([...required].sort(),['mission-control-agents','mission-control-github','mission-control-gitlab','mission-control-jira','mission-control-mods','mission-control-sessions','mission-control-spaces','mission-control-tabs']);
   for(const mod of required)assert.ok(REGISTRY.has(mod),mod);
   const shipped=new Set();for(const name of NAMES)for(const r of modRefs(LAYOUTS[name].tree))if(!r.mod.startsWith('mission-control-'))shipped.add(r.mod);
   assert.deepEqual([...shipped],['pane'],'only the shipped pane header is used, read-only');

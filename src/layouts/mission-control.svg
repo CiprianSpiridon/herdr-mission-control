@@ -12,8 +12,8 @@
   <g fill="#89b4fa"><circle cx="16" cy="146" r="4"/><circle cx="16" cy="184" r="4"/><circle cx="16" cy="222" r="4"/></g>
   <rect x="112" y="42" width="91" height="7" rx="2" fill="#e5e7eb"/>
   <rect x="112" y="57" width="144" height="3" rx="1" fill="#6b7079"/>
-  <g fill="#91969f" data-region="work-sources"><rect data-source="jira" x="114" y="80" width="37" height="4" rx="2"/><rect data-source="github" x="174" y="80" width="42" height="4" rx="2"/><rect data-source="pulls" x="234" y="80" width="39" height="4" rx="2"/><rect data-source="gitlab" x="294" y="80" width="42" height="4" rx="2"/><rect data-source="merges" x="354" y="80" width="39" height="4" rx="2"/><rect data-source="sessions" x="414" y="80" width="44" height="4" rx="2"/></g>
-  <path d="M112 93h350" stroke="#2a2d33"/><path d="M112 93h35" stroke="#89b4fa" stroke-width="2"/>
+  <g fill="#91969f" data-region="work-sources"><rect data-source="jira" x="114" y="80" width="30" height="4" rx="2"/><rect data-source="github" x="164" y="80" width="36" height="4" rx="2"/><rect data-source="pulls" x="214" y="80" width="32" height="4" rx="2"/><rect data-source="gitlab" x="264" y="80" width="36" height="4" rx="2"/><rect data-source="merges" x="314" y="80" width="32" height="4" rx="2"/><rect data-source="sessions" x="364" y="80" width="38" height="4" rx="2"/><rect data-source="mods" x="414" y="80" width="30" height="4" rx="2"/></g>
+  <path d="M112 93h350" stroke="#2a2d33"/><path d="M112 93h34" stroke="#89b4fa" stroke-width="2"/>
   <g fill="#17191d" stroke="#2a2d33"><rect x="112" y="107" width="109" height="174" rx="5"/><rect x="232" y="107" width="109" height="174" rx="5"/><rect x="352" y="107" width="109" height="174" rx="5"/></g>
   <g fill="#91969f"><rect x="122" y="118" width="25" height="3" rx="1"/><rect x="242" y="118" width="46" height="3" rx="1"/><rect x="362" y="118" width="23" height="3" rx="1"/></g>
   <g fill="#101114" stroke="#2a2d33"><rect x="120" y="134" width="93" height="56" rx="4"/><rect x="120" y="199" width="93" height="56" rx="4"/><rect x="240" y="134" width="93" height="56" rx="4"/><rect x="360" y="134" width="93" height="56" rx="4"/></g>
