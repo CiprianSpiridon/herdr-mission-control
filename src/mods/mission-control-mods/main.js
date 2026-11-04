@@ -132,7 +132,7 @@ export default class MissionControlMods extends View {
     }
     if(this.removed.length&&this.filter==='all')body=body.child(sectionHeader(MOD,'mods-section-removed','Removed (restorable for 30 days)',this.removed.length,{toggle:()=>{}}))
       .children(this.removed.map(r=>h_flex().id('removed-'+r.id).px(12).py(6).gap(8).items_center().child(label(`${r.name} (${r.kind})`)).child(div().flex_1())
-        .child(div().text_size(10).text_color(t.dim).child(`deleted ${new Date(r.restoreUntil).toLocaleDateString()}`)).child(textButton('restore-'+r.id,'Restore',(_e,cx)=>this.restore(r.id,cx)))));
+        .child(div().text_size(10).text_color(t.dim).child(`deleted ${new Date(r.restoreUntil).toLocaleDateString()}`)).child(textButton('restore-'+r.id,'Restore',(_e,cx)=>this.restore(r.id,cx)).accessibility_label(`Restore ${r.name}`))));
     return body;
   }
   row(item,t){
@@ -140,13 +140,15 @@ export default class MissionControlMods extends View {
     const tone=item.state==='update'?t.accent:['conflict','unreachable','too-large'].includes(item.state)?t.blocked:item.state==='edited'?t.working||t.accent:t.dim;
     const sourceText=item.source?[item.source.fullName,item.source.path].filter(Boolean).join(' · '):item.installerPackage?`installed with ${item.installerPackage}`:null;
     const detail=item.state==='update'&&item.update?`${item.update.subject} · ${item.update.changed+item.update.added+item.update.removed} files · ${ago(item.update.time)}`:item.reason;
+    // Every row has the same button words, so each button names its item for assistive technology.
+    const named=item.title||item.name,rowButton=(id,text,verb,action,options)=>textButton(id,text,action,options).accessibility_label(`${verb} ${named}`);
     const buttons=actionsFor(item).map(action=>{
-      if(action==='update')return textButton('update-'+item.key,'Update…',(_e,cx)=>this.update(item.key,cx),{primary:true});
-      if(action==='disable')return textButton('disable-'+item.key,'Disable',(_e,cx)=>this.lifecycle('disable',item.key,cx));
-      if(action==='enable')return textButton('enable-'+item.key,'Enable',(_e,cx)=>this.lifecycle('enable',item.key,cx));
-      if(action==='uninstall')return textButton('uninstall-'+item.key,'Uninstall',(_e,cx)=>{this.confirm={op:'uninstall',key:item.key,layouts:item.usedBy||[]};cx.notify();});
-      if(action==='link')return textButton('link-'+item.key,'Link source…',(_e,cx)=>{this.linkFor=item.key;cx.notify();});
-      return textButton('choose-'+item.key,'Choose source…',(_e,cx)=>{this.linkFor=item.key;cx.notify();});
+      if(action==='update')return rowButton('update-'+item.key,'Update…','Update',(_e,cx)=>this.update(item.key,cx),{primary:true});
+      if(action==='disable')return rowButton('disable-'+item.key,'Disable','Disable',(_e,cx)=>this.lifecycle('disable',item.key,cx));
+      if(action==='enable')return rowButton('enable-'+item.key,'Enable','Enable',(_e,cx)=>this.lifecycle('enable',item.key,cx));
+      if(action==='uninstall')return rowButton('uninstall-'+item.key,'Uninstall','Uninstall',(_e,cx)=>{this.confirm={op:'uninstall',key:item.key,layouts:item.usedBy||[]};cx.notify();});
+      if(action==='link')return rowButton('link-'+item.key,'Link source…','Link a source for',(_e,cx)=>{this.linkFor=item.key;cx.notify();});
+      return rowButton('choose-'+item.key,'Choose source…','Choose the source of',(_e,cx)=>{this.linkFor=item.key;cx.notify();});
     });
     let row=v_flex().id('row-'+item.key).px(10).py(6).gap(4)
       .child(h_flex().gap(10).items_center().child(thumb)
@@ -161,8 +163,8 @@ export default class MissionControlMods extends View {
   confirmView(item,t){
     const c=this.confirm,uses=c.layouts?.length?`Used by ${c.layouts.join(', ')}. `:'',text=c.op==='uninstall'?`${uses}Remove ${item.name}? It can be restored for 30 days, then it is deleted.`:`${uses}Disable ${item.name} anyway?`;
     return h_flex().id('confirm-'+item.key).pl(58).gap(6).items_center().child(div().flex_1().text_size(11).text_color(t.muted).child(text))
-      .child(textButton('confirm-yes-'+item.key,c.op==='uninstall'?'Remove':'Disable',(_e,cx)=>this.lifecycle(c.op,item.key,cx,{confirm:true}),{primary:true}))
-      .child(textButton('confirm-no-'+item.key,'Cancel',(_e,cx)=>{this.confirm=null;cx.notify();}));
+      .child(textButton('confirm-yes-'+item.key,c.op==='uninstall'?'Remove':'Disable',(_e,cx)=>this.lifecycle(c.op,item.key,cx,{confirm:true}),{primary:true}).accessibility_label(`Confirm: ${c.op==='uninstall'?'remove':'disable'} ${item.title||item.name}`))
+      .child(textButton('confirm-no-'+item.key,'Cancel',(_e,cx)=>{this.confirm=null;cx.notify();}).accessibility_label(`Cancel: keep ${item.title||item.name}`));
   }
   linkView(item,t){
     let box=v_flex().id('link-'+item.key).pl(58).gap(6);

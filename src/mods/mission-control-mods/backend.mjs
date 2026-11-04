@@ -69,10 +69,14 @@ export async function handle(request, {env = process.env, now = () => Date.now()
       if (!url || fetched >= 6 || timeLeft() < 4000) continue;
       if (await fs.access(file).then(() => true, () => false)) continue;
       try {
-        const controller = new AbortController(), timer = setTimeout(() => controller.abort(), 4000);
-        const response = await fetch(url, {signal: controller.signal}).finally(() => clearTimeout(timer));
-        const data = Buffer.from(await response.arrayBuffer());
-        if (!response.ok || data.length > 3 * 1024 * 1024 || data.subarray(0, 4).toString('hex') !== '89504e47') continue;
+        let data;
+        if (url.startsWith('file:///')) { if (!source.fixture) continue;data = await fs.readFile(new URL(url)); }
+        else {
+          const controller = new AbortController(), timer = setTimeout(() => controller.abort(), 4000);
+          const response = await fetch(url, {signal: controller.signal}).finally(() => clearTimeout(timer));
+          if (!response.ok) continue;data = Buffer.from(await response.arrayBuffer());
+        }
+        if (data.length > 3 * 1024 * 1024 || data.subarray(0, 4).toString('hex') !== '89504e47') continue;
         await fs.mkdir(dir, {recursive: true});await store.writeAtomic(file, data);fetched++;
       } catch {}
     }

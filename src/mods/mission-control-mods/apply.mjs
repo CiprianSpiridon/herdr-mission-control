@@ -92,8 +92,9 @@ export async function prepare({appHome, source, record, update, resolutions = {}
   }
   // Keys: the item's keys.json snippet in its source folder, if any.
   let keys = null;
-  if (record.keysSha || update.keysSha) {
-    const snippet = update.keysSha ? JSON.parse((await blob(update.keysSha)).toString('utf8')) : {};
+  if (Object.keys(update.keys || {}).length || record.keys?.length) {
+    // Only this item's own keys (checkItem): its section and the actions addressed to it.
+    const snippet = update.keys || {};
     let userKeys = {};try { userKeys = JSON.parse(await fs.readFile(path.join(appHome, 'keys.json'), 'utf8')); } catch {}
     keys = planKeys(userKeys, snippet, record.keys || []);
   }
@@ -120,7 +121,7 @@ export async function prepare({appHome, source, record, update, resolutions = {}
   } else {
     for (const [rel, data] of Object.entries(writes)) if (rel.endsWith('.json')) { try { JSON.parse(data.toString('utf8')); } catch { fail('CHECK_FAILED', `${rel} is not valid JSON.`); } }
   }
-  const plan = {v: 1, kind: record.kind, name: record.name, commit: update.commit, files: upstream, keysSha: update.keysSha ?? null, writes: Object.keys(writes), deletes, keys: keys ? {changed: keys.changed, owned: keys.owned} : null};
+  const plan = {v: 1, kind: record.kind, name: record.name, commit: update.commit, files: upstream, keysDigest: update.keysDigest ?? null, writes: Object.keys(writes), deletes, keys: keys ? {changed: keys.changed, owned: keys.owned} : null};
   await fs.mkdir(path.join(stageRoot, 'files'), {recursive: true});
   for (const [rel, data] of Object.entries(writes)) { await fs.mkdir(path.dirname(path.join(stageRoot, 'files', rel)), {recursive: true});await fs.writeFile(path.join(stageRoot, 'files', rel), data); }
   if (keys?.changed) await fs.writeFile(path.join(stageRoot, 'keys.json'), JSON.stringify(keys.keys, null, 2) + '\n');
@@ -141,7 +142,7 @@ export async function commit({appHome, store, record, now = () => Date.now()}) {
   await store.commit(ops, {label: `update ${record.kind}:${record.name}`});
   await store.updatePackages(value => {
     const key = `${record.kind}:${record.name}`, current = value.packages[key] || record;
-    value.packages[key] = {...current, commit: plan.commit, base: plan.files, keysSha: plan.keysSha, keys: plan.keys ? plan.keys.owned : current.keys, state: 'current', lastResult: null, updatedAt: now()};
+    value.packages[key] = {...current, commit: plan.commit, base: plan.files, keysDigest: plan.keysDigest ?? null, keys: plan.keys ? plan.keys.owned : current.keys, state: 'current', lastResult: null, updatedAt: now()};
   });
   await fs.rm(stageRoot, {recursive: true, force: true});
   return {ok: true, commit: plan.commit, written: plan.writes.length, deleted: plan.deletes.length};

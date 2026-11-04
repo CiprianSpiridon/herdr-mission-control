@@ -62,3 +62,15 @@ test('an item adopted from a pasted link is re-checked with git ls-remote', asyn
   const changed = await checkItem(f.source, f.catalogs(null), {...linked, remoteHead: f.first, lastResult: first});
   assert.equal(changed.state, 'update');assert.equal(changed.remoteHead, next);assert.deepEqual(changed.update.changed, ['main.js']);
 });
+
+test('a shared keys.json gives each item only its own keys; a single-item repository owns the whole file', async () => {
+  const {itemKeys, keysDigest} = await import('../src/mods/mission-control-mods/updates.mjs');
+  const file = {global: {'cmd-1': 'qa-clock.bump', 'cmd-2': 'qa-notes.add', 'cmd-3': 'tab.new'}, 'mod:qa-notes': {'cmd-s': 'qa-notes.save'}, 'layout:board': {'cmd-b': 'space.next'}};
+  assert.deepEqual(itemKeys(file, {kind: 'mod', name: 'qa-clock'}), {global: {'cmd-1': 'qa-clock.bump'}});
+  assert.deepEqual(itemKeys(file, {kind: 'mod', name: 'qa-notes'}), {global: {'cmd-2': 'qa-notes.add'}, 'mod:qa-notes': {'cmd-s': 'qa-notes.save'}});
+  assert.deepEqual(itemKeys(file, {kind: 'layout', name: 'board'}), {'layout:board': {'cmd-b': 'space.next'}});
+  assert.deepEqual(itemKeys(file, {kind: 'mod', name: 'qa-clock'}, {single: true}), file);
+  const changedForNotes = {...file, global: {...file.global, 'cmd-2': 'qa-notes.remove'}};
+  assert.equal(keysDigest(itemKeys(changedForNotes, {kind: 'mod', name: 'qa-clock'})), keysDigest(itemKeys(file, {kind: 'mod', name: 'qa-clock'})), 'another item’s key change is not this item’s update');
+  assert.equal(keysDigest({}), null);
+});

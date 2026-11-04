@@ -68,7 +68,7 @@ export function createSource({appHome, env = process.env, fetchImpl = globalThis
     try {
       const controller = new AbortController(), timer = setTimeout(() => controller.abort(), 15000);
       let response;
-      try { response = await fetchImpl(url, {signal: controller.signal, headers: {accept: 'application/json'}}); } finally { clearTimeout(timer); }
+      try { response = fixture && url.startsWith('file:///') ? await fixtureFile(url) : await fetchImpl(url, {signal: controller.signal, headers: {accept: 'application/json'}}); } finally { clearTimeout(timer); }
       if (!response.ok) fail('CATALOG_UNAVAILABLE', `The herdr.dev catalog answered ${response.status}.`);
       const body = await response.json(), list = body?.[kind];
       if (!Array.isArray(list)) fail('CATALOG_INVALID', 'The herdr.dev catalog has an unexpected shape.');
@@ -83,6 +83,12 @@ export function createSource({appHome, env = process.env, fetchImpl = globalThis
     }
   }
 
+  /** The native gate's fixture catalog is a local file (fixture mode only). */
+  async function fixtureFile(url) {
+    try { const text = await fs.readFile(new URL(url), 'utf8');return {ok: true, status: 200, json: async () => JSON.parse(text)}; }
+    catch { return {ok: false, status: 404, json: async () => null}; }
+  }
+
   function normalize(kind, e) {
     if (!e || typeof e !== 'object' || typeof e.url !== 'string' || typeof e.fullName !== 'string') return null;
     const names = kind === 'mods' ? e.modNames : e.layoutFiles;
@@ -93,7 +99,7 @@ export function createSource({appHome, env = process.env, fetchImpl = globalThis
       headCommit: typeof e.headCommit === 'string' ? e.headCommit : null,
       path: typeof e.path === 'string' ? e.path.replace(/^\/+|\/+$/g, '') : '',
       name: String(e.name || ''), stars: Number(e.stars) || 0, pushedAt: e.pushedAt ?? null,
-      previewUrl: typeof e.previewUrl === 'string' && /^https:\/\/assets\.herdr\.dev\//.test(e.previewUrl) ? e.previewUrl : null,
+      previewUrl: typeof e.previewUrl === 'string' && (/^https:\/\/assets\.herdr\.dev\//.test(e.previewUrl) || fixture && /^file:\/\/\//.test(e.previewUrl)) ? e.previewUrl : null,
       names: names.filter(n => typeof n === 'string').map(n => kind === 'layouts' ? n.replace(/\.json$/, '') : n)
     };
   }
