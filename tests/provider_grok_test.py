@@ -61,7 +61,7 @@ class GrokTest(unittest.TestCase):
         (self.sessions / "summary.json").write_text('{"unfinished":')
         self.assertEqual(self.collect()["data"][0]["code"], "MALFORMED_FILE")
 
-    def test_explicit_legacy_cache_never_assigns_profile_billing_to_an_unproven_session(self):
+    def test_explicit_legacy_cache_gives_session_context_and_the_tool_accounts_quota(self):
         cache = self.root / "explicit-cache"
         cache.mkdir()
         file = cache / "grok-cli-billing.json"
@@ -71,7 +71,7 @@ class GrokTest(unittest.TestCase):
         value = self.collect(operation="observe", identities=[self.identity()])["data"][0]
         self.assertEqual(value["context"]["reportedUsedPercent"], 30)
         self.assertIsNone(value["provenance"]["observedAt"])
-        self.assertIsNone(value["quota"])
+        self.assertEqual(value["quota"]["windows"], [{"name": "monthly", "remainingPercent": 70, "observedAt": 1000000, "resetsAt": None}])
         raw["provider"] = "claude"
         file.write_text(json.dumps(raw))
         self.assertEqual(self.collect()["data"][0]["code"], "INVALID_CACHE")

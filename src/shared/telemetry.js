@@ -13,6 +13,13 @@ const bytes=value=>{let size=0;for(const character of value){const n=character.c
 const fail=(code,message)=>{throw Object.assign(Error(message),{code});};
 /** Herdr reports Claude Code's foreground command as `claude` (or a path to it, or its npm package). */
 const claudeForeground=raw=>{const argv=Array.isArray(raw?.foreground?.argv)?raw.foreground.argv.slice(0,4):[];return argv.some(a=>typeof a==='string'&&(/(^|\/)claude$/.test(a)||a.includes('/@anthropic-ai/claude-code/')));};
+/** A Codex or Grok agent started with an exact resume command names its conversation in its own argv. */
+const RESUME_ID=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const argvSession=raw=>{
+  const argv=Array.isArray(raw?.foreground?.argv)?raw.foreground.argv.slice(0,16):[];if(!argv.length||argv.some(a=>a==='--last'||a==='--continue'))return null;
+  const base=String(argv[0]).split('/').pop(),at=(flag,provider)=>{const i=argv.indexOf(flag,1);return i>0&&RESUME_ID.test(String(argv[i+1]))?{provider,sessionId:argv[i+1]}:null;};
+  return base==='codex'?at('resume','codex'):base==='grok'?at('--resume','grok'):null;
+};
 const sameScope=(scope,source)=>scope&&['machine','provider','providerRoot','credentialScope'].every(k=>scope[k]===source[k]);
 
 export class TelemetryBridge{
@@ -152,18 +159,26 @@ export class TelemetryBridge{
         for(const[id,record]of Object.entries(snapshot.proposals))if(record.state==='committed'&&record.ack.terminal.machine===machine&&record.ack.terminal.address===actual.terminal.address&&terminalKey(record.ack.terminal)!==terminalKey(actual.terminal))await this.bindings.invalidate(id,'Terminal generation or foreground PID changed');
       }
       // Agents started outside Mission Control: Claude Code's own PID records name their exact conversations.
-      const unbound=agents.map(agent=>[agent,this.agentStates.get(agent.address)]).filter(([,state])=>state?.unbound&&Number.isSafeInteger(state.terminal?.foregroundPid)&&Number.isSafeInteger(state.terminal?.createdMs)&&claudeForeground(state.raw));
-      if(unbound.length){
+      const unbound=agents.map(agent=>[agent,this.agentStates.get(agent.address)]).filter(([,state])=>state?.unbound&&Number.isSafeInteger(state.terminal?.foregroundPid)&&Number.isSafeInteger(state.terminal?.createdMs));
+      const adopt=(state,source,sessionId)=>{
+        state.session={machine,provider:source.provider,credentialScope:source.credentialScope,providerRoot:source.providerRoot,sessionId};state.sourceId=source.id;state.adopted=true;state.reason=null;
+        if(!groups.has(source.id))groups.set(source.id,{source,identities:new Map()});groups.get(source.id).identities.set(sessionKey(state.session),state.session);
+      };
+      // Codex and Grok started with `codex resume <id>` / `grok --resume <id>`: the exact ID is in their own argv.
+      for(const[,state]of unbound){
+        const hit=argvSession(state.raw);if(!hit)continue;const matches=sources.filter(s=>s.provider===hit.provider);
+        if(matches.length===1)adopt(state,matches[0],hit.sessionId);else if(matches.length)state.reason=`Several ${hit.provider} profiles are enabled on this machine; no session is chosen.`;
+      }
+      const claudeUnbound=unbound.filter(([,state])=>!state.session&&claudeForeground(state.raw));
+      if(claudeUnbound.length){
         const hits=new Map();
         for(const source of sources.filter(s=>s.provider==='claude')){
-          if(this.closed)return;let found;try{found=await this.adopt(source,unbound.map(([,state])=>({pid:state.terminal.foregroundPid,notBefore:state.terminal.createdMs})));}catch{continue;}
+          if(this.closed)return;let found;try{found=await this.adopt(source,claudeUnbound.map(([,state])=>({pid:state.terminal.foregroundPid,notBefore:state.terminal.createdMs})));}catch{continue;}
           for(const[pid,sessionId]of found){if(!hits.has(pid))hits.set(pid,[]);hits.get(pid).push({source,sessionId});}
         }
-        for(const[,state]of unbound){
+        for(const[,state]of claudeUnbound){
           const found=hits.get(state.terminal.foregroundPid)||[];if(found.length!==1){if(found.length)state.reason='Several Claude Code profiles claim this process; no session is chosen.';continue;}
-          const {source,sessionId}=found[0];
-          state.session={machine,provider:'claude',credentialScope:source.credentialScope,providerRoot:source.providerRoot,sessionId};state.sourceId=source.id;state.adopted=true;state.reason=null;
-          if(!groups.has(source.id))groups.set(source.id,{source,identities:new Map()});groups.get(source.id).identities.set(sessionKey(state.session),state.session);
+          adopt(state,found[0].source,found[0].sessionId);
         }
       }
       for(const group of groups.values())try{await this.scanSource(group.source,[...group.identities.values()],{force});}catch(error){for(const state of this.agentStates.values())if(state.sourceId===group.source.id){state.session=null;state.reason='This provider metadata source or Python helper is unavailable.';}}

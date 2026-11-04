@@ -2,10 +2,10 @@
   "v": 1,
   "kind": "installed-provider-compatibility",
   "evidenceKind": "live-installed-metadata",
-  "generatedAt": "2026-11-04T11:40:31.541Z",
+  "generatedAt": "2026-11-04T12:55:10.799Z",
   "probeSourceSha256": "ec189eeeeab8947321d059b86a7775eed4fd93ef855b54aed07e272eaafe208a",
-  "collectorSourceSha256": "4c115854b6539dfed86d9c373f9ff86a2a07f0c5219d1bd4bafefcc17afce167",
-  "collectorBytes": 45863,
+  "collectorSourceSha256": "f97f59e5840b4d855b593ec24d26334f1586ac0902797f043af24175d0f90237",
+  "collectorBytes": 52242,
   "platform": "darwin",
   "pythonVersion": "3.14.6",
   "bindingStoreStatus": "validated",
@@ -20,13 +20,13 @@
       "formats": [
         "codex-rollout-jsonl"
       ],
-      "observedSessions": 12,
+      "observedSessions": 14,
       "unavailableObservations": 0,
       "reportedContextFields": [
         "usedTokens",
         "windowTokens"
       ],
-      "reportedQuotaObservations": 9,
+      "reportedQuotaObservations": 12,
       "activeExactBindings": 0,
       "measuredActiveContext": 0,
       "measuredActiveQuota": 0,

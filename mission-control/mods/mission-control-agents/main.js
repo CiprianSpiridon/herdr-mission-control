@@ -898,6 +898,16 @@ var claudeForeground = (raw) => {
   const argv = Array.isArray(raw?.foreground?.argv) ? raw.foreground.argv.slice(0, 4) : [];
   return argv.some((a) => typeof a === "string" && (/(^|\/)claude$/.test(a) || a.includes("/@anthropic-ai/claude-code/")));
 };
+var RESUME_ID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+var argvSession = (raw) => {
+  const argv = Array.isArray(raw?.foreground?.argv) ? raw.foreground.argv.slice(0, 16) : [];
+  if (!argv.length || argv.some((a) => a === "--last" || a === "--continue")) return null;
+  const base = String(argv[0]).split("/").pop(), at = (flag, provider) => {
+    const i = argv.indexOf(flag, 1);
+    return i > 0 && RESUME_ID.test(String(argv[i + 1])) ? { provider, sessionId: argv[i + 1] } : null;
+  };
+  return base === "codex" ? at("resume", "codex") : base === "grok" ? at("--resume", "grok") : null;
+};
 var sameScope = (scope, source) => scope && ["machine", "provider", "providerRoot", "credentialScope"].every((k) => scope[k] === source[k]);
 var TelemetryBridge = class {
   constructor(mod, api = herdr, { clock = () => Date.now() } = {}) {
@@ -1152,14 +1162,30 @@ var TelemetryBridge = class {
         }
         for (const [id, record] of Object.entries(snapshot.proposals)) if (record.state === "committed" && record.ack.terminal.machine === machine2 && record.ack.terminal.address === actual.terminal.address && terminalKey(record.ack.terminal) !== terminalKey(actual.terminal)) await this.bindings.invalidate(id, "Terminal generation or foreground PID changed");
       }
-      const unbound = agents2.map((agent) => [agent, this.agentStates.get(agent.address)]).filter(([, state2]) => state2?.unbound && Number.isSafeInteger(state2.terminal?.foregroundPid) && Number.isSafeInteger(state2.terminal?.createdMs) && claudeForeground(state2.raw));
-      if (unbound.length) {
+      const unbound = agents2.map((agent) => [agent, this.agentStates.get(agent.address)]).filter(([, state2]) => state2?.unbound && Number.isSafeInteger(state2.terminal?.foregroundPid) && Number.isSafeInteger(state2.terminal?.createdMs));
+      const adopt = (state2, source, sessionId) => {
+        state2.session = { machine: machine2, provider: source.provider, credentialScope: source.credentialScope, providerRoot: source.providerRoot, sessionId };
+        state2.sourceId = source.id;
+        state2.adopted = true;
+        state2.reason = null;
+        if (!groups.has(source.id)) groups.set(source.id, { source, identities: /* @__PURE__ */ new Map() });
+        groups.get(source.id).identities.set(sessionKey(state2.session), state2.session);
+      };
+      for (const [, state2] of unbound) {
+        const hit = argvSession(state2.raw);
+        if (!hit) continue;
+        const matches = sources.filter((s) => s.provider === hit.provider);
+        if (matches.length === 1) adopt(state2, matches[0], hit.sessionId);
+        else if (matches.length) state2.reason = `Several ${hit.provider} profiles are enabled on this machine; no session is chosen.`;
+      }
+      const claudeUnbound = unbound.filter(([, state2]) => !state2.session && claudeForeground(state2.raw));
+      if (claudeUnbound.length) {
         const hits = /* @__PURE__ */ new Map();
         for (const source of sources.filter((s) => s.provider === "claude")) {
           if (this.closed) return;
           let found;
           try {
-            found = await this.adopt(source, unbound.map(([, state2]) => ({ pid: state2.terminal.foregroundPid, notBefore: state2.terminal.createdMs })));
+            found = await this.adopt(source, claudeUnbound.map(([, state2]) => ({ pid: state2.terminal.foregroundPid, notBefore: state2.terminal.createdMs })));
           } catch {
             continue;
           }
@@ -1168,19 +1194,13 @@ var TelemetryBridge = class {
             hits.get(pid).push({ source, sessionId });
           }
         }
-        for (const [, state2] of unbound) {
+        for (const [, state2] of claudeUnbound) {
           const found = hits.get(state2.terminal.foregroundPid) || [];
           if (found.length !== 1) {
             if (found.length) state2.reason = "Several Claude Code profiles claim this process; no session is chosen.";
             continue;
           }
-          const { source, sessionId } = found[0];
-          state2.session = { machine: machine2, provider: "claude", credentialScope: source.credentialScope, providerRoot: source.providerRoot, sessionId };
-          state2.sourceId = source.id;
-          state2.adopted = true;
-          state2.reason = null;
-          if (!groups.has(source.id)) groups.set(source.id, { source, identities: /* @__PURE__ */ new Map() });
-          groups.get(source.id).identities.set(sessionKey(state2.session), state2.session);
+          adopt(state2, found[0].source, found[0].sessionId);
         }
       }
       for (const group of groups.values()) try {

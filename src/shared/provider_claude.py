@@ -28,10 +28,28 @@ def claude_cache(entry, readers):
             rows = raw.get("session_windows", {}).get(session, []) if isinstance(raw.get("session_windows"), dict) else []
             observations = raw.get("session_quota_observations", {}).get(session, []) if isinstance(raw.get("session_quota_observations"), dict) else []
             windows = collector_legacy_windows(rows, observations)
+            accounts = raw.get("session_accounts") if isinstance(raw.get("session_accounts"), dict) else {}
+            digest = accounts.get(session)
+            proven = isinstance(digest, str) and len(digest) == 64 and all(c in "0123456789abcdef" for c in digest)
+            if not windows and proven:
+                # Quota belongs to the account. An idle session whose own windows were dropped takes the
+                # newest windows another session of the same proven account reported.
+                best = None
+                for other, other_digest in accounts.items():
+                    if other == session or other_digest != digest:
+                        continue
+                    other_rows = raw.get("session_windows", {}).get(other, []) if isinstance(raw.get("session_windows"), dict) else []
+                    other_obs = raw.get("session_quota_observations", {}).get(other, []) if isinstance(raw.get("session_quota_observations"), dict) else []
+                    candidate = collector_legacy_windows(other_rows, other_obs)
+                    newest = max([w["observedAt"] or 0 for w in candidate], default=0)
+                    if candidate and (best is None or newest > best[0]):
+                        best = (newest, candidate)
+                if best:
+                    windows = best[1]
             if windows:
-                digest = raw.get("session_accounts", {}).get(session) if isinstance(raw.get("session_accounts"), dict) else None
-                proven = isinstance(digest, str) and len(digest) == 64 and all(c in "0123456789abcdef" for c in digest)
                 quota = {"proof": {"kind": "session-account-digest" if proven else "session-report", "machine": readers.source.get("machine"), "credentialScope": readers.source["credentialScope"], "accountId": digest if proven else None, "poolId": None}, "windows": windows}
+        # Quota is the tool account's: its current tool-level windows win over a session's older copy.
+        quota = collector_harness_quota(raw, readers.source) or quota
         if context is not None or quota is not None:
             # Quota windows carry their own dates; context is dated only by its own session's activity.
             result.append(readers.available(entry, session, "legacy-claude-statusline", context_at if context is not None else None, context, quota))

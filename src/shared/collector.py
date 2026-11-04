@@ -69,6 +69,43 @@ def collector_legacy_windows(rows, observations):
     return result
 
 
+def collector_harness_quota(raw, source):
+    """Quota belongs to the tool's account, not to one conversation: the snapshot's tool-level
+    windows, dated by the snapshot's own fetch time, apply to every session of that tool."""
+    rows, fetched = raw.get("windows"), raw.get("fetched_at_unix")
+    if not isinstance(rows, list) or not collector_number(fetched, False):
+        return None
+    windows, seen = [], set()
+    for row in rows[:8]:
+        if not isinstance(row, dict) or row.get("kind") not in ("five_hour", "weekly", "monthly") or row["kind"] in seen:
+            continue
+        remaining = row.get("remaining_percent")
+        if not collector_number(remaining, False):
+            used = row.get("used_percent")
+            remaining = 100 - used if collector_number(used, False) else None
+        if remaining is None or not 0 <= remaining <= 100:
+            continue
+        reset = row.get("resets_at")
+        seen.add(row["kind"])
+        windows.append({"name": row["kind"], "remainingPercent": remaining, "observedAt": int(fetched * 1000), "resetsAt": int(reset * 1000) if collector_number(reset, False) else None})
+    if not windows:
+        # The snapshot can be rewritten without tool-level windows; the newest windows any session of
+        # this tool reported are the same account's quota.
+        session_rows = raw.get("session_windows") if isinstance(raw.get("session_windows"), dict) else {}
+        session_obs = raw.get("session_quota_observations") if isinstance(raw.get("session_quota_observations"), dict) else {}
+        best = None
+        for session, rows_for_session in list(session_rows.items())[:500]:
+            candidate = collector_legacy_windows(rows_for_session if isinstance(rows_for_session, list) else [], session_obs.get(session, []) if isinstance(session_obs.get(session), list) else [])
+            newest = max([w["observedAt"] or 0 for w in candidate], default=0)
+            if candidate and (best is None or newest > best[0]):
+                best = (newest, candidate)
+        if best is None:
+            return None
+        windows = best[1]
+    account = raw.get("account_id")
+    return {"proof": {"kind": "provider-account", "machine": source.get("machine"), "credentialScope": source["credentialScope"], "accountId": account if collector_text(account, 200) else None, "poolId": None}, "windows": windows}
+
+
 def collector_path(value):
     if not collector_text(value, 4096) or not os.path.isabs(value) or os.path.normpath(value) != value or value == "/":
         collector_fail("INVALID_ROOT", "An explicit canonical absolute metadata root is required.")
@@ -199,7 +236,37 @@ class CollectorReaders:
         visited = 0
         indexed = []
         requested = [identity["sessionId"] for identity in self.request.get("identities", [])]
-        for root in self.roots:
+        # Small status-line snapshot folders first: a large history folder must not spend the
+        # shared walk budget before the snapshot that holds the readings is even listed.
+        cache_roots = self.source.get("cacheRoots", [])
+        indexed_paths = set()
+        # Conversations asked about by ID are looked up directly (<root>/<id>/ or <root>/<folder>/<id>/)
+        # before the bounded walk, so a very large history folder cannot hide them.
+        for root in [r for r in self.roots if r not in cache_roots and requested and os.path.isdir(r)]:
+            try:
+                first = [root] + sorted(os.path.join(root, n) for n in os.listdir(root) if not n.startswith("."))[:2000]
+            except OSError:
+                continue
+            for parent in first:
+                for session in requested:
+                    folder = os.path.join(parent, session)
+                    if not isinstance(session, str) or "/" in session or session in (".", "..") or os.path.islink(folder) or not os.path.isdir(folder) or collector_forbidden(folder):
+                        continue
+                    try:
+                        names = sorted(os.listdir(folder))[:200]
+                    except OSError:
+                        continue
+                    for name in names:
+                        path = os.path.join(folder, name)
+                        allowed = name.endswith((".jsonl", ".jsonl.zst")) or (self.source["provider"] == "grok" and name == "summary.json")
+                        if not allowed or os.path.islink(path) or not os.path.isfile(path) or path in indexed_paths:
+                            continue
+                        info = os.lstat(path)
+                        relative = str(self.roots.index(root)) + "/" + os.path.relpath(path, root)
+                        entry = {"path": path, "root": root, "relative": relative, "cache": False, "size": info.st_size, "mtimeMs": info.st_mtime_ns // 1000000, "mtimeNs": info.st_mtime_ns, "device": info.st_dev, "inode": info.st_ino, "sourceDigest": collector_digest(relative + ":" + str(info.st_ino) + ":" + str(info.st_mtime_ns) + ":" + str(info.st_size))}
+                        indexed_paths.add(path)
+                        heapq.heappush(indexed, ((1, info.st_mtime_ns, relative), entry))
+        for root in sorted(self.roots, key=lambda r: r not in cache_roots):
             if not os.path.exists(root):
                 self.errors.append({"state": "error", "code": "SOURCE_MISSING", "reason": "A configured metadata directory is missing.", "scope": collector_scope(self.source)})
                 continue
@@ -236,6 +303,8 @@ class CollectorReaders:
                         cache = root in self.source.get("cacheRoots", [])
                         allowed = child.name == COLLECTOR_CACHE_FILES[self.source["provider"]] if cache else child.name.endswith((".jsonl", ".jsonl.zst")) or (self.source["provider"] == "grok" and child.name.endswith(".json"))
                         if not allowed or not child.is_file(follow_symlinks=False):
+                            continue
+                        if child_path in indexed_paths:
                             continue
                         info = child.stat(follow_symlinks=False)
                         relative = str(self.roots.index(root)) + "/" + os.path.relpath(child_path, root)

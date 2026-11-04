@@ -36,13 +36,14 @@ def codex_cache(entry, readers):
     contexts = raw.get("session_contexts", {})
     if not isinstance(contexts, dict) or readers.request["operation"] != "observe":
         return []
-    result = []
+    result, quota = [], collector_harness_quota(raw, readers.source)
     for identity in readers.request["identities"]:
         context = contexts.get(identity["sessionId"])
         percent = codex_number(context.get("used_percent")) if isinstance(context, dict) else None
-        if percent is not None and percent <= 100:
-            # A merged cache's fetch time does not date each saved context.
-            result.append(readers.available(entry, identity["sessionId"], "legacy-codex-app-server", None, {"usedTokens": None, "windowTokens": None, "compactionLimitTokens": None, "reportedUsedPercent": percent}))
+        context = {"usedTokens": None, "windowTokens": None, "compactionLimitTokens": None, "reportedUsedPercent": percent} if percent is not None and percent <= 100 else None
+        if context is not None or quota is not None:
+            # A merged cache's fetch time does not date each saved context; quota is the tool account's.
+            result.append(readers.available(entry, identity["sessionId"], "legacy-codex-app-server", None, context, quota))
     return result
 
 

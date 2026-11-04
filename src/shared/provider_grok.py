@@ -10,12 +10,13 @@ def grok_cache(entry, readers):
     contexts = raw.get("session_contexts", {})
     if readers.request["operation"] != "observe" or not isinstance(contexts, dict):
         return []
-    values = []
+    values, quota = [], collector_harness_quota(raw, readers.source)
     for identity in readers.request["identities"]:
         context = contexts.get(identity["sessionId"])
         percent = context.get("used_percent") if isinstance(context, dict) else None
-        if collector_number(percent, False) and percent <= 100:
-            values.append(readers.available(entry, identity["sessionId"], "legacy-grok-cli-billing", None, {"usedTokens": None, "windowTokens": None, "compactionLimitTokens": None, "reportedUsedPercent": percent}))
+        context = {"usedTokens": None, "windowTokens": None, "compactionLimitTokens": None, "reportedUsedPercent": percent} if collector_number(percent, False) and percent <= 100 else None
+        if context is not None or quota is not None:
+            values.append(readers.available(entry, identity["sessionId"], "legacy-grok-cli-billing", None, context, quota))
     return values
 
 

@@ -87,7 +87,7 @@ class CodexTest(unittest.TestCase):
         self.assertIsNone(value["context"])
         self.assertIsNone(value["quota"])
 
-    def test_explicit_cache_only_uses_exact_session_context_not_global_account_windows(self):
+    def test_explicit_cache_gives_exact_session_context_and_the_tool_accounts_quota(self):
         cache = self.root / "explicit-cache"
         cache.mkdir()
         file = cache / "codex-app-server.json"
@@ -96,8 +96,13 @@ class CodexTest(unittest.TestCase):
         self.source["cacheRoots"] = [str(cache)]
         value = self.collect(operation="observe", identities=[self.identity()])["data"][0]
         self.assertEqual(value["context"]["reportedUsedPercent"], 30)
-        self.assertIsNone(value["quota"])
-        self.assertEqual(self.collect(operation="observe", identities=[self.identity("not-present")])["data"], [])
+        # Quota belongs to the tool's account: every session shows the snapshot's tool-level windows.
+        self.assertEqual(value["quota"]["proof"]["kind"], "provider-account")
+        self.assertEqual(value["quota"]["windows"], [{"name": "weekly", "remainingPercent": 99, "observedAt": 1234000, "resetsAt": None}])
+        other = self.collect(operation="observe", identities=[self.identity("not-present")])["data"]
+        self.assertEqual(len(other), 1)
+        self.assertIsNone(other[0]["context"], "context stays per conversation")
+        self.assertEqual(other[0]["quota"]["windows"][0]["remainingPercent"], 99)
         raw["source"] = "wrong-provider"
         file.write_text(json.dumps(raw))
         self.assertEqual(self.collect()["data"][0]["code"], "INVALID_CACHE")
