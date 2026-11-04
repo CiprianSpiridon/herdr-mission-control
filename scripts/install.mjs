@@ -313,6 +313,21 @@ async function switchLayout(app, name, { pollMs, pollAttempts }) {
   fail('LAYOUT_NOT_SHOWN', `Herdr did not show layout ${name}`);
 }
 
+/** appHome()/mission-control/installed-packages.json: which mods and layouts this installer owns, so the
+ *  Mods manager shows them as installer-managed (read-only). Written after a successful install, removed on rollback. */
+export const OWNERSHIP_MANIFEST = 'mission-control/installed-packages.json';
+async function updateOwnership(appHome, name, entry) {
+  const file = path.join(appHome, OWNERSHIP_MANIFEST);
+  let value = { v: 1, packages: {} };
+  try { const parsed = JSON.parse(await fs.readFile(file, 'utf8')); if (parsed?.v === 1 && parsed.packages && typeof parsed.packages === 'object') value = parsed; } catch {}
+  if (entry) value.packages[name] = entry; else delete value.packages[name];
+  if (!Object.keys(value.packages).length) { await fs.rm(file, { force: true }); return; }
+  await fs.mkdir(path.dirname(file), { recursive: true });
+  const tmp = file + `.${process.pid}.tmp`;
+  await fs.writeFile(tmp, JSON.stringify(value, null, 2) + '\n');
+  await fs.rename(tmp, file);
+}
+
 async function writeReceipt(file, receipt) {
   await fs.mkdir(path.dirname(file), { recursive: true });
   const temporary = `${file}.tmp-${process.pid}-${crypto.randomBytes(4).toString('hex')}`;
@@ -462,6 +477,8 @@ export async function install({ source = path.join(PROJECT_ROOT, 'mission-contro
       validation: { checks, status: { layout: after.layout, errors: [], baselineErrors: before.errors }, frames: { before: frameBefore, after: frameAfter },
         terminals: { before: terminalsBefore.size, after: terminalsAfter.size, missing: [] }, previews, previousLayoutIntegrity } });
     await writeReceipt(receiptPath, receipt);
+    await updateOwnership(plan.appHome, receipt.source?.name || path.basename(plan.pkg.root), { receipt: receiptPath, installedMs: receipt.completedMs,
+      mods: receipt.mods, layouts: receipt.layouts, files: Object.fromEntries(receipt.owned.map(file => [file.path, file.sha256])) });
     return { ...summary, ok: true, state: 'installed', receipt: receiptPath, previousLayout: receipt.previousLayout, rollbackCommand: receipt.rollbackCommand };
   } catch (error) {
     const layoutResult = switched ? await restoreLayout(app, receipt, { ...timing, force: true }) : { restored: null, reason: 'not-switched' };
@@ -534,6 +551,7 @@ export async function rollback({ receiptPath, appHome, herdrApp = 'herdr-app', e
   const removal = await removeOwned(receipt.appHome, receipt.owned, receipt.createdDirectories, { generated: receipt.generated ?? {} });
   Object.assign(receipt, { ok: false, state: 'rolled-back', rollback: { completedMs: Date.now(), layout: layoutResult, ...removal, previous: receipt.rollback ?? null } });
   await writeReceipt(receiptPath, receipt);
+  await updateOwnership(receipt.appHome, receipt.source?.name || 'mission-control', null);
   const ok = !layoutResult.error;
   if (!ok) fail('LAYOUT_RESTORE_FAILED', `Owned files handled but the previous layout was not restored: ${layoutResult.error}`, receipt.rollback);
   return { ok, state: 'rolled-back', rollback: receipt.rollback };

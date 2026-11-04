@@ -1532,6 +1532,57 @@
       "files": 763,
       "result": "Public repo verified through the GitHub API at the single clean root commit 6447a70 (it replaced the first push e37f1df at the user’s request, so the plans and published review files no longer name the inspiration repositories). Both discovery topics, all ten package folders, and their recipe and preview links verified.",
       "completedAt": "2026-11-02T02:32:15.693Z"
+    },
+    "TASK-094": {
+      "validation": "node --test tests/mods-source.test.mjs",
+      "tests": 5,
+      "exitCode": 0,
+      "result": "Catalog (cached, kept on failure, malformed entries dropped), github.com-only sources with a fixture file:// mode, partial-clone history/tree/blob reads, fetch refresh, ls-remote, detached fetch with a too-large state after three passes, fast failure for a missing repo.",
+      "completedAt": "2026-11-04T13:48:39.482Z"
+    },
+    "TASK-095": {
+      "validation": "node --test tests/mods-store.test.mjs",
+      "tests": 5,
+      "exitCode": 0,
+      "result": "Lock with stale/dead reclaim, temp-plus-rename writes, intent journal with backups; a real child killed after 1-4 of 5 operations is rolled back to the complete old state; complete journals stay complete; moves undone; 75 concurrent updates never lost.",
+      "completedAt": "2026-11-04T13:48:39.600Z"
+    },
+    "TASK-111": {
+      "validation": "node --test tests/install.test.mjs",
+      "tests": 15,
+      "passed": 14,
+      "skipped": 1,
+      "exitCode": 0,
+      "result": "install.mjs writes appHome()/mission-control/installed-packages.json (package -> receipt, mods, layouts, owned files) after a successful install and removes it on rollback; a failed install leaves none.",
+      "completedAt": "2026-11-04T13:49:48.778Z"
+    },
+    "TASK-096": {
+      "validation": "node --test tests/mods-inventory.test.mjs",
+      "tests": 3,
+      "exitCode": 0,
+      "result": "scan() classifies builtin (installed.json), clone (cloned_from), installer (installed-packages.json), self, disabled and user items with git blob hashes; adopt() finds the exact commit, older commits, edited files, ambiguity with a recorded-repo tie break (nested paths), untracked items, and mods inside a using layout entry.",
+      "completedAt": "2026-11-04T13:51:43.599Z"
+    },
+    "TASK-097": {
+      "validation": "node --test tests/mods-updates.test.mjs",
+      "tests": 3,
+      "exitCode": 0,
+      "result": "Subtree-scoped update detection (changed/added/removed), commits elsewhere ignored, unchanged catalog headCommit costs no fetch, offline keeps the last result, pasted-link items re-checked through git ls-remote.",
+      "completedAt": "2026-11-04T13:53:16.208Z"
+    },
+    "TASK-098": {
+      "validation": "node --test tests/mods-apply.test.mjs",
+      "tests": 6,
+      "exitCode": 0,
+      "result": "Two-phase update: prepare stages outside mods/ with git merge-file merges, binary conflicts, mine/theirs resolution, removed-file rules, access disclosure and herdr-app check; commit backs up (newest 3), applies one journalled change incl. keys, and records the new commit.",
+      "completedAt": "2026-11-04T13:55:28.172Z"
+    },
+    "TASK-099": {
+      "validation": "node --test tests/mods-lifecycle.test.mjs",
+      "tests": 5,
+      "exitCode": 0,
+      "result": "Journalled disable/enable/uninstall/restore with identical round trips, owned-key removal and re-adding, refusals (built-in, installer-managed, self, active layout, mod used by the active layout), confirmation naming other layouts, 30-day prune, Restore everything, and a CLI entry point that recovers interrupted changes first.",
+      "completedAt": "2026-11-04T13:57:04.409Z"
     }
   },
   "active": "TASK-091 (blocked: native input permission); TASK-051/052 and TASK-055..057 source",
@@ -2327,11 +2378,11 @@
     "boundary": "Only synthetic providers/tool actors and positively owned app/core resources; no existing Herdr IPC."
   },
   "completionCounts": {
-    "required": 90,
-    "requiredTotal": 90,
+    "required": 97,
+    "requiredTotal": 109,
     "feasibility": 3,
     "feasibilityTotal": 3,
-    "totalCompleted": 93
+    "totalCompleted": 100
   },
   "nextIndependentTask": {
     "task": "TASK-067",

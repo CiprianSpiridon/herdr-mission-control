@@ -189,7 +189,12 @@ test('install adds only new names, checks each mod, switches the layout and leav
   for (const [rel, digest] of Object.entries(before)) assert.equal(after[rel], digest, `Pre-existing ${rel} is untouched`);
   const added = Object.keys(after).filter(rel => !(rel in before) && !rel.endsWith('/')).sort();
   const generated = ['mods/mission-control-alpha/gpui-kit.d.ts', 'mods/mission-control-alpha/jsconfig.json', 'mods/mission-control-beta/gpui-kit.d.ts', 'mods/mission-control-beta/jsconfig.json'];
-  assert.deepEqual(added, [...Object.keys(f.installable), ...generated].sort(), 'Only package layouts/mods (plus the checker\'s own editor files) were added');
+  assert.deepEqual(added, [...Object.keys(f.installable), ...generated, 'mission-control/installed-packages.json'].sort(), 'Only package layouts/mods, the checker\'s own editor files and the ownership manifest were added');
+  const ownership = JSON.parse(await fs.readFile(path.join(f.home, 'mission-control/installed-packages.json'), 'utf8'));
+  const [owned] = Object.values(ownership.packages);
+  assert.equal(Object.keys(ownership.packages).length, 1);
+  assert.deepEqual(Object.keys(owned.files).sort(), Object.keys(f.installable).sort(), 'The manifest lists exactly the files the installer wrote');
+  assert.equal(owned.receipt, f.receiptPath);
   const receipt = JSON.parse(await fs.readFile(f.receiptPath, 'utf8'));
   validateInstallReceipt(receipt);
   assert.equal(receipt.state, 'installed');
@@ -287,6 +292,7 @@ test('rollback restores the previous layout and keeps edited, unrelated and pers
   const run = cli(['--rollback', '--receipt', f.receiptPath, '--app-home', f.home], f.app.env);
   assert.equal(run.status, 0, run.stderr);
   assert.equal((await f.app.read()).layout, 'main');
+  await assert.rejects(fs.access(path.join(f.home, 'mission-control/installed-packages.json')), 'Rollback removes the ownership manifest');
   assert.equal(await fs.readFile(path.join(f.home, 'mods/mission-control-alpha/main.js'), 'utf8'), 'the person edited this\n');
   assert.equal(await fs.readFile(path.join(f.home, 'mods/mission-control-alpha/notes.txt'), 'utf8'), 'mine\n');
   assert.equal(await exists(path.join(f.home, 'layouts/personal.json')), true);
