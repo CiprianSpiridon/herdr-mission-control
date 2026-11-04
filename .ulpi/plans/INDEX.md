@@ -10,13 +10,14 @@ One canonical plan per mod and one for the two-layout bundle. This is navigation
 | [Mission Control GitHub](mission-control-github.md) · [JSON](mission-control-github.json) | 8 | Standalone mod, native check, recipe and actual preview |
 | [Mission Control GitLab](mission-control-gitlab.md) · [JSON](mission-control-gitlab.json) | 14 | Standalone mod, native check, recipe and actual preview |
 | [Mission Control Jira](mission-control-jira.md) · [JSON](mission-control-jira.json) | 10 | Standalone mod, native check, recipe and actual preview |
+| [Mission Control mods](mission-control-mods.md) · [JSON](mission-control-mods.json) | 19 | Standalone mod, native check, recipe and actual preview |
 | [Mission Control reopen](mission-control-reopen.md) · [JSON](mission-control-reopen.json) | 5 | Standalone mod, native check, recipe and actual preview |
 | [Mission Control sessions](mission-control-sessions.md) · [JSON](mission-control-sessions.json) | 5 | Standalone mod, native check, recipe and actual preview |
 | [Mission Control spaces](mission-control-spaces.md) · [JSON](mission-control-spaces.json) | 4 | Standalone mod, native check, recipe and actual preview |
 | [Mission Control tabs](mission-control-tabs.md) · [JSON](mission-control-tabs.json) | 6 | Standalone mod, native check, recipe and actual preview |
 | [Mission Control layout bundle](mission-control.md) · [JSON](mission-control.json) | 16 | Both layouts, shared foundations, native integration, installation and release |
 
-Total: 11 plans; 93 tasks; 90 required / active-scope tasks. The optional account gate is not a dependency of any required plan.
+Total: 12 plans; 112 tasks; 109 required / active-scope tasks. The optional account gate is not a dependency of any required plan.
 
 ## Dependency resolution
 
