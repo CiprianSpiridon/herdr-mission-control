@@ -249,7 +249,8 @@ export default async function mods(runtime){
     await waitSee('Built into Herdr');
     // The Built in filter shows only Herdr's own items, expanded: each reads Built into Herdr and none has an action.
     const builtIn=await until(async()=>{const o=await observe(),rows=o.lines.filter(l=>inPanel(l)&&l.text.trim()==='Built into Herdr');return rows.length>=3?o:null;},'built-in rows listed',45000);
-    runtime.expect(!builtIn.lines.some(l=>inPanel(l)&&/^(disable|enable|uninstall|update)/i.test(l.text.trim())),EXPECTATIONS.builtIn);
+    // Only the row buttons count: the "Updates" filter chip is not an action.
+    runtime.expect(!builtIn.lines.some(l=>inPanel(l)&&['disable','enable','uninstall','update','link source','choose source'].includes(norm(l.text))),EXPECTATIONS.builtIn);
     await activate('All',{text:'All'});await waitSee('QA timer');
     const preview=await capture('mods-preview');await fs.copyFile(path.resolve(ROOT,preview.path),path.resolve(ROOT,'.harness/mods-preview-candidate.png'));
     runtime.expect(runtime.app(['status']).errors.length===0&&renderFailures.length===0,EXPECTATIONS.noErrors);

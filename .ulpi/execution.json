@@ -1625,6 +1625,27 @@
       "exitCode": 0,
       "result": "The bundle test requires eight bundled mods and seven destinations; the bundle and tabs recipes describe Mods, short labels at 1024 px, the fixed All installed scope, source-mods and the Mods access disclosure.",
       "completedAt": "2026-11-04T14:11:10.512Z"
+    },
+    "TASK-106": {
+      "validation": ".harness/runner/retry.sh mods (private Herdr harness, QA_MODS_FIXTURE=1, local catalog and repositories)",
+      "tests": 23,
+      "exitCode": 0,
+      "result": "evidence/native/mods.json PASS 23 checks with real pointer and key input and zero app errors: listing with repository preview thumbnails, path-scoped update detection, review before writing, apply with in-place hot reload, key added and reaching the mod then removed, Update all skipping a conflict, conflict then Take theirs, refusals for the shown layout and a mod it uses, confirmation naming another layout, disable/enable and uninstall/restore with identical files, built-in items read-only.",
+      "completedAt": "2026-11-04T15:28:52.607Z"
+    },
+    "TASK-107": {
+      "validation": "node --import ./tests/support/native-loader.mjs --test tests/package-mods.test.mjs",
+      "tests": 2,
+      "exitCode": 0,
+      "result": "mission-control-mods package: RECIPE.md with the full access disclosure, the native mods-preview frame as preview.png, the natively tested build manifest; the copied mod resolves inside its folder and its helper answers on its own.",
+      "completedAt": "2026-11-04T15:28:52.672Z"
+    },
+    "TASK-108": {
+      "validation": "node --test tests/docs-mods.test.mjs",
+      "tests": 2,
+      "exitCode": 0,
+      "result": "README feature, package row with screenshot and a plain-language Mods access section (statuses, what it reads and changes, 30-day restore then delete, network, what it never touches); docs/access.md Mods row.",
+      "completedAt": "2026-11-04T15:28:52.739Z"
     }
   },
   "active": "TASK-091 (blocked: native input permission); TASK-051/052 and TASK-055..057 source",
@@ -2420,11 +2441,11 @@
     "boundary": "Only synthetic providers/tool actors and positively owned app/core resources; no existing Herdr IPC."
   },
   "completionCounts": {
-    "required": 103,
+    "required": 106,
     "requiredTotal": 109,
     "feasibility": 3,
     "feasibilityTotal": 3,
-    "totalCompleted": 106
+    "totalCompleted": 109
   },
   "nextIndependentTask": {
     "task": "TASK-067",
