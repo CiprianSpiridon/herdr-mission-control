@@ -137,7 +137,7 @@ export async function adopt(source, catalogs, item, {previous = null, maxCommits
   else if (exact.length > 1) chosen = exact.find(r => r.entry.fullName === previous?.source?.fullName) || null;
   else if (found.length === 1) chosen = found[0];
   else chosen = found.find(r => r.entry.fullName === previous?.source?.fullName) || null;
-  if (!chosen) return {state: 'ambiguous', candidates: (exact.length ? exact : found).map(r => ({fullName: r.entry.fullName, path: r.entry.path, url: r.entry.url, exact: r.exact}))};
+  if (!chosen) return {state: 'ambiguous', candidates: (exact.length ? exact : found).map(r => ({fullName: r.entry.fullName, path: r.entry.path, url: r.entry.url, defaultBranch: r.entry.defaultBranch, exact: r.exact}))};
   const edited = [...new Set([...Object.keys(chosen.files), ...Object.keys(item.files)])].filter(n => chosen.files[n] !== item.files[n]).sort();
   return {
     state: edited.length ? 'edited' : 'current',

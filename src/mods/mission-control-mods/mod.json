@@ -1,0 +1,15 @@
+{
+  "title": "Mission Control · Mods",
+  "place": "right",
+  "size": 420,
+  "build": {
+    "assets": [
+      "layout",
+      "panel",
+      "refresh",
+      "search",
+      "chevron-down",
+      "chevron-right"
+    ]
+  }
+}

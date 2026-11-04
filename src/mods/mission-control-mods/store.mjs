@@ -41,23 +41,34 @@ export function createStore({appHome, now = () => Date.now(), staleMs = LOCK_STA
 
   const alive = pid => { try { process.kill(pid, 0); return true; } catch (error) { return error.code === 'EPERM'; } };
 
+  /** Remove an abandoned lock without ever removing a fresh one another process took in the meantime: move it
+   *  aside, and delete it only when it is the same lock that was judged abandoned; otherwise put it back. */
+  async function reclaim(judged) {
+    const aside = `${files.lock}.${crypto.randomBytes(4).toString('hex')}.stale`;
+    try { await fs.rename(files.lock, aside); } catch { return; }
+    const moved = await fs.readFile(aside, 'utf8').catch(() => null);
+    if (moved !== judged) await fs.link(aside, files.lock).catch(() => {});
+    await fs.rm(aside, {force: true});
+  }
+
   /** Run fn while holding the records lock; a lock older than the stale timeout or held by a dead process is reclaimed. */
   async function withLock(fn) {
     await fs.mkdir(root, {recursive: true});
     const deadline = Date.now() + lockWaitMs, token = `${process.pid}-${crypto.randomBytes(4).toString('hex')}`;
-    for (;;) {
-      try {
-        const handle = await fs.open(files.lock, 'wx');
-        try { await handle.writeFile(JSON.stringify({pid: process.pid, at: now(), token})); } finally { await handle.close(); }
-        break;
-      } catch (error) {
-        if (error.code !== 'EEXIST') throw error;
-        const held = await readJson(files.lock, null).catch(() => null);
-        if (!held || now() - held.at > staleMs || !alive(held.pid)) { await fs.rm(files.lock, {force: true});continue; }
+    // The lock is written in full to a private file and then hard-linked into place (link fails if the lock
+    // exists), so no process ever sees an empty or half-written lock and mistakes it for an abandoned one.
+    const mine = path.join(root, `.lock-${token}`);
+    await fs.writeFile(mine, JSON.stringify({pid: process.pid, at: now(), token}));
+    try {
+      for (;;) {
+        try { await fs.link(mine, files.lock);break; } catch (error) { if (error.code !== 'EEXIST') throw error; }
+        let raw;try { raw = await fs.readFile(files.lock, 'utf8'); } catch (error) { if (error.code === 'ENOENT') continue;throw error; }
+        let held = null;try { held = JSON.parse(raw); } catch {}
+        if (!held || now() - held.at > staleMs || !alive(held.pid)) { await reclaim(raw);continue; }
         if (Date.now() > deadline) fail('LOCKED', 'Another Mods manager operation is still running.');
         await new Promise(r => setTimeout(r, 40));
       }
-    }
+    } finally { await fs.rm(mine, {force: true}); }
     try { return await fn(); } finally {
       const held = await readJson(files.lock, null).catch(() => null);
       if (held?.token === token) await fs.rm(files.lock, {force: true});

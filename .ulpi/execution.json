@@ -1583,6 +1583,13 @@
       "exitCode": 0,
       "result": "Journalled disable/enable/uninstall/restore with identical round trips, owned-key removal and re-adding, refusals (built-in, installer-managed, self, active layout, mod used by the active layout), confirmation naming other layouts, 30-day prune, Restore everything, and a CLI entry point that recovers interrupted changes first.",
       "completedAt": "2026-11-04T13:57:04.409Z"
+    },
+    "TASK-100": {
+      "validation": "node --import ./tests/support/native-loader.mjs --test tests/mods-panel.test.mjs && node scripts/project.mjs check mission-control-mods",
+      "tests": 6,
+      "exitCode": 0,
+      "result": "Mods panel: recover-first open, Updates/Layouts/Mods/Disabled/Built into Herdr/Removed sections with cached repo preview.png thumbnails, filters and search, Update review (files, access, keys) before Apply, conflict Keep mine/Take theirs/Open, Update all skipping risky items, confirmations naming layouts, 30-day uninstall notice, link/choose source; herdr-app check passes.",
+      "completedAt": "2026-11-04T14:05:14.037Z"
     }
   },
   "active": "TASK-091 (blocked: native input permission); TASK-051/052 and TASK-055..057 source",
@@ -2378,11 +2385,11 @@
     "boundary": "Only synthetic providers/tool actors and positively owned app/core resources; no existing Herdr IPC."
   },
   "completionCounts": {
-    "required": 97,
+    "required": 98,
     "requiredTotal": 109,
     "feasibility": 3,
     "feasibilityTotal": 3,
-    "totalCompleted": 100
+    "totalCompleted": 101
   },
   "nextIndependentTask": {
     "task": "TASK-067",

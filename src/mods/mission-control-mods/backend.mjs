@@ -57,7 +57,25 @@ export async function handle(request, {env = process.env, now = () => Date.now()
       }
     }
     await pruneRemoved({store, now});
+    await cachePreviews();
     return {...(await describe()), partial};
+  }
+
+  /** Download missing preview thumbnails (the repository's own preview.png from herdr.dev), a few per call. */
+  async function cachePreviews() {
+    const dir = path.join(recordsRoot(appHome), 'cache', 'previews'), pkgs = (await store.readPackages()).packages;let fetched = 0;
+    for (const [key, r] of Object.entries(pkgs)) {
+      const url = r.source?.previewUrl, file = path.join(dir, key.replace(':', '-') + '.png');
+      if (!url || fetched >= 6 || timeLeft() < 4000) continue;
+      if (await fs.access(file).then(() => true, () => false)) continue;
+      try {
+        const controller = new AbortController(), timer = setTimeout(() => controller.abort(), 4000);
+        const response = await fetch(url, {signal: controller.signal}).finally(() => clearTimeout(timer));
+        const data = Buffer.from(await response.arrayBuffer());
+        if (!response.ok || data.length > 3 * 1024 * 1024 || data.subarray(0, 4).toString('hex') !== '89504e47') continue;
+        await fs.mkdir(dir, {recursive: true});await store.writeAtomic(file, data);fetched++;
+      } catch {}
+    }
   }
 
   /** Re-check adopted items for new versions (catalog headCommit gated), within the budget. */
@@ -92,13 +110,13 @@ export async function handle(request, {env = process.env, now = () => Date.now()
     for (const i of all) {
       const r = value.packages[i.key] || {}, last = r.lastResult || {};
       const state = i.origin !== 'user' ? i.origin : i.disabled ? 'disabled' : last.state === 'update' ? 'update' : r.state || 'unknown';
-      const preview = path.join(records, 'cache', 'previews', `${i.kind}-${i.name}.png`);
+      const preview = path.join(records, 'cache', 'previews', `${i.kind}-${i.name}.png`), previewRel = path.relative(appHome, preview);
       out.push({key: i.key, kind: i.kind, name: i.name, title: i.title || null, origin: i.origin, disabled: Boolean(i.disabled), state,
         reason: last.reason || r.reason || null, source: r.source ? {fullName: r.source.fullName, path: r.source.path, url: r.source.url} : null,
         commit: r.commit || null, subject: r.subject || null, edited: r.edited || [], candidates: r.candidates || [],
         update: last.update ? {subject: last.update.subject, time: last.update.time, changed: last.update.changed.length, added: last.update.added.length, removed: last.update.removed.length} : null,
         usedBy: i.kind === 'mod' ? await layoutsUsing(appHome, i.name) : [], installerPackage: i.installerPackage || null,
-        preview: await fs.access(preview).then(() => preview, () => null)});
+        preview: await fs.access(preview).then(() => previewRel, () => null)});
     }
     const removed = Object.entries(value.removed || {}).map(([id, r]) => ({id, kind: r.kind, name: r.name, at: r.at, restoreUntil: r.at + REMOVED_KEEP_MS}));
     return {list: out, removed};
