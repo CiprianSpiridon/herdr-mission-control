@@ -1611,6 +1611,20 @@
       "exitCode": 0,
       "result": "The overview preview draws seven source label slots in order; Classic draws its seven top-bar source buttons in order; both remain valid authored SVGs that copy byte-for-byte into the bundle.",
       "completedAt": "2026-11-04T14:07:50.157Z"
+    },
+    "TASK-104": {
+      "validation": "node --check tests/native/layout.mjs tests/native/tabs.mjs; scenario SOURCES, labels, scope keys and navigation widths equal navigation.js; package-tabs REQUIRED equals the scenario EXPECTATIONS (receipt re-proved in TASK-109)",
+      "tests": 0,
+      "exitCode": 0,
+      "result": "Native layout and tabs scenarios check seven sources: short labels at 1024 and 736 px, Mods selected natively in both layouts, eight installed mods, a fixture-only Mods catalog (never the network); package-tabs requires exactly the new labels.",
+      "completedAt": "2026-11-04T14:10:02.153Z"
+    },
+    "TASK-105": {
+      "validation": "node --check tests/package-layout.test.mjs; recipe and fixture tests pass (6); bundle and receipt checks re-proved after the package gates in TASK-109/112",
+      "tests": 6,
+      "exitCode": 0,
+      "result": "The bundle test requires eight bundled mods and seven destinations; the bundle and tabs recipes describe Mods, short labels at 1024 px, the fixed All installed scope, source-mods and the Mods access disclosure.",
+      "completedAt": "2026-11-04T14:11:10.512Z"
     }
   },
   "active": "TASK-091 (blocked: native input permission); TASK-051/052 and TASK-055..057 source",
@@ -2406,11 +2420,11 @@
     "boundary": "Only synthetic providers/tool actors and positively owned app/core resources; no existing Herdr IPC."
   },
   "completionCounts": {
-    "required": 101,
+    "required": 103,
     "requiredTotal": 109,
     "feasibility": 3,
     "feasibilityTotal": 3,
-    "totalCompleted": 104
+    "totalCompleted": 106
   },
   "nextIndependentTask": {
     "task": "TASK-067",

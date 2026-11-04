@@ -49,16 +49,17 @@ export const LAYOUTS=Object.freeze({overview:'mission-control',classic:'mission-
 export const LAYOUT_LABELS=Object.freeze({[LAYOUTS.overview]:'Mission Control',[LAYOUTS.classic]:'Classic view'});
 export const LAYOUT_FILES=Object.freeze(['mission-control.json','mission-control-classic.json','mission-control.svg','mission-control-classic.svg']);
 /** Every finished mod either layout mounts; exactly these are installed. */
-export const MODS=Object.freeze(['mission-control-agents','mission-control-github','mission-control-gitlab','mission-control-jira','mission-control-sessions','mission-control-spaces','mission-control-tabs']);
+export const MODS=Object.freeze(['mission-control-agents','mission-control-github','mission-control-gitlab','mission-control-jira','mission-control-mods','mission-control-sessions','mission-control-spaces','mission-control-tabs']);
 export const STATE_KEYS=Object.freeze({nav:'mission-control-tabs-nav-v1',spaces:'mission-control-spaces-v1',agents:'mission-control-agents-v1'});
-/** The six work sources in navigation order: labels, own persisted UI key, and the text that only that view shows. */
+/** The seven work sources in navigation order: labels, own persisted UI key, and the text that only that view shows. */
 export const SOURCES=Object.freeze([
   {id:'jira',full:'Jira',short:'Jira',key:'mission-control-jira-ui-v1',marker:'WEB-142',search:'Search issues'},
   {id:'github',full:'GitHub issues',short:'GitHub',key:'mission-control-github-ui-v1',marker:'GH-142',search:'Search issues'},
   {id:'pulls',full:'Pull requests',short:'PRs',key:'mission-control-github-prs-ui-v1',marker:'Search pull requests',search:'Search pull requests'},
   {id:'gitlab',full:'GitLab issues',short:'GitLab',key:'mission-control-gitlab-ui-v1',marker:'GL-142',search:'Search issues'},
   {id:'merges',full:'Merge requests',short:'MRs',key:'mission-control-gitlab-mrs-ui-v1',marker:'Search merge requests',search:'Search merge requests'},
-  {id:'sessions',full:'Previous sessions',short:'Sessions',key:'mission-control-sessions-ui-v1',marker:'Search sessions',search:'Search sessions'}].map(Object.freeze));
+  {id:'sessions',full:'Previous sessions',short:'Sessions',key:'mission-control-sessions-ui-v1',marker:'Search sessions',search:'Search sessions'},
+  {id:'mods',full:'Mods',short:'Mods',key:null,marker:'Search mods',search:'Search mods and layouts'}].map(Object.freeze));
 const SOURCE=Object.fromEntries(SOURCES.map(s=>[s.id,s]));
 const HEADINGS=new Set(SOURCES.flatMap(s=>[s.full,s.short]).map(v=>v.toLowerCase()));
 /**
@@ -67,7 +68,7 @@ const HEADINGS=new Set(SOURCES.flatMap(s=>[s.full,s.short]).map(v=>v.toLowerCase
  * mc-terminals(weight 2)]. Classic: topbar | rail | mc-main(padding 8, gap 8)[terminals, mc-work-panel 360].
  */
 export const GEOMETRY=Object.freeze({x:60,y:60,width:1280,height:760,wide:1024,narrow:736,topbar:42,rail:220,divider:1,footer:69,nav:34,pad:8,gap:8,panel:360,workWeight:3,termWeight:2,workMin:160,
-  control:26,controlGap:4,barRight:8,swapPadX:9,swapIcon:14,swapGap:6,topbarWide:720,navButton:26,navGap:2,navPadX:6,navHide:24,navFull:780,navShort:442,header:32,
+  control:26,controlGap:4,barRight:8,swapPadX:9,swapIcon:14,swapGap:6,topbarWide:720,navButton:26,navGap:2,navPadX:6,navHide:24,navFull:850,navShort:507,header:32,
   railSearch:{x:42,dy:37,width:142,height:22},agentSearch:{x:42,dy:36,width:142,height:22},agentButtons:{collapse:8,priority:132,spaces:160,sources:188},agentButton:24,agentIcon:{dx:22,size:15},
   board:{narrowBelow:768,padWide:14,padNarrow:10,columnWide:360,columnNarrow:460,columnGaps:24,cardInset:11,keyRow:14,rowGap:7,title:36,start:25,startStep:27,starts:106},
   merge:{narrowBelow:560,padWide:14,padNarrow:10,cardPad:11,icon:26,iconStep:28,controls:110,iconTop:20},dialog:{width:560,height:660}});
@@ -86,29 +87,29 @@ export const BOUND=Object.freeze([0,2,3]);
 const JIRA=Object.freeze({work:{email:'work@example.invalid',token:'owned-jira-work',emailEnv:'QA_JIRA_WORK_EMAIL',tokenEnv:'QA_JIRA_WORK_TOKEN'},personal:{email:'personal@example.invalid',token:'owned-jira-personal',emailEnv:'QA_JIRA_PERSONAL_EMAIL',tokenEnv:'QA_JIRA_PERSONAL_TOKEN'}});
 const CA=path.join(ROOT,'.harness/layout-fixture-cas.pem');
 // The harness validates this explicit synthetic record before private startup. Importing leaves the parent environment unchanged.
-export const fixtureEnvironment={NODE_EXTRA_CA_CERTS:CA,[JIRA.work.emailEnv]:JIRA.work.email,[JIRA.work.tokenEnv]:JIRA.work.token,[JIRA.personal.emailEnv]:JIRA.personal.email,[JIRA.personal.tokenEnv]:JIRA.personal.token,
+export const fixtureEnvironment={NODE_EXTRA_CA_CERTS:CA,QA_MODS_FIXTURE:'1',QA_MODS_CATALOG_URL:'http://127.0.0.1:9/{kind}.json',[JIRA.work.emailEnv]:JIRA.work.email,[JIRA.work.tokenEnv]:JIRA.work.token,[JIRA.personal.emailEnv]:JIRA.personal.email,[JIRA.personal.tokenEnv]:JIRA.personal.token,
   QA_GITHUB_WORK:githubEnvironment.QA_GITHUB_WORK,QA_GITHUB_PERSONAL:githubEnvironment.QA_GITHUB_PERSONAL,QA_GITLAB_WORK:gitlabEnvironment.QA_GITLAB_WORK,QA_GITLAB_PERSONAL:gitlabEnvironment.QA_GITLAB_PERSONAL};
 /** Opaque GitLab MR identity the owned fixture issues (gitlab.mjs). */
 export const mrId=(profile,number)=>String((profile==='work'?9007199254740993n:9007199254741993n)+BigInt(number));
 
 /** Every runtime.expect label this scenario emits (the package gate requires exactly these plus the harness's own). */
 export const EXPECTATIONS=Object.freeze({
-  installed:'Exactly the seven required Mission Control mods are installed from fresh builds, each passed herdr-app check, and both layout files and previews are byte-identical to the bundle sources',
+  installed:'Exactly the eight required Mission Control mods are installed from fresh builds, each passed herdr-app check, and both layout files and previews are byte-identical to the bundle sources',
   secondHost:'The second host is a separate positively owned private core reached only through a controlled via transport, not a real remote machine',
   spacesScale:'The private world holds 128 spaces and native rail search reaches and selects the 128th',
   classicStart:'Classic starts terminal-first under one topmost Mission Control tab bar with its work panel hidden',
   footerClassic:'Settings and Add machine sit at the bottom-left of the 220 px rail and open Herdr’s own Settings and machine dialogs',
   panelOpens:'The bar’s panel control opens the Classic work panel on its first source',
   quickSources:'In Classic the source buttons after the view swap open the work panel on their source, and the shown source’s button closes it',
-  classicIcons:'The Classic panel draws all six local source icons inside the panel',
-  classicSeparated:'In Classic, Jira, GitHub issues, pull requests, GitLab issues, merge requests and previous sessions each show only their own view without a repeated heading',
+  classicIcons:'The Classic panel draws all seven local source icons inside the panel',
+  classicSeparated:'In Classic, Jira, GitHub issues, pull requests, GitLab issues, merge requests, previous sessions and Mods each show only their own view without a repeated heading',
   classicGitlabStart:'A pinned GitLab issue start in the Classic panel runs the chosen tool in a workspace-plus-issue worktree created from the focused linked checkout',
   autoName:'The issue agent tab is named automatically with its issue key and task title',
   repeatFocus:'Repeating the same pinned start focuses the existing issue agent instead of starting another',
   manualRename:'A real tab-menu rename gives the issue agent tab the person’s manual name',
   swapToOverview:'One swap click switches Classic to Mission Control keeping the selected space and tab, every tab, running terminal address and manual name',
   sourceKeptOverview:'Mission Control restores the source selected in Classic (GitLab issues)',
-  overviewSeparated:'In Mission Control the six navigation sources each show only their own view without a repeated heading',
+  overviewSeparated:'In Mission Control the seven navigation sources each show only their own view without a repeated heading',
   compactBoards:'Jira, GitHub and GitLab issue views are compact boards grouped into To do, In progress and Done',
   remoteIssueRoute:'An All-spaces GitLab issue sharing its provider ID with another account starts only on its own host, repository, project and account',
   duplicateJiraRoute:'An All-spaces Jira issue sharing its key and ID with another account starts only in its own space, repository and account',
@@ -130,14 +131,14 @@ export const EXPECTATIONS=Object.freeze({
   heldRemoteMerge:'A held All-spaces merge-request action keeps its captured host, project and account through space and scope changes',
   offlineHost:'With the second host offline its spaces read offline and its actions start nothing, while a local action still starts',
   reconnect:'The second host’s spaces return after its transport reconnects',
-  classicNarrow:'At 736 px Classic keeps the swap, all six panel sources and the bottom-left footer reachable without clipping',
-  overviewNarrow:'At 736 px beside the 220 px rail all six sources show whole short labels and a short-label source can be selected',
+  classicNarrow:'At 736 px Classic keeps the swap, all seven panel sources and the bottom-left footer reachable without clipping',
+  overviewNarrow:'At 736 px beside the 220 px rail all seven sources show whole short labels and a short-label source can be selected',
   footerNarrow:'At 736 px the bottom-left Add machine control still opens Herdr’s machine dialog',
-  overviewWide:'At 1024 px beside the 220 px rail all six sources show whole full labels and remain selectable',
-  classicWide:'At 1024 px the Classic panel’s six sources remain drawn and selectable',
+  overviewWide:'At 1024 px beside the 220 px rail all seven sources show whole short labels (seven full labels need 850 px) and remain selectable',
+  classicWide:'At 1024 px the Classic panel’s seven sources remain drawn and selectable',
   narrowSwaps:'Swaps at 736 and 1024 px keep the selected space and tab, terminal addresses and manual names',
   utf8:'No observed native text shows mojibake or replacement characters',
-  noErrors:'Both layouts with all seven mods produced zero native app errors',
+  noErrors:'Both layouts with all eight mods produced zero native app errors',
   providersReadOnly:'Every owned provider request was read-only and carried only its own account’s synthetic fixture credentials'
 });
 
@@ -149,7 +150,7 @@ export function stackRect(view,w){
   if(view===LAYOUTS.overview){const x=G.rail+G.divider,main=w.height-G.topbar-G.divider,work=Math.max(G.workMin,main*G.workWeight/(G.workWeight+G.termWeight));return {x,y:G.topbar+G.nav,width:w.width-x,height:work-G.nav};}
   const x=w.width-G.pad-G.panel,y=G.topbar+G.pad+G.nav;return {x,y,width:G.panel,height:w.height-G.pad-y};
 }
-/** The six-source navigation strip. */
+/** The seven-source navigation strip. */
 export function navRect(view,w){return view===LAYOUTS.overview?{x:G.rail+G.divider,y:G.topbar,width:w.width-G.rail-G.divider,height:G.nav}:{x:w.width-G.pad-G.panel,y:G.topbar+G.pad,width:G.panel,height:G.nav};}
 /** The Classic panel's icon-only source control i (navigation.js icons mode). */
 export const navIcon=(index,w)=>({x:w.width-G.pad-G.panel+G.navPadX+index*(G.navButton+G.navGap),y:G.topbar+G.pad+(G.nav-G.navButton)/2,width:G.navButton,height:G.navButton});
@@ -593,7 +594,7 @@ export default async function layoutNative(runtime){
     };
 
     // -------------------------------------------------------------------------------------------
-    await progress('classic');console.log('Layout native: Classic is terminal-first; footer, panel and six separated sources');
+    await progress('classic');console.log('Layout native: Classic is terminal-first; footer, panel and seven separated sources');
     const start=await visible('Mission Control isolated',(n,o)=>n.frame.x>G.rail&&n.frame.y>G.topbar,60000),sentinelTab=await tabLabel('fixture sentinel'),o0=start.observation;
     const panelArea={x:o0.window.width-G.pad-G.panel,y:G.topbar+G.pad,width:G.panel,height:o0.window.height-G.topbar-2*G.pad};
     expect(status().layout===LAYOUTS.classic&&sentinelTab.count===1&&!o0.lines.some(l=>within(panelArea,l)&&SOURCES.some(s=>l.text.includes(s.marker)))&&!(await panelOpen())&&recordErrors(),'classicStart');
@@ -611,7 +612,7 @@ export default async function layoutNative(runtime){
       expect(Boolean(opened&&closed&&await ensurePanel()),'quickSources');
     }
     expect(await iconsDrawn(),'classicIcons');
-    let allSeparated=true;for(const id of ['github','pulls','merges','sessions','jira','gitlab'])allSeparated=Boolean(await selectSource(id))&&allSeparated;
+    let allSeparated=true;for(const id of ['github','pulls','merges','sessions','mods','jira','gitlab'])allSeparated=Boolean(await selectSource(id))&&allSeparated;
     expect(allSeparated,'classicSeparated');
 
     await progress('classic-gitlab');console.log('Layout native: GitLab issue start from the Classic panel in the linked checkout');
@@ -625,11 +626,11 @@ export default async function layoutNative(runtime){
     expect(live(runtime).length===liveBefore&&!(await journal()).some(r=>!before.has(r.request.requestId)&&r.state==='complete'),'repeatFocus');
     await tabMenu('GL-142','Rename');await typePrompt(glLocal.ack.tab,'login fix');manual.set(glLocal.ack.tab,'login fix');expect(tabOf(glLocal.ack.tab)?.name==='login fix','manualRename');
 
-    await progress('swap-overview');console.log('Layout native: swap to Mission Control and six separated sources');
+    await progress('swap-overview');console.log('Layout native: swap to Mission Control and seven separated sources');
     expect(await swap(LAYOUTS.overview),'swapToOverview');
     expect((await shared())[STATE_KEYS.nav]?.source==='gitlab'&&Boolean(await separated('gitlab')),'sourceKeptOverview');
     allSeparated=true;const boards={};
-    for(const id of ['jira','github','pulls','merges','sessions','gitlab']){const o=await selectSource(id);allSeparated=Boolean(o)&&allSeparated;
+    for(const id of ['jira','github','pulls','merges','sessions','mods','gitlab']){const o=await selectSource(id);allSeparated=Boolean(o)&&allSeparated;
       if(['jira','github','gitlab'].includes(id))boards[id]=['To do','In progress','Done'].every(group=>o.lines.some(l=>within(stackRect(view,o.window),l)&&l.text.includes(group)));}
     expect(allSeparated,'overviewSeparated');expect(boards.jira&&boards.github&&boards.gitlab,'compactBoards');
 
@@ -738,7 +739,7 @@ export default async function layoutNative(runtime){
     expect(classicIcons736&&sessions736&&swapLabel.x+swapLabel.width<=o.window.width-G.barRight+2&&await has('Settings',inFooter)&&await has('Add machine',inFooter),'classicNarrow');
     narrowSwaps=await swap(LAYOUTS.overview)&&narrowSwaps;expect(await navLabels('short')&&Boolean(await selectSource('merges')),'overviewNarrow');
     await click('Add machine',inFooter,{only:true,control:'Footer Add machine (736)'});await until(async()=>overlays().length&&await has('Add a machine'),'Herdr machine-add dialog at 736',20000);const machine736=await has('user@host');await closeOverlay();expect(machine736,'footerNarrow');
-    await positionWindow(runtime,{width:G.wide});expect(await navLabels('full')&&Boolean(await selectSource('github')),'overviewWide');
+    await positionWindow(runtime,{width:G.wide});expect(await navLabels('short')&&Boolean(await selectSource('github')),'overviewWide');
     narrowSwaps=await swap(LAYOUTS.classic)&&narrowSwaps;await ensurePanel();expect(await iconsDrawn()&&Boolean(await selectSource('jira')),'classicWide');
     narrowSwaps=await swap(LAYOUTS.overview)&&narrowSwaps;expect(narrowSwaps,'narrowSwaps');await positionWindow(runtime);
 
@@ -840,18 +841,18 @@ export async function checkFixtures({build=process.argv.includes('--build')}={})
     check(findNode(ov,'mc-work').size.weight===G.workWeight&&findNode(ov,'mc-terminals').size.weight===G.termWeight&&findNode(ov,'mc-work').min===G.workMin&&findNode(ov,'mc-main').divider.width===G.divider,'Overview splits work 3 : terminals 2');
     check(findNode(cl,'mc-main').padding===G.pad&&findNode(cl,'mc-main').gap===G.gap&&px(cl,'mc-work-panel')===G.panel&&findNode(cl,'mc-work-panel').hidden===true,'Classic keeps a hidden 360 px work panel inside 8 px padding');
     check(findNode(ov,'mc-topbar').content.props.swapTo===LAYOUTS.classic&&findNode(cl,'mc-topbar').content.props.swapTo===LAYOUTS.overview&&findNode(cl,'mc-topbar').content.props.panel===true,'Each topbar swaps to the other installed layout');
-    check(Object.values(LAYOUTS).every(name=>JSON.stringify(findNode(trees[name],'mc-work-stack').children.map(c=>c.id))===JSON.stringify(SOURCES.map(s=>s.id))),'Both stacks hold the six sources in navigation order');
+    check(Object.values(LAYOUTS).every(name=>JSON.stringify(findNode(trees[name],'mc-work-stack').children.map(c=>c.id))===JSON.stringify(SOURCES.map(s=>s.id))),'Both stacks hold the seven sources in navigation order');
     await import('../support/native-loader.mjs');const nav=await import('../../src/mods/mission-control-tabs/navigation.js');
     check(nav.navigationWidth('full')===G.navFull&&nav.navigationWidth('short')===G.navShort&&nav.NAV_METRICS.button===G.navButton&&nav.NAV_METRICS.gap===G.navGap&&nav.NAV_METRICS.pad===2*G.navPadX,'Navigation metrics match the geometry');
     check(JSON.stringify(nav.SOURCES.map(s=>[s.id,s.label,s.short,s.scopeKey]))===JSON.stringify(SOURCES.map(s=>[s.id,s.full,s.short,s.key]))&&nav.NAV_STATE===STATE_KEYS.nav&&JSON.stringify(nav.LAYOUT_LABELS)===JSON.stringify(LAYOUT_LABELS),'Source labels, scope keys and swap labels match navigation.js');
     const modes={};for(const width of [G.narrow,G.wide,G.width]){
       const o=widthsAt(ov,width),c=widthsAt(cl,width,{open:['mc-work-panel']}),w={width,height:G.height};
       check(o.get('sidebar')===G.rail&&o.get('mc-main')===width-G.rail-G.divider&&stackRect(LAYOUTS.overview,w).width===o.get('mc-work')&&navRect(LAYOUTS.overview,w).width===o.get('mc-navigation'),'Overview regions at '+width+' px follow the layout solver');
-      check(c.get('mc-work-panel')===G.panel&&c.get('mc-terminals')>=100&&stackRect(LAYOUTS.classic,w).x===width-G.pad-G.panel&&navIcon(5,w).x+G.navButton<=width-G.pad-G.navHide,'Classic panel at '+width+' px keeps terminals and six icon sources');
+      check(c.get('mc-work-panel')===G.panel&&c.get('mc-terminals')>=100&&stackRect(LAYOUTS.classic,w).x===width-G.pad-G.panel&&navIcon(SOURCES.length-1,w).x+G.navButton<=width-G.pad-G.navHide,'Classic panel at '+width+' px keeps terminals and six icon sources');
       modes[width]={overview:nav.navigationMode(o.get('mc-navigation')),classic:nav.navigationMode(c.get('mc-navigation'),{panel:true})};
       check(modes[width].overview===navMode(LAYOUTS.overview,w)&&modes[width].classic==='icons','Navigation presentation at '+width+' px is '+modes[width].overview+' / icons');
     }
-    check(modes[G.width].overview==='full'&&modes[G.wide].overview==='full'&&modes[G.narrow].overview==='short','Full labels at 1280/1024 px and short labels at 736 px');notes.navigation=modes;
+    check(modes[G.width].overview==='full'&&modes[G.wide].overview==='short'&&modes[G.narrow].overview==='short','Full labels at 1280 px and short labels at 1024 and 736 px');notes.navigation=modes;
     // 4. Current helpers against the owned TLS sites. By default the unbundled source helpers run (the mounted gate bundles
     //    exactly these sources fresh); --build opts into fresh buildPackage copies, which rewrites those package outputs.
     fixtures=await providerFixtures(path.join(directory,'providers-tls'));await fs.mkdir(path.join(home,'mods'),{recursive:true});const stale=[],helpers={};

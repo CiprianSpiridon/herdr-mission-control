@@ -24,7 +24,7 @@ import {observeTab,deriveName,displayLabel,estimateWidth,clip,tabKey,NAME_LIMITS
  * layout switches) or read-only observation. Disposable actors, repos, title/status files and the
  * provider root live under the private runtime directories only. The test layouts use the root
  * `titlebar:none` + `traffic_lights`, the real mc-main / mc-work-panel / mc-work-stack contract and
- * shipped `workspace-status` placeholders for the six stack children, because no source mod may be
+ * shipped `workspace-status` placeholders for the seven stack children, because no source mod may be
  * installed in the standalone gate. The preview frame is promoted only by `promote-preview`, after
  * the harness has written and validated a passing receipt; a failed run leaves no preview.
  */
@@ -49,9 +49,9 @@ export const GEOMETRY=Object.freeze({width:1280,height:760,x:60,y:60,topbar:42,l
   tabGap:6,tabIcon:14,mark:7,close:16,control:26,controlGap:4,barRight:8,swapPadX:9,swapIcon:14,swapGap:6,topbarWide:720,
   navButton:26,navGap:2,navPadX:6,navHide:24,displayPx:280,menu:{width:240,height:170},dialog:{width:560,height:660}});
 const G=GEOMETRY;
-export const SOURCE_IDS=Object.freeze(['jira','github','pulls','gitlab','merges','sessions']);
+export const SOURCE_IDS=Object.freeze(['jira','github','pulls','gitlab','merges','sessions','mods']);
 /** [full label, short label] per source, as navigation.js draws them. */
-export const SOURCE_LABELS=Object.freeze({jira:['Jira','Jira'],github:['GitHub issues','GitHub'],pulls:['Pull requests','PRs'],gitlab:['GitLab issues','GitLab'],merges:['Merge requests','MRs'],sessions:['Previous sessions','Sessions']});
+export const SOURCE_LABELS=Object.freeze({jira:['Jira','Jira'],github:['GitHub issues','GitHub'],pulls:['Pull requests','PRs'],gitlab:['GitLab issues','GitLab'],merges:['Merge requests','MRs'],sessions:['Previous sessions','Sessions'],mods:['Mods','Mods']});
 /** Disposable tool actors: their help text decides exact-session capability; app decides Herdr's real tool icon. */
 export const TOOLS=Object.freeze({
   claude:{name:'QA Claude',app:'claude-code',help:'Claude Code QA fixture\nUsage: claude [options] [prompt]\n --session-id <uuid>\n --resume [value]\n --model <model>'},
@@ -91,8 +91,8 @@ export const EXPECTATIONS=Object.freeze({
   statusMarks:'The four status marks are drawn and distinct, idle as a hollow ring',
   toolIcons:'Each agent tab draws its actual tool icon beside its task label',
   oneStrip:'Exactly one topmost strip, clear of the traffic lights, lists every tab',
-  wideNavigation:'At 1024 px beside a 220 px rail all six work sources show full labels without clipping',
-  narrowNavigation:'At 736 px all six work sources stay reachable with short labels',
+  wideNavigation:'At 1024 px beside a 220 px rail all seven work sources show whole short labels without clipping (full labels need 850 px)',
+  narrowNavigation:'At 736 px all seven work sources stay reachable with short labels',
   narrowSelect:'A short-label source can be selected at 736 px',
   sourcesToggle:'The tab bar gear opens Mission Control sources; turning GitLab issues off removes it from the strip and turning it on brings it back',
   select:'Clicking a tab selects it',
@@ -117,7 +117,7 @@ export const EXPECTATIONS=Object.freeze({
   oneRename:'With two bars mounted one title change produces exactly one rename',
   bareSwap:'Without Mission Control nodes the swap control is disabled and says why',
   barePanel:'Without mc-work-panel the panel control is disabled and says why',
-  bareSources:'Without mc-work-stack all six sources are disabled with a visible reason',
+  bareSources:'Without mc-work-stack all seven sources are disabled with a visible reason',
   bareStrip:'Without layout nodes the strip still selects tabs and opens the agent menu',
   noErrors:'Every tabs workflow produced zero native app errors',
   standalone:'Only this standalone custom mod is installed and it passed herdr-app check'
@@ -555,13 +555,13 @@ export default async function tabsNative(runtime){
     expect(['A','B','K1','K2','K3'].every(k=>stats[k]?.icon.count>=10*scale*scale)&&['A','B'].every(k=>warm(stats[k]))&&['K1','K2','K3'].every(k=>!warm(stats[k])),'toolIcons');// Claude marks are warm; Codex (K1, K2) and Grok (K3) are not
     expect(order().every(id=>located[id].count===1&&located[id].frame.x>=G.pad-4)&&[A,B,K1,K2,K3].every(id=>located[id].outside===0),'oneStrip');
 
-    console.log('Tabs native: six sources at 1024 and 736 logical px');await progress('navigation widths');
+    console.log('Tabs native: seven sources at 1024 and 736 logical px');await progress('navigation widths');
     const navCheck=async(width,column)=>{
       await positionWindow(runtime,{width});await controls();await park();const frame=await runtime.frame('tabs-navigation-'+width),file=path.join(ROOT,frame.path),found={};
       for(const id of SOURCE_IDS){const label=SOURCE_LABELS[id][column],r=await runtime.driver.ocr(file,label),m=r.matches.filter(n=>n.confidence>=0.6&&inNav(n));found[id]={count:m.length,observation:r,node:m[0]??null};}
       const clear=Object.values(found).every(f=>f.count===1&&f.node.frame.x>=G.rail&&f.node.frame.x+f.node.frame.width<=f.observation.window.width-G.navPadX+1);return {found,clear};
     };
-    const wide=await navCheck(1024,0);expect(wide.clear,'wideNavigation');
+    const wide=await navCheck(1024,1);expect(wide.clear&&!(await has('Pull requests',inNav))&&!(await has('Previous sessions',inNav)),'wideNavigation');
     const narrow=await navCheck(736,1);const shortOnly=!(await has('Pull requests',inNav))&&!(await has('Previous sessions',inNav));expect(narrow.clear&&shortOnly,'narrowNavigation');
     await clickHit({observation:narrow.found.sessions.observation,node:narrow.found.sessions.node},'Sessions source (short)');
     await until(async()=>(await navState())?.source==='sessions','Sessions selected at 736 px',20000);{const f=narrow.found.sessions.node.frame,w={expectedSize:narrow.found.sessions.observation.window};await runtime.driver.hover({x:f.x,y:f.y+f.height+40,width:2,height:2},w);await runtime.driver.hover(f,w);}const shownSessions=await visible('Previous sessions (shown)',near(narrow.found.sessions.node.frame),20000);
@@ -752,12 +752,12 @@ export async function checkFixtures(){
     const layouts=testLayouts(),names=['main',...Object.values(LAYOUTS)],props=tree=>tree.children.find(n=>n.id==='mc-topbar').content.props,contract=name=>nav.layoutContract({tree:layouts[name],name,names,props:props(layouts[name])});
     check(JSON.stringify(nav.SOURCES.map(s=>[s.id,s.label,s.short]))===JSON.stringify(SOURCE_IDS.map(id=>[id,...SOURCE_LABELS[id]])),'Source ids and labels match navigation.js');
     const overview=contract(LAYOUTS.overview),classic=contract(LAYOUTS.classic),bare=contract(LAYOUTS.bare),double=contract(LAYOUTS.double);
-    check(overview.main&&overview.stack&&overview.children.length===6&&overview.panel===null&&!overview.panelControl&&overview.swap.enabled&&overview.swap.to===LAYOUTS.classic&&overview.swap.label===LAYOUT_UI[LAYOUTS.overview].swap,'Mission Control test layout: six sources, no panel, swap to Classic view');
-    check(classic.main&&classic.stack&&classic.children.join()==='jira,github,pulls,gitlab,sessions'&&classic.panel?.hidden===true&&classic.panelControl&&classic.swap.enabled&&classic.swap.label===LAYOUT_UI[LAYOUTS.classic].swap&&nav.sourceState(classic,'merges').reason==='Not in this layout.','Classic test layout: hidden panel, an absent merges source and swap back');
+    check(overview.main&&overview.stack&&overview.children.length===7&&overview.panel===null&&!overview.panelControl&&overview.swap.enabled&&overview.swap.to===LAYOUTS.classic&&overview.swap.label===LAYOUT_UI[LAYOUTS.overview].swap,'Mission Control test layout: seven sources, no panel, swap to Classic view');
+    check(classic.main&&classic.stack&&classic.children.join()==='jira,github,pulls,gitlab,sessions,mods'&&classic.panel?.hidden===true&&classic.panelControl&&classic.swap.enabled&&classic.swap.label===LAYOUT_UI[LAYOUTS.classic].swap&&nav.sourceState(classic,'merges').reason==='Not in this layout.','Classic test layout: hidden panel, an absent merges source and swap back');
     check(!bare.main&&!bare.stack&&bare.swap.code==='NO_LAYOUT_NODES'&&/mc-main/.test(bare.swap.reason)&&/mc-work-stack/.test(bare.stackReason)&&bare.panel===null&&bare.panelControl&&nav.sourceState(bare,'jira').enabled===false,'Node-less test layout disables swap, panel and sources with reasons');
     check(JSON.stringify({...double,name:null})===JSON.stringify({...overview,name:null})&&layouts[LAYOUTS.double].children.filter(n=>n.content?.mod===MOD&&n.content.props?.view==='topbar').length===2,'Two-bar test layout mounts two visible top bars over the same contract');
     const mac={platform:'macos',titlebar:'none',fullscreen:false};check(Object.values(layouts).every(tree=>bar.lightsPadding({win:mac,tree})===G.pad),'Every test layout starts its strip clear of the traffic lights');
-    check(nav.navigationMode(1024-G.rail)==='full'&&nav.navigationMode(736-G.rail)==='short'&&nav.navigationMode(G.panel,{panel:true})==='icons'&&nav.navigationMode(G.width)==='full'&&G.width-nav.navigationWidth('full')>=nav.NAV_METRICS.caption,'Widths select full labels at 1024, short at 736, icons in the 360 px panel and room for the unavailable caption');
+    check(nav.navigationMode(1024-G.rail)==='short'&&nav.navigationMode(736-G.rail)==='short'&&nav.navigationMode(G.panel,{panel:true})==='icons'&&nav.navigationMode(G.width)==='full'&&G.width-nav.navigationWidth('full')>=nav.NAV_METRICS.caption,'Widths select short labels at 1024 and 736, full at 1280, icons in the 360 px panel and room for the unavailable caption');
     check(nav.NAV_METRICS.button===G.navButton&&nav.NAV_METRICS.gap===G.navGap&&nav.NAV_METRICS.hide===G.navHide+6&&NAME_LIMITS.displayPx===G.displayPx&&bar.TIMING.wheelMs<600,'Navigation metrics and label budget match the scenario geometry');
     // 5. Click geometry the native run computes, against the finished sources.
     const mainSource=await fs.readFile(path.join(ROOT,'src/mods/mission-control-tabs/main.js'),'utf8'),navSource=await fs.readFile(path.join(ROOT,'src/mods/mission-control-tabs/navigation.js'),'utf8'),uiSource=await fs.readFile(path.join(ROOT,'src/shared/ui.js'),'utf8');
