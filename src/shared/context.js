@@ -29,7 +29,12 @@ export function normalizeContext(observation,identity,{now=Date.now(),staleAfter
 }
 
 export function selectContext(observations,identity,options={}){
-  const readings=(Array.isArray(observations)?observations:[]).filter(o=>o?.identity&&validateProviderObservation(o,{identity}).ok).map(o=>normalizeContext(o,identity,options));
+  const valid=(Array.isArray(observations)?observations:[]).filter(o=>o?.identity&&validateProviderObservation(o,{identity}).ok);
+  // A status-line percentage often carries no time of its own. The status line renders after each turn,
+  // so the same conversation's latest dated turn dates it; with no dated turn it stays unavailable.
+  const turns=valid.filter(o=>o.state==='available'&&Number.isFinite(o.provenance?.observedAt)).map(o=>o.provenance.observedAt),turn=turns.length?Math.max(...turns):null;
+  const dated=valid.map(o=>turn!==null&&o.state==='available'&&o.provenance.observedAt===null&&o.context?.reportedUsedPercent!=null?{...o,provenance:{...o.provenance,observedAt:turn}}:o);
+  const readings=dated.map(o=>normalizeContext(o,identity,options));
   const measured=readings.filter(r=>r.state!=='unavailable').sort((a,b)=>b.observedAt-a.observedAt);
   return measured[0]||readings[0]||normalizeContext(null,identity,options);
 }

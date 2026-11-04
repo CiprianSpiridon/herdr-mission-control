@@ -34,3 +34,12 @@ test('newest valid exact reading wins and an unavailable session never gets a de
   const unknown=observation(null);assert.equal(normalizeContext(unknown,identity,{now}).state,'unavailable');
   const other=observation(counts(20,100),{identity:{...identity,sessionId:'other'}});assert.match(selectContext([other],identity,{now}).reason,/No exact session/);
 });
+test('an undated status-line percentage takes the date of the same conversation’s latest turn, and only that',()=>{
+  const line=(percent)=>observation({usedTokens:null,windowTokens:null,compactionLimitTokens:null,reportedUsedPercent:percent},{provenance:{provider:'codex',format:'legacy-claude-statusline',formatVersion:null,sourceDigest:'b'.repeat(64),observedAt:null}});
+  const turn=(at)=>observation({usedTokens:500,windowTokens:null,compactionLimitTokens:null,reportedUsedPercent:null},{provenance:{provider:'codex',format:'claude-project-jsonl',formatVersion:null,sourceDigest:'c'.repeat(64),observedAt:at}});
+  assert.equal(selectContext([line(16)],identity,{now}).state,'unavailable','with no dated turn the percentage stays unavailable');
+  const fresh=selectContext([line(16),turn(now-30000)],identity,{now});assert.equal(fresh.state,'available');assert.equal(fresh.remainingPercent,84);assert.equal(fresh.observedAt,now-30000);
+  const idle=selectContext([line(16),turn(now-3600000)],identity,{now});assert.equal(idle.state,'stale','an idle conversation keeps its last value, marked stale');assert.equal(idle.remainingPercent,84);
+  const other=turn(now-30000);other.identity={...identity,sessionId:'thread-b'};
+  assert.equal(selectContext([line(16),other],identity,{now}).state,'unavailable','another conversation’s turn never dates it');
+});

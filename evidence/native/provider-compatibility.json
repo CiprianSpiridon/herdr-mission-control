@@ -2,7 +2,7 @@
   "v": 1,
   "kind": "installed-provider-compatibility",
   "evidenceKind": "live-installed-metadata",
-  "generatedAt": "2026-11-02T02:51:14.405Z",
+  "generatedAt": "2026-11-04T11:40:31.541Z",
   "probeSourceSha256": "ec189eeeeab8947321d059b86a7775eed4fd93ef855b54aed07e272eaafe208a",
   "collectorSourceSha256": "4c115854b6539dfed86d9c373f9ff86a2a07f0c5219d1bd4bafefcc17afce167",
   "collectorBytes": 45863,
@@ -36,7 +36,7 @@
     },
     {
       "provider": "claude",
-      "cliVersion": "2.1.316",
+      "cliVersion": "2.1.317",
       "sourceMode": "configured",
       "sourcesRead": 1,
       "disabledSources": 0,
@@ -44,7 +44,7 @@
       "formats": [
         "claude-project-jsonl"
       ],
-      "observedSessions": 7,
+      "observedSessions": 8,
       "unavailableObservations": 0,
       "reportedContextFields": [
         "usedTokens"
@@ -87,7 +87,7 @@
     "session-bindings.js": "8ce735273c2d4e8ee9e63bed0036276d8afa69fc92f40c22fa30ddd10c815d99",
     "usage-sources.js": "e5ed02f02e6c3648e165aed45adb32442334ea5b120c2ec8b9e6db5a1a643699",
     "provider-observation.js": "17175cb47ad6e80949ffbf279014bba095712fb24fa4471438dc2d9eceeb24b1",
-    "context.js": "02df6dc993bfb321360844265338442b7481027e2ebc1d66c043295099e4295b",
+    "context.js": "6c202695a40ac4c51fd931aa9c7a7159611ec96651956f6cb7b48069e2bbb0d0",
     "quota.js": "8bfef62c230a7ff960465f3b60299c2366bc3c96e1f083540edc4e0823113bb3"
   }
 }
