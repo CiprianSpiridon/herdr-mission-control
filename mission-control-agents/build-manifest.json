@@ -28,7 +28,7 @@
     "assets/settings.svg": "c0d3295d7dc3261c7f6e9e6eb4217b044b834d680215ac1e38f9c1efb11b2dc9",
     "assets/spaces.svg": "01d3d618b27ef141c8251358657d7533abef2bbc40b447f53728c768fa4a593b",
     "collector.py": "4c115854b6539dfed86d9c373f9ff86a2a07f0c5219d1bd4bafefcc17afce167",
-    "main.js": "1b28d232b3239c4e3a71d47bec5dde367316654a990903a9d97161e074174800",
+    "main.js": "6b02ef9b688e2a0349df19ec21f4acdaa2c0a431b175a2bb2db648001651d3d3",
     "mod.json": "19f9c364e74121c1f44dabf649b90daadcdcbdc46ee5b813aa6275ecd312159d",
     "NOTICE.md": "f20f37f2705da9d37b502d64fbe21f68f7db7280f83369013586be19e747c873"
   },
@@ -39,7 +39,7 @@
     "src/mods/mission-control-agents/model.js": "957bccdae59efad95aabe5540948f7094859e718ff358b962a4e142015355474",
     "src/shared/collector.py": "eab0a9a80062eef203e1774979812c77a946296a4de28d0c50ca700826c6af3b",
     "src/shared/config.js": "2cea2d16c0faed2eef2f8105b0adc0c6098cf556a84297249b5bd9895eddf9a7",
-    "src/shared/context.js": "02df6dc993bfb321360844265338442b7481027e2ebc1d66c043295099e4295b",
+    "src/shared/context.js": "6c202695a40ac4c51fd931aa9c7a7159611ec96651956f6cb7b48069e2bbb0d0",
     "src/shared/name-ownership.js": "24f4e7060bffdb1559e76091039fc1b1e076095d72cc8b44c14596d8a37ae784",
     "src/shared/provider-observation.js": "17175cb47ad6e80949ffbf279014bba095712fb24fa4471438dc2d9eceeb24b1",
     "src/shared/provider_claude.py": "cf6da2907639d181e3a5735ab058d63357ea15b4bb7b50e28e9bb7c130b30b83",
