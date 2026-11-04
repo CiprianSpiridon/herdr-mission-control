@@ -4209,7 +4209,9 @@ var SOURCES2 = freeze6([
   { id: "pulls", label: "Pull requests", short: "PRs", icon: "pull-request", mod: "mission-control-github", props: { view: "pulls", hideHeader: true }, scopeKey: "mission-control-github-prs-ui-v1" },
   { id: "gitlab", label: "GitLab issues", short: "GitLab", icon: "gitlab", mod: "mission-control-gitlab", props: { view: "issues", hideHeader: true }, scopeKey: "mission-control-gitlab-ui-v1" },
   { id: "merges", label: "Merge requests", short: "MRs", icon: "branch", mod: "mission-control-gitlab", props: { view: "merges", hideHeader: true }, scopeKey: "mission-control-gitlab-mrs-ui-v1" },
-  { id: "sessions", label: "Previous sessions", short: "Sessions", icon: "sessions", mod: "mission-control-sessions", props: { hideHeader: true }, scopeKey: "mission-control-sessions-ui-v1" }
+  { id: "sessions", label: "Previous sessions", short: "Sessions", icon: "sessions", mod: "mission-control-sessions", props: { hideHeader: true }, scopeKey: "mission-control-sessions-ui-v1" },
+  // Mods covers the whole Herdr install, never one space: a fixed scope with its own caption.
+  { id: "mods", label: "Mods", short: "Mods", icon: "layout", mod: "mission-control-mods", props: { hideHeader: true }, scopeKey: null, fixedScope: "all", caption: "All installed" }
 ]);
 var SOURCE_IDS = freeze6(SOURCES2.map((s) => s.id));
 var BY_ID = new Map(SOURCES2.map((s) => [s.id, s]));
@@ -4282,6 +4284,7 @@ function sourceState(contract, id2, hidden = null) {
 }
 function scopeOf(id2, sharedFn) {
   const s = BY_ID.get(id2);
+  if (s?.fixedScope) return s.fixedScope;
   if (!s || typeof sharedFn !== "function") return null;
   let v = null;
   try {
@@ -4391,7 +4394,7 @@ function sourceButton(mod, source, { mode, selected, state, onSelect }) {
 function renderNavigation({ mod, contract, width = null, scope = null, spaceName = null, hidden = /* @__PURE__ */ new Set(), onSelect, onHide, onSize }) {
   const t = colors(), panel = Boolean(contract.panel), shown = SOURCES2.filter((s) => !hidden.has(s.id)), mode = navigationMode(width, { panel, sources: shown });
   const room = Number.isFinite(width) ? width - navigationWidth(mode, { panel, sources: shown }) : 0;
-  const caption = !contract.stack ? "Work sources unavailable: " + contract.stackReason : !shown.length ? "Every work source is turned off. Turn one on with the gear in the tab bar." : contract.active && !hidden.has(contract.active) ? scope === "all" ? "All spaces" : ["This space", spaceName].filter(Boolean).join(" · ") : null;
+  const caption = !contract.stack ? "Work sources unavailable: " + contract.stackReason : !shown.length ? "Every work source is turned off. Turn one on with the gear in the tab bar." : contract.active && !hidden.has(contract.active) ? BY_ID.get(contract.active)?.caption ? BY_ID.get(contract.active).caption : scope === "all" ? "All spaces" : ["This space", spaceName].filter(Boolean).join(" · ") : null;
   let group = h_flex3().id("work-sources").flex_1().min_w(0).h_full().gap(NAV_METRICS.gap).items_center().children(shown.map((s) => sourceButton(mod, s, { mode, selected: contract.active === s.id, state: sourceState(contract, s.id, hidden), onSelect })));
   if (!shown.length) group = group.child(div3().id("source-caption").min_w(0).px(6).truncate().text_size(10.5).text_color(t.dim).tooltip(caption).child(caption));
   else if (mode !== "icons") {
