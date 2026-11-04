@@ -11,7 +11,6 @@ import zlib from 'node:zlib';
 import crypto from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import {run,until} from '../../scripts/native-harness.mjs';
-import {flattenTree} from '../../scripts/native-driver.mjs';
 import {decodePng} from './layout.mjs';
 
 const ROOT=fileURLToPath(new URL('../../',import.meta.url)).replace(/\/$/,'');
@@ -55,7 +54,7 @@ export function png(width,height,[r,g,b]){
   return Buffer.concat([Buffer.from('89504e470d0a1a0a','hex'),chunk('IHDR',ihdr),chunk('IDAT',zlib.deflateSync(Buffer.concat(rows))),chunk('IEND',Buffer.alloc(0))]);
 }
 const clock=(version,{commands=false}={})=>commands
-  ? `import {View,div} from 'gpui-kit';\nimport * as herdr from 'herdr';\n\nexport default class QaClock extends View {\n  init(_props,cx){this.count=0;this.task=cx.spawn(async c=>{for(;;){const command=await herdr.nextCommand();if(command==='bump'){this.count++;c.notify();}}});}\n  render(){return div().size_full().p(12).text_size(15).child('QA clock ${version} bumped '+this.count);}\n}\n`
+  ? `import {View,div} from 'gpui-kit';\nimport * as herdr from 'herdr';\n\nexport default class QaClock extends View {\n  init(_props,cx){this.count=0;this.task=cx.spawn(async c=>{for(;;){const command=await herdr.nextCommand();if(command==='bump'){this.count++;c.notify();}}});}\n  render(){return div().size_full().p(12).text_size(15).child('QA clock ${version} bumped '+(['none','one','two','three'][this.count]||'many'));}\n}\n`
   : `import {View,div} from 'gpui-kit';\n\nexport default class QaClock extends View {\n  render(){return div().size_full().p(12).text_size(15).child('QA clock ${version}');}\n}\n`;
 const notes=second=>`import {View,div} from 'gpui-kit';\n\nconst LINES=[\n  'QA notes',\n  'first note',\n  '${second}',\n  'third note'\n];\n\nexport default class QaNotes extends View {\n  render(){return div().size_full().p(12).text_size(13).child(LINES.join(' / '));}\n}\n`;
 const timer=version=>`import {View,div} from 'gpui-kit';\n\nexport default class QaTimer extends View {\n  render(){return div().size_full().p(12).text_size(13).child('QA timer ${version}');}\n}\n`;
@@ -111,37 +110,44 @@ export default async function mods(runtime){
   for(const name of ['qa-clock','qa-notes','qa-timer'])runtime.app(['check',path.join(home,'mods',name)],{json:false});
   const block=(id,mod,px)=>({id,type:'block',...(px?{size:{px}}:{}),content:{mod}});
   await runtime.startWindow({name:'mods',layout:{id:'qa-root',type:'row',titlebar:'none',traffic_lights:[12,16],children:[
-    {id:'qa-left',type:'column',size:{px:LEFT},children:[block('qa-clock-block','qa-clock',70),block('qa-notes-block','qa-notes',70),{id:'qa-main',type:'block',content:{tab:'active'}}]},
+    // The terminal takes the top-left corner under the window buttons, so the fixture mods' text stays readable.
+    {id:'qa-left',type:'column',size:{px:LEFT},children:[{id:'qa-main',type:'block',content:{tab:'active'}},block('qa-clock-block','qa-clock',70),block('qa-notes-block','qa-notes',70)]},
     block('qa-mods',MOD)]}});
   const ACTIVE='mission-control-mods';
   let serial=0;const renderFailures=[];
-  const observe=async(query='')=>{if(++serial>260)throw Error('Native observation budget exhausted');const frame=await runtime.frame('mods-observe-'+serial),o=await runtime.driver.ocr(path.resolve(ROOT,frame.path),query);
+  // macOS now and then refuses one window capture while the window stays on screen; retry that alone.
+  // A window briefly off screen (another desktop shown) reads as no visible window: wait up to a minute for it.
+  const capture=async label=>{for(let attempt=1;;attempt++){try{return await runtime.frame(label);}catch(error){if(attempt>=40||!/could not be captured|create image|visible native window/i.test(error.message))throw error;await new Promise(r=>setTimeout(r,1500));}}};
+  const observe=async(query='')=>{if(++serial>260)throw Error('Native observation budget exhausted');const frame=await capture('mods-observe-'+serial),o=await runtime.driver.ocr(path.resolve(ROOT,frame.path),query);
     for(const line of o.lines)if(/could not be re.?rendered/i.test(line.text))renderFailures.push(line.text);return o;};
   const inPanel=n=>n.frame.x>=LEFT;const inLeft=n=>n.frame.x<LEFT;
   const sees=async(text,where=inPanel)=>{const o=await observe(text);return o.matches.some(n=>n.confidence>=0.5&&where(n));};
   const waitSee=(text,where=inPanel,timeout=60000)=>until(()=>sees(text,where),'visible '+text,timeout);
   const packages=async()=>{try{return JSON.parse(await fs.readFile(path.join(records,'packages.json'),'utf8'));}catch{return {packages:{}};}};
   const keys=async()=>JSON.parse(await fs.readFile(path.join(home,'keys.json'),'utf8'));
-  /** Press a control by its accessible name; without an accessibility node, click its visible text in its item's row. */
+  // GPUI controls are not in the accessibility tree: click visible text (scoped to its item's row) like every other gate.
+  // OCR reads an ellipsis as "…", "..." or "..": compare without trailing dots.
+  const norm=text=>text.trim().replace(/[\s.…]+$/,'').trim().toLowerCase();
   const activate=async(label,{text=label,row=null,timeout=45000}={})=>{
     const found=await until(async()=>{
-      let nodes=[];try{nodes=flattenTree(await runtime.driver.tree());}catch{}
-      const ax=nodes.filter(n=>n.label===label&&(n.role==='AXButton'||n.actions?.includes('AXPress')));
-      if(ax.length===1&&(ax[0].enabled!==false&&ax[0].actions?.includes('AXPress')||ax[0].frame))return {ax:ax[0]};
-      const o=await observe(text);let matches=o.matches.filter(n=>n.confidence>=0.6&&inPanel(n)&&n.text.trim().toLowerCase()===text.toLowerCase());
-      if(row){const title=o.lines.filter(n=>inPanel(n)&&n.text.includes(row)).sort((a,b)=>a.frame.y-b.frame.y)[0];if(!title)return null;matches=matches.filter(n=>Math.abs(n.frame.y+n.frame.height/2-(title.frame.y+title.frame.height/2))<16);}
+      // OCR matches carry only the searched words; whole lines tell "Update…" from "Update available".
+      const o=await observe(text.replace(/…$/,''));let matches=o.lines.filter(n=>(n.confidence??1)>=0.5&&inPanel(n)&&norm(n.text)===norm(text));
+      // Any line holding the row text anchors the control on the same row (a status line may repeat the text).
+      if(row){const anchors=o.lines.filter(n=>inPanel(n)&&n.text.includes(row)&&!matches.includes(n));matches=matches.filter(m=>anchors.some(a=>Math.abs(m.frame.y+m.frame.height/2-(a.frame.y+a.frame.height/2))<16));}
       return matches.length===1?{observation:o,node:matches[0]}:null;
     },'native control '+label,timeout);
-    if(found.ax?.actions?.includes('AXPress')&&found.ax.enabled!==false)await runtime.driver.action(found.ax);
-    else if(found.ax)await runtime.driver.click(found.ax.frame,{coordinateSpace:'screen'});
-    else await runtime.driver.clickObservedText(found.observation,found.node);
-    Object.assign(runtime.driver.actions.at(-1),{control:label});
+    // Click the observed match that lies inside the chosen line (the driver accepts only observed matches).
+    const line=found.node.frame,inside=found.observation.matches.filter(m=>m.confidence>=0.6&&m.frame.x+m.frame.width/2>=line.x&&m.frame.x+m.frame.width/2<=line.x+line.width&&m.frame.y+m.frame.height/2>=line.y&&m.frame.y+m.frame.height/2<=line.y+line.height);
+    if(inside.length===1)await runtime.driver.clickObservedText(found.observation,inside[0]);
+    else await runtime.driver.click(line,{expectedSize:found.observation.window});
+    Object.assign(runtime.driver.actions.at(-1),{control:label,observation:found.observation.source});
   };
-  // The refresh button is icon-only and its accessible name carries the last-checked time: match it by prefix.
+  // The refresh button is icon-only: it sits at the right end of the search row, 25 px from the window edge.
   const check=async()=>{
-    const node=await until(async()=>{const all=flattenTree(await runtime.driver.tree()).filter(n=>typeof n.label==='string'&&n.label.startsWith('Check for updates')&&n.enabled!==false&&(n.actions?.includes('AXPress')||n.frame));return all.length===1?all[0]:null;},'Check for updates control',60000);
-    if(node.actions?.includes('AXPress'))await runtime.driver.action(node);else await runtime.driver.click(node.frame,{coordinateSpace:'screen'});
-    Object.assign(runtime.driver.actions.at(-1),{control:'Check for updates'});
+    const {observation,field}=await until(async()=>{const o=await observe('Search mods and layouts'),f=o.matches.find(n=>n.confidence>=0.5&&inPanel(n));return f?{observation:o,field:f}:null;},'Mods toolbar',45000);
+    const y=field.frame.y+field.frame.height/2;
+    await runtime.driver.click({x:observation.window.width-39,y:y-14,width:28,height:28},{expectedSize:observation.window});
+    Object.assign(runtime.driver.actions.at(-1),{control:'Check for updates',observation:observation.source});
   };
   const updateFor=async(key,commit)=>until(async()=>{const r=(await packages()).packages[key];return r?.lastResult?.state==='update'&&r.lastResult.update?.commit===commit?r:null;},'helper sees the update of '+key,90000);
 
@@ -164,24 +170,25 @@ export default async function mods(runtime){
     const v2=await fixture.push(UPSTREAM.clockV2,'QA clock v2 with a bump key');
     await check();await updateFor('mod:qa-clock',v2);
     const p2=(await packages()).packages;
+    await waitSee('Update all (1)');
     runtime.expect(['mod:qa-notes','mod:qa-timer','layout:qa-board'].every(k=>p2[k]?.lastResult?.state!=='update')&&await sees('Update available'),EXPECTATIONS.updateFound);
     await activate('Update QA clock',{text:'Update…',row:'QA clock'});
     await waitSee('Apply update');
     runtime.expect(await sees('Changed or added')&&await sees('main.js')&&await sees(KEY)&&(await fs.readFile(path.join(home,'mods/qa-clock/main.js'),'utf8'))===clock('v1'),EXPECTATIONS.review);
     await activate('Apply update');
     await until(async()=>(await fs.readFile(path.join(home,'mods/qa-clock/main.js'),'utf8'))===clock('v2',{commands:true}),'QA clock v2 written',60000);
-    await waitSee('QA clock v2 bumped 0',inLeft,60000);
-    runtime.expect((await packages()).packages['mod:qa-clock'].commit===v2&&await sees('QA clock v2 bumped 0',inLeft),EXPECTATIONS.applied);
+    await waitSee('QA clock v2 bumped none',inLeft,60000);
+    runtime.expect((await packages()).packages['mod:qa-clock'].commit===v2&&await sees('QA clock v2 bumped none',inLeft),EXPECTATIONS.applied);
     await until(async()=>(await keys()).global?.[KEY]==='qa-clock.bump','key merged into keys.json',30000);
     await runtime.driver.press(KEY);
-    runtime.expect(Boolean(await until(()=>sees('QA clock v2 bumped 1',inLeft),'QA clock received the new key',30000)),EXPECTATIONS.keyAdded);
+    runtime.expect(Boolean(await until(()=>sees('QA clock v2 bumped one',inLeft),'QA clock received the new key',30000)),EXPECTATIONS.keyAdded);
 
     // 3. Update all: a safe update applies, a conflicting one waits for a review.
     await progress('update-all');
     const notesBefore=await fs.readFile(path.join(home,'mods/qa-notes/main.js'),'utf8');
     const v3=await fixture.push(UPSTREAM.notesAndTimer,'QA notes and QA timer v2');
     await check();await updateFor('mod:qa-timer',v3);await updateFor('mod:qa-notes',v3);
-    await activate('Update all (2)',{text:'Update all (2)'});
+    await activate('Update all (2)',{text:'Update all (2)',timeout:60000});
     await until(async()=>(await fs.readFile(path.join(home,'mods/qa-timer/main.js'),'utf8'))===timer('v2'),'QA timer v2 applied by Update all',90000);
     await waitSee('needs a review');
     runtime.expect((await fs.readFile(path.join(home,'mods/qa-notes/main.js'),'utf8'))===notesBefore,EXPECTATIONS.updateAll);
@@ -201,9 +208,9 @@ export default async function mods(runtime){
     await check();await updateFor('mod:qa-clock',v4);
     await activate('Update QA clock',{text:'Update…',row:'QA clock'});await waitSee('Keys removed');await activate('Apply update');
     await until(async()=>(await keys()).global?.[KEY]===undefined,'key removed from keys.json',60000);
-    await waitSee('QA clock v3 bumped 0',inLeft,60000);
+    await waitSee('QA clock v3 bumped none',inLeft,60000);
     await runtime.driver.press(KEY);await new Promise(r=>setTimeout(r,1500));
-    runtime.expect(await sees('QA clock v3 bumped 0',inLeft)&&!(await sees('QA clock v3 bumped 1',inLeft)),EXPECTATIONS.keyRemoved);
+    runtime.expect(await sees('QA clock v3 bumped none',inLeft)&&!(await sees('QA clock v3 bumped one',inLeft)),EXPECTATIONS.keyRemoved);
 
     // 6. Refusals and confirmations.
     await progress('lifecycle');
@@ -219,17 +226,20 @@ export default async function mods(runtime){
     await waitSee('Disabled');
     await activate('Enable QA timer',{text:'Enable',row:'QA timer'});
     await until(()=>exists(path.join(home,'mods/qa-timer/main.js')),'QA timer enabled',60000);
+    // The files move first; wait for the panel to list QA timer as enabled again before clicking its row.
+    await until(async()=>!(await sees('Enable')),'panel lists QA timer enabled',60000);
     runtime.expect(JSON.stringify(await hashDir(path.join(home,'mods/qa-timer')))===JSON.stringify(timerFiles),EXPECTATIONS.disableEnable);
     await activate('Uninstall QA timer',{text:'Uninstall',row:'QA timer'});
     await waitSee('restored for 30 days');
-    await activate('Confirm: remove QA timer',{text:'Remove',row:'restored for 30 days'});
+    await activate('Confirm: remove QA timer',{text:'Remove',row:'then it is deleted'});
     await until(async()=>!(await exists(path.join(home,'mods/qa-timer'))),'QA timer removed',60000);
     await waitSee('Removed (restorable for 30 days)');
-    await activate('Restore qa-timer',{text:'Restore',row:'qa-timer'});
+    await activate('Restore qa-timer',{text:'Restore',row:'timer (mod)'});
     await until(()=>exists(path.join(home,'mods/qa-timer/main.js')),'QA timer restored',60000);
+    await until(async()=>!(await sees('Removed (restorable')),'panel lists QA timer restored',60000);
     runtime.expect(JSON.stringify(await hashDir(path.join(home,'mods/qa-timer')))===JSON.stringify(timerFiles),EXPECTATIONS.uninstallRestore);
     await activate('Uninstall '+ACTIVE,{text:'Uninstall',row:ACTIVE});
-    await activate('Confirm: remove '+ACTIVE,{text:'Remove',row:'restored for 30 days'});
+    await activate('Confirm: remove '+ACTIVE,{text:'Remove',row:'then it is deleted'});
     await waitSee('switch to another layout first');
     runtime.expect(await exists(path.join(home,'layouts',ACTIVE+'.json'))&&runtime.app(['status']).layout===ACTIVE,EXPECTATIONS.activeLayout);
 
@@ -237,11 +247,11 @@ export default async function mods(runtime){
     await progress('built-in');
     await activate('Built in',{text:'Built in'});
     await waitSee('Built into Herdr');
-    const shipped=Object.keys(JSON.parse(await fs.readFile(path.join(home,'installed.json'),'utf8'))).filter(k=>!k.startsWith('layout:'));
-    const ax=flattenTree(await runtime.driver.tree()).map(n=>n.label).filter(l=>typeof l==='string');
-    runtime.expect(shipped.length>0&&!shipped.some(name=>ax.some(l=>/^(Disable|Uninstall|Update) /.test(l)&&l.toLowerCase().endsWith(' '+name.toLowerCase()))),EXPECTATIONS.builtIn);
+    // The Built in filter shows only Herdr's own items, expanded: each reads Built into Herdr and none has an action.
+    const builtIn=await until(async()=>{const o=await observe(),rows=o.lines.filter(l=>inPanel(l)&&l.text.trim()==='Built into Herdr');return rows.length>=3?o:null;},'built-in rows listed',45000);
+    runtime.expect(!builtIn.lines.some(l=>inPanel(l)&&/^(disable|enable|uninstall|update)/i.test(l.text.trim())),EXPECTATIONS.builtIn);
     await activate('All',{text:'All'});await waitSee('QA timer');
-    const preview=await runtime.frame('mods-preview');await fs.copyFile(path.resolve(ROOT,preview.path),path.resolve(ROOT,'.harness/mods-preview-candidate.png'));
+    const preview=await capture('mods-preview');await fs.copyFile(path.resolve(ROOT,preview.path),path.resolve(ROOT,'.harness/mods-preview-candidate.png'));
     runtime.expect(runtime.app(['status']).errors.length===0&&renderFailures.length===0,EXPECTATIONS.noErrors);
     await progress('passed');
   }catch(error){

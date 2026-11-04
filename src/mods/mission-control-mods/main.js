@@ -92,11 +92,13 @@ export default class MissionControlMods extends View {
     this.run(cx,null,async()=>{
       const out=await this.call({op,key,confirm});
       if(out.result?.needsConfirm){this.confirm={op,key,layouts:out.result.layouts};return;}
-      this.confirm=null;await this.load('inventory');
+      // Clear only this action's own confirmation: the person may already have opened another one meanwhile.
+      if(this.confirm?.op===op&&this.confirm?.key===key)this.confirm=null;
+      await this.load('inventory');
       this.info=op==='uninstall'?`${this.item(key)?.name||key.split(':')[1]} removed. It can be restored for 30 days, then it is deleted.`:null;
     });
   }
-  restore(id,cx){this.run(cx,null,async()=>{await this.call({op:'restore',id});await this.load('inventory');});}
+  restore(id,cx){const name=this.removed.find(r=>r.id===id)?.name;this.run(cx,null,async()=>{await this.call({op:'restore',id});this.info=name?`${name} restored.`:null;await this.load('inventory');});}
   link(key,cx,url){this.run(cx,'Linking…',async()=>{await this.call({op:'link',key,url:url??this.linkInput.value()});this.linkFor=null;await this.load('inventory');await this.load('check');});}
 
   // Rendering ---------------------------------------------------------------------------------------------
@@ -126,7 +128,8 @@ export default class MissionControlMods extends View {
     let body=v_flex().id('mods-list').flex_1().min_h(0).overflow_y_scroll().gap(2).pb(12);
     if(!this.list.length&&!this.busy)return body.child(emptyState(MOD,'layout','Nothing listed yet','Check again once the helper can run (Node.js 22 and git).'));
     for(const [id,title,items]of groups){
-      if(!items.length)continue;const collapsed=Boolean(this.collapsed[id]);
+      // Choosing a section's own filter always shows that section open.
+      if(!items.length)continue;const collapsed=Boolean(this.collapsed[id])&&this.filter!==id;
       body=body.child(sectionHeader(MOD,'mods-section-'+id,title,items.length,{collapsed,toggle:(_e,cx)=>{this.collapsed[id]=!collapsed;cx.notify();}}));
       if(!collapsed)body=body.children(items.map(item=>this.row(item,t)));
     }
@@ -139,7 +142,8 @@ export default class MissionControlMods extends View {
     const thumb=item.preview?image(item.preview).w(48).h(30).rounded(4).flex_none():div().w(48).h(30).flex_none().flex().items_center().justify_center().rounded(4).bg(t.surface).child(icon(MOD,item.kind==='layout'?'layout':'panel',14).text_color(t.dim));
     const tone=item.state==='update'?t.accent:['conflict','unreachable','too-large'].includes(item.state)?t.blocked:item.state==='edited'?t.working||t.accent:t.dim;
     const sourceText=item.source?[item.source.fullName,item.source.path].filter(Boolean).join(' · '):item.installerPackage?`installed with ${item.installerPackage}`:null;
-    const detail=item.state==='update'&&item.update?`${item.update.subject} · ${item.update.changed+item.update.added+item.update.removed} files · ${ago(item.update.time)}`:item.reason;
+    const files=item.update?item.update.changed+item.update.added+item.update.removed:0;
+    const detail=item.state==='update'&&item.update?`${item.update.subject} · ${files} ${files===1?'file':'files'} · ${ago(item.update.time)}`:item.reason;
     // Every row has the same button words, so each button names its item for assistive technology.
     const named=item.title||item.name,rowButton=(id,text,verb,action,options)=>textButton(id,text,action,options).accessibility_label(`${verb} ${named}`);
     const buttons=actionsFor(item).map(action=>{

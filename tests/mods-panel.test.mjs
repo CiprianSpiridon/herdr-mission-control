@@ -97,3 +97,13 @@ test('a helper error keeps the last list and shows the reason', async t => {
   trigger(m.render(), 'disable-mod:bar', 'on_click', {}, m.cx);await m.settle();
   const all = text(m.render());assert.match(all, /built into Herdr/);assert.ok(has(m.render(), 'row-mod:bar'), 'the list stays');
 });
+
+test('a finishing action never closes a confirmation the person opened meanwhile', async t => {
+  let release;const gate = new Promise(r => { release = r; });
+  const m = mount(t, {respond: async r => r.op === 'enable' ? (await gate, {v: 1, ok: true, result: {ok: true, state: 'enabled'}}) : listing()});
+  await m.settle();
+  trigger(m.render(), 'enable-mod:off', 'on_click', {}, m.cx);
+  trigger(m.render(), 'uninstall-mod:foo', 'on_click', {}, m.cx);
+  release();await m.settle();
+  assert.match(text(m.render()), /Remove foo\? It can be restored for 30 days/, 'the uninstall confirmation stays open');
+});
