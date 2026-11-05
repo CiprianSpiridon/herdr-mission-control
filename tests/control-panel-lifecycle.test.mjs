@@ -4,10 +4,10 @@ import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
-import {handle} from '../src/mods/mission-control-mods/backend.mjs';
-import {createStore} from '../src/mods/mission-control-mods/store.mjs';
+import {handle} from '../src/mods/mission-control-control-panel/backend.mjs';
+import {createStore} from '../src/mods/mission-control-control-panel/store.mjs';
 
-const BACKEND = new URL('../src/mods/mission-control-mods/backend.mjs', import.meta.url).pathname;
+const BACKEND = new URL('../src/mods/mission-control-control-panel/backend.mjs', import.meta.url).pathname;
 async function put(root, files) { for (const [rel, data] of Object.entries(files)) { await fs.mkdir(path.dirname(path.join(root, rel)), {recursive: true});await fs.writeFile(path.join(root, rel), data); } }
 async function tree(root, rel) { const out = {};async function walk(d, r) { for (const e of await fs.readdir(d, {withFileTypes: true}).catch(() => [])) { const p = r ? `${r}/${e.name}` : e.name;if (e.isDirectory()) await walk(path.join(d, e.name), p);else out[p] = await fs.readFile(path.join(d, e.name), 'utf8'); } } await walk(path.join(root, rel), '');return out; }
 
@@ -16,7 +16,7 @@ async function fixture(t) {
   t.after(() => fs.rm(home, {recursive: true, force: true}));
   await put(home, {
     'installed.json': JSON.stringify({menu: {}, 'layout:main': {}}), 'mods/menu/main.js': 'shipped\n', 'layouts/main.json': '{}\n',
-    'mods/mission-control-mods/main.js': 'self\n', 'mods/mission-control-agents/main.js': 'mc\n',
+    'mods/mission-control-control-panel/main.js': 'self\n', 'mods/mission-control-agents/main.js': 'mc\n',
     'mission-control/installed-packages.json': JSON.stringify({v: 1, packages: {'mission-control': {mods: ['mission-control-agents'], layouts: []}}}),
     'mods/foo/main.js': 'foo\n', 'mods/foo/assets/icon.svg': '<svg/>\n', 'mods/laymod/main.js': 'laymod\n',
     'layouts/lay.json': JSON.stringify({children: [{content: {mod: 'laymod'}}]}), 'layouts/lay.svg': '<svg/>\n',
@@ -47,7 +47,7 @@ test('disable then enable, and uninstall then restore, return identical files an
 
 test('built-in, installer-managed and self items, and the active layout, are refused with a reason', async t => {
   const f = await fixture(t);
-  for (const [key, code] of [['mod:menu', 'BUILT_IN'], ['layout:main', 'BUILT_IN'], ['mod:mission-control-agents', 'INSTALLER_MANAGED'], ['mod:mission-control-mods', 'SELF']])
+  for (const [key, code] of [['mod:menu', 'BUILT_IN'], ['layout:main', 'BUILT_IN'], ['mod:mission-control-agents', 'INSTALLER_MANAGED'], ['mod:mission-control-control-panel', 'SELF']])
     await assert.rejects(f.call('disable', {key}), error => error.code === code, key);
   await assert.rejects(f.call('uninstall', {key: 'layout:lay', activeLayout: 'lay'}), error => error.code === 'ACTIVE_LAYOUT');
 });

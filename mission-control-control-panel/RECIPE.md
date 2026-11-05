@@ -1,14 +1,14 @@
-# Mission Control Mods
+# Mission Control · Control panel
 
-A native Herdr panel for managing the mods and layouts installed in this Herdr. It lists everything in the app home with each item's own preview image, shows which items have a newer version on GitHub, updates them after showing exactly what will change (including merging the person's own edits), and disables, enables, uninstalls and restores them. Built-in Herdr items and items managed by the Mission Control installer are shown but never changed. It works on its own or as the seventh source of the Mission Control layouts.
+A native Herdr panel for managing the mods and layouts installed in this Herdr. It lists everything in the app home with each item's own preview image, shows which items have a newer version on GitHub, updates them after showing exactly what will change (including merging the person's own edits), and disables, enables, uninstalls and restores them. Built-in Herdr items and items managed by the Mission Control installer are shown but never changed. It works on its own or as the seventh source (Control panel) of the Mission Control layouts.
 
-![Mission Control Mods](preview.png)
+![Mission Control · Control panel](preview.png)
 
 ## What you see
 
 Follow Herdr's theme with graphite fallbacks: chrome `#101114`, surface `#17191d`, border `#2a2d33`, foreground `#e5e7eb`, muted `#91969f`, dim `#6b7079`, accent `#89b4fa` and selection `#253044`; hover and blocked colors come from the theme. Standalone, the mod docks on the right at 420 px. Inside the Mission Control layouts it runs with `hideHeader: true` under the navigation strip, whose caption reads `All installed`.
 
-- **Header (34 px, 10 px sides):** a 15 px layout glyph and `Mods and layouts`. Hidden with `hideHeader`.
+- **Header (34 px, 10 px sides):** a 15 px layout glyph and `Control panel`. Hidden with `hideHeader`.
 - **Toolbar (10 px sides, 8 px vertical, 6 px gaps):** a 30 px `Search mods and layouts` field, a 28 px Check for updates icon button whose tooltip and accessible name say when it last checked, and, when updates exist, a primary `Update all (N)` button. Below it, filter chips (24 px, 11 px text): All, Updates (with its count), Mods, Layouts, Disabled, Built in; and a 10 px dim `Checked <age>` on the right.
 - **Status line (11 px):** the busy step (`Loading…`, `Checking…`, `Preparing the update…`, `Applying…`), the last result (`qa-clock updated.`, `1 updated; qa-notes needs a review.`, the 30-day notice after an uninstall) or the helper's refusal in the blocked color. The list stays visible under an error.
 - **Sections (collapsible 32 px headers with counts):** Updates, Layouts, Mods, Disabled, Built into Herdr (collapsed at start), and Removed (restorable for 30 days).
@@ -30,13 +30,13 @@ Follow Herdr's theme with graphite fallbacks: chrome `#101114`, surface `#17191d
 
 ## Built from
 
-Ship `mods/mission-control-mods/` with bundled native ESM `main.js`, the bundled Node helper `backend.mjs`, `mod.json` (`title: "Mission Control · Mods"`, `place: "right"`, `size: 420`), original local SVG `assets/` (layout, panel, refresh, search, chevron-down, chevron-right) and `NOTICE.md`. Put this recipe and the actual `preview.png` beside `mods/`; there is no `layouts/`, `keys.json`, sibling mod or `node_modules`. Mount it in a layout block or open it from the right dock; the only prop is `hideHeader`.
+Ship `mods/mission-control-control-panel/` with bundled native ESM `main.js`, the bundled Node helper `backend.mjs`, `mod.json` (`title: "Mission Control · Control panel"`, `place: "right"`, `size: 420`), original local SVG `assets/` (layout, panel, refresh, search, chevron-down, chevron-right) and `NOTICE.md`. Put this recipe and the actual `preview.png` beside `mods/`; there is no `layouts/`, `keys.json`, sibling mod or `node_modules`. Mount it in a layout block or open it from the right dock; the only prop is `hideHeader`.
 
-The view is a GPUI `View` built from `div`, `v_flex`, `h_flex`, `svg`, `image` and retained `InputState` fields; it does no file work itself. Every action runs `node <appHome>/mods/mission-control-mods/backend.mjs '<json request>'` through `herdr.exec` with the app home and `shared("layout")` (the layout on screen); the helper answers one JSON object (`{v:1, ok, …}` or `{ok:false, code, message}`). Operations: `recover`, `inventory`, `check`, `prepare`, `commit`, `disable`, `enable`, `uninstall`, `restore`, `restore-all` and `link`.
+The view is a GPUI `View` built from `div`, `v_flex`, `h_flex`, `svg`, `image` and retained `InputState` fields; it does no file work itself. Every action runs `node <appHome>/mods/mission-control-control-panel/backend.mjs '<json request>'` through `herdr.exec` with the app home and `shared("layout")` (the layout on screen); the helper answers one JSON object (`{v:1, ok, …}` or `{ok:false, code, message}`). Operations: `recover`, `inventory`, `check`, `prepare`, `commit`, `disable`, `enable`, `uninstall`, `restore`, `restore-all` and `link`.
 
-The helper keeps its records in `appHome()/mission-control/mods/`: `packages.json` (adopted source, commit, file hashes, keys it owns, last check), `journal.json`, `log.jsonl`, `lock.json`, `cache/` (catalogs and preview thumbnails), `repos/` (partial clones), `stage/`, `conflicts/`, `backup/`, `disabled/` and `removed/`. The Mission Control installer lists the packages it owns in `appHome()/mission-control/installed-packages.json`; Herdr's own items are the keys of `installed.json`.
+The helper keeps its records in `appHome()/mission-control/control-panel/`: `packages.json` (adopted source, commit, file hashes, keys it owns, last check), `journal.json`, `log.jsonl`, `lock.json`, `cache/` (catalogs and preview thumbnails), `repos/` (partial clones), `stage/`, `conflicts/`, `backup/`, `disabled/` and `removed/`. The Mission Control installer lists the packages it owns in `appHome()/mission-control/installed-packages.json`; Herdr's own items are the keys of `installed.json`.
 
-**Access disclosure:** the mod manages the person's own installed mods and layouts. It reads `appHome()/mods/`, `appHome()/layouts/`, `installed.json`, `keys.json` and `mission-control/installed-packages.json`. After a confirmed update, disable, enable, uninstall or restore it writes those items' files and only the keys an item added; it never changes built-in, installer-managed or its own files. It writes its records under `appHome()/mission-control/mods/`. Programs: local Node.js 22+ (the helper), `git` (blob-less clones and fetches of the items' own public github.com repositories with prompts disabled, `ls-remote`, `merge-file`), `herdr-app check`, and local `open` for the merged-files folder. Network: `https://assets.herdr.dev/` (the catalog and preview images) and `https://github.com/` (the items' repositories). No account, token or credential is read or sent.
+**Access disclosure:** the mod manages the person's own installed mods and layouts. It reads `appHome()/mods/`, `appHome()/layouts/`, `installed.json`, `keys.json` and `mission-control/installed-packages.json`. After a confirmed update, disable, enable, uninstall or restore it writes those items' files and only the keys an item added; it never changes built-in, installer-managed or its own files. It writes its records under `appHome()/mission-control/control-panel/`. Programs: local Node.js 22+ (the helper), `git` (blob-less clones and fetches of the items' own public github.com repositories with prompts disabled, `ls-remote`, `merge-file`), `herdr-app check`, and local `open` for the merged-files folder. Network: `https://assets.herdr.dev/` (the catalog and preview images) and `https://github.com/` (the items' repositories). No account, token or credential is read or sent.
 
 ## Watch out
 
@@ -49,7 +49,7 @@ The helper keeps its records in `appHome()/mission-control/mods/`: `packages.jso
 
 ## Done when
 
-- Copying only `mods/mission-control-mods/` into a clean app home passes `herdr-app check`; the view, helper and icons resolve inside that folder.
+- Copying only `mods/mission-control-control-panel/` into a clean app home passes `herdr-app check`; the view, helper and icons resolve inside that folder.
 - Fixture mods and layouts are listed with their sources and preview thumbnails; an edited item reads Edited by you and an unknown one Source unknown; built-in items have no actions.
 - A commit touching one mod is an update for that mod only; the review lists its files and key before anything is written; Apply update writes in place and the mounted mod hot-reloads; its new key reaches it, and a later update that drops the key removes it.
 - Update all applies the safe update and leaves a conflicting one for a review; that conflict writes nothing until Take theirs (or Keep mine) and Apply update.

@@ -202,10 +202,10 @@
                       }
                     },
                     {
-                      "id": "mods",
+                      "id": "control-panel",
                       "type": "block",
                       "content": {
-                        "mod": "mission-control-mods",
+                        "mod": "mission-control-control-panel",
                         "props": {
                           "hideHeader": true
                         }

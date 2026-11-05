@@ -4,7 +4,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import {recordsRoot} from './source.mjs';
 
-export const SELF = 'mission-control-mods';
+export const SELF = 'mission-control-control-panel';
 /** Files Herdr or herdr-app check writes into a mod folder; never part of an item's identity. */
 export const GENERATED = /(^|\/)(gpui-kit\.d\.ts|herdr\.d\.ts|jsconfig\.json|runtime\.json|\.DS_Store)$/;
 const MAX_FILES = 500, MAX_FILE_BYTES = 8 * 1024 * 1024;

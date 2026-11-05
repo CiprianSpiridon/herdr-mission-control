@@ -4,8 +4,8 @@ import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
-import {createSource} from '../src/mods/mission-control-mods/source.mjs';
-import {scan, adopt, gitBlobSha, hashTree, layoutMods} from '../src/mods/mission-control-mods/inventory.mjs';
+import {createSource} from '../src/mods/mission-control-control-panel/source.mjs';
+import {scan, adopt, gitBlobSha, hashTree, layoutMods} from '../src/mods/mission-control-control-panel/inventory.mjs';
 
 const ENV = {...process.env, GIT_AUTHOR_NAME: 'QA', GIT_AUTHOR_EMAIL: 'qa@example.invalid', GIT_COMMITTER_NAME: 'QA', GIT_COMMITTER_EMAIL: 'qa@example.invalid'};
 const git = (cwd, ...args) => execFileSync('git', args, {cwd, encoding: 'utf8', env: ENV}).trim();
@@ -32,13 +32,13 @@ async function fixture(t) {
     'mods/menu/main.js': 'shipped\n', 'layouts/main.json': '{}\n',
     'mods/mine/main.js': 'personal\n', 'mods/mine/mod.json': JSON.stringify({cloned_from: {name: 'menu', version: '1'}}),
     'mods/mission-control-agents/main.js': 'mc\n', 'mission-control/installed-packages.json': JSON.stringify({v: 1, packages: {'mission-control': {mods: ['mission-control-agents'], layouts: ['mission-control']}}}),
-    'mods/mission-control-mods/main.js': 'self\n',
+    'mods/mission-control-control-panel/main.js': 'self\n',
     'mods/foo/main.js': 'foo 2\n', 'mods/foo/gpui-kit.d.ts': 'generated\n', 'mods/foo/jsconfig.json': '{}',
     'mods/bar/main.js': 'bar 1\n',
     'mods/baz/main.js': 'baz 1 edited\n', 'mods/baz/mod.json': '{}\n',
     'mods/dup/main.js': 'dup edited\n',
     'mods/zzz/main.js': 'unknown\n',
-    'mission-control/mods/disabled/mods/off/main.js': 'off\n',
+    'mission-control/control-panel/disabled/mods/off/main.js': 'off\n',
     'layouts/lay.json': '{"content":{"mod":"laymod"}}\n', 'mods/laymod/main.js': 'laymod 1\n'
   });
   const source = createSource({appHome: home, env: {...process.env, QA_MODS_FIXTURE: '1'}});
@@ -57,7 +57,7 @@ test('every installed item is classified, and only user items are ever adopted',
   assert.equal(by['mod:menu'].origin, 'builtin');assert.equal(by['layout:main'].origin, 'builtin');
   assert.equal(by['mod:mine'].origin, 'clone');
   assert.equal(by['mod:mission-control-agents'].origin, 'installer');assert.equal(by['mod:mission-control-agents'].installerPackage, 'mission-control');
-  assert.equal(by['mod:mission-control-mods'].origin, 'self');
+  assert.equal(by['mod:mission-control-control-panel'].origin, 'self');
   assert.equal(by['mod:off'].disabled, true);assert.equal(by['mod:off'].origin, 'user');
   for (const name of ['foo', 'bar', 'baz', 'dup', 'zzz', 'laymod']) assert.equal(by['mod:' + name].origin, 'user', name);
   assert.deepEqual(by['layout:lay'].mods, ['laymod']);

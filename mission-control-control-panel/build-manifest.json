@@ -1,0 +1,29 @@
+{
+  "v": 1,
+  "name": "mission-control-control-panel",
+  "artifacts": {
+    "assets/chevron-down.svg": "1d2065b24da0cf4b3936203004eb8ef7b15a985a0658426517ad0113c29d0fc8",
+    "assets/chevron-right.svg": "efc8ab93d789d1e04bbd5c062e1560267280b570d6efaa09d2a77e601d64ee5f",
+    "assets/layout.svg": "991e3e3ef8165e8c057236ee43ab157a22d12479251bd3da3710db3837326cfd",
+    "assets/panel.svg": "9c88b7e44f25d82d3f37d069b69167c98a06cf4a6cb7f9da7dc52cc2ca10c187",
+    "assets/refresh.svg": "a4ef0613fb0794ae6554ccacbe332a0f7a6bfd346ebe94d209b112796462640a",
+    "assets/search.svg": "73a02b45b12746984a4e5d9689a3ca5578f5d329e4e0b0598bd5139d81c0bdce",
+    "backend.mjs": "738e15587f8e18a68ef7cf9240912d4938587b0f863bb4914ecb4d46d90f73a1",
+    "main.js": "94bbb8f6efb34e5d5a38899c3ad730060ef6d79144c34468bb7ea2112e1fc3ea",
+    "mod.json": "ac0f668dbf113f8b6aa8b8c70870d1c759c0d0fed9746dd74f8f6e831e0f806e",
+    "NOTICE.md": "b72f3ea4ddef870a7fca5503f0ee3c159cd8d06929e818d775b865e51cb756fc"
+  },
+  "sources": {
+    "src/assets/icons.json": "e15e5fd5234d4d3f8edc59a30bc4f45c878aa0bc662defde22877855704c1254",
+    "src/mods/mission-control-control-panel/apply.mjs": "a42b8edc12f8899dea2a65071769807fa9346dc876b6dba70cd8071203d4693d",
+    "src/mods/mission-control-control-panel/backend.mjs": "09c94d513852109eed666ece571d28abd8308a1a2ff1ac340fb3221a5b04e965",
+    "src/mods/mission-control-control-panel/inventory.mjs": "7915819bed85a3cabec26c61204bd6dc9064616a7035a23904fe0ff116561904",
+    "src/mods/mission-control-control-panel/lifecycle.mjs": "07a51fe1f486ae7ee7b8bfd70b1ff505cafdcf53750f3eb7713242b1b6b8c380",
+    "src/mods/mission-control-control-panel/main.js": "a11a6b510de215e29e4f5ec7c1c2e04e908fabe461b95f10d8edad7ea7c417df",
+    "src/mods/mission-control-control-panel/mod.json": "1321f5aae41d85958136b916f1329b560c89dc9e0d65d242770d7fca3b69171f",
+    "src/mods/mission-control-control-panel/source.mjs": "e3073f88e1157f737356c867ea87087a3c6e3128a45b5429e53cd6cd9d29cde6",
+    "src/mods/mission-control-control-panel/store.mjs": "2903fc1c8a3003d0d576ad405a32de309d4c04badb49c3eab5ce734c75b0f510",
+    "src/mods/mission-control-control-panel/updates.mjs": "1bc25c62d607b9587ba232d4f48e3bee514f549c999968e78bd7bc20070fa80e",
+    "src/shared/ui.js": "63653a7db2c610678b687fe0263aa078f9458336d411b5be4335cba2a4b8533b"
+  }
+}

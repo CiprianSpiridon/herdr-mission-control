@@ -1,10 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import Mods,{actionsFor,matches,STATE_LABEL} from '../src/mods/mission-control-mods/main.js';
+import Mods,{actionsFor,matches,STATE_LABEL} from '../src/mods/mission-control-control-panel/main.js';
 import {injectNative,context,trigger,findElement,Element} from './support/native-recording.mjs';
 
 const ITEMS = [
-  {key: 'mod:foo', kind: 'mod', name: 'foo', state: 'update', origin: 'user', source: {fullName: 'acme/foo', path: ''}, update: {subject: 'Faster', time: Date.now() - 60000, changed: 2, added: 1, removed: 0}, usedBy: [], preview: 'mission-control/mods/cache/previews/mod-foo.png'},
+  {key: 'mod:foo', kind: 'mod', name: 'foo', state: 'update', origin: 'user', source: {fullName: 'acme/foo', path: ''}, update: {subject: 'Faster', time: Date.now() - 60000, changed: 2, added: 1, removed: 0}, usedBy: [], preview: 'mission-control/control-panel/cache/previews/mod-foo.png'},
   {key: 'mod:bar', kind: 'mod', name: 'bar', state: 'current', origin: 'user', source: {fullName: 'acme/bar', path: 'pkg'}, usedBy: ['lay']},
   {key: 'mod:baz', kind: 'mod', name: 'baz', state: 'ambiguous', origin: 'user', candidates: [{fullName: 'a/baz', path: '', url: 'https://github.com/a/baz', defaultBranch: 'main', exact: false}], usedBy: []},
   {key: 'mod:zzz', kind: 'mod', name: 'zzz', state: 'untracked', origin: 'user', usedBy: []},
@@ -12,7 +12,7 @@ const ITEMS = [
   {key: 'layout:lay', kind: 'layout', name: 'lay', state: 'edited', origin: 'user', source: {fullName: 'acme/lay', path: ''}, usedBy: []},
   {key: 'mod:menu', kind: 'mod', name: 'menu', state: 'builtin', origin: 'builtin', usedBy: []},
   {key: 'mod:mission-control-agents', kind: 'mod', name: 'mission-control-agents', state: 'installer', origin: 'installer', installerPackage: 'mission-control', usedBy: ['mission-control']},
-  {key: 'mod:mission-control-mods', kind: 'mod', name: 'mission-control-mods', state: 'self', origin: 'self', usedBy: []}
+  {key: 'mod:mission-control-control-panel', kind: 'mod', name: 'mission-control-control-panel', state: 'self', origin: 'self', usedBy: []}
 ];
 
 function walk(node, fn) { if (node instanceof Element) { fn(node);node.nodes.forEach(c => walk(c, fn)); } }
@@ -40,7 +40,7 @@ test('each state offers exactly its actions; filters and search narrow the list'
   const by = Object.fromEntries(ITEMS.map(i => [i.name, actionsFor(i)]));
   assert.deepEqual(by.foo, ['update', 'disable', 'uninstall']);assert.deepEqual(by.baz, ['choose', 'disable', 'uninstall']);assert.deepEqual(by.zzz, ['link', 'disable', 'uninstall']);
   assert.deepEqual(by.off, ['enable', 'uninstall']);assert.deepEqual(by.bar, ['disable', 'uninstall']);
-  for (const n of ['menu', 'mission-control-agents', 'mission-control-mods']) assert.deepEqual(by[n], [], n + ' is read-only');
+  for (const n of ['menu', 'mission-control-agents', 'mission-control-control-panel']) assert.deepEqual(by[n], [], n + ' is read-only');
   assert.deepEqual(ITEMS.filter(i => matches(i, 'updates', '')).map(i => i.name), ['foo']);
   assert.deepEqual(ITEMS.filter(i => matches(i, 'all', 'acme/b')).map(i => i.name), ['bar']);
   for (const state of new Set(ITEMS.map(i => i.state))) assert.ok(STATE_LABEL[state], state);
@@ -54,7 +54,7 @@ test('opening recovers first, lists every section with thumbnails, and offers Up
   const tree = m.render(), all = text(tree);
   for (const s of ['Updates', 'Layouts', 'Mods', 'Disabled', 'Built into Herdr', 'Removed (restorable for 30 days)']) assert.match(all, new RegExp(s.replace(/[()]/g, '\\$&')));
   assert.ok(has(tree, 'mods-update-all'));assert.ok(has(tree, 'update-mod:foo'));assert.equal(has(tree, 'disable-mod:menu'), false, 'built-in items have no actions');
-  let images = [];walk(tree, el => { if (el.kind === 'image') images.push(el.value); });assert.deepEqual(images, ['mission-control/mods/cache/previews/mod-foo.png']);
+  let images = [];walk(tree, el => { if (el.kind === 'image') images.push(el.value); });assert.deepEqual(images, ['mission-control/control-panel/cache/previews/mod-foo.png']);
 });
 
 test('Update shows the review before anything is written, and Apply commits', async t => {
@@ -70,11 +70,11 @@ test('Update shows the review before anything is written, and Apply commits', as
 test('a conflict offers Keep mine, Take theirs and Open the merged files', async t => {
   let prepared = 0;
   const m = mount(t, {respond: r => r.op === 'prepare' ? (prepared++ === 0
-    ? {v: 1, ok: true, prepared: {ok: false, state: 'conflict', conflicts: [{file: 'main.js', binary: false}], conflictDir: '/fixture/app/mission-control/mods/conflicts/mod-foo', review: {}}}
+    ? {v: 1, ok: true, prepared: {ok: false, state: 'conflict', conflicts: [{file: 'main.js', binary: false}], conflictDir: '/fixture/app/mission-control/control-panel/conflicts/mod-foo', review: {}}}
     : {v: 1, ok: true, prepared: {ok: true, state: 'ready', review: {changed: ['main.js']}}}) : listing()});
   await m.settle();trigger(m.render(), 'update-mod:foo', 'on_click', {}, m.cx);await m.settle();
   assert.match(text(m.render()), /Nothing was written/);
-  trigger(m.render(), 'conflict-open', 'on_click', {}, m.cx);assert.deepEqual(m.calls.at(-1), {op: 'open', dir: '/fixture/app/mission-control/mods/conflicts/mod-foo'});
+  trigger(m.render(), 'conflict-open', 'on_click', {}, m.cx);assert.deepEqual(m.calls.at(-1), {op: 'open', dir: '/fixture/app/mission-control/control-panel/conflicts/mod-foo'});
   trigger(m.render(), 'conflict-theirs', 'on_click', {}, m.cx);await m.settle();
   assert.deepEqual(m.calls.filter(c => c.op === 'prepare').at(-1).resolutions, {'main.js': 'theirs'});assert.ok(has(m.render(), 'review-apply'));
 });

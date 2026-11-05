@@ -17,8 +17,8 @@ import {pngInfo} from '../scripts/install.mjs';
 const ROOT = path.resolve(import.meta.dirname, '..');
 const BUNDLE = 'mission-control';
 const LAYOUT_NAMES = Object.freeze(['mission-control', 'mission-control-classic']);
-const BUNDLED_MODS = Object.freeze(['mission-control-agents', 'mission-control-github', 'mission-control-gitlab', 'mission-control-jira',
-  'mission-control-mods', 'mission-control-sessions', 'mission-control-spaces', 'mission-control-tabs']);
+const BUNDLED_MODS = Object.freeze(['mission-control-agents', 'mission-control-control-panel', 'mission-control-github', 'mission-control-gitlab',
+  'mission-control-jira', 'mission-control-sessions', 'mission-control-spaces', 'mission-control-tabs']);
 const OPTIONAL_MODS = Object.freeze(['mission-control-accounts']);
 /** The seven navigation destinations: mc-work-stack children, in order, with their exact block content. */
 const DESTINATIONS = Object.freeze([
@@ -28,7 +28,7 @@ const DESTINATIONS = Object.freeze([
   ['gitlab', 'mission-control-gitlab', {view: 'issues', hideHeader: true}],
   ['merges', 'mission-control-gitlab', {view: 'merges', hideHeader: true}],
   ['sessions', 'mission-control-sessions', {hideHeader: true}],
-  ['mods', 'mission-control-mods', {hideHeader: true}],
+  ['control-panel', 'mission-control-control-panel', {hideHeader: true}],
 ]);
 const GITLAB_ROLES = Object.freeze([{view: 'issues', hideHeader: true}, {view: 'merges', hideHeader: true}]);
 const TOP_LEVEL = Object.freeze(['RECIPE.md', 'build-manifest.json', 'layouts', 'mods', 'preview.png']);
@@ -261,7 +261,7 @@ test('both layout files and both Settings SVGs are bundled unchanged with all se
     assert.equal(swapTo, LAYOUT_NAMES.find(other => other !== name), `${name} swaps to the other bundled layout`);
     for (const mod of referencedMods(tree)) referenced.add(mod);
   }
-  const overviewSlots = [...(await fs.readFile(path.join(ROOT, BUNDLE, 'layouts/mission-control.svg'), 'utf8')).matchAll(/data-source="([a-z]+)"/g)].map(m => m[1]);
+  const overviewSlots = [...(await fs.readFile(path.join(ROOT, BUNDLE, 'layouts/mission-control.svg'), 'utf8')).matchAll(/data-source="([a-z-]+)"/g)].map(m => m[1]);
   assert.deepEqual(overviewSlots, DESTINATIONS.map(([id]) => id), 'the overview Settings artwork depicts the seven sources');
   assert.deepEqual([...referenced].sort(), [...BUNDLED_MODS]);
 });

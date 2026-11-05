@@ -74,14 +74,14 @@ async function fixture(t,{tree=overview(),name='mission-control',names=NAMES}={}
 
 test('the layout-node contract and the seven work sources are exact, distinct and match the source mods',async()=>{
   assert.deepEqual({...NODES},{main:'mc-main',panel:'mc-work-panel',stack:'mc-work-stack'});
-  assert.deepEqual(SOURCE_IDS,['jira','github','pulls','gitlab','merges','sessions','mods']);
+  assert.deepEqual(SOURCE_IDS,['jira','github','pulls','gitlab','merges','sessions','control-panel']);
   assert.equal(new Set(SOURCES.map(s=>s.icon)).size,7,'seven distinct icons');assert.equal(new Set(SOURCES.map(s=>s.label)).size,7);assert.equal(new Set(SOURCES.map(s=>s.short)).size,7);
-  assert.deepEqual(SOURCES.map(s=>s.icon),['jira','github','pull-request','gitlab','branch','sessions','layout'],'Mods reuses the existing layout icon');
+  assert.deepEqual(SOURCES.map(s=>s.icon),['jira','github','pull-request','gitlab','branch','sessions','layout'],'the Control panel reuses the existing layout icon');
   const by=Object.fromEntries(SOURCES.map(s=>[s.id,s]));
   assert.deepEqual([by.gitlab.mod,by.gitlab.props],['mission-control-gitlab',{view:'issues',hideHeader:true}]);assert.deepEqual([by.merges.mod,by.merges.props],['mission-control-gitlab',{view:'merges',hideHeader:true}]);
   assert.deepEqual([by.github.mod,by.github.props],['mission-control-github',{view:'issues',hideHeader:true}]);assert.deepEqual([by.pulls.mod,by.pulls.props],['mission-control-github',{view:'pulls',hideHeader:true}]);
   assert.deepEqual([by.jira.mod,by.jira.props],['mission-control-jira',{view:'panel',hideHeader:true}]);assert.deepEqual([by.sessions.mod,by.sessions.props],['mission-control-sessions',{hideHeader:true}]);
-  assert.deepEqual([by.mods.mod,by.mods.props,by.mods.fixedScope,by.mods.caption],['mission-control-mods',{hideHeader:true},'all','All installed']);
+  assert.deepEqual([by['control-panel'].mod,by['control-panel'].props,by['control-panel'].fixedScope,by['control-panel'].caption],['mission-control-control-panel',{hideHeader:true},'all','All installed']);
   // Test-time only: the embedded mods really honour these props and persist scope under these keys.
   for(const s of SOURCES){
     const code=await fs.readFile(path.join(root,'src/mods',s.mod,'main.js'),'utf8');
@@ -92,14 +92,14 @@ test('the layout-node contract and the seven work sources are exact, distinct an
   for(const command of ['swap','panel',...SOURCE_IDS.map(id=>'source-'+id)])assert.ok(COMMANDS.includes(command),'keys can reach '+command);
 });
 
-test('seven icon-labelled sources at wide widths, short labels at 1024 and 736px with a 220px rail, accessible icon-only controls in narrow panels',async t=>{
-  assert.equal(navigationMode(900),'full');assert.ok(navigationWidth('full')<=900);assert.equal(navigationMode(1024-220),'short','seven full labels need about 850px');
-  const main=736-220;assert.equal(navigationMode(main),'short');assert.ok(navigationWidth('short')<=main,'seven labelled controls fit 516px unclipped');
+test('seven icon-labelled sources at wide widths, short labels at 1024px, compact short labels at 736px with a 220px rail, accessible icon-only controls in narrow panels',async t=>{
+  assert.equal(navigationMode(1000),'full');assert.ok(navigationWidth('full')<=1000);assert.equal(navigationMode(1024-220),'short','seven full labels need about 913px');
+  const main=736-220;assert.equal(navigationMode(main),'compact');assert.ok(navigationWidth('short')>main&&navigationWidth('compact')<=main,'seven short labels fit 516px unclipped with compact padding');
   assert.equal(navigationMode(360,{panel:true}),'icons');assert.equal(navigationMode(undefined),'icons','unmeasured: never wider than the panel');
   for(const width of [360,300,220,180])assert.ok(navigationMinWidth({panel:true})<=width,'all seven stay whole at '+width+'px');
   const f=await fixture(t),copy=f.mount({view:'navigation'});
   const at=width=>{trigger(copy.render(),'mc-work-navigation','on_size_change',{width,height:34},copy.cx);return copy.render();};
-  let tree=at(1000);
+  let tree=at(1040);
   for(const s of SOURCES){const el=findElement(tree,'source-'+s.id);assert.deepEqual(artwork(el),[`mods/${MOD}/assets/${s.icon}.svg`]);assert.deepEqual(strings(el),[s.label]);assert.ok(clickable(el));assert.equal(calls(el,'role')[0][0],'tab');}
   assert.deepEqual(strings(findElement(tree,'source-caption')),['This space · client-portal']);
   tree=at(main);for(const s of SOURCES)assert.deepEqual(strings(findElement(tree,'source-'+s.id)),[s.short]);
@@ -120,10 +120,10 @@ test('a source control selects one content panel and the choice is shared throug
   const tree=copy.render();assert.match(label(findElement(tree,'source-gitlab')),/\(shown\)/);assert.doesNotMatch(label(findElement(tree,'source-jira')),/\(shown\)/);
   sharedSet('mission-control-gitlab-ui-v1',{v:1,all:true,query:'',status:'all'});n=f.effects.length;trigger(copy.render(),'source-gitlab','on_click',{},copy.cx);
   assert.deepEqual(f.commands(f.since(n)),[],'the shown source is not selected again');assert.equal(sharedGet(NAV_STATE).scope,'all');
-  trigger(copy.render(),'mc-work-navigation','on_size_change',{width:1000,height:34},copy.cx);assert.deepEqual(strings(findElement(copy.render(),'source-caption')),['All spaces']);
-  n=f.effects.length;trigger(copy.render(),'source-mods','on_click',{},copy.cx);
-  assert.deepEqual(f.commands(f.since(n)),[['layout.select',{stack:'mc-work-stack',child:'mods'}]]);assert.deepEqual(sharedGet(NAV_STATE),{v:1,source:'mods',scope:'all',swap:null});
-  assert.deepEqual(strings(findElement(copy.render(),'source-caption')),['All installed'],'Mods covers the whole install, never one space');
+  trigger(copy.render(),'mc-work-navigation','on_size_change',{width:1040,height:34},copy.cx);assert.deepEqual(strings(findElement(copy.render(),'source-caption')),['All spaces']);
+  n=f.effects.length;trigger(copy.render(),'source-control-panel','on_click',{},copy.cx);
+  assert.deepEqual(f.commands(f.since(n)),[['layout.select',{stack:'mc-work-stack',child:'control-panel'}]]);assert.deepEqual(sharedGet(NAV_STATE),{v:1,source:'control-panel',scope:'all',swap:null});
+  assert.deepEqual(strings(findElement(copy.render(),'source-caption')),['All installed'],'the Control panel covers the whole install, never one space');
   assert.equal(copy.timers.length,0,'navigation runs no naming service');assert.ok(!f.effects.some(e=>e[0]==='read'&&e[1].includes('tab-names.json')));
   await f.teardown();
 });
@@ -169,17 +169,17 @@ test('the tab bar gear opens the Sources dialog, and the sources command does th
 test('the one-button swap runs layout.switch only, keeps every source and its scope, and loses no selected work',async t=>{
   for(const source of SOURCE_IDS){
     const f=await fixture(t,{tree:overview(source)});const tab=f.addTab('Logs');
-    const scopeKey=SOURCES.find(s=>s.id===source).scopeKey;sharedSet(scopeKey,{v:1,all:source.length%2===0});
+    const spec=SOURCES.find(s=>s.id===source),scopeKey=spec.scopeKey,expectedScope=spec.fixedScope??(source.length%2===0?'all':'space');if(scopeKey)sharedSet(scopeKey,{v:1,all:source.length%2===0});
     const bar=f.mount();await f.flush();let tree=bar.render(),n=f.effects.length;
     assert.match(tooltip(findElement(tree,'view-swap')),/Switch to Classic view/);trigger(tree,'view-swap','on_click',{},bar.cx);
     assert.deepEqual(f.commands(f.since(n)),[['layout.switch',{name:'mission-control-classic'}]],'nothing else: no tab is created, closed or selected');
-    const state=sharedGet(NAV_STATE);assert.equal(state.source,source);assert.equal(state.scope,source.length%2===0?'all':'space');
+    const state=sharedGet(NAV_STATE);assert.equal(state.source,source);assert.equal(state.scope,expectedScope);
     assert.deepEqual([state.swap.from,state.swap.to,state.swap.space,state.swap.tab],['mission-control','mission-control-classic','space-A',tab]);
     // Classic starts with its own saved stack child; the new bar restores the shared source and leaves the panel closed.
     await f.switchTo('mission-control-classic',classic('jira'));n=f.effects.length;const next=f.mount();await f.flush();
     assert.deepEqual(f.commands(f.since(n)).filter(([c])=>c.startsWith('layout.')||c.startsWith('tab.')||c.startsWith('space.')),source==='jira'?[]:[['layout.select',{stack:'mc-work-stack',child:source}]]);
     assert.equal(findNode(f.world.tree,NODES.panel).hidden,true,'Classic panel still starts closed');assert.equal(sharedGet(NAV_STATE).swap.applied,true);
-    assert.equal(sharedGet(scopeKey).all,source.length%2===0,'the source keeps its own scope');
+    if(scopeKey)assert.equal(sharedGet(scopeKey).all,source.length%2===0,'the source keeps its own scope');
     // And back again: Mission Control shows the same source.
     n=f.effects.length;trigger(next.render(),'view-swap','on_click',{},next.cx);assert.deepEqual(f.commands(f.since(n)),[['layout.switch',{name:'mission-control'}]]);
     await f.switchTo('mission-control',overview('sessions'));f.mount();await f.flush();assert.equal(findNode(f.world.tree,NODES.stack).active,source);

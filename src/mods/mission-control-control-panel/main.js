@@ -1,5 +1,5 @@
 /**
- * Mission Control · Mods. Lists the mods and layouts installed in this Herdr, shows which have a newer version on
+ * Mission Control · Control panel. Lists the mods and layouts installed in this Herdr, shows which have a newer version on
  * GitHub, updates them after a review, and disables, enables, uninstalls and restores them. Every file operation
  * runs in the Node helper (backend.mjs) through exec; this view only describes the UI.
  * Roles (props): {hideHeader?: true} inside the Mission Control layouts; standalone otherwise.
@@ -9,7 +9,7 @@ import {v_flex,h_flex} from 'gpui-base';
 import * as herdr from 'herdr';
 import {colors,label,icon,iconButton,textButton,sectionHeader,emptyState,createSearch,searchInput} from '../../shared/ui.js';
 
-export const MOD='mission-control-mods';
+export const MOD='mission-control-control-panel';
 export const FILTERS=Object.freeze([['all','All'],['updates','Updates'],['mods','Mods'],['layouts','Layouts'],['disabled','Disabled'],['builtin','Built in']]);
 export const STATE_LABEL=Object.freeze({current:'Up to date',edited:'Edited by you',update:'Update available',conflict:'Conflict',ambiguous:'Choose its source',untracked:'Source unknown',
   pending:'Checking…','too-large':'Too large to check',unreachable:'Source unreachable',disabled:'Disabled',builtin:'Built into Herdr',clone:'Your own copy',installer:'Managed by the installer',self:'This manager',unknown:'Not checked yet'});
@@ -105,7 +105,7 @@ export default class MissionControlMods extends View {
   render(){
     const t=colors();
     let root=v_flex().id('mc-mods').size_full().min_w(0).bg(t.chrome).text_color(t.foreground);
-    if(!this.hideHeader)root=root.child(h_flex().h(34).px(10).gap(8).items_center().border_b(1).border_color(t.border).child(icon(MOD,'layout',15).text_color(t.muted)).child(label('Mods and layouts')));
+    if(!this.hideHeader)root=root.child(h_flex().h(34).px(10).gap(8).items_center().border_b(1).border_color(t.border).child(icon(MOD,'layout',15).text_color(t.muted)).child(label('Control panel')));
     root=root.child(this.toolbar(t));
     if(this.busy||this.error||this.info)root=root.child(div().id('mods-status').px(10).py(4).text_size(11).text_color(this.error?t.blocked:t.muted).child(this.error||this.busy||this.info));
     return root.child(this.review?this.reviewView(t):this.listView(t));

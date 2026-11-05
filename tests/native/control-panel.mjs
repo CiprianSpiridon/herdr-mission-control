@@ -1,9 +1,9 @@
 /**
- * Native gate for mission-control-mods in the private Herdr harness (never the person's Herdr).
+ * Native gate for mission-control-control-panel in the private Herdr harness (never the person's Herdr).
  * Fixture: local git repositories stand in for GitHub (file:// remotes are accepted only with QA_MODS_FIXTURE=1),
  * and a local catalog file stands in for herdr.dev, so the helper never reaches the network. The private app home
  * holds three fixture mods (QA clock, QA notes, QA timer) and a fixture layout (qa-board), installed from the
- * repositories' first commit, plus the gate's own layout that shows QA clock, QA notes and the Mods panel.
+ * repositories' first commit, plus the gate's own layout that shows QA clock, QA notes and the Control panel.
  */
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -14,7 +14,7 @@ import {run,until} from '../../scripts/native-harness.mjs';
 import {decodePng} from './layout.mjs';
 
 const ROOT=fileURLToPath(new URL('../../',import.meta.url)).replace(/\/$/,'');
-export const MOD='mission-control-mods';
+export const MOD='mission-control-control-panel';
 export const CATALOG_DIR=path.join(ROOT,'.harness/mods-fixture');
 // Fixture mode only: file:// sources and a local catalog. Values are synthetic and owned by this repository.
 export const fixtureEnvironment={QA_MODS_FIXTURE:'1',QA_MODS_CATALOG_URL:'file://'+CATALOG_DIR+'/{kind}.json'};
@@ -22,7 +22,7 @@ export const KEY='cmd-shift-9';
 const LEFT=360,PREVIEW_RGB=[217,70,239];
 
 export const EXPECTATIONS=Object.freeze({
-  listed:'The Mods panel lists the fixture mods and layout with their GitHub-style sources and the gate’s own layout as source unknown',
+  listed:'The Control panel lists the fixture mods and layout with their GitHub-style sources and the gate’s own layout as source unknown',
   thumbnails:'Each fixture item shows its repository’s own preview.png as a thumbnail, cached by the helper',
   updateFound:'Check for updates finds the new upstream commit of QA clock and nothing else',
   review:'Update shows the changed file and the added key before anything is written',
@@ -38,7 +38,7 @@ export const EXPECTATIONS=Object.freeze({
   uninstallRestore:'Uninstall says removed items are kept for 30 days, and Restore brings back identical files',
   activeLayout:'Uninstalling the layout on screen is refused and its file stays',
   builtIn:'Herdr’s own items are listed as built in, with no actions',
-  noErrors:'The Mods panel and the fixture mods produced zero native app errors'
+  noErrors:'The Control panel and the fixture mods produced zero native app errors'
 });
 
 // ---------------------------------------------------------------------------------------------
@@ -78,7 +78,7 @@ export async function buildFixture({directory,home,env=process.env,catalogDir=CA
     await fs.writeFile(path.join(catalogDir,'mods.json'),JSON.stringify({generatedAt:new Date().toISOString(),mods:[entry(widgets,state.heads.widgets,['qa-clock','qa-notes','qa-timer'],'modNames')]}));
     await fs.writeFile(path.join(catalogDir,'layouts.json'),JSON.stringify({generatedAt:new Date().toISOString(),layouts:[entry(boards,state.heads.boards,['qa-board.json'],'layoutFiles')]}));
     // The herdr.dev catalog refreshes hourly; the gate stands in for that hour by dropping the helper's cached copy.
-    for(const kind of ['mods','layouts'])await fs.rm(path.join(home,'mission-control/mods/cache',`catalog-${kind}.json`),{force:true});
+    for(const kind of ['mods','layouts'])await fs.rm(path.join(home,'mission-control/control-panel/cache',`catalog-${kind}.json`),{force:true});
   };
   await writeCatalog();
   for(const name of ['qa-clock','qa-notes','qa-timer'])await fs.cp(path.join(widgets,'mods',name),path.join(home,'mods',name),{recursive:true});
@@ -101,24 +101,24 @@ const exists=file=>fs.access(file).then(()=>true,()=>false);
 // The native run.
 // ---------------------------------------------------------------------------------------------
 export default async function mods(runtime){
-  const home=runtime.env.HERDR_APP_HOME,records=path.join(home,'mission-control/mods');
-  const progress=stage=>fs.writeFile(path.resolve(ROOT,'.harness/mods-progress.json'),JSON.stringify({stage,nonce:runtime.nonce,assertions:runtime.assertions.length})+'\n');
+  const home=runtime.env.HERDR_APP_HOME,records=path.join(home,'mission-control/control-panel');
+  const progress=stage=>fs.writeFile(path.resolve(ROOT,'.harness/control-panel-progress.json'),JSON.stringify({stage,nonce:runtime.nonce,assertions:runtime.assertions.length})+'\n');
   await progress('fixture');
   await fs.mkdir(path.join(home,'mods'),{recursive:true});await fs.mkdir(path.join(home,'layouts'),{recursive:true});
   const fixture=await buildFixture({directory:path.join(runtime.directory,'mods-repos'),home,env:runtime.env});
   await runtime.installPackage(MOD);
   for(const name of ['qa-clock','qa-notes','qa-timer'])runtime.app(['check',path.join(home,'mods',name)],{json:false});
   const block=(id,mod,px)=>({id,type:'block',...(px?{size:{px}}:{}),content:{mod}});
-  await runtime.startWindow({name:'mods',layout:{id:'qa-root',type:'row',titlebar:'none',traffic_lights:[12,16],children:[
+  await runtime.startWindow({name:'control-panel',layout:{id:'qa-root',type:'row',titlebar:'none',traffic_lights:[12,16],children:[
     // The terminal takes the top-left corner under the window buttons, so the fixture mods' text stays readable.
     {id:'qa-left',type:'column',size:{px:LEFT},children:[{id:'qa-main',type:'block',content:{tab:'active'}},block('qa-clock-block','qa-clock',70),block('qa-notes-block','qa-notes',70)]},
     block('qa-mods',MOD)]}});
-  const ACTIVE='mission-control-mods';
+  const ACTIVE='mission-control-control-panel';
   let serial=0;const renderFailures=[];
   // macOS now and then refuses one window capture while the window stays on screen; retry that alone.
   // A window briefly off screen (another desktop shown) reads as no visible window: wait up to a minute for it.
   const capture=async label=>{for(let attempt=1;;attempt++){try{return await runtime.frame(label);}catch(error){if(attempt>=40||!/could not be captured|create image|visible native window/i.test(error.message))throw error;await new Promise(r=>setTimeout(r,1500));}}};
-  const observe=async(query='')=>{if(++serial>260)throw Error('Native observation budget exhausted');const frame=await capture('mods-observe-'+serial),o=await runtime.driver.ocr(path.resolve(ROOT,frame.path),query);
+  const observe=async(query='')=>{if(++serial>260)throw Error('Native observation budget exhausted');const frame=await capture('control-panel-observe-'+serial),o=await runtime.driver.ocr(path.resolve(ROOT,frame.path),query);
     for(const line of o.lines)if(/could not be re.?rendered/i.test(line.text))renderFailures.push(line.text);return o;};
   const inPanel=n=>n.frame.x>=LEFT;const inLeft=n=>n.frame.x<LEFT;
   const sees=async(text,where=inPanel)=>{const o=await observe(text);return o.matches.some(n=>n.confidence>=0.5&&where(n));};
@@ -252,11 +252,11 @@ export default async function mods(runtime){
     // Only the row buttons count: the "Updates" filter chip is not an action.
     runtime.expect(!builtIn.lines.some(l=>inPanel(l)&&['disable','enable','uninstall','update','link source','choose source'].includes(norm(l.text))),EXPECTATIONS.builtIn);
     await activate('All',{text:'All'});await waitSee('QA timer');
-    const preview=await capture('mods-preview');await fs.copyFile(path.resolve(ROOT,preview.path),path.resolve(ROOT,'.harness/mods-preview-candidate.png'));
+    const preview=await capture('control-panel-preview');await fs.copyFile(path.resolve(ROOT,preview.path),path.resolve(ROOT,'.harness/control-panel-preview-candidate.png'));
     runtime.expect(runtime.app(['status']).errors.length===0&&renderFailures.length===0,EXPECTATIONS.noErrors);
     await progress('passed');
   }catch(error){
-    try{await runtime.frame('mods-failure');const directory=path.resolve(ROOT,'.browse/sessions',`mission-control-native-${runtime.nonce}`);await fs.writeFile(path.join(directory,'native-console.txt'),(runtime.appStdout||'')+'\n'+(runtime.appStderr||''));}catch{}
+    try{await runtime.frame('control-panel-failure');const directory=path.resolve(ROOT,'.browse/sessions',`mission-control-native-${runtime.nonce}`);await fs.writeFile(path.join(directory,'native-console.txt'),(runtime.appStdout||'')+'\n'+(runtime.appStderr||''));}catch{}
     throw error;
   }
 }

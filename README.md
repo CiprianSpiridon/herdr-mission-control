@@ -16,7 +16,7 @@ Mission Control is a set of layouts and mods for the [Herdr](https://herdr.dev) 
 - **Undo for closing.** Reopen last tab brings back a closed shell in its folder. Reopen last agent resumes the exact conversation you closed.
 - **Two views, one button.** **Mission Control** is the overview. **Classic** keeps your terminals front and centre and opens the work queue as a side panel only when you ask: a button for each source, with its service's icon, sits right after the view swap. The button at the top right swaps between them without closing anything.
 - **Show only what you use.** The gear next to that button turns individual sources off, for example GitLab if you don't use it.
-- **Keep your mods and layouts up to date.** The Mods panel lists every mod and layout you have installed, with each one's own preview image, and tells you when a newer version is on GitHub. You see exactly what an update changes before anything is written, and edits you made yourself are kept and merged. You can also disable, enable, uninstall and restore them.
+- **Keep your mods and layouts up to date.** The Control panel lists every mod and layout you have installed, with each one's own preview image, and tells you when a newer version is on GitHub. You see exactly what an update changes before anything is written, and edits you made yourself are kept and merged. You can also disable, enable, uninstall and restore them.
 
 ## Install
 
@@ -74,11 +74,11 @@ Each folder is a complete package with its own recipe and screenshot. Click a sc
 | [`mission-control-github/`](mission-control-github/RECIPE.md) | <a href="mission-control-github/preview.png"><img src="mission-control-github/preview.png" width="240" alt="GitHub"></a> | GitHub issues and pull requests. |
 | [`mission-control-gitlab/`](mission-control-gitlab/RECIPE.md) | <a href="mission-control-gitlab/preview.png"><img src="mission-control-gitlab/preview.png" width="240" alt="GitLab"></a> | GitLab issues and merge requests. |
 | [`mission-control-sessions/`](mission-control-sessions/RECIPE.md) | <a href="mission-control-sessions/preview.png"><img src="mission-control-sessions/preview.png" width="240" alt="Sessions"></a> | Previous agent conversations for a space, resumable exactly. |
-| [`mission-control-mods/`](mission-control-mods/RECIPE.md) | <a href="mission-control-mods/preview.png"><img src="mission-control-mods/preview.png" width="240" alt="Mods"></a> | Your installed mods and layouts: new versions, reviewed updates, disable, enable, uninstall and restore. |
+| [`mission-control-control-panel/`](mission-control-control-panel/RECIPE.md) | <a href="mission-control-control-panel/preview.png"><img src="mission-control-control-panel/preview.png" width="240" alt="Control panel"></a> | Your installed mods and layouts: new versions, reviewed updates, disable, enable, uninstall and restore. |
 | [`mission-control-agent-menu/`](mission-control-agent-menu/RECIPE.md) | <a href="mission-control-agent-menu/preview.png"><img src="mission-control-agent-menu/preview.png" width="240" alt="Agent menu"></a> | The new-agent menu on its own, for your own layouts. |
 | [`mission-control-reopen/`](mission-control-reopen/RECIPE.md) | <a href="mission-control-reopen/preview.png"><img src="mission-control-reopen/preview.png" width="240" alt="Reopen"></a> | Reopen last tab / last agent on its own, for your own layouts. |
 
-The layouts include the tabs, spaces, agents, Jira, GitHub, GitLab, sessions and Mods mods. Install the layout bundle or the separate mods, not both: they share names.
+The layouts include the tabs, spaces, agents, Jira, GitHub, GitLab, sessions and Control panel mods. Install the layout bundle or the separate mods, not both: they share names.
 
 ## What it can access
 
@@ -89,9 +89,9 @@ Mission Control only reads your trackers. It never changes an issue, comment, re
 - **Files:** its own settings under `~/.config/herdr-app/mission-control/`, and your coding tools' session history (for example `~/.claude/projects` and `~/.codex/sessions`), read-only. It never reads tools' login files.
 - **Programs:** `git`, `python3`, Herdr's `hc`, the coding agent you choose, and Node.js for the tracker helpers.
 
-### The Mods panel
+### The Control panel
 
-The Mods panel is the one part of Mission Control that changes files, and only when you click a button and confirm.
+The Control panel is the one part of Mission Control that changes files, and only when you click a button and confirm.
 
 - **What it shows:** each item's state: Up to date, Edited by you, Update available, Conflict, Source unknown, Disabled, Built into Herdr or Managed by the installer.
 - **What it reads:** your installed mods and layouts, Herdr's `installed.json` and your `keys.json`.
@@ -99,7 +99,7 @@ The Mods panel is the one part of Mission Control that changes files, and only w
 - **What it never touches:** Herdr's built-in mods and layouts, the mods this installer manages, the layout on screen and any mod that layout uses.
 - **Removed items** are kept for 30 days so you can restore them, and then deleted.
 - **Network:** the herdr.dev catalog (`https://assets.herdr.dev/`) and each item's own public repository on `https://github.com/`. No account or token is used.
-- **Its own files:** records, backups and cached preview images under `~/.config/herdr-app/mission-control/mods/`.
+- **Its own files:** records, backups and cached preview images under `~/.config/herdr-app/mission-control/control-panel/`.
 
 The full per-mod list is in [docs/access.md](docs/access.md), and each package's recipe repeats its own part.
 

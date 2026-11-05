@@ -49,7 +49,7 @@ export const LAYOUTS=Object.freeze({overview:'mission-control',classic:'mission-
 export const LAYOUT_LABELS=Object.freeze({[LAYOUTS.overview]:'Mission Control',[LAYOUTS.classic]:'Classic view'});
 export const LAYOUT_FILES=Object.freeze(['mission-control.json','mission-control-classic.json','mission-control.svg','mission-control-classic.svg']);
 /** Every finished mod either layout mounts; exactly these are installed. */
-export const MODS=Object.freeze(['mission-control-agents','mission-control-github','mission-control-gitlab','mission-control-jira','mission-control-mods','mission-control-sessions','mission-control-spaces','mission-control-tabs']);
+export const MODS=Object.freeze(['mission-control-agents','mission-control-github','mission-control-gitlab','mission-control-jira','mission-control-control-panel','mission-control-sessions','mission-control-spaces','mission-control-tabs']);
 export const STATE_KEYS=Object.freeze({nav:'mission-control-tabs-nav-v1',spaces:'mission-control-spaces-v1',agents:'mission-control-agents-v1'});
 /** The seven work sources in navigation order: labels, own persisted UI key, and the text that only that view shows. */
 export const SOURCES=Object.freeze([
@@ -59,7 +59,7 @@ export const SOURCES=Object.freeze([
   {id:'gitlab',full:'GitLab issues',short:'GitLab',key:'mission-control-gitlab-ui-v1',marker:'GL-142',search:'Search issues'},
   {id:'merges',full:'Merge requests',short:'MRs',key:'mission-control-gitlab-mrs-ui-v1',marker:'Search merge requests',search:'Search merge requests'},
   {id:'sessions',full:'Previous sessions',short:'Sessions',key:'mission-control-sessions-ui-v1',marker:'Search sessions',search:'Search sessions'},
-  {id:'mods',full:'Mods',short:'Mods',key:null,marker:'Search mods',search:'Search mods and layouts'}].map(Object.freeze));
+  {id:'control-panel',full:'Control panel',short:'Control panel',key:null,marker:'Search mods',search:'Search mods and layouts'}].map(Object.freeze));
 const SOURCE=Object.fromEntries(SOURCES.map(s=>[s.id,s]));
 const HEADINGS=new Set(SOURCES.flatMap(s=>[s.full,s.short]).map(v=>v.toLowerCase()));
 /**
@@ -68,7 +68,7 @@ const HEADINGS=new Set(SOURCES.flatMap(s=>[s.full,s.short]).map(v=>v.toLowerCase
  * mc-terminals(weight 2)]. Classic: topbar | rail | mc-main(padding 8, gap 8)[terminals, mc-work-panel 360].
  */
 export const GEOMETRY=Object.freeze({x:60,y:60,width:1280,height:760,wide:1024,narrow:736,topbar:42,rail:220,divider:1,footer:69,nav:34,pad:8,gap:8,panel:360,workWeight:3,termWeight:2,workMin:160,
-  control:26,controlGap:4,barRight:8,swapPadX:9,swapIcon:14,swapGap:6,topbarWide:720,navButton:26,navGap:2,navPadX:6,navHide:24,navFull:850,navShort:507,header:32,
+  control:26,controlGap:4,barRight:8,swapPadX:9,swapIcon:14,swapGap:6,topbarWide:720,navButton:26,navGap:2,navPadX:6,navHide:24,navFull:913,navShort:570,navCompact:500,header:32,
   railSearch:{x:42,dy:37,width:142,height:22},agentSearch:{x:42,dy:36,width:142,height:22},agentButtons:{collapse:8,priority:132,spaces:160,sources:188},agentButton:24,agentIcon:{dx:22,size:15},
   board:{narrowBelow:768,padWide:14,padNarrow:10,columnWide:360,columnNarrow:460,columnGaps:24,cardInset:11,keyRow:14,rowGap:7,title:36,start:25,startStep:27,starts:106},
   merge:{narrowBelow:560,padWide:14,padNarrow:10,cardPad:11,icon:26,iconStep:28,controls:110,iconTop:20},dialog:{width:560,height:660}});
@@ -102,7 +102,7 @@ export const EXPECTATIONS=Object.freeze({
   panelOpens:'The bar’s panel control opens the Classic work panel on its first source',
   quickSources:'In Classic the source buttons after the view swap open the work panel on their source, and the shown source’s button closes it',
   classicIcons:'The Classic panel draws all seven local source icons inside the panel',
-  classicSeparated:'In Classic, Jira, GitHub issues, pull requests, GitLab issues, merge requests, previous sessions and Mods each show only their own view without a repeated heading',
+  classicSeparated:'In Classic, Jira, GitHub issues, pull requests, GitLab issues, merge requests, previous sessions and the Control panel each show only their own view without a repeated heading',
   classicGitlabStart:'A pinned GitLab issue start in the Classic panel runs the chosen tool in a workspace-plus-issue worktree created from the focused linked checkout',
   autoName:'The issue agent tab is named automatically with its issue key and task title',
   repeatFocus:'Repeating the same pinned start focuses the existing issue agent instead of starting another',
@@ -132,9 +132,9 @@ export const EXPECTATIONS=Object.freeze({
   offlineHost:'With the second host offline its spaces read offline and its actions start nothing, while a local action still starts',
   reconnect:'The second host’s spaces return after its transport reconnects',
   classicNarrow:'At 736 px Classic keeps the swap, all seven panel sources and the bottom-left footer reachable without clipping',
-  overviewNarrow:'At 736 px beside the 220 px rail all seven sources show whole short labels and a short-label source can be selected',
+  overviewNarrow:'At 736 px beside the 220 px rail all seven sources show whole short labels (compact padding) and a short-label source can be selected',
   footerNarrow:'At 736 px the bottom-left Add machine control still opens Herdr’s machine dialog',
-  overviewWide:'At 1024 px beside the 220 px rail all seven sources show whole short labels (seven full labels need 850 px) and remain selectable',
+  overviewWide:'At 1024 px beside the 220 px rail all seven sources show whole short labels (seven full labels need 913 px) and remain selectable',
   classicWide:'At 1024 px the Classic panel’s seven sources remain drawn and selectable',
   narrowSwaps:'Swaps at 736 and 1024 px keep the selected space and tab, terminal addresses and manual names',
   utf8:'No observed native text shows mojibake or replacement characters',
@@ -154,7 +154,7 @@ export function stackRect(view,w){
 export function navRect(view,w){return view===LAYOUTS.overview?{x:G.rail+G.divider,y:G.topbar,width:w.width-G.rail-G.divider,height:G.nav}:{x:w.width-G.pad-G.panel,y:G.topbar+G.pad,width:G.panel,height:G.nav};}
 /** The Classic panel's icon-only source control i (navigation.js icons mode). */
 export const navIcon=(index,w)=>({x:w.width-G.pad-G.panel+G.navPadX+index*(G.navButton+G.navGap),y:G.topbar+G.pad+(G.nav-G.navButton)/2,width:G.navButton,height:G.navButton});
-export const navMode=(view,w)=>view===LAYOUTS.classic?'icons':w.width-G.rail-G.divider>=G.navFull?'full':w.width-G.rail-G.divider>=G.navShort?'short':'icons';
+export const navMode=(view,w)=>view===LAYOUTS.classic?'icons':w.width-G.rail-G.divider>=G.navFull?'full':w.width-G.rail-G.divider>=G.navShort?'short':w.width-G.rail-G.divider>=G.navCompact?'compact':'icons';
 const within=(r,n)=>{const x=n.frame.x+n.frame.width/2,y=n.frame.y+n.frame.height/2;return x>=r.x&&x<=r.x+r.width&&y>=r.y&&y<=r.y+r.height;};
 const whole=(r,n)=>n.frame.x>=r.x-1&&n.frame.x+n.frame.width<=r.x+r.width+1&&n.frame.y>=r.y-1&&n.frame.y+n.frame.height<=r.y+r.height+1;
 /** Logical widths of every node at a window width (the tests/layouts.test.mjs solver); `open` treats hidden ids as shown. */
@@ -612,7 +612,7 @@ export default async function layoutNative(runtime){
       expect(Boolean(opened&&closed&&await ensurePanel()),'quickSources');
     }
     expect(await iconsDrawn(),'classicIcons');
-    let allSeparated=true;for(const id of ['github','pulls','merges','sessions','mods','jira','gitlab'])allSeparated=Boolean(await selectSource(id))&&allSeparated;
+    let allSeparated=true;for(const id of ['github','pulls','merges','sessions','control-panel','jira','gitlab'])allSeparated=Boolean(await selectSource(id))&&allSeparated;
     expect(allSeparated,'classicSeparated');
 
     await progress('classic-gitlab');console.log('Layout native: GitLab issue start from the Classic panel in the linked checkout');
@@ -630,7 +630,7 @@ export default async function layoutNative(runtime){
     expect(await swap(LAYOUTS.overview),'swapToOverview');
     expect((await shared())[STATE_KEYS.nav]?.source==='gitlab'&&Boolean(await separated('gitlab')),'sourceKeptOverview');
     allSeparated=true;const boards={};
-    for(const id of ['jira','github','pulls','merges','sessions','mods','gitlab']){const o=await selectSource(id);allSeparated=Boolean(o)&&allSeparated;
+    for(const id of ['jira','github','pulls','merges','sessions','control-panel','gitlab']){const o=await selectSource(id);allSeparated=Boolean(o)&&allSeparated;
       if(['jira','github','gitlab'].includes(id))boards[id]=['To do','In progress','Done'].every(group=>o.lines.some(l=>within(stackRect(view,o.window),l)&&l.text.includes(group)));}
     expect(allSeparated,'overviewSeparated');expect(boards.jira&&boards.github&&boards.gitlab,'compactBoards');
 
@@ -768,8 +768,10 @@ export default async function layoutNative(runtime){
   }finally{
     try{await fixtures?.close();}catch{}
     await fs.rm(gate,{force:true});
-    if(connected)try{runtime.hc(['machine','rm',HOST,'--json']);}catch(error){if(error instanceof NativeIsolationError)throw error;}
+    // Stop the second host while it is still connected, then forget it: since herdr-core 0.1.17 a disconnect
+    // ends the second core's holder, which its core never reaps, and the harness then sees a zombie process.
     if(server.directory)await server.close();
+    if(connected)try{runtime.hc(['machine','rm',HOST,'--json']);}catch(error){if(error instanceof NativeIsolationError)throw error;}
   }
 }
 
@@ -843,7 +845,7 @@ export async function checkFixtures({build=process.argv.includes('--build')}={})
     check(findNode(ov,'mc-topbar').content.props.swapTo===LAYOUTS.classic&&findNode(cl,'mc-topbar').content.props.swapTo===LAYOUTS.overview&&findNode(cl,'mc-topbar').content.props.panel===true,'Each topbar swaps to the other installed layout');
     check(Object.values(LAYOUTS).every(name=>JSON.stringify(findNode(trees[name],'mc-work-stack').children.map(c=>c.id))===JSON.stringify(SOURCES.map(s=>s.id))),'Both stacks hold the seven sources in navigation order');
     await import('../support/native-loader.mjs');const nav=await import('../../src/mods/mission-control-tabs/navigation.js');
-    check(nav.navigationWidth('full')===G.navFull&&nav.navigationWidth('short')===G.navShort&&nav.NAV_METRICS.button===G.navButton&&nav.NAV_METRICS.gap===G.navGap&&nav.NAV_METRICS.pad===2*G.navPadX,'Navigation metrics match the geometry');
+    check(nav.navigationWidth('full')===G.navFull&&nav.navigationWidth('short')===G.navShort&&nav.navigationWidth('compact')===G.navCompact&&nav.NAV_METRICS.button===G.navButton&&nav.NAV_METRICS.gap===G.navGap&&nav.NAV_METRICS.pad===2*G.navPadX,'Navigation metrics match the geometry');
     check(JSON.stringify(nav.SOURCES.map(s=>[s.id,s.label,s.short,s.scopeKey]))===JSON.stringify(SOURCES.map(s=>[s.id,s.full,s.short,s.key]))&&nav.NAV_STATE===STATE_KEYS.nav&&JSON.stringify(nav.LAYOUT_LABELS)===JSON.stringify(LAYOUT_LABELS),'Source labels, scope keys and swap labels match navigation.js');
     const modes={};for(const width of [G.narrow,G.wide,G.width]){
       const o=widthsAt(ov,width),c=widthsAt(cl,width,{open:['mc-work-panel']}),w={width,height:G.height};
@@ -852,7 +854,7 @@ export async function checkFixtures({build=process.argv.includes('--build')}={})
       modes[width]={overview:nav.navigationMode(o.get('mc-navigation')),classic:nav.navigationMode(c.get('mc-navigation'),{panel:true})};
       check(modes[width].overview===navMode(LAYOUTS.overview,w)&&modes[width].classic==='icons','Navigation presentation at '+width+' px is '+modes[width].overview+' / icons');
     }
-    check(modes[G.width].overview==='full'&&modes[G.wide].overview==='short'&&modes[G.narrow].overview==='short','Full labels at 1280 px and short labels at 1024 and 736 px');notes.navigation=modes;
+    check(modes[G.width].overview==='full'&&modes[G.wide].overview==='short'&&modes[G.narrow].overview==='compact','Full labels at 1280 px, short labels at 1024 px and compact short labels at 736 px');notes.navigation=modes;
     // 4. Current helpers against the owned TLS sites. By default the unbundled source helpers run (the mounted gate bundles
     //    exactly these sources fresh); --build opts into fresh buildPackage copies, which rewrites those package outputs.
     fixtures=await providerFixtures(path.join(directory,'providers-tls'));await fs.mkdir(path.join(home,'mods'),{recursive:true});const stale=[],helpers={};

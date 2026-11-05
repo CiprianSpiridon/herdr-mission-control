@@ -4,8 +4,8 @@ import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
-import {createSource} from '../src/mods/mission-control-mods/source.mjs';
-import {checkItem} from '../src/mods/mission-control-mods/updates.mjs';
+import {createSource} from '../src/mods/mission-control-control-panel/source.mjs';
+import {checkItem} from '../src/mods/mission-control-control-panel/updates.mjs';
 
 const ENV = {...process.env, GIT_AUTHOR_NAME: 'QA', GIT_AUTHOR_EMAIL: 'qa@example.invalid', GIT_COMMITTER_NAME: 'QA', GIT_COMMITTER_EMAIL: 'qa@example.invalid'};
 const git = (cwd, ...args) => execFileSync('git', args, {cwd, encoding: 'utf8', env: ENV}).trim();
@@ -64,7 +64,7 @@ test('an item adopted from a pasted link is re-checked with git ls-remote', asyn
 });
 
 test('a shared keys.json gives each item only its own keys; a single-item repository owns the whole file', async () => {
-  const {itemKeys, keysDigest} = await import('../src/mods/mission-control-mods/updates.mjs');
+  const {itemKeys, keysDigest} = await import('../src/mods/mission-control-control-panel/updates.mjs');
   const file = {global: {'cmd-1': 'qa-clock.bump', 'cmd-2': 'qa-notes.add', 'cmd-3': 'tab.new'}, 'mod:qa-notes': {'cmd-s': 'qa-notes.save'}, 'layout:board': {'cmd-b': 'space.next'}};
   assert.deepEqual(itemKeys(file, {kind: 'mod', name: 'qa-clock'}), {global: {'cmd-1': 'qa-clock.bump'}});
   assert.deepEqual(itemKeys(file, {kind: 'mod', name: 'qa-notes'}), {global: {'cmd-2': 'qa-notes.add'}, 'mod:qa-notes': {'cmd-s': 'qa-notes.save'}});

@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import http from 'node:http';
 import {execFileSync} from 'node:child_process';
-import {createSource, SourceError, MAX_FETCH_PASSES} from '../src/mods/mission-control-mods/source.mjs';
+import {createSource, SourceError, MAX_FETCH_PASSES} from '../src/mods/mission-control-control-panel/source.mjs';
 
 const git = (cwd, ...args) => execFileSync('git', args, {cwd, encoding: 'utf8', env: {...process.env, GIT_AUTHOR_NAME: 'QA', GIT_AUTHOR_EMAIL: 'qa@example.invalid', GIT_COMMITTER_NAME: 'QA', GIT_COMMITTER_EMAIL: 'qa@example.invalid'}}).trim();
 

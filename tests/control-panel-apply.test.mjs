@@ -4,10 +4,10 @@ import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
-import {createSource} from '../src/mods/mission-control-mods/source.mjs';
-import {createStore} from '../src/mods/mission-control-mods/store.mjs';
-import {checkItem} from '../src/mods/mission-control-mods/updates.mjs';
-import {prepare, commit, planKeys, disclose} from '../src/mods/mission-control-mods/apply.mjs';
+import {createSource} from '../src/mods/mission-control-control-panel/source.mjs';
+import {createStore} from '../src/mods/mission-control-control-panel/store.mjs';
+import {checkItem} from '../src/mods/mission-control-control-panel/updates.mjs';
+import {prepare, commit, planKeys, disclose} from '../src/mods/mission-control-control-panel/apply.mjs';
 
 const ENV = {...process.env, GIT_AUTHOR_NAME: 'QA', GIT_AUTHOR_EMAIL: 'qa@example.invalid', GIT_COMMITTER_NAME: 'QA', GIT_COMMITTER_EMAIL: 'qa@example.invalid'};
 const git = (cwd, ...args) => execFileSync('git', args, {cwd, encoding: 'utf8', env: ENV}).trim();

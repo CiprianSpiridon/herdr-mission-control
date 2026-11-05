@@ -1,4 +1,4 @@
-// src/mods/mission-control-mods/main.js
+// src/mods/mission-control-control-panel/main.js
 import { View, div as div2, image as image2 } from "gpui-kit";
 import { v_flex as v_flex2, h_flex as h_flex2 } from "gpui-base";
 import * as herdr from "herdr";
@@ -50,8 +50,8 @@ function searchInput(mod, id, state) {
   return h_flex().id(id).h(30).gap(6).px(8).rounded(5).border(1).border_color(t.border).bg(t.chrome).items_center().child(icon(mod, "search", 13).text_color(t.dim)).child(Input.new(state).flex_1().text_size(12).text_color(t.foreground));
 }
 
-// src/mods/mission-control-mods/main.js
-var MOD = "mission-control-mods";
+// src/mods/mission-control-control-panel/main.js
+var MOD = "mission-control-control-panel";
 var FILTERS = Object.freeze([["all", "All"], ["updates", "Updates"], ["mods", "Mods"], ["layouts", "Layouts"], ["disabled", "Disabled"], ["builtin", "Built in"]]);
 var STATE_LABEL = Object.freeze({
   current: "Up to date",
@@ -245,7 +245,7 @@ var MissionControlMods = class extends View {
   render() {
     const t = colors();
     let root = v_flex2().id("mc-mods").size_full().min_w(0).bg(t.chrome).text_color(t.foreground);
-    if (!this.hideHeader) root = root.child(h_flex2().h(34).px(10).gap(8).items_center().border_b(1).border_color(t.border).child(icon(MOD, "layout", 15).text_color(t.muted)).child(label("Mods and layouts")));
+    if (!this.hideHeader) root = root.child(h_flex2().h(34).px(10).gap(8).items_center().border_b(1).border_color(t.border).child(icon(MOD, "layout", 15).text_color(t.muted)).child(label("Control panel")));
     root = root.child(this.toolbar(t));
     if (this.busy || this.error || this.info) root = root.child(div2().id("mods-status").px(10).py(4).text_size(11).text_color(this.error ? t.blocked : t.muted).child(this.error || this.busy || this.info));
     return root.child(this.review ? this.reviewView(t) : this.listView(t));

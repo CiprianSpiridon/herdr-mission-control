@@ -21,8 +21,8 @@ export class SourceError extends Error {
 }
 const fail = (code, message) => { throw new SourceError(code, message); };
 
-/** Records root: appHome()/mission-control/mods/ (this repository's convention, not Herdr's data/ folder). */
-export const recordsRoot = appHome => path.join(appHome, 'mission-control', 'mods');
+/** Records root: appHome()/mission-control/control-panel/ (this repository's convention, not Herdr's data/ folder). */
+export const recordsRoot = appHome => path.join(appHome, 'mission-control', 'control-panel');
 
 export function createSource({appHome, env = process.env, fetchImpl = globalThis.fetch, now = () => Date.now(), git = 'git'} = {}) {
   if (typeof appHome !== 'string' || !path.isAbsolute(appHome)) fail('INVALID_APP_HOME', 'An absolute Herdr app home is required.');

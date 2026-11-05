@@ -4,9 +4,9 @@ import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import {spawnSync, spawn} from 'node:child_process';
-import {createStore} from '../src/mods/mission-control-mods/store.mjs';
+import {createStore} from '../src/mods/mission-control-control-panel/store.mjs';
 
-const STORE = new URL('../src/mods/mission-control-mods/store.mjs', import.meta.url).href;
+const STORE = new URL('../src/mods/mission-control-control-panel/store.mjs', import.meta.url).href;
 
 async function home(t) {
   const root = await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(), 'mc-mods-store-')));

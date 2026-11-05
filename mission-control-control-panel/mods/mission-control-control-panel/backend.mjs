@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 import { createRequire as __mcCreateRequire } from "node:module"; const require = __mcCreateRequire(import.meta.url);
 
-// src/mods/mission-control-mods/backend.mjs
+// src/mods/mission-control-control-panel/backend.mjs
 import fs6 from "node:fs/promises";
 import path6 from "node:path";
 
-// src/mods/mission-control-mods/source.mjs
+// src/mods/mission-control-control-panel/source.mjs
 import fs from "node:fs/promises";
 import fsSync from "node:fs";
 import path from "node:path";
@@ -28,7 +28,7 @@ var SourceError = class extends Error {
 var fail = (code, message) => {
   throw new SourceError(code, message);
 };
-var recordsRoot = (appHome) => path.join(appHome, "mission-control", "mods");
+var recordsRoot = (appHome) => path.join(appHome, "mission-control", "control-panel");
 function createSource({ appHome, env = process.env, fetchImpl = globalThis.fetch, now = () => Date.now(), git = "git" } = {}) {
   if (typeof appHome !== "string" || !path.isAbsolute(appHome)) fail("INVALID_APP_HOME", "An absolute Herdr app home is required.");
   const fixture = env.QA_MODS_FIXTURE === "1";
@@ -194,7 +194,7 @@ function summarize(stderr) {
   return String(stderr || "").split("\n").map((s) => s.trim()).filter(Boolean).slice(-1)[0]?.replace(/https?:\/\/[^@\s]*@/g, "https://") || "unknown error";
 }
 
-// src/mods/mission-control-mods/store.mjs
+// src/mods/mission-control-control-panel/store.mjs
 import fs2 from "node:fs/promises";
 import fsSync2 from "node:fs";
 import path2 from "node:path";
@@ -426,11 +426,11 @@ function createStore({ appHome, now = () => Date.now(), staleMs = LOCK_STALE_MS,
   return { root, files, withLock, readPackages, updatePackages, writeAtomic, writeJson, readJson: readJson3, commit: commit2, recover, log };
 }
 
-// src/mods/mission-control-mods/inventory.mjs
+// src/mods/mission-control-control-panel/inventory.mjs
 import fs3 from "node:fs/promises";
 import path3 from "node:path";
 import crypto2 from "node:crypto";
-var SELF = "mission-control-mods";
+var SELF = "mission-control-control-panel";
 var GENERATED = /(^|\/)(gpui-kit\.d\.ts|herdr\.d\.ts|jsconfig\.json|runtime\.json|\.DS_Store)$/;
 var MAX_FILES = 500;
 var MAX_FILE_BYTES = 8 * 1024 * 1024;
@@ -593,7 +593,7 @@ async function adopt(source, catalogs, item, { previous = null, maxCommits = 40,
   };
 }
 
-// src/mods/mission-control-mods/updates.mjs
+// src/mods/mission-control-control-panel/updates.mjs
 import crypto3 from "node:crypto";
 function itemKeys(snippet, { kind, name }, { single = false } = {}) {
   const out = {};
@@ -654,7 +654,7 @@ function findEntry(catalogs, record) {
   return pool.find((e) => e.fullName === record.source?.fullName && e.path === record.source?.path) || null;
 }
 
-// src/mods/mission-control-mods/apply.mjs
+// src/mods/mission-control-control-panel/apply.mjs
 import fs4 from "node:fs/promises";
 import path4 from "node:path";
 import os from "node:os";
@@ -907,7 +907,7 @@ async function merge(stageRoot, rel, mine, base, theirs) {
   }
 }
 
-// src/mods/mission-control-mods/lifecycle.mjs
+// src/mods/mission-control-control-panel/lifecycle.mjs
 import fs5 from "node:fs/promises";
 import fsSync3 from "node:fs";
 import path5 from "node:path";
@@ -1076,7 +1076,7 @@ async function restoreEverything({ appHome, store }) {
   return done;
 }
 
-// src/mods/mission-control-mods/backend.mjs
+// src/mods/mission-control-control-panel/backend.mjs
 var BUDGET_MS = 24e3;
 async function handle(request, { env = process.env, now = () => Date.now(), herdrApp = env.QA_MODS_HERDR_APP || "herdr-app" } = {}) {
   const started = Date.now(), timeLeft = () => BUDGET_MS - (Date.now() - started);

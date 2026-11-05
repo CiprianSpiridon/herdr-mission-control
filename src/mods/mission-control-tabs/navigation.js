@@ -8,7 +8,7 @@
  *   mc-work-panel  Classic only: the side panel column [navigation block, mc-work-stack], hidden
  *                  at first. Its presence enables the panel toggle and the panel's hide button.
  *   mc-work-stack  a stack whose children are SOURCES ids (jira, github, pulls, gitlab, merges,
- *                  sessions, mods), each a block with that source's `mod` and `props` below.
+ *                  sessions, control-panel), each a block with that source's `mod` and `props` below.
  *
  * Every action here takes its effects (run, shared, setShared) as arguments, so it holds no cx and
  * is testable without Herdr. The swap runs layout.switch only; selection and focus live in shared
@@ -37,8 +37,8 @@ export const SOURCES=freeze([
   {id:'gitlab',label:'GitLab issues',short:'GitLab',icon:'gitlab',mod:'mission-control-gitlab',props:{view:'issues',hideHeader:true},scopeKey:'mission-control-gitlab-ui-v1'},
   {id:'merges',label:'Merge requests',short:'MRs',icon:'branch',mod:'mission-control-gitlab',props:{view:'merges',hideHeader:true},scopeKey:'mission-control-gitlab-mrs-ui-v1'},
   {id:'sessions',label:'Previous sessions',short:'Sessions',icon:'sessions',mod:'mission-control-sessions',props:{hideHeader:true},scopeKey:'mission-control-sessions-ui-v1'},
-  // Mods covers the whole Herdr install, never one space: a fixed scope with its own caption.
-  {id:'mods',label:'Mods',short:'Mods',icon:'layout',mod:'mission-control-mods',props:{hideHeader:true},scopeKey:null,fixedScope:'all',caption:'All installed'}
+  // The Control panel covers the whole Herdr install, never one space: a fixed scope with its own caption.
+  {id:'control-panel',label:'Control panel',short:'Control panel',icon:'layout',mod:'mission-control-control-panel',props:{hideHeader:true},scopeKey:null,fixedScope:'all',caption:'All installed'}
 ]);
 export const SOURCE_IDS=freeze(SOURCES.map(s=>s.id));
 const BY_ID=new Map(SOURCES.map(s=>[s.id,s]));
@@ -164,12 +164,12 @@ export function restoreView({contract,sharedFn,setSharedFn,runFn,focused=null,sp
 }
 
 /** Estimated widths (logical px) of the strip in each presentation; charPx matches NAME_LIMITS. */
-export const NAV_METRICS=freeze({charPx:7,icon:14,gap:2,pad:12,full:{px:10,gap:6},short:{px:8,gap:5},button:26,minButton:18,hide:30,caption:110});
+export const NAV_METRICS=freeze({charPx:7,icon:14,gap:2,pad:12,full:{px:10,gap:6},short:{px:8,gap:5},compact:{px:4,gap:3},button:26,minButton:18,hide:30,caption:110});
 /** Natural width of a presentation; icon-only buttons may shrink to minButton (navigationMinWidth). */
 export function navigationWidth(mode,{panel=false,button=NAV_METRICS.button,sources=SOURCES}={}){
   const m=NAV_METRICS,n=sources.length;let items;
   if(mode==='icons')items=n*button;
-  else{const p=mode==='full'?m.full:m.short,chars=sources.reduce((a,s)=>a+Array.from(mode==='full'?s.label:s.short).length,0);items=chars*m.charPx+n*(2*p.px+m.icon+p.gap);}
+  else{const p=m[mode]??m.short,chars=sources.reduce((a,s)=>a+Array.from(mode==='full'?s.label:s.short).length,0);items=chars*m.charPx+n*(2*p.px+m.icon+p.gap);}
   return items+Math.max(0,n-1)*m.gap+m.pad+(panel?m.hide:0);
 }
 /** The narrowest strip that still shows every source control whole. */
@@ -177,7 +177,8 @@ export const navigationMinWidth=({panel=false}={})=>navigationWidth('icons',{pan
 /** Seven labelled sources when they fit, short labels next, accessible icon-only controls otherwise. */
 export function navigationMode(width,{panel=false,sources=SOURCES}={}){
   if(!Number.isFinite(width)||width<=0)return 'icons';
-  for(const mode of ['full','short'])if(navigationWidth(mode,{panel,sources})<=width)return mode;
+  // Compact keeps the short labels with tighter padding before falling back to icons.
+  for(const mode of ['full','short','compact'])if(navigationWidth(mode,{panel,sources})<=width)return mode;
   return 'icons';
 }
 

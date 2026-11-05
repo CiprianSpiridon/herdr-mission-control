@@ -49,9 +49,9 @@ export const GEOMETRY=Object.freeze({width:1280,height:760,x:60,y:60,topbar:42,l
   tabGap:6,tabIcon:14,mark:7,close:16,control:26,controlGap:4,barRight:8,swapPadX:9,swapIcon:14,swapGap:6,topbarWide:720,
   navButton:26,navGap:2,navPadX:6,navHide:24,displayPx:280,menu:{width:240,height:170},dialog:{width:560,height:660}});
 const G=GEOMETRY;
-export const SOURCE_IDS=Object.freeze(['jira','github','pulls','gitlab','merges','sessions','mods']);
+export const SOURCE_IDS=Object.freeze(['jira','github','pulls','gitlab','merges','sessions','control-panel']);
 /** [full label, short label] per source, as navigation.js draws them. */
-export const SOURCE_LABELS=Object.freeze({jira:['Jira','Jira'],github:['GitHub issues','GitHub'],pulls:['Pull requests','PRs'],gitlab:['GitLab issues','GitLab'],merges:['Merge requests','MRs'],sessions:['Previous sessions','Sessions'],mods:['Mods','Mods']});
+export const SOURCE_LABELS=Object.freeze({jira:['Jira','Jira'],github:['GitHub issues','GitHub'],pulls:['Pull requests','PRs'],gitlab:['GitLab issues','GitLab'],merges:['Merge requests','MRs'],sessions:['Previous sessions','Sessions'],'control-panel':['Control panel','Control panel']});
 /** Disposable tool actors: their help text decides exact-session capability; app decides Herdr's real tool icon. */
 export const TOOLS=Object.freeze({
   claude:{name:'QA Claude',app:'claude-code',help:'Claude Code QA fixture\nUsage: claude [options] [prompt]\n --session-id <uuid>\n --resume [value]\n --model <model>'},
@@ -91,8 +91,8 @@ export const EXPECTATIONS=Object.freeze({
   statusMarks:'The four status marks are drawn and distinct, idle as a hollow ring',
   toolIcons:'Each agent tab draws its actual tool icon beside its task label',
   oneStrip:'Exactly one topmost strip, clear of the traffic lights, lists every tab',
-  wideNavigation:'At 1024 px beside a 220 px rail all seven work sources show whole short labels without clipping (full labels need 850 px)',
-  narrowNavigation:'At 736 px all seven work sources stay reachable with short labels',
+  wideNavigation:'At 1024 px beside a 220 px rail all seven work sources show whole short labels without clipping (full labels need 913 px)',
+  narrowNavigation:'At 736 px all seven work sources stay reachable with short labels in compact padding',
   narrowSelect:'A short-label source can be selected at 736 px',
   sourcesToggle:'The tab bar gear opens Mission Control sources; turning GitLab issues off removes it from the strip and turning it on brings it back',
   select:'Clicking a tab selects it',
@@ -753,11 +753,11 @@ export async function checkFixtures(){
     check(JSON.stringify(nav.SOURCES.map(s=>[s.id,s.label,s.short]))===JSON.stringify(SOURCE_IDS.map(id=>[id,...SOURCE_LABELS[id]])),'Source ids and labels match navigation.js');
     const overview=contract(LAYOUTS.overview),classic=contract(LAYOUTS.classic),bare=contract(LAYOUTS.bare),double=contract(LAYOUTS.double);
     check(overview.main&&overview.stack&&overview.children.length===7&&overview.panel===null&&!overview.panelControl&&overview.swap.enabled&&overview.swap.to===LAYOUTS.classic&&overview.swap.label===LAYOUT_UI[LAYOUTS.overview].swap,'Mission Control test layout: seven sources, no panel, swap to Classic view');
-    check(classic.main&&classic.stack&&classic.children.join()==='jira,github,pulls,gitlab,sessions,mods'&&classic.panel?.hidden===true&&classic.panelControl&&classic.swap.enabled&&classic.swap.label===LAYOUT_UI[LAYOUTS.classic].swap&&nav.sourceState(classic,'merges').reason==='Not in this layout.','Classic test layout: hidden panel, an absent merges source and swap back');
+    check(classic.main&&classic.stack&&classic.children.join()==='jira,github,pulls,gitlab,sessions,control-panel'&&classic.panel?.hidden===true&&classic.panelControl&&classic.swap.enabled&&classic.swap.label===LAYOUT_UI[LAYOUTS.classic].swap&&nav.sourceState(classic,'merges').reason==='Not in this layout.','Classic test layout: hidden panel, an absent merges source and swap back');
     check(!bare.main&&!bare.stack&&bare.swap.code==='NO_LAYOUT_NODES'&&/mc-main/.test(bare.swap.reason)&&/mc-work-stack/.test(bare.stackReason)&&bare.panel===null&&bare.panelControl&&nav.sourceState(bare,'jira').enabled===false,'Node-less test layout disables swap, panel and sources with reasons');
     check(JSON.stringify({...double,name:null})===JSON.stringify({...overview,name:null})&&layouts[LAYOUTS.double].children.filter(n=>n.content?.mod===MOD&&n.content.props?.view==='topbar').length===2,'Two-bar test layout mounts two visible top bars over the same contract');
     const mac={platform:'macos',titlebar:'none',fullscreen:false};check(Object.values(layouts).every(tree=>bar.lightsPadding({win:mac,tree})===G.pad),'Every test layout starts its strip clear of the traffic lights');
-    check(nav.navigationMode(1024-G.rail)==='short'&&nav.navigationMode(736-G.rail)==='short'&&nav.navigationMode(G.panel,{panel:true})==='icons'&&nav.navigationMode(G.width)==='full'&&G.width-nav.navigationWidth('full')>=nav.NAV_METRICS.caption,'Widths select short labels at 1024 and 736, full at 1280, icons in the 360 px panel and room for the unavailable caption');
+    check(nav.navigationMode(1024-G.rail)==='short'&&nav.navigationMode(736-G.rail)==='compact'&&nav.navigationMode(G.panel,{panel:true})==='icons'&&nav.navigationMode(G.width)==='full'&&G.width-nav.navigationWidth('full')>=nav.NAV_METRICS.caption,'Widths select short labels at 1024, compact short labels at 736, full at 1280, icons in the 360 px panel and room for the unavailable caption');
     check(nav.NAV_METRICS.button===G.navButton&&nav.NAV_METRICS.gap===G.navGap&&nav.NAV_METRICS.hide===G.navHide+6&&NAME_LIMITS.displayPx===G.displayPx&&bar.TIMING.wheelMs<600,'Navigation metrics and label budget match the scenario geometry');
     // 5. Click geometry the native run computes, against the finished sources.
     const mainSource=await fs.readFile(path.join(ROOT,'src/mods/mission-control-tabs/main.js'),'utf8'),navSource=await fs.readFile(path.join(ROOT,'src/mods/mission-control-tabs/navigation.js'),'utf8'),uiSource=await fs.readFile(path.join(ROOT,'src/shared/ui.js'),'utf8');
