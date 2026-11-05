@@ -1,0 +1,1575 @@
+{
+  "v": 2,
+  "ok": true,
+  "code": null,
+  "error": null,
+  "cleanupError": null,
+  "completedMs": 1793855721060,
+  "nonce": "efaf8f34cd94832749cf623d",
+  "isolation": {
+    "method": "private-ownership-v2",
+    "existingInstancesQueried": false,
+    "context": {
+      "root": "/private/tmp/mcqa-ehdTGw",
+      "nonce": "efaf8f34cd94832749cf623d",
+      "session": "mcqa-efaf8f34cd94832749cf623d",
+      "uid": 502,
+      "createdMs": 1793855562802,
+      "directory": {
+        "dev": "16777233",
+        "ino": "836463785",
+        "uid": 502,
+        "mode": 448,
+        "birthMs": 1793855562802
+      },
+      "selectors": {
+        "HOME": "/private/tmp/mcqa-ehdTGw/h",
+        "USERPROFILE": "/private/tmp/mcqa-ehdTGw/h",
+        "TMPDIR": "/private/tmp/mcqa-ehdTGw/t",
+        "XDG_CONFIG_HOME": "/private/tmp/mcqa-ehdTGw/c",
+        "XDG_DATA_HOME": "/private/tmp/mcqa-ehdTGw/d",
+        "XDG_STATE_HOME": "/private/tmp/mcqa-ehdTGw/s",
+        "XDG_CACHE_HOME": "/private/tmp/mcqa-ehdTGw/k",
+        "XDG_RUNTIME_DIR": "/private/tmp/mcqa-ehdTGw/r",
+        "HERDR_APP_HOME": "/private/tmp/mcqa-ehdTGw/app",
+        "HC_SESSION": "mcqa-efaf8f34cd94832749cf623d"
+      }
+    },
+    "core": {
+      "id": "902a2814f2bd399d3c5ea224307de6ba",
+      "process": {
+        "pid": 57017,
+        "uid": 502,
+        "startedMs": 1793855562000,
+        "executable": "/Users/ciprian/.local/bin/herdr-core",
+        "fingerprint": "f4efbc6e0db9d5c8b9137a38bd38ee189879b16b8f22dbbac183a91abe7973f6"
+      },
+      "socket": {
+        "path": "/private/tmp/mcqa-ehdTGw/r/herdr-core/mcqa-efaf8f34cd94832749cf623d.sock",
+        "dev": "16777233",
+        "ino": "836463804",
+        "uid": 502,
+        "mode": 493,
+        "ownerPids": [
+          57017
+        ]
+      },
+      "holder": {
+        "process": {
+          "pid": 57355,
+          "uid": 502,
+          "startedMs": 1793855563000,
+          "executable": "/Users/ciprian/.local/bin/herdr-core",
+          "fingerprint": "d5cc995b58e7c27ac3740955dca8397604d4c1b81aebbf7d8a39f402fe60e533"
+        },
+        "socket": {
+          "path": "/private/tmp/mcqa-ehdTGw/r/herdr-core/mcqa-efaf8f34cd94832749cf623d.holder.2f70188f.sock",
+          "dev": "16777233",
+          "ino": "836463879",
+          "uid": 502,
+          "mode": 493,
+          "ownerPids": [
+            57355
+          ]
+        }
+      }
+    },
+    "app": {
+      "process": {
+        "pid": 58540,
+        "uid": 502,
+        "startedMs": 1793855565000,
+        "executable": "/Applications/Herdr.app/Contents/MacOS/Herdr",
+        "fingerprint": "0e09e80fddd1d4c98eeeb80c76749643e5b84de2fbaf1b815a38379789712aca"
+      },
+      "socket": {
+        "path": "/private/tmp/mcqa-ehdTGw/app/herdr-app.sock",
+        "dev": "16777233",
+        "ino": "836464645",
+        "uid": 502,
+        "mode": 493,
+        "ownerPids": [
+          58540
+        ]
+      }
+    },
+    "commandAudit": [
+      {
+        "sequence": 1,
+        "at": 1793855562814,
+        "kind": "hc",
+        "command": "server start",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "boot",
+        "result": "ok"
+      },
+      {
+        "sequence": 2,
+        "at": 1793855562941,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "boot",
+        "result": "ok"
+      },
+      {
+        "sequence": 3,
+        "at": 1793855563089,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 4,
+        "at": 1793855563446,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 5,
+        "at": 1793855563512,
+        "kind": "hc",
+        "command": "run",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 6,
+        "at": 1793855563621,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 7,
+        "at": 1793855563820,
+        "kind": "hc",
+        "command": "ls",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 8,
+        "at": 1793855563891,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 9,
+        "at": 1793855564021,
+        "kind": "hc",
+        "command": "get t1",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 10,
+        "at": 1793855564473,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 11,
+        "at": 1793855564610,
+        "kind": "app",
+        "command": "check /private/tmp/mcqa-ehdTGw/app/mods/mission-control-control-panel",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 12,
+        "at": 1793855564879,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 13,
+        "at": 1793855565013,
+        "kind": "app",
+        "command": "check /private/tmp/mcqa-ehdTGw/app/mods/qa-clock",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 14,
+        "at": 1793855565205,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 15,
+        "at": 1793855565345,
+        "kind": "app",
+        "command": "check /private/tmp/mcqa-ehdTGw/app/mods/qa-notes",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 16,
+        "at": 1793855565528,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 17,
+        "at": 1793855565659,
+        "kind": "app",
+        "command": "check /private/tmp/mcqa-ehdTGw/app/mods/qa-timer",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 18,
+        "at": 1793855565852,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 19,
+        "at": 1793855566612,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 20,
+        "at": 1793855566856,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 21,
+        "at": 1793855566927,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 22,
+        "at": 1793855567139,
+        "kind": "app",
+        "command": "ls",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 23,
+        "at": 1793855567213,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 24,
+        "at": 1793855567352,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 25,
+        "at": 1793855567422,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 26,
+        "at": 1793855567623,
+        "kind": "app",
+        "command": "layout.switch",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 27,
+        "at": 1793855567716,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 28,
+        "at": 1793855567916,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 29,
+        "at": 1793855567991,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 30,
+        "at": 1793855568199,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 31,
+        "at": 1793855715753,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 32,
+        "at": 1793855715955,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 33,
+        "at": 1793855719649,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 34,
+        "at": 1793855719857,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 35,
+        "at": 1793855719933,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "owned",
+        "result": "ok"
+      },
+      {
+        "sequence": 36,
+        "at": 1793855720199,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 37,
+        "at": 1793855720392,
+        "kind": "app",
+        "command": "status",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 38,
+        "at": 1793855720461,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 39,
+        "at": 1793855720637,
+        "kind": "app",
+        "command": "app.quit",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 40,
+        "at": 1793855720754,
+        "kind": "app",
+        "command": "verify exit",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 41,
+        "at": 1793855720820,
+        "kind": "hc",
+        "command": "server status",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 42,
+        "at": 1793855720962,
+        "kind": "hc",
+        "command": "server stop",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 43,
+        "at": 1793855721021,
+        "kind": "hc",
+        "command": "verify exit",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "cleanup",
+        "result": "ok"
+      },
+      {
+        "sequence": 44,
+        "at": 1793855721025,
+        "kind": "hc",
+        "command": "verify exit",
+        "selectorSha256": "7da45e39b2c864472a6c07f7d4f4896d8934dfd9aee870122d4f37f04ed4087e",
+        "phase": "cleanup",
+        "result": "ok"
+      }
+    ]
+  },
+  "privateCoreId": "902a2814f2bd399d3c5ea224307de6ba",
+  "privateCorePid": 57017,
+  "privateHolderPid": 57355,
+  "appPid": 58540,
+  "launcherPid": 58540,
+  "launcherExitCode": 0,
+  "assertions": [
+    {
+      "label": "Fresh positively verified private core starts empty",
+      "passed": true
+    },
+    {
+      "label": "Exact nonce sentinel belongs to the verified private core",
+      "passed": true
+    },
+    {
+      "label": "Full sentinel generation and QA ownership verified",
+      "passed": true
+    },
+    {
+      "label": "Private app uses the original verified core generation",
+      "passed": true
+    },
+    {
+      "label": "No native layout/mod errors",
+      "passed": true
+    },
+    {
+      "label": "The Control panel lists the fixture mods and layout with their GitHub-style sources and the gate’s own layout as source unknown",
+      "passed": true
+    },
+    {
+      "label": "Each fixture item shows its repository’s own preview.png as a thumbnail, cached by the helper",
+      "passed": true
+    },
+    {
+      "label": "Check for updates finds the new upstream commit of QA clock and nothing else",
+      "passed": true
+    },
+    {
+      "label": "Update shows the changed file and the added key before anything is written",
+      "passed": true
+    },
+    {
+      "label": "Apply update writes the new files in place and the mounted QA clock hot-reloads to v2 without a restart",
+      "passed": true
+    },
+    {
+      "label": "The update’s new key reaches keys.json and pressing it reaches QA clock",
+      "passed": true
+    },
+    {
+      "label": "Update all applies the safe QA timer update and leaves QA notes, whose update conflicts with an edit, for a review",
+      "passed": true
+    },
+    {
+      "label": "An update that changes a line the person edited stops with a conflict and writes nothing",
+      "passed": true
+    },
+    {
+      "label": "Take theirs resolves the conflict and the update applies",
+      "passed": true
+    },
+    {
+      "label": "A later update that drops the key removes it from keys.json, and pressing it no longer reaches QA clock",
+      "passed": true
+    },
+    {
+      "label": "Disabling a mod the layout on screen uses is refused with that layout’s name",
+      "passed": true
+    },
+    {
+      "label": "Disabling a mod another layout uses asks first, naming that layout, and moves nothing until confirmed",
+      "passed": true
+    },
+    {
+      "label": "Disable moves QA timer out of mods/ and Enable brings back identical files",
+      "passed": true
+    },
+    {
+      "label": "Uninstall says removed items are kept for 30 days, and Restore brings back identical files",
+      "passed": true
+    },
+    {
+      "label": "Uninstalling the layout on screen is refused and its file stays",
+      "passed": true
+    },
+    {
+      "label": "Herdr’s own items are listed as built in, with no actions",
+      "passed": true
+    },
+    {
+      "label": "The Control panel and the fixture mods produced zero native app errors",
+      "passed": true
+    },
+    {
+      "label": "Scenario used real native input and captured a native frame",
+      "passed": true
+    }
+  ],
+  "inputActions": [
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 58540,
+      "windowId": 24604,
+      "x": 1515,
+      "y": 282.51833740831296,
+      "control": "Check for updates",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-7.png",
+        "sha256": "e6129811ea88ddb93c44897c2fba0087be5661de019deb7acc43a70adc42e12b",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 58540,
+      "windowId": 24604,
+      "x": 1515,
+      "y": 282.51833740831296,
+      "control": "Check for updates",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-9.png",
+        "sha256": "f21adcb08d1ced2501ac2b23db8615d09892d9a62a1a25c955294ed96d023af1",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 58540,
+      "windowId": 24604,
+      "x": 1353.0232566514876,
+      "y": 394.0244498573501,
+      "control": "Update QA clock",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-13.png",
+        "sha256": "b09e1a9dc024b764eaa38fd82b512f2e32de29c8b21cf49b2f73c6207df9fc0d",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 58540,
+      "windowId": 24604,
+      "x": 679.5348840085012,
+      "y": 508.25,
+      "control": "Apply update",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-19.png",
+        "sha256": "7b1b37afb5c2406266c373765668d2325c35c865dbfc48abdf9c80ba2cefc83d",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "key",
+      "pid": 58540,
+      "key": "cmd-shift-9"
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 58540,
+      "windowId": 24604,
+      "x": 1515,
+      "y": 282.51833740831296,
+      "control": "Check for updates",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-23.png",
+        "sha256": "13cb89784d967862ee0319c2c932b6285b7e769738a797d2cc80a2182d158635",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 58540,
+      "windowId": 24604,
+      "x": 1481.395347443192,
+      "y": 281.60391213425817,
+      "control": "Update all (2)",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-24.png",
+        "sha256": "93e9645d39520bec95dbc60bf1c4cec4ff869832465598bd13383d681236210f",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 58540,
+      "windowId": 24604,
+      "x": 1353.0232566514605,
+      "y": 420.03911978291814,
+      "control": "Update QA notes",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-27.png",
+        "sha256": "9597249f76008ff88045709630946ff053ea7facf187925df1a112a03221dcb6",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 58540,
+      "windowId": 24604,
+      "x": 758.6046518339253,
+      "y": 489.75,
+      "control": "Take theirs",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-30.png",
+        "sha256": "88bffe8d860a9a26184c9e1a2682c5ceb8d770c9dc58d3c268ef02729bf8399b",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 58540,
+      "windowId": 24604,
+      "x": 680.4651175948572,
+      "y": 461.8869193386309,
+      "control": "Apply update",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-32.png",
+        "sha256": "c220759063bddc879d8e30f424bf2dbf6d83059cc48dd33e5a29d97708ae99ad",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 58540,
+      "windowId": 24604,
+      "x": 1515,
+      "y": 282.51833740831296,
+      "control": "Check for updates",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-34.png",
+        "sha256": "40e749bf6068626b25fec0c60ab8c0da0a5304c2be7a4167e7c6be3e4e9ca985",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 58540,
+      "windowId": 24604,
+      "x": 1353.0232566514605,
+      "y": 420.03911978291814,
+      "control": "Update QA clock",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-36.png",
+        "sha256": "c16bbacb401766d4b390385a1b62828c1024eff9346a7c03173f83074a7db554",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 58540,
+      "windowId": 24604,
+      "x": 679.5348840085012,
+      "y": 508.25,
+      "control": "Apply update",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-39.png",
+        "sha256": "d44ca4b0afb8d3212e62ddbd2b808b24250835394fc1a04df47e9e58c21b80a1",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "key",
+      "pid": 58540,
+      "key": "cmd-shift-9"
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 58540,
+      "windowId": 24604,
+      "x": 1423.7209303029797,
+      "y": 611.4327626738757,
+      "control": "Disable QA clock",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-43.png",
+        "sha256": "5dc7517ba903f1a2490f9a44371e696c16d24a6235a43a3006d040e2140a4cc3",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 58540,
+      "windowId": 24604,
+      "x": 1423.7209307669696,
+      "y": 712.704156383636,
+      "control": "Disable QA timer",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-46.png",
+        "sha256": "afaf0cb3138651026b0002e04ad65c4381269875bb372578d2cdbfe2af48cc7d",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 58540,
+      "windowId": 24604,
+      "x": 1430.2325577670174,
+      "y": 750.797066090031,
+      "control": "Confirm: disable QA timer",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-49.png",
+        "sha256": "6873a1d8aaca2c93e000fbdf4cb71e0bbe9588e1eae0e7a92ba36dbee80def32",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 58540,
+      "windowId": 24604,
+      "x": 1424.651163257851,
+      "y": 721.9951102050998,
+      "control": "Enable QA timer",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-51.png",
+        "sha256": "9efd938fc09263150d9c64c300c11ba1388d3f3f1ffd43fc800ef0fbebbf8a99",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 58540,
+      "windowId": 24604,
+      "x": 1494.4186041478092,
+      "y": 686.6894866195998,
+      "control": "Uninstall QA timer",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-54.png",
+        "sha256": "7f6f21d7a86a08ef3ad2e6003dc4bb8d0ef740def6ceead42b9b5eded221cd92",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 58540,
+      "windowId": 24604,
+      "x": 1429.302325,
+      "y": 723.8533008264059,
+      "control": "Confirm: remove QA timer",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-56.png",
+        "sha256": "fab2dc9d4185850af3b95be6a62f390b3315a1e9d6b9b2c4e37dec34418db346",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 58540,
+      "windowId": 24604,
+      "x": 1495.348837891473,
+      "y": 777.7408314816626,
+      "control": "Restore qa-timer",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-59.png",
+        "sha256": "22c68f3738933641e55117e89d2a281d1f8ebd8fcb0934fd08d9fdbbb0b86824",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 58540,
+      "windowId": 24604,
+      "x": 1495.348838078036,
+      "y": 415.39364297754906,
+      "control": "Uninstall mission-control-control-panel",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-61.png",
+        "sha256": "3cb49cdafa0fb103c9c5a4610b0965985c2a1c8380dc31ff2c8609d2cf552948",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 58540,
+      "windowId": 24604,
+      "x": 1429.3023248080085,
+      "y": 469.2811737288063,
+      "control": "Confirm: remove mission-control-control-panel",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-62.png",
+        "sha256": "71ebd381611402838d45a1ebdad86a640bc8c8b1fadedd72e4aa0cb36542d347",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 58540,
+      "windowId": 24604,
+      "x": 913.9534890536538,
+      "y": 314.2383863312958,
+      "control": "Built in",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-65.png",
+        "sha256": "b8f97ffec924786a3eb185d379e239ad1014cea716308e46a02db7e715bcfee1",
+        "width": 2560,
+        "height": 1520
+      }
+    },
+    {
+      "kind": "pointer",
+      "button": "left",
+      "pid": 58540,
+      "windowId": 24604,
+      "x": 645.1162789767442,
+      "y": 314.1222493306846,
+      "control": "All",
+      "observation": {
+        "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-68.png",
+        "sha256": "9be5b63b867b03b4444df63c8a820b3489c5574b43153d2c27a2bc4c857ae5ee",
+        "width": 2560,
+        "height": 1520
+      }
+    }
+  ],
+  "frames": [
+    {
+      "label": "control-panel-observe-1",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-1.png",
+      "sha256": "35c05c80e549d6b316c9ffecaef7f2d1bd4ed622aa25fe458e18c8f039e8fd64",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-2",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-2.png",
+      "sha256": "6d80a0d118b53b6e1b1dab624fa1c99bd406195d536745af3618c855db46173b",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-3",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-3.png",
+      "sha256": "6d80a0d118b53b6e1b1dab624fa1c99bd406195d536745af3618c855db46173b",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-4",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-4.png",
+      "sha256": "e6129811ea88ddb93c44897c2fba0087be5661de019deb7acc43a70adc42e12b",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-5",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-5.png",
+      "sha256": "e6129811ea88ddb93c44897c2fba0087be5661de019deb7acc43a70adc42e12b",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-6",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-6.png",
+      "sha256": "e6129811ea88ddb93c44897c2fba0087be5661de019deb7acc43a70adc42e12b",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-7",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-7.png",
+      "sha256": "e6129811ea88ddb93c44897c2fba0087be5661de019deb7acc43a70adc42e12b",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-8",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-8.png",
+      "sha256": "f21adcb08d1ced2501ac2b23db8615d09892d9a62a1a25c955294ed96d023af1",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-9",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-9.png",
+      "sha256": "f21adcb08d1ced2501ac2b23db8615d09892d9a62a1a25c955294ed96d023af1",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-10",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-10.png",
+      "sha256": "f21adcb08d1ced2501ac2b23db8615d09892d9a62a1a25c955294ed96d023af1",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-11",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-11.png",
+      "sha256": "88ad6fe79ca09cb6ff557caf3f3f6dd91a0cec708886f11c1dd856869284b129",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-12",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-12.png",
+      "sha256": "b09e1a9dc024b764eaa38fd82b512f2e32de29c8b21cf49b2f73c6207df9fc0d",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-13",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-13.png",
+      "sha256": "b09e1a9dc024b764eaa38fd82b512f2e32de29c8b21cf49b2f73c6207df9fc0d",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-14",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-14.png",
+      "sha256": "008369f1e6aa142183c57e1007110e9204ffa5dd4c6b7d11c09401759fd5b95f",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-15",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-15.png",
+      "sha256": "998bb72e42f9fe51e52d43bd7170545f62d693639465f8e6688787f311d6ddb9",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-16",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-16.png",
+      "sha256": "7b1b37afb5c2406266c373765668d2325c35c865dbfc48abdf9c80ba2cefc83d",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-17",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-17.png",
+      "sha256": "7b1b37afb5c2406266c373765668d2325c35c865dbfc48abdf9c80ba2cefc83d",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-18",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-18.png",
+      "sha256": "7b1b37afb5c2406266c373765668d2325c35c865dbfc48abdf9c80ba2cefc83d",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-19",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-19.png",
+      "sha256": "7b1b37afb5c2406266c373765668d2325c35c865dbfc48abdf9c80ba2cefc83d",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-20",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-20.png",
+      "sha256": "a4cf0986807301e56ae195683b550f6816b8ec173b01dbb854e700b1248ebf42",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-21",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-21.png",
+      "sha256": "c5959702881b7c55f4ce5e7f72af70f7b95146908ec3dbc456150d4b036b67b9",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-22",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-22.png",
+      "sha256": "13cb89784d967862ee0319c2c932b6285b7e769738a797d2cc80a2182d158635",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-23",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-23.png",
+      "sha256": "13cb89784d967862ee0319c2c932b6285b7e769738a797d2cc80a2182d158635",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-24",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-24.png",
+      "sha256": "93e9645d39520bec95dbc60bf1c4cec4ff869832465598bd13383d681236210f",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-25",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-25.png",
+      "sha256": "93e9645d39520bec95dbc60bf1c4cec4ff869832465598bd13383d681236210f",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-26",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-26.png",
+      "sha256": "c43b5ad0b9994af90d35b2440c98f3666f4daf104bfdd82f2353521ce6ae84e9",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-27",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-27.png",
+      "sha256": "9597249f76008ff88045709630946ff053ea7facf187925df1a112a03221dcb6",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-28",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-28.png",
+      "sha256": "399ae347f258f0b3964b48a0784937a1cd5ae4c95eda595b9a85e5827f8e2522",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-29",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-29.png",
+      "sha256": "ac97d3810a1944bc28f059f906246bd74c8c9d61daa3ca19ce97ed6c68298b00",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-30",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-30.png",
+      "sha256": "88bffe8d860a9a26184c9e1a2682c5ceb8d770c9dc58d3c268ef02729bf8399b",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-31",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-31.png",
+      "sha256": "c220759063bddc879d8e30f424bf2dbf6d83059cc48dd33e5a29d97708ae99ad",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-32",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-32.png",
+      "sha256": "c220759063bddc879d8e30f424bf2dbf6d83059cc48dd33e5a29d97708ae99ad",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-33",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-33.png",
+      "sha256": "f64ea6ec021be84b00029e5ef2b9d4bede713c9ed7c7c74294a128074f9103fc",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-34",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-34.png",
+      "sha256": "40e749bf6068626b25fec0c60ab8c0da0a5304c2be7a4167e7c6be3e4e9ca985",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-35",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-35.png",
+      "sha256": "188b75ee9f8d88ff8f0bb790fdecd4a1725731ac8d672a1a2a3149b9a6ee518c",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-36",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-36.png",
+      "sha256": "c16bbacb401766d4b390385a1b62828c1024eff9346a7c03173f83074a7db554",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-37",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-37.png",
+      "sha256": "602d1f854b87390111898f15771467660b3fc80830d17f7d947d93d84db0bcb3",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-38",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-38.png",
+      "sha256": "afc8001f6df0c650ed224b114d931d59d1460307a33c65474bf82ca16a565a9e",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-39",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-39.png",
+      "sha256": "d44ca4b0afb8d3212e62ddbd2b808b24250835394fc1a04df47e9e58c21b80a1",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-40",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-40.png",
+      "sha256": "517aa72a2bca41b48d3c95ace57697ac8915552ed77562d2dbbfbd99a01eb649",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-41",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-41.png",
+      "sha256": "5dc7517ba903f1a2490f9a44371e696c16d24a6235a43a3006d040e2140a4cc3",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-42",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-42.png",
+      "sha256": "5dc7517ba903f1a2490f9a44371e696c16d24a6235a43a3006d040e2140a4cc3",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-43",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-43.png",
+      "sha256": "5dc7517ba903f1a2490f9a44371e696c16d24a6235a43a3006d040e2140a4cc3",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-44",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-44.png",
+      "sha256": "afaf0cb3138651026b0002e04ad65c4381269875bb372578d2cdbfe2af48cc7d",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-45",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-45.png",
+      "sha256": "afaf0cb3138651026b0002e04ad65c4381269875bb372578d2cdbfe2af48cc7d",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-46",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-46.png",
+      "sha256": "afaf0cb3138651026b0002e04ad65c4381269875bb372578d2cdbfe2af48cc7d",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-47",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-47.png",
+      "sha256": "a9734a1a3dd5b1873a514a4191f7d2a47eb4e9a5cdcc2de44ce1d135e018cf14",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-48",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-48.png",
+      "sha256": "b31ffb820f32dccc218ad40f966f87d8d7f723b16bbd2370979bb938b49db8a6",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-49",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-49.png",
+      "sha256": "6873a1d8aaca2c93e000fbdf4cb71e0bbe9588e1eae0e7a92ba36dbee80def32",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-50",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-50.png",
+      "sha256": "c7aa01ab04553c212bc7d18c12c8af105262f663cdc254b5e7848b79f26a6c43",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-51",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-51.png",
+      "sha256": "9efd938fc09263150d9c64c300c11ba1388d3f3f1ffd43fc800ef0fbebbf8a99",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-52",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-52.png",
+      "sha256": "5e7bea9a77f0a665fb479b0fe6b3ceab55e2fe37cfdac52a50c13e748e603dd8",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-53",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-53.png",
+      "sha256": "d188c3566816c8b80bead29313934b985ca4ced8dc705d975c8ec084d1ae785c",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-54",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-54.png",
+      "sha256": "7f6f21d7a86a08ef3ad2e6003dc4bb8d0ef740def6ceead42b9b5eded221cd92",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-55",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-55.png",
+      "sha256": "fab2dc9d4185850af3b95be6a62f390b3315a1e9d6b9b2c4e37dec34418db346",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-56",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-56.png",
+      "sha256": "fab2dc9d4185850af3b95be6a62f390b3315a1e9d6b9b2c4e37dec34418db346",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-57",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-57.png",
+      "sha256": "a4c627a20f34ed537e3dc29b09c3b3f01f9c6068d846fc7fc85219ed5583bf62",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-58",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-58.png",
+      "sha256": "d86bccf67f48dbed6f1922481ecb566260e30b9eae4fe08afa8ada13fb367f1f",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-59",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-59.png",
+      "sha256": "22c68f3738933641e55117e89d2a281d1f8ebd8fcb0934fd08d9fdbbb0b86824",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-60",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-60.png",
+      "sha256": "3cb49cdafa0fb103c9c5a4610b0965985c2a1c8380dc31ff2c8609d2cf552948",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-61",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-61.png",
+      "sha256": "3cb49cdafa0fb103c9c5a4610b0965985c2a1c8380dc31ff2c8609d2cf552948",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-62",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-62.png",
+      "sha256": "71ebd381611402838d45a1ebdad86a640bc8c8b1fadedd72e4aa0cb36542d347",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-63",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-63.png",
+      "sha256": "31cd584fadf17939e4bbcdcf25b5e338edd06919f552fd9479bed8f47716fb5b",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-64",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-64.png",
+      "sha256": "fd9958ebd5a27f49492444a8cabce9fdc15c05cfcf787281031fd787f79aea6d",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-65",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-65.png",
+      "sha256": "b8f97ffec924786a3eb185d379e239ad1014cea716308e46a02db7e715bcfee1",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-66",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-66.png",
+      "sha256": "818da551f59f169bedd6ab202ff43671cce90f5698da6e7b1b9b48323ea48724",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-67",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-67.png",
+      "sha256": "818da551f59f169bedd6ab202ff43671cce90f5698da6e7b1b9b48323ea48724",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-68",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-68.png",
+      "sha256": "9be5b63b867b03b4444df63c8a820b3489c5574b43153d2c27a2bc4c857ae5ee",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-observe-69",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-observe-69.png",
+      "sha256": "dac797d2dfc772396ebb4aab2f08517bf97fe4dcde0e36f8cf34b86e702f8398",
+      "width": 2560,
+      "height": 1520
+    },
+    {
+      "label": "control-panel-preview",
+      "capture": "macos-window-server",
+      "path": ".browse/sessions/mission-control-native-efaf8f34cd94832749cf623d/control-panel-preview.png",
+      "sha256": "dac797d2dfc772396ebb4aab2f08517bf97fe4dcde0e36f8cf34b86e702f8398",
+      "width": 2560,
+      "height": 1520
+    }
+  ],
+  "appCommands": [
+    {
+      "kind": "setup-or-service-command",
+      "command": "layout.switch",
+      "argumentKeys": [
+        "name"
+      ]
+    },
+    {
+      "kind": "setup-or-service-command",
+      "command": "app.quit",
+      "argumentKeys": []
+    }
+  ],
+  "packages": [
+    {
+      "name": "mission-control-control-panel",
+      "nativeCheck": true,
+      "manifest": {
+        "v": 1,
+        "name": "mission-control-control-panel",
+        "artifacts": {
+          "assets/chevron-down.svg": "1d2065b24da0cf4b3936203004eb8ef7b15a985a0658426517ad0113c29d0fc8",
+          "assets/chevron-right.svg": "efc8ab93d789d1e04bbd5c062e1560267280b570d6efaa09d2a77e601d64ee5f",
+          "assets/layout.svg": "991e3e3ef8165e8c057236ee43ab157a22d12479251bd3da3710db3837326cfd",
+          "assets/panel.svg": "9c88b7e44f25d82d3f37d069b69167c98a06cf4a6cb7f9da7dc52cc2ca10c187",
+          "assets/refresh.svg": "a4ef0613fb0794ae6554ccacbe332a0f7a6bfd346ebe94d209b112796462640a",
+          "assets/search.svg": "73a02b45b12746984a4e5d9689a3ca5578f5d329e4e0b0598bd5139d81c0bdce",
+          "backend.mjs": "738e15587f8e18a68ef7cf9240912d4938587b0f863bb4914ecb4d46d90f73a1",
+          "main.js": "94bbb8f6efb34e5d5a38899c3ad730060ef6d79144c34468bb7ea2112e1fc3ea",
+          "mod.json": "ac0f668dbf113f8b6aa8b8c70870d1c759c0d0fed9746dd74f8f6e831e0f806e",
+          "NOTICE.md": "b72f3ea4ddef870a7fca5503f0ee3c159cd8d06929e818d775b865e51cb756fc"
+        },
+        "sources": {
+          "src/assets/icons.json": "e15e5fd5234d4d3f8edc59a30bc4f45c878aa0bc662defde22877855704c1254",
+          "src/mods/mission-control-control-panel/apply.mjs": "a42b8edc12f8899dea2a65071769807fa9346dc876b6dba70cd8071203d4693d",
+          "src/mods/mission-control-control-panel/backend.mjs": "09c94d513852109eed666ece571d28abd8308a1a2ff1ac340fb3221a5b04e965",
+          "src/mods/mission-control-control-panel/inventory.mjs": "7915819bed85a3cabec26c61204bd6dc9064616a7035a23904fe0ff116561904",
+          "src/mods/mission-control-control-panel/lifecycle.mjs": "07a51fe1f486ae7ee7b8bfd70b1ff505cafdcf53750f3eb7713242b1b6b8c380",
+          "src/mods/mission-control-control-panel/main.js": "a11a6b510de215e29e4f5ec7c1c2e04e908fabe461b95f10d8edad7ea7c417df",
+          "src/mods/mission-control-control-panel/mod.json": "1321f5aae41d85958136b916f1329b560c89dc9e0d65d242770d7fca3b69171f",
+          "src/mods/mission-control-control-panel/source.mjs": "e3073f88e1157f737356c867ea87087a3c6e3128a45b5429e53cd6cd9d29cde6",
+          "src/mods/mission-control-control-panel/store.mjs": "2903fc1c8a3003d0d576ad405a32de309d4c04badb49c3eab5ce734c75b0f510",
+          "src/mods/mission-control-control-panel/updates.mjs": "1bc25c62d607b9587ba232d4f48e3bee514f549c999968e78bd7bc20070fa80e",
+          "src/shared/ui.js": "63653a7db2c610678b687fe0263aa078f9458336d411b5be4335cba2a4b8533b"
+        }
+      }
+    }
+  ],
+  "appErrors": [],
+  "cleanup": {
+    "attempted": true,
+    "stoppedOnlyOwnedProcesses": true,
+    "existingInstancesQueried": false,
+    "verifiedPrivateCore": true,
+    "verifiedPrivateApp": true,
+    "resourcesRemoved": true,
+    "refused": false
+  },
+  "harnessSourceSha256": "7be8b4073f5a08b52bde177d18f6cd4c64175b23351553d5a991c2067bafd851",
+  "boundary": "Task-owned GPUI app/core with PID-bound native input. Existing instances were not queried. Provider authentication is not proven."
+}
