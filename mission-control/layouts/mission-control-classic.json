@@ -230,6 +230,16 @@
                           "hideHeader": true
                         }
                       }
+                    },
+                    {
+                      "id": "control-panel",
+                      "type": "block",
+                      "content": {
+                        "mod": "mission-control-control-panel",
+                        "props": {
+                          "hideHeader": true
+                        }
+                      }
                     }
                   ]
                 }
