@@ -77,6 +77,7 @@ Each folder is a complete package with its own recipe and screenshot. Click a sc
 | [`mission-control-control-panel/`](mission-control-control-panel/RECIPE.md) | <a href="mission-control-control-panel/preview.png"><img src="mission-control-control-panel/preview.png" width="240" alt="Control panel"></a> | Your installed mods and layouts: new versions, reviewed updates, disable, enable, uninstall and restore. |
 | [`mission-control-agent-menu/`](mission-control-agent-menu/RECIPE.md) | <a href="mission-control-agent-menu/preview.png"><img src="mission-control-agent-menu/preview.png" width="240" alt="Agent menu"></a> | The new-agent menu on its own, for your own layouts. |
 | [`mission-control-reopen/`](mission-control-reopen/RECIPE.md) | <a href="mission-control-reopen/preview.png"><img src="mission-control-reopen/preview.png" width="240" alt="Reopen"></a> | Reopen last tab / last agent on its own, for your own layouts. |
+| [`mission-control-jarvis/`](mission-control-jarvis/RECIPE.md) | <a href="mission-control-jarvis/preview.png"><img src="mission-control-jarvis/preview.png" width="240" alt="J.A.R.V.I.S."></a> | An optional sci-fi HUD layout on top of Classic: arc-reactor dashboard, activity and workload graphs, per-session tickets and PRs with one-click worktree + agent starts, spoken alerts, and Arc / Mark III / Stealth colour suits. Needs `mission-control/`. |
 
 The layouts include the tabs, spaces, agents, Jira, GitHub, GitLab, sessions and Control panel mods. Install the layout bundle or the separate mods, not both: they share names.
 
