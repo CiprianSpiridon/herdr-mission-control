@@ -156,7 +156,7 @@ export default class MissionControlMods extends View {
       if(action==='link')return rowButton('link-'+item.key,'Link source…','Link a source for',(_e,cx)=>{this.linkFor=item.key;cx.notify();});
       return rowButton('choose-'+item.key,'Choose source…','Choose the source of',(_e,cx)=>{this.linkFor=item.key;cx.notify();});
     });
-    let row=v_flex().id('row-'+item.key).px(10).py(6).gap(4)
+    let row=v_flex().id('row-'+item.key).min_w(0).px(10).py(6).gap(4)
       .child(h_flex().gap(10).items_center().child(thumb)
         .child(v_flex().flex_1().min_w(0).gap(1).child(label(item.title||item.name)).when(Boolean(sourceText),el=>el.child(label(sourceText,{muted:true,size:10}))))
         .child(div().id('state-'+item.key).text_size(10).text_color(tone).flex_none().tooltip(detail||STATE_LABEL[item.state]||item.state).child(STATE_LABEL[item.state]||item.state))
@@ -168,9 +168,11 @@ export default class MissionControlMods extends View {
   }
   confirmView(item,t){
     const c=this.confirm,uses=c.layouts?.length?`Used by ${c.layouts.join(', ')}. `:'',text=c.op==='uninstall'?`${uses}Remove ${item.name}? It can be restored for 30 days, then it is deleted.`:`${uses}Disable ${item.name} anyway?`;
-    return h_flex().id('confirm-'+item.key).pl(58).gap(6).items_center().child(div().flex_1().text_size(11).text_color(t.muted).child(text))
-      .child(textButton('confirm-yes-'+item.key,c.op==='uninstall'?'Remove':'Disable',(_e,cx)=>this.lifecycle(c.op,item.key,cx,{confirm:true}),{primary:true}).accessibility_label(`Confirm: ${c.op==='uninstall'?'remove':'disable'} ${item.title||item.name}`))
-      .child(textButton('confirm-no-'+item.key,'Cancel',(_e,cx)=>{this.confirm=null;cx.notify();}).accessibility_label(`Cancel: keep ${item.title||item.name}`));
+    return v_flex().id('confirm-'+item.key).w_full().min_w(0).flex_none().gap(6)
+      .child(div().w_full().min_w(0).whitespace_normal().overflow_hidden().text_size(11).text_color(t.muted).tooltip(text).child(text))
+      .child(h_flex().id('confirm-actions-'+item.key).w_full().min_w(0).flex_none().flex_wrap().gap(6).items_center()
+        .child(textButton('confirm-yes-'+item.key,c.op==='uninstall'?'Remove':'Disable',(_e,cx)=>this.lifecycle(c.op,item.key,cx,{confirm:true}),{primary:true}).flex_none().whitespace_nowrap().accessibility_label(`Confirm: ${c.op==='uninstall'?'remove':'disable'} ${item.title||item.name}`))
+        .child(textButton('confirm-no-'+item.key,'Cancel',(_e,cx)=>{this.confirm=null;cx.notify();}).flex_none().whitespace_nowrap().accessibility_label(`Cancel: keep ${item.title||item.name}`)));
   }
   linkView(item,t){
     let box=v_flex().id('link-'+item.key).pl(58).gap(6);

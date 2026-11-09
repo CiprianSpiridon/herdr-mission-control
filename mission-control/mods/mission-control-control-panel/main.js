@@ -307,7 +307,7 @@ var MissionControlMods = class extends View {
         cx.notify();
       });
     });
-    let row = v_flex2().id("row-" + item.key).px(10).py(6).gap(4).child(h_flex2().gap(10).items_center().child(thumb).child(v_flex2().flex_1().min_w(0).gap(1).child(label(item.title || item.name)).when(Boolean(sourceText), (el) => el.child(label(sourceText, { muted: true, size: 10 })))).child(div2().id("state-" + item.key).text_size(10).text_color(tone).flex_none().tooltip(detail || STATE_LABEL[item.state] || item.state).child(STATE_LABEL[item.state] || item.state)).child(h_flex2().gap(4).flex_none().children(buttons)));
+    let row = v_flex2().id("row-" + item.key).min_w(0).px(10).py(6).gap(4).child(h_flex2().gap(10).items_center().child(thumb).child(v_flex2().flex_1().min_w(0).gap(1).child(label(item.title || item.name)).when(Boolean(sourceText), (el) => el.child(label(sourceText, { muted: true, size: 10 })))).child(div2().id("state-" + item.key).text_size(10).text_color(tone).flex_none().tooltip(detail || STATE_LABEL[item.state] || item.state).child(STATE_LABEL[item.state] || item.state)).child(h_flex2().gap(4).flex_none().children(buttons)));
     if (detail) row = row.child(div2().pl(58).text_size(10).text_color(t.dim).truncate().child(detail));
     if (this.confirm?.key === item.key) row = row.child(this.confirmView(item, t));
     if (this.linkFor === item.key) row = row.child(this.linkView(item, t));
@@ -315,10 +315,10 @@ var MissionControlMods = class extends View {
   }
   confirmView(item, t) {
     const c = this.confirm, uses = c.layouts?.length ? `Used by ${c.layouts.join(", ")}. ` : "", text = c.op === "uninstall" ? `${uses}Remove ${item.name}? It can be restored for 30 days, then it is deleted.` : `${uses}Disable ${item.name} anyway?`;
-    return h_flex2().id("confirm-" + item.key).pl(58).gap(6).items_center().child(div2().flex_1().text_size(11).text_color(t.muted).child(text)).child(textButton("confirm-yes-" + item.key, c.op === "uninstall" ? "Remove" : "Disable", (_e, cx) => this.lifecycle(c.op, item.key, cx, { confirm: true }), { primary: true }).accessibility_label(`Confirm: ${c.op === "uninstall" ? "remove" : "disable"} ${item.title || item.name}`)).child(textButton("confirm-no-" + item.key, "Cancel", (_e, cx) => {
+    return v_flex2().id("confirm-" + item.key).w_full().min_w(0).flex_none().gap(6).child(div2().w_full().min_w(0).whitespace_normal().overflow_hidden().text_size(11).text_color(t.muted).tooltip(text).child(text)).child(h_flex2().id("confirm-actions-" + item.key).w_full().min_w(0).flex_none().flex_wrap().gap(6).items_center().child(textButton("confirm-yes-" + item.key, c.op === "uninstall" ? "Remove" : "Disable", (_e, cx) => this.lifecycle(c.op, item.key, cx, { confirm: true }), { primary: true }).flex_none().whitespace_nowrap().accessibility_label(`Confirm: ${c.op === "uninstall" ? "remove" : "disable"} ${item.title || item.name}`)).child(textButton("confirm-no-" + item.key, "Cancel", (_e, cx) => {
       this.confirm = null;
       cx.notify();
-    }).accessibility_label(`Cancel: keep ${item.title || item.name}`));
+    }).flex_none().whitespace_nowrap().accessibility_label(`Cancel: keep ${item.title || item.name}`)));
   }
   linkView(item, t) {
     let box = v_flex2().id("link-" + item.key).pl(58).gap(6);
