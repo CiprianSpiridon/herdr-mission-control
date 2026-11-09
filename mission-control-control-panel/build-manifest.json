@@ -9,7 +9,7 @@
     "assets/refresh.svg": "a4ef0613fb0794ae6554ccacbe332a0f7a6bfd346ebe94d209b112796462640a",
     "assets/search.svg": "73a02b45b12746984a4e5d9689a3ca5578f5d329e4e0b0598bd5139d81c0bdce",
     "backend.mjs": "ba0cd440e78ded53d50528c0e8090bf28931a62619e25255af5e38b44acd1927",
-    "main.js": "81a262332b90f73bb56455cd2eabb060c5bc9bf0902aa2d2188f8dbdc72be190",
+    "main.js": "6b10b90475f196b438c445f7826ee7a063d4a5bd723494b3db12d27816d003b4",
     "mod.json": "ac0f668dbf113f8b6aa8b8c70870d1c759c0d0fed9746dd74f8f6e831e0f806e",
     "NOTICE.md": "b72f3ea4ddef870a7fca5503f0ee3c159cd8d06929e818d775b865e51cb756fc"
   },
@@ -19,7 +19,7 @@
     "src/mods/mission-control-control-panel/backend.mjs": "df6547bb7d9dc31e1f25ffd6a5c6faef7fba96307b188a7ad339cd7870b0da0e",
     "src/mods/mission-control-control-panel/inventory.mjs": "b9ecaf11779dcb4a0083322eee5137dcdad233e5fbe8aec785694b0a6e2f798c",
     "src/mods/mission-control-control-panel/lifecycle.mjs": "5e3c41a38e5db32d1c7495ef522b0d6c078e9530a28734c09a817cec42c6a0d3",
-    "src/mods/mission-control-control-panel/main.js": "309ce06d2829afdbbb88c0e6885c70f5c8b4f502866fdb6ebd86a848fe4a257e",
+    "src/mods/mission-control-control-panel/main.js": "59442a7c3d739d3b3e9dec5267ee30a373dff6dbb3ebf8cf3b383b3ad89059ec",
     "src/mods/mission-control-control-panel/mod.json": "1321f5aae41d85958136b916f1329b560c89dc9e0d65d242770d7fca3b69171f",
     "src/mods/mission-control-control-panel/source.mjs": "85c3f5ed62e1541ca72b237bb5350fc61af8e7eaeefd7fd719b6636bf67571f6",
     "src/mods/mission-control-control-panel/store.mjs": "2903fc1c8a3003d0d576ad405a32de309d4c04badb49c3eab5ce734c75b0f510",

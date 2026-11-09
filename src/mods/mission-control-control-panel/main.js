@@ -25,7 +25,7 @@ export function actionsFor(item){
   if(item.state==='update')return ['update',...base];
   if(item.state==='ambiguous')return ['choose',...base];
   if(item.state==='untracked')return ['link',...base];
-  return base;
+  return item.source?['update',...base]:base;
 }
 export function matches(item,filter,query){
   const q=(query||'').trim().toLowerCase(),text=[item.name,item.title,item.source?.fullName].filter(Boolean).join(' ').toLowerCase();
@@ -157,9 +157,10 @@ export default class MissionControlMods extends View {
     const files=item.update?item.update.changed+item.update.added+item.update.removed:0;
     const detail=item.state==='update'&&item.update?`${item.update.subject} · ${files} ${files===1?'file':'files'} · ${ago(item.update.time)}`:item.reason;
     // Every row has the same button words, so each button names its item for assistive technology.
-    const named=item.title||item.name,rowButton=(id,text,verb,action,options)=>textButton(id,text,action,{...options,disabled:Boolean(this.busy)}).accessibility_label(`${verb} ${named}`);
+    const named=item.title||item.name,rowButton=(id,text,verb,action,options)=>textButton(id,text,action,{...options,disabled:Boolean(this.busy)||Boolean(options?.disabled)}).accessibility_label(`${verb} ${named}`);
     const buttons=actionsFor(item).map(action=>{
-      if(action==='update')return rowButton('update-'+item.key,this.preparingKey===item.key?'Preparing…':'Update…','Update',(_e,cx)=>this.update(item.key,cx),{primary:true});
+      if(action==='update')return rowButton('update-'+item.key,this.preparingKey===item.key?'Preparing…':'Update…','Update',(_e,cx)=>this.update(item.key,cx),{primary:true,disabled:item.state!=='update'})
+        .tooltip(this.preparingKey===item.key?'Preparing the update…':item.state==='update'?'Review the available update':['current','edited'].includes(item.state)?'Up to date: no newer version is available.':item.reason||'Check for updates to see whether a newer version is available.');
       if(action==='disable')return rowButton('disable-'+item.key,'Disable','Disable',(_e,cx)=>this.lifecycle('disable',item.key,cx));
       if(action==='enable')return rowButton('enable-'+item.key,'Enable','Enable',(_e,cx)=>this.lifecycle('enable',item.key,cx));
       if(action==='uninstall')return rowButton('uninstall-'+item.key,'Uninstall','Uninstall',(_e,cx)=>{this.confirm={op:'uninstall',key:item.key,layouts:item.usedBy||[]};cx.notify();});
