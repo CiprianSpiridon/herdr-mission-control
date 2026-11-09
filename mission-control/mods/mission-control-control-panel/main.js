@@ -261,10 +261,12 @@ var MissionControlMods = class extends View {
   }
   listView(t) {
     const visible = this.list.filter((i) => matches(i, this.filter, this.query));
+    const groupUpdates = !["layouts", "mods"].includes(this.filter);
+    const inKind = (kind) => visible.filter((i) => i.kind === kind && !["disabled", "builtin"].includes(i.state) && (!groupUpdates || i.state !== "update"));
     const groups = [
-      ["updates", "Updates", visible.filter((i) => i.state === "update")],
-      ["layouts", "Layouts", visible.filter((i) => i.kind === "layout" && !["update", "disabled", "builtin"].includes(i.state))],
-      ["mods", "Mods", visible.filter((i) => i.kind === "mod" && !["update", "disabled", "builtin"].includes(i.state))],
+      ["updates", "Updates", groupUpdates ? visible.filter((i) => i.state === "update") : []],
+      ["layouts", "Layouts", inKind("layout")],
+      ["mods", "Mods", inKind("mod")],
       ["disabled", "Disabled", visible.filter((i) => i.state === "disabled")],
       ["builtin", "Built into Herdr", visible.filter((i) => i.state === "builtin")]
     ];

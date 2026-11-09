@@ -57,6 +57,30 @@ test('opening recovers first, lists every section with thumbnails, and offers Up
   let images = [];walk(tree, el => { if (el.kind === 'image') images.push(el.value); });assert.deepEqual(images, ['mission-control/control-panel/cache/previews/mod-foo.png']);
 });
 
+test('Layouts and Mods retain their Update buttons when the Updates section was collapsed', async t => {
+  const layout={...ITEMS[5],state:'update',origin:'installer',update:ITEMS[0].update};
+  const list=ITEMS.map(i=>i.key===layout.key?layout:i);
+  const m=mount(t,{respond:r=>r.op==='prepare'?{ok:true,prepared:{ok:true,review:{changed:['lay.json']}}}:listing({list})});
+  await m.settle();
+  trigger(m.render(),'mods-section-updates-toggle','on_click',{},m.cx);
+  assert.equal(has(m.render(),'update-'+layout.key),false,'Updates collapsed in All');
+  trigger(m.render(),'mods-filter-layouts','on_click',{},m.cx);
+  assert.ok(has(m.render(),'mods-section-layouts-toggle'));
+  assert.equal(has(m.render(),'mods-section-updates-toggle'),false,'layout updates stay with layouts');
+  assert.ok(has(m.render(),'update-'+layout.key),'Update is visible directly in Layouts');
+  trigger(m.render(),'update-'+layout.key,'on_click',{},m.cx);await m.settle();
+  assert.ok(has(m.render(),'review-apply'),'the Layouts Update button opens the review');
+  assert.equal(m.calls.some(c=>c.op==='commit'),false,'review waits for confirmation');
+  trigger(m.render(),'review-cancel','on_click',{},m.cx);
+  trigger(m.render(),'mods-filter-mods','on_click',{},m.cx);
+  assert.ok(has(m.render(),'mods-section-mods-toggle'));
+  assert.ok(has(m.render(),'update-mod:foo'),'mod updates stay visible in Mods too');
+  trigger(m.render(),'mods-filter-updates','on_click',{},m.cx);
+  assert.ok(has(m.render(),'update-'+layout.key));assert.ok(has(m.render(),'update-mod:foo'));
+  let rows=0;walk(m.render(),el=>{if(el.semanticId==='row-'+layout.key)rows++;});
+  assert.equal(rows,1,'Updates shows each item once');
+});
+
 test('installer layouts, installer mods and the panel itself offer reviewed updates, with self updated last', async t => {
   const managed = [
     {...ITEMS[0], key: 'mod:mission-control-control-panel', name: 'mission-control-control-panel', origin: 'self'},

@@ -125,8 +125,10 @@ export default class MissionControlMods extends View {
   }
   listView(t){
     const visible=this.list.filter(i=>matches(i,this.filter,this.query));
-    const groups=[['updates','Updates',visible.filter(i=>i.state==='update')],['layouts','Layouts',visible.filter(i=>i.kind==='layout'&&!['update','disabled','builtin'].includes(i.state))],
-      ['mods','Mods',visible.filter(i=>i.kind==='mod'&&!['update','disabled','builtin'].includes(i.state))],['disabled','Disabled',visible.filter(i=>i.state==='disabled')],['builtin','Built into Herdr',visible.filter(i=>i.state==='builtin')]];
+    const groupUpdates=!['layouts','mods'].includes(this.filter);
+    const inKind=kind=>visible.filter(i=>i.kind===kind&&!['disabled','builtin'].includes(i.state)&&(!groupUpdates||i.state!=='update'));
+    const groups=[['updates','Updates',groupUpdates?visible.filter(i=>i.state==='update'):[]],['layouts','Layouts',inKind('layout')],
+      ['mods','Mods',inKind('mod')],['disabled','Disabled',visible.filter(i=>i.state==='disabled')],['builtin','Built into Herdr',visible.filter(i=>i.state==='builtin')]];
     let body=v_flex().id('mods-list').flex_1().min_h(0).overflow_y_scroll().gap(2).pb(12);
     if(!this.list.length&&!this.busy)return body.child(emptyState(MOD,'layout','Nothing listed yet','Check again once the helper can run (Node.js 22 and git).'));
     for(const [id,title,items]of groups){
