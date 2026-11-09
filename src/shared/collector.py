@@ -14,6 +14,7 @@ COLLECTOR_MAX_FILE = 320 * 1024
 COLLECTOR_MAX_REQUEST = 65536
 COLLECTOR_PROVIDERS = ("codex", "claude", "grok")
 COLLECTOR_CACHE_FILES = {"codex": "codex-app-server.json", "claude": "claude-statusline.json", "grok": "grok-cli-billing.json"}
+COLLECTOR_CACHE_ALIASES = {"claude": ("claude-statusline.observation.json",)}
 
 
 class CollectorError(Exception):
@@ -301,7 +302,7 @@ class CollectorReaders:
                                 pending.append((child_path, depth + 1))
                             continue
                         cache = root in self.source.get("cacheRoots", [])
-                        allowed = child.name == COLLECTOR_CACHE_FILES[self.source["provider"]] if cache else child.name.endswith((".jsonl", ".jsonl.zst")) or (self.source["provider"] == "grok" and child.name.endswith(".json"))
+                        allowed = child.name in (COLLECTOR_CACHE_FILES[self.source["provider"]], *COLLECTOR_CACHE_ALIASES.get(self.source["provider"], ())) if cache else child.name.endswith((".jsonl", ".jsonl.zst")) or (self.source["provider"] == "grok" and child.name.endswith(".json"))
                         if not allowed or not child.is_file(follow_symlinks=False):
                             continue
                         if child_path in indexed_paths:

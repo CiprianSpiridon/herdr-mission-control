@@ -56,6 +56,22 @@ class ClaudeTest(unittest.TestCase):
         self.assertIsNone(value["quota"])
         self.assertNotIn("PRIVATE_", json.dumps(value))
 
+    def test_current_observation_snapshot_is_read_beside_an_older_legacy_cache(self):
+        legacy = self.cache(session_contexts={ID: {"used_percent": 90, "cache": {"session_id": ID, "last_activity_unix": 100}}})
+        snapshot = json.loads(legacy.read_text())
+        snapshot["fetched_at_unix"] = 12000
+        snapshot["session_contexts"] = {ID: {"used_percent": 30, "cache": {"session_id": ID, "last_activity_unix": 12000}}}
+        current = legacy.with_name("claude-statusline.observation.json")
+        current.write_text(json.dumps({"snapshot": snapshot, "payload": {"session_id": OTHER, "prompt": "PRIVATE_PAYLOAD_MUST_NOT_ESCAPE"}}))
+        result = self.collect(operation="observe", identities=[self.identity()])
+        contexts = [r for r in result["data"] if r.get("context")]
+        self.assertTrue(any(r["context"]["reportedUsedPercent"] == 30 and r["provenance"]["observedAt"] == 12000000 for r in contexts))
+        self.assertTrue(all(r["identity"] == self.identity() for r in contexts))
+        self.assertNotIn("PRIVATE_", json.dumps(result))
+        current.write_text(json.dumps({"snapshot": {"provider": "codex"}, "payload": {"context_window": {"used_percentage": 50}}}))
+        rejected = self.collect(operation="observe", identities=[self.identity()])
+        self.assertTrue(any(r.get("code") == "INVALID_CACHE" for r in rejected["data"]))
+
     def test_two_sessions_do_not_mix_and_malformed_or_missing_ids_are_unavailable(self):
         self.write([self.assistant(), self.assistant(sessionId=OTHER)])
         self.assertEqual(self.collect()["data"][0]["code"], "AMBIGUOUS_SESSION")

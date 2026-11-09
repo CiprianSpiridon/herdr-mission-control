@@ -7,6 +7,10 @@ def claude_number(value):
 
 def claude_cache(entry, readers):
     raw = readers.json_object(entry)
+    if os.path.basename(entry["path"]) == "claude-statusline.observation.json":
+        raw = raw.get("snapshot")
+        if not isinstance(raw, dict):
+            return readers.unavailable(entry, "INVALID_CACHE", "The statusline observation has no sanitized snapshot.")
     if raw.get("provider") != "claude" or raw.get("source") != "claude-statusline" or claude_number(raw.get("fetched_at_unix")) is None:
         return readers.unavailable(entry, "INVALID_CACHE", "The configured statusline cache has an invalid provider/source or fetch time.")
     if readers.request["operation"] != "observe":
