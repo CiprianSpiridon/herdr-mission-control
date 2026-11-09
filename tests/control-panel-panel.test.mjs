@@ -39,7 +39,7 @@ const listing = (extra = {}) => ({v: 1, ok: true, list: ITEMS, removed: [{id: 'm
 test('each state offers exactly its actions; filters and search narrow the list', () => {
   const by = Object.fromEntries(ITEMS.map(i => [i.name, actionsFor(i)]));
   assert.deepEqual(by.foo, ['update', 'disable', 'uninstall']);assert.deepEqual(by.baz, ['choose', 'disable', 'uninstall']);assert.deepEqual(by.zzz, ['link', 'disable', 'uninstall']);
-  assert.deepEqual(by.off, ['enable', 'uninstall']);assert.deepEqual(by.bar, ['update', 'disable', 'uninstall']);
+  assert.deepEqual(by.off, ['enable', 'uninstall']);assert.deepEqual(by.bar, ['disable', 'uninstall']);
   for (const n of ['menu', 'mission-control-agents', 'mission-control-control-panel']) assert.deepEqual(by[n], [], n + ' is read-only');
   assert.deepEqual(ITEMS.filter(i => matches(i, 'updates', '')).map(i => i.name), ['foo']);
   assert.deepEqual(ITEMS.filter(i => matches(i, 'all', 'acme/b')).map(i => i.name), ['bar']);
@@ -81,21 +81,38 @@ test('Layouts and Mods retain their Update buttons when the Updates section was 
   assert.equal(rows,1,'Updates shows each item once');
 });
 
-test('up-to-date installed layouts keep a visible Update button that enables only when an update exists',async t=>{
-  const layout={...ITEMS[5],state:'current',origin:'installer',installerPackage:'mission-control'};
-  let available=false;
-  const m=mount(t,{respond:r=>r.op==='prepare'?{ok:true,prepared:{ok:true,review:{changed:['lay.json']}}}:
-    listing({list:[available?{...layout,state:'update',update:ITEMS[0].update}:layout]})});
+test('a bundled Control Panel update appears on layout rows, opens its review and clears after Apply',async t=>{
+  const panel={...ITEMS[0],key:'mod:mission-control-control-panel',name:'mission-control-control-panel',origin:'self'};
+  const layouts=['mission-control','mission-control-classic'].map(name=>({...ITEMS[5],key:'layout:'+name,name,origin:'installer',state:'update',updateKeys:[panel.key],update:panel.update}));
+  let applied=false,prepares=0;
+  const m=mount(t,{respond:r=>{
+    if(r.op==='prepare')return ++prepares===1?{ok:true,prepared:{pending:true,continuation:'next-member',message:'Preparing layout update (1/2)…'}}:
+      {ok:true,prepared:{ok:true,review:{changed:['mods/mission-control-control-panel/main.js']}}};
+    if(r.op==='commit'){applied=true;return {ok:true};}
+    return listing({list:[...layouts,panel].map(i=>applied?{...i,state:'current',updateKeys:undefined,update:undefined}:i)});
+  }});
   await m.settle();
+  assert.match(text(m.render()),/Update all \(1\)/,'one mod update is counted once across two layouts');
+  trigger(m.render(),'mods-filter-updates','on_click',{},m.cx);
+  assert.ok(has(m.render(),'update-'+panel.key),'Updates offers the actual mod update');
+  assert.equal(has(m.render(),'update-layout:mission-control'),false,'Updates does not duplicate the same change under its parent');
   trigger(m.render(),'mods-filter-layouts','on_click',{},m.cx);
-  const button=findElement(m.render(),'update-layout:lay');
-  assert.match(text(button),/Update…/,'layout button remains visible when the real helper reports current');
-  assert.equal(button.handlers.on_click,undefined,'no update can be applied while up to date');
-  assert.ok(button.calls.some(c=>c.method==='tooltip'&&c.args[0].includes('Up to date')),'disabled button explains why');
-  available=true;trigger(m.render(),'mods-check','on_click',{},m.cx);await m.settle();
-  assert.ok(findElement(m.render(),'update-layout:lay').handlers.on_click,'the same button enables after an update check');
-  trigger(m.render(),'update-layout:lay','on_click',{},m.cx);await m.settle();
-  assert.ok(has(m.render(),'review-apply'));
+  for(const layout of layouts)assert.ok(has(m.render(),'update-'+layout.key),'Layouts exposes its bundled update');
+  trigger(m.render(),'update-layout:mission-control','on_click',{},m.cx);await m.settle();
+  assert.match(text(m.render()),/mods\/mission-control-control-panel\/main.js/,'review names the real bundled file');
+  assert.equal(m.calls.filter(c=>c.op==='prepare')[1].continuation,'next-member');
+  trigger(m.render(),'review-apply','on_click',{},m.cx);await m.settle();
+  assert.deepEqual(m.calls.filter(c=>c.op==='commit').map(c=>c.key),['layout:mission-control']);
+  for(const layout of layouts)assert.equal(has(m.render(),'update-'+layout.key),false,'no disabled Update placeholder remains once current');
+});
+
+test('Update all applies a shared bundled mod only once and never prepares a layout proxy',async t=>{
+  const panel={...ITEMS[0],key:'mod:mission-control-control-panel',name:'mission-control-control-panel',origin:'self'};
+  const layouts=['mission-control','mission-control-classic'].map(name=>({...ITEMS[5],key:'layout:'+name,name,state:'update',origin:'installer',updateKeys:[panel.key],update:panel.update}));
+  const m=mount(t,{respond:r=>r.op==='prepare'?{ok:true,prepared:{ok:true,review:{changed:['main.js']}}}:r.op==='commit'?{ok:true}:listing({list:[...layouts,panel]})});
+  await m.settle();trigger(m.render(),'mods-update-all','on_click',{},m.cx);await m.settle();
+  assert.deepEqual(m.calls.filter(c=>c.op==='prepare').map(c=>[c.key,c.itemOnly]),[[panel.key,true]]);
+  assert.deepEqual(m.calls.filter(c=>c.op==='commit').map(c=>c.key),[panel.key]);
 });
 
 test('installer layouts, installer mods and the panel itself offer reviewed updates, with self updated last', async t => {
@@ -106,7 +123,7 @@ test('installer layouts, installer mods and the panel itself offer reviewed upda
   ];
   for (const item of managed) {
     assert.deepEqual(actionsFor(item), ['update']);
-    assert.deepEqual(actionsFor({...item, state: 'current'}), ['update']);
+    assert.deepEqual(actionsFor({...item, state: 'current'}), []);
     assert.deepEqual(actionsFor({...item, state: 'untracked'}), ['link']);
   }
   const m = mount(t, {respond: r => r.op === 'prepare' ? {ok: true, prepared: {ok: true, review: {changed: ['main.js']}}}

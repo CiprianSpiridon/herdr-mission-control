@@ -25,12 +25,17 @@ export function actionsFor(item){
   if(item.state==='update')return ['update',...base];
   if(item.state==='ambiguous')return ['choose',...base];
   if(item.state==='untracked')return ['link',...base];
-  return item.source?['update',...base]:base;
+  return base;
 }
+const directUpdate=item=>item.state==='update'&&(!item.updateKeys||item.updateKeys.includes(item.key));
+const pendingItems=list=>{
+  const keys=new Set(list.filter(i=>i.state==='update').flatMap(i=>i.updateKeys||[i.key]));
+  return list.filter(i=>keys.has(i.key)).sort((a,b)=>Number(a.origin==='self')-Number(b.origin==='self'));
+};
 export function matches(item,filter,query){
   const q=(query||'').trim().toLowerCase(),text=[item.name,item.title,item.source?.fullName].filter(Boolean).join(' ').toLowerCase();
   if(q&&!text.includes(q))return false;
-  if(filter==='updates')return item.state==='update';
+  if(filter==='updates')return directUpdate(item);
   if(filter==='mods')return item.kind==='mod'&&!['builtin','disabled'].includes(item.state);
   if(filter==='layouts')return item.kind==='layout'&&!['builtin','disabled'].includes(item.state);
   if(filter==='disabled')return item.state==='disabled';
@@ -74,8 +79,15 @@ export default class MissionControlMods extends View {
   update(key,cx,resolutions){
     if(this.busy||this.preparingKey)return;
     this.info=null;this.preparingKey=key;
-    this.run(cx,'Preparing the update…',async()=>{
-      try{const out=await this.call({op:'prepare',key,resolutions:resolutions||{}});this.review={key,resolutions:resolutions||{},...out.prepared};}
+    this.run(cx,'Preparing the update…',async taskCx=>{
+      try{
+        let out=await this.call({op:'prepare',key,resolutions:resolutions||{}});
+        while(out.prepared?.pending&&!this.closed){
+          this.busy=out.prepared.message||'Preparing the update…';taskCx.notify();
+          out=await this.call({op:'prepare',key,resolutions:resolutions||{},continuation:out.prepared.continuation});
+        }
+        if(!this.closed)this.review={key,resolutions:resolutions||{},...out.prepared};
+      }
       finally{this.preparingKey=null;}
     });
   }
@@ -86,12 +98,12 @@ export default class MissionControlMods extends View {
     this.run(cx,'Updating…',async()=>{
       const done=[],skipped=[];
       // Updating this view hot-reloads it, so finish every other item first.
-      for(const item of this.list.filter(i=>i.state==='update').sort((a,b)=>Number(a.origin==='self')-Number(b.origin==='self'))){
+      for(const item of pendingItems(this.list)){
         try{
-          const p=(await this.call({op:'prepare',key:item.key})).prepared,a=p.review?.access;
+          const p=(await this.call({op:'prepare',key:item.key,itemOnly:true})).prepared,a=p.review?.access;
           const risky=!p.ok||a?.hosts?.length||a?.programs?.length||a?.files||p.review?.keys?.clash?.length;
           if(risky){skipped.push(item.name);continue;}
-          await this.call({op:'commit',key:item.key});done.push(item.name);
+          await this.call({op:'commit',key:item.key,itemOnly:true});done.push(item.name);
         }catch{skipped.push(item.name);}
       }
       await this.load('inventory');await this.load('check');
@@ -121,7 +133,7 @@ export default class MissionControlMods extends View {
     return root.child(this.review?this.reviewView(t):this.listView(t));
   }
   toolbar(t){
-    const updates=this.list.filter(i=>i.state==='update').length;
+    const updates=pendingItems(this.list).length;
     const chips=FILTERS.map(([id,name])=>h_flex().id('mods-filter-'+id).h(24).px(8).items_center().rounded(5).text_size(11).cursor_pointer()
       .bg(this.filter===id?t.selected:'#00000000').text_color(this.filter===id?t.accent:t.muted).role('tab').accessibility_label(name)
       .on_click((_e,cx)=>{this.filter=id;cx.notify();}).child(id==='updates'&&updates?`${name} ${updates}`:name));
@@ -134,8 +146,8 @@ export default class MissionControlMods extends View {
   listView(t){
     const visible=this.list.filter(i=>matches(i,this.filter,this.query));
     const groupUpdates=!['layouts','mods'].includes(this.filter);
-    const inKind=kind=>visible.filter(i=>i.kind===kind&&!['disabled','builtin'].includes(i.state)&&(!groupUpdates||i.state!=='update'));
-    const groups=[['updates','Updates',groupUpdates?visible.filter(i=>i.state==='update'):[]],['layouts','Layouts',inKind('layout')],
+    const inKind=kind=>visible.filter(i=>i.kind===kind&&!['disabled','builtin'].includes(i.state)&&(!groupUpdates||!directUpdate(i)));
+    const groups=[['updates','Updates',groupUpdates?visible.filter(directUpdate):[]],['layouts','Layouts',inKind('layout')],
       ['mods','Mods',inKind('mod')],['disabled','Disabled',visible.filter(i=>i.state==='disabled')],['builtin','Built into Herdr',visible.filter(i=>i.state==='builtin')]];
     let body=v_flex().id('mods-list').flex_1().min_h(0).overflow_y_scroll().gap(2).pb(12);
     if(!this.list.length&&!this.busy)return body.child(emptyState(MOD,'layout','Nothing listed yet','Check again once the helper can run (Node.js 22 and git).'));
@@ -159,8 +171,7 @@ export default class MissionControlMods extends View {
     // Every row has the same button words, so each button names its item for assistive technology.
     const named=item.title||item.name,rowButton=(id,text,verb,action,options)=>textButton(id,text,action,{...options,disabled:Boolean(this.busy)||Boolean(options?.disabled)}).accessibility_label(`${verb} ${named}`);
     const buttons=actionsFor(item).map(action=>{
-      if(action==='update')return rowButton('update-'+item.key,this.preparingKey===item.key?'Preparing…':'Update…','Update',(_e,cx)=>this.update(item.key,cx),{primary:true,disabled:item.state!=='update'})
-        .tooltip(this.preparingKey===item.key?'Preparing the update…':item.state==='update'?'Review the available update':['current','edited'].includes(item.state)?'Up to date: no newer version is available.':item.reason||'Check for updates to see whether a newer version is available.');
+      if(action==='update')return rowButton('update-'+item.key,this.preparingKey===item.key?'Preparing…':'Update…','Update',(_e,cx)=>this.update(item.key,cx),{primary:true});
       if(action==='disable')return rowButton('disable-'+item.key,'Disable','Disable',(_e,cx)=>this.lifecycle('disable',item.key,cx));
       if(action==='enable')return rowButton('enable-'+item.key,'Enable','Enable',(_e,cx)=>this.lifecycle('enable',item.key,cx));
       if(action==='uninstall')return rowButton('uninstall-'+item.key,'Uninstall','Uninstall',(_e,cx)=>{this.confirm={op:'uninstall',key:item.key,layouts:item.usedBy||[]};cx.notify();});

@@ -6,6 +6,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
+import crypto from 'node:crypto';
 import {execFile} from 'node:child_process';
 import {recordsRoot} from './source.mjs';
 import {gitBlobSha, GENERATED} from './inventory.mjs';
@@ -61,7 +62,7 @@ export function planKeys(userKeys, snippet, owned = []) {
  * resolutions: {relativePath: 'mine'|'theirs'} for previously reported conflicts.
  * Returns {ok, conflicts, review, plan} and writes the plan to the stage folder; nothing under mods/ changes.
  */
-export async function prepare({appHome, source, record, update, resolutions = {}, herdrApp = 'herdr-app', env = process.env}) {
+export async function prepare({appHome, source, record, update, resolutions = {}, herdrApp = 'herdr-app', env = process.env, currentKeys}) {
   const records = recordsRoot(appHome), stageRoot = path.join(records, 'stage', `${record.kind}-${record.name}`);
   const base = record.base || {}, upstream = update.files || {}, dir = installedDir(appHome, record);
   const localFiles = record.kind === 'mod' ? await listFiles(dir) : Object.keys(base).concat(Object.keys(upstream)).filter((v, i, a) => a.indexOf(v) === i);
@@ -95,7 +96,8 @@ export async function prepare({appHome, source, record, update, resolutions = {}
   if (Object.keys(update.keys || {}).length || record.keys?.length) {
     // Only this item's own keys (checkItem): its section and the actions addressed to it.
     const snippet = update.keys || {};
-    let userKeys = {};try { userKeys = JSON.parse(await fs.readFile(path.join(appHome, 'keys.json'), 'utf8')); } catch {}
+    let userKeys = currentKeys;
+    if (userKeys === undefined) { userKeys = {};try { userKeys = JSON.parse(await fs.readFile(path.join(appHome, 'keys.json'), 'utf8')); } catch {} }
     keys = planKeys(userKeys, snippet, record.keys || []);
   }
   const before = disclose(Object.values(local).filter(d => !isBinary(d)).map(d => d.toString('utf8')));
@@ -131,21 +133,45 @@ export async function prepare({appHome, source, record, update, resolutions = {}
 
 /** Phase 2: back up and apply a prepared change as one journalled commit; then record the new commit. */
 export async function commit({appHome, store, record, now = () => Date.now()}) {
-  const records = recordsRoot(appHome), stageRoot = path.join(records, 'stage', `${record.kind}-${record.name}`);
-  let plan;try { plan = JSON.parse(await fs.readFile(path.join(stageRoot, 'plan.json'), 'utf8')); } catch { fail('NOT_PREPARED', 'Prepare the update first.'); }
-  const dir = installedDir(appHome, record);
-  await backup(appHome, record, now);
-  const ops = [];
-  for (const rel of plan.writes) ops.push({type: 'write', target: path.join(dir, rel), data: await fs.readFile(path.join(stageRoot, 'files', rel))});
-  for (const rel of plan.deletes) ops.push({type: 'delete', target: path.join(dir, rel)});
-  if (plan.keys?.changed) ops.push({type: 'write', target: path.join(appHome, 'keys.json'), data: await fs.readFile(path.join(stageRoot, 'keys.json'))});
-  await store.commit(ops, {label: `update ${record.kind}:${record.name}`});
+  return commitMany({appHome, store, records: [record], now, label: `update ${record.kind}:${record.name}`});
+}
+
+/** Read exactly the staged bytes being reviewed, including merged files and composed keys. */
+export async function readPrepared(appHome, record) {
+  const stageRoot = path.join(recordsRoot(appHome), 'stage', `${record.kind}-${record.name}`);
+  let bytes;try { bytes = await fs.readFile(path.join(stageRoot, 'plan.json')); } catch { fail('NOT_PREPARED', 'Prepare the update first.'); }
+  const plan = JSON.parse(bytes.toString('utf8')), writes = new Map(), hash = crypto.createHash('sha256').update(bytes);
+  if (plan.kind !== record.kind || plan.name !== record.name) fail('STALE_PREPARE', 'The prepared update does not match this item.');
+  for (const rel of plan.writes) {
+    const data = await fs.readFile(path.join(stageRoot, 'files', rel));writes.set(rel, data);hash.update('\0' + rel + '\0').update(data);
+  }
+  const keysData = plan.keys?.changed ? await fs.readFile(path.join(stageRoot, 'keys.json')) : null;
+  if (keysData) hash.update('\0keys\0').update(keysData);
+  return {stageRoot, plan, writes, keysData, digest: hash.digest('hex')};
+}
+
+/** A layout and its bundled mods apply in one journal, with the last composed keys file written once. */
+export async function commitMany({appHome, store, records, now = () => Date.now(), label = 'update layout bundle', expectedPlans = {}}) {
+  const stages = [], ops = [];let keysData = null, written = 0, deleted = 0;
+  for (const record of records) {
+    const key = `${record.kind}:${record.name}`, staged = await readPrepared(appHome, record), {stageRoot, plan} = staged, dir = installedDir(appHome, record);
+    if (expectedPlans[key] && staged.digest !== expectedPlans[key]) fail('STALE_PREPARE', 'The prepared update changed; review it again.');
+    for (const [rel, data] of staged.writes) ops.push({type: 'write', target: path.join(dir, rel), data});
+    for (const rel of plan.deletes) ops.push({type: 'delete', target: path.join(dir, rel)});
+    if (staged.keysData) keysData = staged.keysData;
+    written += plan.writes.length;deleted += plan.deletes.length;stages.push({record, key, plan, stageRoot});
+  }
+  for (const {record} of stages) await backup(appHome, record, now);
+  if (keysData) ops.push({type: 'write', target: path.join(appHome, 'keys.json'), data: keysData});
+  await store.commit(ops, {label});
   await store.updatePackages(value => {
-    const key = `${record.kind}:${record.name}`, current = value.packages[key] || record;
-    value.packages[key] = {...current, commit: plan.commit, base: plan.files, keysDigest: plan.keysDigest ?? null, keys: plan.keys ? plan.keys.owned : current.keys, state: 'current', lastResult: null, updatedAt: now()};
+    for (const {key, record, plan} of stages) {
+      const current = value.packages[key] || record;
+      value.packages[key] = {...current, commit: plan.commit, base: plan.files, keysDigest: plan.keysDigest ?? null, keys: plan.keys ? plan.keys.owned : current.keys, state: 'current', lastResult: null, updatedAt: now()};
+    }
   });
-  await fs.rm(stageRoot, {recursive: true, force: true});
-  return {ok: true, commit: plan.commit, written: plan.writes.length, deleted: plan.deletes.length};
+  for (const {stageRoot} of stages) await fs.rm(stageRoot, {recursive: true, force: true});
+  return {ok: true, commit: stages.at(-1)?.plan.commit, written, deleted};
 }
 
 /** Copy the installed item to backup/<kind>-<name>/<time>/ and keep the newest three. */

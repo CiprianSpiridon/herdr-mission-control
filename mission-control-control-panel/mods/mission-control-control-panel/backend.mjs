@@ -2,8 +2,8 @@
 import { createRequire as __mcCreateRequire } from "node:module"; const require = __mcCreateRequire(import.meta.url);
 
 // src/mods/mission-control-control-panel/backend.mjs
-import fs6 from "node:fs/promises";
-import path6 from "node:path";
+import fs7 from "node:fs/promises";
+import path7 from "node:path";
 
 // src/mods/mission-control-control-panel/source.mjs
 import fs from "node:fs/promises";
@@ -572,8 +572,8 @@ async function adopt(source, catalogs, item, { previous = null, maxCommits = 40,
   }
   const found = results.filter((r) => r.state === "found");
   if (!found.length) {
-    const pending = results.find((r) => r.state === "pending" || r.state === "too-large" || r.state === "unreachable");
-    return pending ? { state: pending.state, reason: pending.reason } : { state: "untracked", reason: "No published version matches this item." };
+    const pending2 = results.find((r) => r.state === "pending" || r.state === "too-large" || r.state === "unreachable");
+    return pending2 ? { state: pending2.state, reason: pending2.reason } : { state: "untracked", reason: "No published version matches this item." };
   }
   const exact = found.filter((r) => r.exact);
   const preferred = (matches) => {
@@ -665,6 +665,7 @@ function findEntry(catalogs, record) {
 import fs4 from "node:fs/promises";
 import path4 from "node:path";
 import os from "node:os";
+import crypto4 from "node:crypto";
 import { execFile as execFile2 } from "node:child_process";
 var BACKUPS_KEPT = 3;
 var ApplyError = class extends Error {
@@ -721,7 +722,7 @@ function planKeys(userKeys, snippet, owned = []) {
   const nowOwned = [...owned.filter((o) => !remove.some((r) => r.section === o.section && r.key === o.key) && !add.some((a) => a.section === o.section && a.key === o.key)), ...add];
   return { add, clash, remove, keep, keys: user, owned: nowOwned, changed: add.length > 0 || remove.length > 0 };
 }
-async function prepare({ appHome, source, record, update, resolutions = {}, herdrApp = "herdr-app", env = process.env }) {
+async function prepare({ appHome, source, record, update, resolutions = {}, herdrApp = "herdr-app", env = process.env, currentKeys }) {
   const records = recordsRoot(appHome), stageRoot = path4.join(records, "stage", `${record.kind}-${record.name}`);
   const base = record.base || {}, upstream = update.files || {}, dir = installedDir(appHome, record);
   const localFiles = record.kind === "mod" ? await listFiles(dir) : Object.keys(base).concat(Object.keys(upstream)).filter((v, i, a) => a.indexOf(v) === i);
@@ -770,10 +771,13 @@ async function prepare({ appHome, source, record, update, resolutions = {}, herd
   let keys = null;
   if (Object.keys(update.keys || {}).length || record.keys?.length) {
     const snippet = update.keys || {};
-    let userKeys = {};
-    try {
-      userKeys = JSON.parse(await fs4.readFile(path4.join(appHome, "keys.json"), "utf8"));
-    } catch {
+    let userKeys = currentKeys;
+    if (userKeys === void 0) {
+      userKeys = {};
+      try {
+        userKeys = JSON.parse(await fs4.readFile(path4.join(appHome, "keys.json"), "utf8"));
+      } catch {
+      }
     }
     keys = planKeys(userKeys, snippet, record.keys || []);
   }
@@ -834,26 +838,51 @@ async function prepare({ appHome, source, record, update, resolutions = {}, herd
   return { ok: true, state: "ready", review };
 }
 async function commit({ appHome, store, record, now = () => Date.now() }) {
-  const records = recordsRoot(appHome), stageRoot = path4.join(records, "stage", `${record.kind}-${record.name}`);
-  let plan;
+  return commitMany({ appHome, store, records: [record], now, label: `update ${record.kind}:${record.name}` });
+}
+async function readPrepared(appHome, record) {
+  const stageRoot = path4.join(recordsRoot(appHome), "stage", `${record.kind}-${record.name}`);
+  let bytes;
   try {
-    plan = JSON.parse(await fs4.readFile(path4.join(stageRoot, "plan.json"), "utf8"));
+    bytes = await fs4.readFile(path4.join(stageRoot, "plan.json"));
   } catch {
     fail3("NOT_PREPARED", "Prepare the update first.");
   }
-  const dir = installedDir(appHome, record);
-  await backup(appHome, record, now);
-  const ops = [];
-  for (const rel of plan.writes) ops.push({ type: "write", target: path4.join(dir, rel), data: await fs4.readFile(path4.join(stageRoot, "files", rel)) });
-  for (const rel of plan.deletes) ops.push({ type: "delete", target: path4.join(dir, rel) });
-  if (plan.keys?.changed) ops.push({ type: "write", target: path4.join(appHome, "keys.json"), data: await fs4.readFile(path4.join(stageRoot, "keys.json")) });
-  await store.commit(ops, { label: `update ${record.kind}:${record.name}` });
+  const plan = JSON.parse(bytes.toString("utf8")), writes = /* @__PURE__ */ new Map(), hash = crypto4.createHash("sha256").update(bytes);
+  if (plan.kind !== record.kind || plan.name !== record.name) fail3("STALE_PREPARE", "The prepared update does not match this item.");
+  for (const rel of plan.writes) {
+    const data = await fs4.readFile(path4.join(stageRoot, "files", rel));
+    writes.set(rel, data);
+    hash.update("\0" + rel + "\0").update(data);
+  }
+  const keysData = plan.keys?.changed ? await fs4.readFile(path4.join(stageRoot, "keys.json")) : null;
+  if (keysData) hash.update("\0keys\0").update(keysData);
+  return { stageRoot, plan, writes, keysData, digest: hash.digest("hex") };
+}
+async function commitMany({ appHome, store, records, now = () => Date.now(), label = "update layout bundle", expectedPlans = {} }) {
+  const stages = [], ops = [];
+  let keysData = null, written = 0, deleted = 0;
+  for (const record of records) {
+    const key = `${record.kind}:${record.name}`, staged = await readPrepared(appHome, record), { stageRoot, plan } = staged, dir = installedDir(appHome, record);
+    if (expectedPlans[key] && staged.digest !== expectedPlans[key]) fail3("STALE_PREPARE", "The prepared update changed; review it again.");
+    for (const [rel, data] of staged.writes) ops.push({ type: "write", target: path4.join(dir, rel), data });
+    for (const rel of plan.deletes) ops.push({ type: "delete", target: path4.join(dir, rel) });
+    if (staged.keysData) keysData = staged.keysData;
+    written += plan.writes.length;
+    deleted += plan.deletes.length;
+    stages.push({ record, key, plan, stageRoot });
+  }
+  for (const { record } of stages) await backup(appHome, record, now);
+  if (keysData) ops.push({ type: "write", target: path4.join(appHome, "keys.json"), data: keysData });
+  await store.commit(ops, { label });
   await store.updatePackages((value) => {
-    const key = `${record.kind}:${record.name}`, current = value.packages[key] || record;
-    value.packages[key] = { ...current, commit: plan.commit, base: plan.files, keysDigest: plan.keysDigest ?? null, keys: plan.keys ? plan.keys.owned : current.keys, state: "current", lastResult: null, updatedAt: now() };
+    for (const { key, record, plan } of stages) {
+      const current = value.packages[key] || record;
+      value.packages[key] = { ...current, commit: plan.commit, base: plan.files, keysDigest: plan.keysDigest ?? null, keys: plan.keys ? plan.keys.owned : current.keys, state: "current", lastResult: null, updatedAt: now() };
+    }
   });
-  await fs4.rm(stageRoot, { recursive: true, force: true });
-  return { ok: true, commit: plan.commit, written: plan.writes.length, deleted: plan.deletes.length };
+  for (const { stageRoot } of stages) await fs4.rm(stageRoot, { recursive: true, force: true });
+  return { ok: true, commit: stages.at(-1)?.plan.commit, written, deleted };
 }
 async function backup(appHome, record, now) {
   const root = path4.join(recordsRoot(appHome), "backup", `${record.kind}-${record.name}`), target = path4.join(root, String(now()));
@@ -914,10 +943,105 @@ async function merge(stageRoot, rel, mine, base, theirs) {
   }
 }
 
-// src/mods/mission-control-control-panel/lifecycle.mjs
+// src/mods/mission-control-control-panel/bundles.mjs
 import fs5 from "node:fs/promises";
-import fsSync3 from "node:fs";
 import path5 from "node:path";
+import crypto5 from "node:crypto";
+var fail4 = (code, message) => {
+  throw Object.assign(new Error(message), { code });
+};
+var stageFor = (home, r) => path5.join(recordsRoot(home), "stage", `${r.kind}-${r.name}`);
+var bundleStage = (home, layout) => path5.join(recordsRoot(home), "stage", `bundle-${layout.name}`);
+var prefix = (r) => r.kind === "mod" ? `mods/${r.name}/` : "layouts/";
+var pending = (r) => r?.lastResult?.state === "update" && r.lastResult.update;
+function layoutUpdateKeys(layout, items, packages) {
+  if (layout.kind !== "layout" || layout.disabled || ["builtin", "clone"].includes(layout.origin)) return [];
+  const source = packages[layout.key]?.source;
+  const members = items.filter((i) => i.key === layout.key || i.kind === "mod" && !i.disabled && !["builtin", "clone"].includes(i.origin) && (layout.installerPackage ? i.installerPackage === layout.installerPackage : layout.mods?.includes(i.name) && packages[i.key]?.source?.path === source?.path) && source?.url && packages[i.key]?.source?.url === source.url && packages[i.key]?.source?.defaultBranch === source.defaultBranch);
+  return members.filter((i) => pending(packages[i.key])).sort((a, b) => Number(a.name === SELF) - Number(b.name === SELF) || Number(a.kind === "layout") - Number(b.kind === "layout") || a.key.localeCompare(b.key)).map((i) => i.key);
+}
+async function prepareLayout({ appHome, layout, items, packages, source, resolutions = {}, continuation, herdrApp, env }) {
+  const keys = layoutUpdateKeys(layout, items, packages);
+  if (!keys.length) fail4("NO_UPDATE", "There is no update to apply; check again.");
+  const root = bundleStage(appHome, layout), file = path5.join(root, "bundle.json");
+  const signature = JSON.stringify([keys.map((key2) => [key2, packages[key2].commit, packages[key2].lastResult.update.commit]), resolutions]);
+  let batch;
+  if (continuation) {
+    try {
+      batch = JSON.parse(await fs5.readFile(file, "utf8"));
+    } catch {
+      fail4("NOT_PREPARED", "Start preparing the layout update again.");
+    }
+    if (batch.token !== continuation || batch.signature !== signature || batch.state !== "preparing") fail4("STALE_PREPARE", "The layout update changed; review it again.");
+  } else {
+    await fs5.rm(root, { recursive: true, force: true });
+    await fs5.mkdir(root, { recursive: true });
+    let currentKeys = {};
+    try {
+      currentKeys = JSON.parse(await fs5.readFile(path5.join(appHome, "keys.json"), "utf8"));
+    } catch {
+    }
+    batch = { token: crypto5.randomUUID(), signature, state: "preparing", targets: keys.map((key2) => ({ key: key2, base: packages[key2].commit })), results: [], currentKeys };
+  }
+  const key = keys[batch.results.length], record = packages[key], scope = prefix(record);
+  const choices = Object.fromEntries(Object.entries(resolutions).filter(([file2]) => file2.startsWith(scope)).map(([file2, choice]) => [file2.slice(scope.length), choice]));
+  const result = await prepare({ appHome, source, record, update: record.lastResult.update, resolutions: choices, herdrApp, env, currentKeys: batch.currentKeys });
+  let planSha = null;
+  if (result.ok) {
+    planSha = (await readPrepared(appHome, record)).digest;
+    try {
+      batch.currentKeys = JSON.parse(await fs5.readFile(path5.join(stageFor(appHome, record), "keys.json"), "utf8"));
+    } catch {
+    }
+  }
+  batch.results.push({ key, record: { kind: record.kind, name: record.name }, result, planSha });
+  const done = batch.results.length === keys.length;
+  if (done) batch.state = batch.results.every((r) => r.result.ok) ? "ready" : "conflict";
+  await fs5.writeFile(file, JSON.stringify(batch));
+  if (!done) return { pending: true, continuation: batch.token, message: `Preparing layout update (${batch.results.length}/${keys.length})…` };
+  const review = { subject: `Layout files and bundled mods for ${layout.name}`, time: Math.max(...keys.map((k) => packages[k].lastResult.update.time || 0)), changed: [], removed: [], keptEdited: [], access: { hosts: [], programs: [], files: false }, keys: { add: [], remove: [], clash: [] } };
+  const conflicts = [], conflictDir = path5.join(root, "conflicts");
+  for (const { record: record2, result: result2 } of batch.results) {
+    const scope2 = prefix(record2), r = result2.review;
+    for (const field of ["changed", "removed", "keptEdited"]) review[field].push(...(r[field] || []).map((file2) => scope2 + file2));
+    for (const field of ["hosts", "programs"]) review.access[field] = [.../* @__PURE__ */ new Set([...review.access[field], ...r.access?.[field] || []])];
+    review.access.files ||= Boolean(r.access?.files);
+    for (const field of ["add", "remove", "clash"]) review.keys[field].push(...r.keys?.[field] || []);
+    for (const c of result2.conflicts || []) {
+      const file2 = scope2 + c.file;
+      conflicts.push({ ...c, file: file2 });
+      if (!c.binary && result2.conflictDir) {
+        const target = path5.join(conflictDir, file2);
+        await fs5.mkdir(path5.dirname(target), { recursive: true });
+        await fs5.copyFile(path5.join(result2.conflictDir, c.file), target);
+      }
+    }
+  }
+  return { ok: batch.state === "ready", state: batch.state, review, conflicts, ...conflicts.length ? { conflictDir } : {} };
+}
+async function commitLayout({ appHome, store, layout, packages, now }) {
+  const root = bundleStage(appHome, layout);
+  let batch;
+  try {
+    batch = JSON.parse(await fs5.readFile(path5.join(root, "bundle.json"), "utf8"));
+  } catch {
+    fail4("NOT_PREPARED", "Prepare the layout update first.");
+  }
+  if (batch.state !== "ready") fail4("NOT_PREPARED", "Resolve and review the layout update before applying it.");
+  const records = batch.targets.map((t) => {
+    const r = packages[t.key];
+    if (!r || r.commit !== t.base) fail4("STALE_PREPARE", "An item changed since this review; prepare the layout update again.");
+    return r;
+  });
+  const result = await commitMany({ appHome, store, records, now, label: `update layout bundle ${layout.name}`, expectedPlans: Object.fromEntries(batch.results.map((r) => [r.key, r.planSha])) });
+  await fs5.rm(root, { recursive: true, force: true });
+  return result;
+}
+
+// src/mods/mission-control-control-panel/lifecycle.mjs
+import fs6 from "node:fs/promises";
+import fsSync3 from "node:fs";
+import path6 from "node:path";
 var REMOVED_KEEP_MS = 30 * 24 * 60 * 60 * 1e3;
 var LifecycleError = class extends Error {
   constructor(code, message, detail) {
@@ -932,19 +1056,19 @@ var refuse = (code, message, detail) => {
 };
 async function readJson2(file) {
   try {
-    return JSON.parse(await fs5.readFile(file, "utf8"));
+    return JSON.parse(await fs6.readFile(file, "utf8"));
   } catch {
     return null;
   }
 }
 async function layoutsUsing(appHome, modName) {
-  const dir = path5.join(appHome, "layouts"), out = [];
+  const dir = path6.join(appHome, "layouts"), out = [];
   let files = [];
   try {
-    files = (await fs5.readdir(dir)).filter((f) => f.endsWith(".json") && !f.startsWith("."));
+    files = (await fs6.readdir(dir)).filter((f) => f.endsWith(".json") && !f.startsWith("."));
   } catch {
   }
-  for (const file of files.sort()) if (layoutMods(await readJson2(path5.join(dir, file))).includes(modName)) out.push(file.replace(/\.json$/, ""));
+  for (const file of files.sort()) if (layoutMods(await readJson2(path6.join(dir, file))).includes(modName)) out.push(file.replace(/\.json$/, ""));
   return out;
 }
 function guard(item, { activeLayout }) {
@@ -955,7 +1079,7 @@ function guard(item, { activeLayout }) {
 }
 function paths(appHome, item) {
   const records = recordsRoot(appHome);
-  return item.kind === "mod" ? { live: [path5.join(appHome, "mods", item.name)], disabled: [path5.join(records, "disabled", "mods", item.name)] } : { live: [".json", ".svg"].map((ext) => path5.join(appHome, "layouts", item.name + ext)), disabled: [".json", ".svg"].map((ext) => path5.join(records, "disabled", "layouts", item.name + ext)) };
+  return item.kind === "mod" ? { live: [path6.join(appHome, "mods", item.name)], disabled: [path6.join(records, "disabled", "mods", item.name)] } : { live: [".json", ".svg"].map((ext) => path6.join(appHome, "layouts", item.name + ext)), disabled: [".json", ".svg"].map((ext) => path6.join(records, "disabled", "layouts", item.name + ext)) };
 }
 async function references(appHome, item, { activeLayout, confirm }) {
   if (item.kind !== "mod") return null;
@@ -966,8 +1090,8 @@ async function references(appHome, item, { activeLayout, confirm }) {
 }
 async function disable({ appHome, store, item, activeLayout = null, confirm = false }) {
   guard(item, { activeLayout });
-  const pending = await references(appHome, item, { activeLayout, confirm });
-  if (pending) return pending;
+  const pending2 = await references(appHome, item, { activeLayout, confirm });
+  if (pending2) return pending2;
   const { live, disabled } = paths(appHome, item);
   const ops = live.map((from, i) => ({ from, to: disabled[i] })).filter((m) => fsSync3.existsSync(m.from)).map((m) => ({ type: "move", ...m }));
   if (!ops.length) refuse("NOT_INSTALLED", `${item.name} is not installed.`);
@@ -991,25 +1115,25 @@ async function enable({ appHome, store, item }) {
 }
 async function uninstall({ appHome, store, item, activeLayout = null, confirm = false, now = () => Date.now() }) {
   guard(item, { activeLayout });
-  const pending = await references(appHome, item, { activeLayout, confirm });
-  if (pending) return pending;
+  const pending2 = await references(appHome, item, { activeLayout, confirm });
+  if (pending2) return pending2;
   const key = `${item.kind}:${item.name}`, records = recordsRoot(appHome), stamp = String(now());
-  const target = path5.join(records, "removed", `${item.kind}-${item.name}`, stamp);
+  const target = path6.join(records, "removed", `${item.kind}-${item.name}`, stamp);
   const from = item.disabled ? paths(appHome, item).disabled : paths(appHome, item).live;
-  const ops = from.filter((p) => fsSync3.existsSync(p)).map((p) => ({ type: "move", from: p, to: path5.join(target, path5.basename(p)) }));
+  const ops = from.filter((p) => fsSync3.existsSync(p)).map((p) => ({ type: "move", from: p, to: path6.join(target, path6.basename(p)) }));
   if (!ops.length) refuse("NOT_INSTALLED", `${item.name} is not installed.`);
   const record = (await store.readPackages()).packages[key] || {};
   let removedKeys = [];
   if (record.keys?.length) {
     let userKeys = {};
     try {
-      userKeys = JSON.parse(await fs5.readFile(path5.join(appHome, "keys.json"), "utf8"));
+      userKeys = JSON.parse(await fs6.readFile(path6.join(appHome, "keys.json"), "utf8"));
     } catch {
     }
     const plan = planKeys(userKeys, {}, record.keys);
     if (plan.remove.length) {
       removedKeys = plan.remove;
-      ops.push({ type: "write", target: path5.join(appHome, "keys.json"), data: JSON.stringify(plan.keys, null, 2) + "\n" });
+      ops.push({ type: "write", target: path6.join(appHome, "keys.json"), data: JSON.stringify(plan.keys, null, 2) + "\n" });
     }
   }
   await store.commit(ops, { label: `uninstall ${key}` });
@@ -1024,32 +1148,32 @@ async function restore({ appHome, store, id }) {
   const removed = (await store.readPackages()).removed?.[id];
   if (!removed) refuse("NOT_FOUND", "That removed item no longer exists.");
   const item = { kind: removed.kind, name: removed.name }, places = removed.wasDisabled ? paths(appHome, item).disabled : paths(appHome, item).live;
-  const ops = places.map((to) => ({ from: path5.join(removed.dir, path5.basename(to)), to })).filter((m) => fsSync3.existsSync(m.from));
+  const ops = places.map((to) => ({ from: path6.join(removed.dir, path6.basename(to)), to })).filter((m) => fsSync3.existsSync(m.from));
   if (ops.some((m) => fsSync3.existsSync(m.to))) refuse("NAME_TAKEN", `Another ${item.kind} named ${item.name} is installed now.`);
   const all = ops.map((m) => ({ type: "move", ...m }));
   if (removed.keys?.length) {
     let userKeys = {};
     try {
-      userKeys = JSON.parse(await fs5.readFile(path5.join(appHome, "keys.json"), "utf8"));
+      userKeys = JSON.parse(await fs6.readFile(path6.join(appHome, "keys.json"), "utf8"));
     } catch {
     }
     const snippet = {};
     for (const k of removed.keys) (snippet[k.section] ??= {})[k.key] = k.action;
     const plan = planKeys(userKeys, snippet, []);
-    if (plan.add.length) all.push({ type: "write", target: path5.join(appHome, "keys.json"), data: JSON.stringify(plan.keys, null, 2) + "\n" });
+    if (plan.add.length) all.push({ type: "write", target: path6.join(appHome, "keys.json"), data: JSON.stringify(plan.keys, null, 2) + "\n" });
   }
   await store.commit(all, { label: `restore ${removed.kind}:${removed.name}` });
   await store.updatePackages((v) => {
     delete v.removed[id];
     v.packages[`${removed.kind}:${removed.name}`] = { ...removed.record || {}, kind: removed.kind, name: removed.name, disabled: removed.wasDisabled };
   });
-  await fs5.rm(removed.dir, { recursive: true, force: true });
+  await fs6.rm(removed.dir, { recursive: true, force: true });
   return { ok: true, state: removed.wasDisabled ? "disabled" : "enabled" };
 }
 async function pruneRemoved({ store, now = () => Date.now() }) {
   const removed = (await store.readPackages()).removed || {}, gone = [];
   for (const [id, r] of Object.entries(removed)) if (now() - r.at > REMOVED_KEEP_MS) {
-    await fs5.rm(r.dir, { recursive: true, force: true });
+    await fs6.rm(r.dir, { recursive: true, force: true });
     gone.push(id);
   }
   if (gone.length) await store.updatePackages((v) => {
@@ -1062,7 +1186,7 @@ async function restoreEverything({ appHome, store }) {
   for (const [kind, sub] of [["mod", "mods"], ["layout", "layouts"]]) {
     let names = [];
     try {
-      names = await fs5.readdir(path5.join(records, "disabled", sub));
+      names = await fs6.readdir(path6.join(records, "disabled", sub));
     } catch {
     }
     for (const n of new Set(names.filter((x) => !x.startsWith(".")).map((x) => kind === "layout" ? x.replace(/\.(json|svg)$/, "") : x))) {
@@ -1088,7 +1212,7 @@ var BUDGET_MS = 24e3;
 async function handle(request, { env = process.env, now = () => Date.now(), herdrApp = env.QA_MODS_HERDR_APP || "herdr-app" } = {}) {
   const started = Date.now(), timeLeft = () => BUDGET_MS - (Date.now() - started);
   const appHome = request?.appHome;
-  if (typeof appHome !== "string" || !path6.isAbsolute(appHome)) return { v: 1, ok: false, code: "INVALID_REQUEST", message: "An absolute app home is required." };
+  if (typeof appHome !== "string" || !path7.isAbsolute(appHome)) return { v: 1, ok: false, code: "INVALID_REQUEST", message: "An absolute app home is required." };
   const source = createSource({ appHome, env, now }), store = createStore({ appHome, now });
   const ensured = /* @__PURE__ */ new Map(), ensure = source.ensure;
   source.ensure = (url) => {
@@ -1105,11 +1229,25 @@ async function handle(request, { env = process.env, now = () => Date.now(), herd
     case "check":
       return { v: 1, ok: true, recovered, ...await check() };
     case "prepare": {
+      const all = await items(), item = all.find((i) => i.key === request.key);
+      if (item?.kind === "layout" && !request.itemOnly) return { v: 1, ok: true, recovered, prepared: await prepareLayout({
+        appHome,
+        layout: item,
+        items: all,
+        packages: (await store.readPackages()).packages,
+        source,
+        resolutions: request.resolutions || {},
+        continuation: request.continuation,
+        herdrApp,
+        env
+      }) };
       const r = await record(request.key);
       if (!r?.lastResult?.update) failWith("NO_UPDATE", "There is no update to apply; check again.");
       return { v: 1, ok: true, recovered, prepared: await prepare({ appHome, source, record: r, update: r.lastResult.update, resolutions: request.resolutions || {}, herdrApp, env }) };
     }
     case "commit": {
+      const item = await find(request.key);
+      if (item.kind === "layout" && !request.itemOnly) return { v: 1, ok: true, recovered, committed: await commitLayout({ appHome, store, layout: item, packages: (await store.readPackages()).packages, now }) };
       const r = await record(request.key);
       if (!r) failWith("NOT_FOUND", "That item has no record.");
       return { v: 1, ok: true, recovered, committed: await commit({ appHome, store, record: r, now }) };
@@ -1154,17 +1292,17 @@ async function handle(request, { env = process.env, now = () => Date.now(), herd
     return { ...await describe(), partial };
   }
   async function cachePreviews() {
-    const dir = path6.join(recordsRoot(appHome), "cache", "previews"), pkgs = (await store.readPackages()).packages;
+    const dir = path7.join(recordsRoot(appHome), "cache", "previews"), pkgs = (await store.readPackages()).packages;
     let fetched = 0;
     for (const [key, r] of Object.entries(pkgs)) {
-      const url = r.source?.previewUrl, file = path6.join(dir, key.replace(":", "-") + ".png");
+      const url = r.source?.previewUrl, file = path7.join(dir, key.replace(":", "-") + ".png");
       if (!url || fetched >= 6 || timeLeft() < 4e3) continue;
-      if (await fs6.access(file).then(() => true, () => false)) continue;
+      if (await fs7.access(file).then(() => true, () => false)) continue;
       try {
         let data;
         if (url.startsWith("file:///")) {
           if (!source.fixture) continue;
-          data = await fs6.readFile(new URL(url));
+          data = await fs7.readFile(new URL(url));
         } else {
           const controller = new AbortController(), timer = setTimeout(() => controller.abort(), 4e3);
           const response = await fetch(url, { signal: controller.signal }).finally(() => clearTimeout(timer));
@@ -1172,7 +1310,7 @@ async function handle(request, { env = process.env, now = () => Date.now(), herd
           data = Buffer.from(await response.arrayBuffer());
         }
         if (data.length > 3 * 1024 * 1024 || data.subarray(0, 4).toString("hex") !== "89504e47") continue;
-        await fs6.mkdir(dir, { recursive: true });
+        await fs7.mkdir(dir, { recursive: true });
         await store.writeAtomic(file, data);
         fetched++;
       } catch {
@@ -1223,7 +1361,7 @@ async function handle(request, { env = process.env, now = () => Date.now(), herd
       const r = value.packages[i.key] || {}, last = r.lastResult || {};
       const protectedOrigin = ["builtin", "clone"].includes(i.origin);
       const state = protectedOrigin ? i.origin : i.disabled ? "disabled" : last.state && last.state !== "current" ? last.state : r.state || "unknown";
-      const preview = path6.join(records, "cache", "previews", `${i.kind}-${i.name}.png`), previewRel = path6.relative(appHome, preview);
+      const preview = path7.join(records, "cache", "previews", `${i.kind}-${i.name}.png`), previewRel = path7.relative(appHome, preview);
       out.push({
         key: i.key,
         kind: i.kind,
@@ -1241,8 +1379,22 @@ async function handle(request, { env = process.env, now = () => Date.now(), herd
         update: last.update ? { subject: last.update.subject, time: last.update.time, changed: last.update.changed.length, added: last.update.added.length, removed: last.update.removed.length } : null,
         usedBy: i.kind === "mod" ? await layoutsUsing(appHome, i.name) : [],
         installerPackage: i.installerPackage || null,
-        preview: await fs6.access(preview).then(() => previewRel, () => null)
+        preview: await fs7.access(preview).then(() => previewRel, () => null)
       });
+    }
+    for (const row of out.filter((i) => i.kind === "layout")) {
+      const keys = layoutUpdateKeys(all.find((i) => i.key === row.key), all, value.packages);
+      if (!keys.length) continue;
+      row.state = "update";
+      row.updateKeys = keys;
+      const changes = keys.map((key) => value.packages[key].lastResult.update);
+      row.update = {
+        subject: `Updates to ${keys.map((key) => value.packages[key].name).join(", ")}`,
+        time: Math.max(...changes.map((u) => u.time || 0)),
+        changed: changes.reduce((n, u) => n + u.changed.length, 0),
+        added: changes.reduce((n, u) => n + u.added.length, 0),
+        removed: changes.reduce((n, u) => n + u.removed.length, 0)
+      };
     }
     const removed = Object.entries(value.removed || {}).map(([id, r]) => ({ id, kind: r.kind, name: r.name, at: r.at, restoreUntil: r.at + REMOVED_KEEP_MS }));
     return { list: out, removed };

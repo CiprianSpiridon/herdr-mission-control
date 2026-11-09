@@ -53,12 +53,13 @@ test('installed bundle layouts, mods and Control panel adopt, detect and apply t
   const checker = path.join(root, 'herdr-check');await write(checker, '#!/bin/sh\nexit 0\n');await fs.chmod(checker, 0o755);
   for (const key of ['layout:mission-control', ...names.map(n => 'mod:' + n)]) {
     assert.equal(checked.list.find(i => i.key === key).state, 'update', key + ' exposes its update');
-    const before = await fs.readFile(path.join(home, key.startsWith('mod:') ? `mods/${key.slice(4)}/main.js` : 'layouts/mission-control.json'), 'utf8');
-    const prepared = await handle({appHome: home, op: 'prepare', key}, {env, herdrApp: checker});
-    assert.equal(prepared.prepared.ok, true);
-    assert.equal(await fs.readFile(path.join(home, key.startsWith('mod:') ? `mods/${key.slice(4)}/main.js` : 'layouts/mission-control.json'), 'utf8'), before, 'prepare leaves installed code unchanged');
-    await call('commit', {key});
   }
+  const before = await Promise.all(Object.keys(changed).map(rel => fs.readFile(path.join(home, rel), 'utf8')));
+  let prepared, continuation;
+  do { prepared = (await handle({appHome: home, op: 'prepare', key: 'layout:mission-control', continuation}, {env, herdrApp: checker})).prepared;continuation = prepared.continuation; } while (prepared.pending);
+  assert.equal(prepared.ok, true);
+  assert.deepEqual(await Promise.all(Object.keys(changed).map(rel => fs.readFile(path.join(home, rel), 'utf8'))), before, 'prepare leaves the whole bundle unchanged');
+  await call('commit', {key: 'layout:mission-control'});
   for (const [rel, bytes] of Object.entries(changed)) assert.equal(await fs.readFile(path.join(home, rel), 'utf8'), bytes);
   for (const item of (await call('check')).list.filter(i => i.origin !== 'builtin')) assert.equal(item.state, 'current');
   await assert.rejects(call('uninstall', {key: 'mod:mission-control-control-panel'}), e => e.code === 'SELF');

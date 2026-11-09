@@ -8,6 +8,7 @@ import {createStore} from './store.mjs';
 import {scan, adopt} from './inventory.mjs';
 import {checkItem} from './updates.mjs';
 import {prepare, commit} from './apply.mjs';
+import {layoutUpdateKeys, prepareLayout, commitLayout} from './bundles.mjs';
 import {disable, enable, uninstall, restore, restoreEverything, pruneRemoved, layoutsUsing, REMOVED_KEEP_MS} from './lifecycle.mjs';
 
 const BUDGET_MS = 24000;
@@ -31,10 +32,15 @@ export async function handle(request, {env = process.env, now = () => Date.now()
     case 'inventory': return {v: 1, ok: true, recovered, ...(await inventory())};
     case 'check': return {v: 1, ok: true, recovered, ...(await check())};
     case 'prepare': {
+      const all = await items(), item = all.find(i => i.key === request.key);
+      if (item?.kind === 'layout' && !request.itemOnly) return {v: 1, ok: true, recovered, prepared: await prepareLayout({appHome, layout: item, items: all, packages: (await store.readPackages()).packages,
+        source, resolutions: request.resolutions || {}, continuation: request.continuation, herdrApp, env})};
       const r = await record(request.key);if (!r?.lastResult?.update) failWith('NO_UPDATE', 'There is no update to apply; check again.');
       return {v: 1, ok: true, recovered, prepared: await prepare({appHome, source, record: r, update: r.lastResult.update, resolutions: request.resolutions || {}, herdrApp, env})};
     }
     case 'commit': {
+      const item = await find(request.key);
+      if (item.kind === 'layout' && !request.itemOnly) return {v: 1, ok: true, recovered, committed: await commitLayout({appHome, store, layout: item, packages: (await store.readPackages()).packages, now})};
       const r = await record(request.key);if (!r) failWith('NOT_FOUND', 'That item has no record.');
       return {v: 1, ok: true, recovered, committed: await commit({appHome, store, record: r, now})};
     }
@@ -131,6 +137,14 @@ export async function handle(request, {env = process.env, now = () => Date.now()
         update: last.update ? {subject: last.update.subject, time: last.update.time, changed: last.update.changed.length, added: last.update.added.length, removed: last.update.removed.length} : null,
         usedBy: i.kind === 'mod' ? await layoutsUsing(appHome, i.name) : [], installerPackage: i.installerPackage || null,
         preview: await fs.access(preview).then(() => previewRel, () => null)});
+    }
+    for (const row of out.filter(i => i.kind === 'layout')) {
+      const keys = layoutUpdateKeys(all.find(i => i.key === row.key), all, value.packages);
+      if (!keys.length) continue;
+      row.state = 'update';row.updateKeys = keys;
+      const changes = keys.map(key => value.packages[key].lastResult.update);
+      row.update = {subject: `Updates to ${keys.map(key => value.packages[key].name).join(', ')}`, time: Math.max(...changes.map(u => u.time || 0)),
+        changed: changes.reduce((n, u) => n + u.changed.length, 0), added: changes.reduce((n, u) => n + u.added.length, 0), removed: changes.reduce((n, u) => n + u.removed.length, 0)};
     }
     const removed = Object.entries(value.removed || {}).map(([id, r]) => ({id, kind: r.kind, name: r.name, at: r.at, restoreUntil: r.at + REMOVED_KEEP_MS}));
     return {list: out, removed};
