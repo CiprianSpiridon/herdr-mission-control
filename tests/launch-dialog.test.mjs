@@ -12,6 +12,11 @@ function fixture(){
     readTextFile:async p=>files.get(p)??null,writeTextFile:async(p,next,expected)=>{if((files.get(p)??null)!==expected)throw Object.assign(Error('stale'),{code:'STALE'});files.set(p,next);},ensureDirectory:async()=>{},run:(...args)=>effects.push(args),closeOverlay:id=>effects.push(['closeOverlay',id]),openOverlay:spec=>effects.push(['openOverlay',spec]),
     exec:async(cmd,args,options={})=>{
       calls.push({cmd,args,options});
+      if(cmd==='python3'){
+        const q=JSON.parse(args[2]);
+        if(q.action==='prepare')return {code:0,stdout:JSON.stringify({ok:true,spec:{v:1,...Object.fromEntries(['requestId','originId','machine','repoRoot','checkoutRoot','sourceKey','path','branch','leaf'].map(k=>[k,q[k]])),base:'a'.repeat(40)}})};
+        if(q.action==='create')return {code:0,stdout:JSON.stringify({ok:true,folder:q.spec.path,reused:false,spec:q.spec})};
+      }
       if(cmd==='git'){
         if(unbound)return {code:128,stdout:''};
         const cwd=args[0]==='-C'?args[1]:options.cwd,root=cwd?.startsWith('/repo/B')?'/repo/B':'/repo/A';
@@ -33,6 +38,25 @@ test('generic dialog captures live linked checkout, asks choices and ignores lat
   trigger(dialog.render(cx),'new-worktree');assert.equal(dialog.worktree,true);trigger(dialog.render(cx),'current-checkout');assert.equal(dialog.worktree,false);
   f.setActive('B');await trigger(dialog.render(cx),'start-agent');assert.equal(f.created(),1);const call=f.calls.find(c=>c.cmd==='herdr-app'&&c.args[0]==='do'),params=JSON.parse(call.args[2]);assert.equal(params.space,'A');assert.equal(params.folder,'/repo/A-linked');assert.deepEqual(f.effects.at(-1),['closeOverlay','own-overlay']);
   assert.ok(f.calls.filter(c=>c.cmd==='git').every(c=>!JSON.stringify(c.args).includes('stale')));
+});
+for(const name of ['', 'clean up website content'])test(`space New agent starts a new worktree with ${name?'a friendly name':'automatic naming'}`,async()=>{
+  const f=fixture(),dialog=new LaunchDialog('mission-control-spaces',{view:'launch',spaceId:'A',machine:null,overlay:'own-overlay'},f.io),cx=context();await dialog.init(cx);
+  trigger(dialog.render(cx),'new-worktree');dialog.path.set_value(name);f.setActive('B');
+  await trigger(dialog.render(cx),'start-agent');
+  assert.equal(f.created(),1,dialog.error);
+  const q=JSON.parse(f.calls.find(c=>c.cmd==='python3'&&JSON.parse(c.args[2]).action==='prepare').args[2]);
+  assert.equal(q.repoRoot,'/repo/A');assert.equal(q.checkoutRoot,'/repo/A-linked');assert.equal(q.machine,null);
+  assert.match(q.path,name?/^\/repo\/\.herdr-worktrees\/client-portal-clean-up-website-content$/:/^\/repo\/\.herdr-worktrees\/client-portal-task-/);
+  assert.equal(q.branch,'mission-control/'+q.path.split('/').pop());
+  const tab=JSON.parse(f.calls.find(c=>c.cmd==='herdr-app'&&c.args[0]==='do').args[2]);
+  assert.equal(tab.space,'A');assert.equal(tab.folder,q.path);assert.deepEqual(f.effects.at(-1),['closeOverlay','own-overlay']);
+});
+test('invalid relative worktree paths show an inline message and cannot start a process',async()=>{
+  const f=fixture(),dialog=new LaunchDialog('mission-control-spaces',{view:'launch',spaceId:'A'},f.io),cx=context();await dialog.init(cx);
+  trigger(dialog.render(cx),'new-worktree');dialog.path.set_value('../somewhere');
+  const error=findElement(dialog.render(cx),'worktree-location');assert.ok(error.nodes.some(v=>typeof v==='string'&&v.includes('Enter a worktree name')));
+  assert.equal(findElement(dialog.render(cx),'start-agent').handlers.on_click,undefined);
+  await dialog.start(cx);assert.equal(f.created(),0);assert.ok(!f.calls.some(c=>c.cmd==='python3'));
 });
 test('ambiguous or unbound live repo blocks creation and leaves an actionable error',async()=>{
   for(const flag of ['setUnbound','setAmbiguous']){const f=fixture();f[flag]();const dialog=new LaunchDialog('mission-control-agent-menu',{view:'launch',spaceId:'A'},f.io),cx=context();await dialog.init(cx);assert.equal(dialog.target,null);assert.ok(dialog.error);await dialog.start(cx);assert.equal(f.created(),0);assert.ok(!f.calls.some(c=>c.cmd==='herdr-app'));}

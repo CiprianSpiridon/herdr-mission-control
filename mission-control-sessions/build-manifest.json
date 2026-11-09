@@ -28,7 +28,7 @@
     "assets/settings.svg": "c0d3295d7dc3261c7f6e9e6eb4217b044b834d680215ac1e38f9c1efb11b2dc9",
     "assets/spaces.svg": "01d3d618b27ef141c8251358657d7533abef2bbc40b447f53728c768fa4a593b",
     "collector.py": "f97f59e5840b4d855b593ec24d26334f1586ac0902797f043af24175d0f90237",
-    "main.js": "1d90543661017d70c1c59f0814fcd1c04b2008487e9b0aabb64e3278d79cd4c7",
+    "main.js": "d41c6dc344e11bbcacff36faf34694655bea9baaf696b8bf13ef7cc0f605af6f",
     "mod.json": "732ee1874cda788d9577fcb5f50edf1895b55f53d33952186db4de6f06fc2680",
     "NOTICE.md": "f20f37f2705da9d37b502d64fbe21f68f7db7280f83369013586be19e747c873"
   },
@@ -56,6 +56,6 @@
     "src/shared/tool-capabilities.js": "31bbf19a27d0621a8d758fdcb6d4f46a1788bd96d5d80331a938999df9012f05",
     "src/shared/ui.js": "63653a7db2c610678b687fe0263aa078f9458336d411b5be4335cba2a4b8533b",
     "src/shared/usage-sources.js": "e5ed02f02e6c3648e165aed45adb32442334ea5b120c2ec8b9e6db5a1a643699",
-    "src/shared/worktrees.js": "f9c7a8a8f60af73170ab2f0449178fd6ea597cc0a7fb68c18c0403d3fffe4cbb"
+    "src/shared/worktrees.js": "adcbcc9b10fc6f08f852bdeed9d8cd0e3dc6f0bdf8104c1ebca9dc9264f360d5"
   }
 }

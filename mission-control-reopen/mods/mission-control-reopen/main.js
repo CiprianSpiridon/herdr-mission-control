@@ -371,6 +371,11 @@ function slug(value, max = 64) {
   if (!v || v === "." || v === "..") fail5("INVALID_WORKTREE", "Worktree name has no safe characters");
   return v;
 }
+function defaultLocation(request, spaceName, name2) {
+  const repoRoot = canonicalRepoPath(request.repoRoot), parent = repoRoot.slice(0, repoRoot.lastIndexOf("/")) || "/";
+  const leaf = slug(spaceName || request.spaceId || "space", 48) + "-" + (name2 ? slug(name2, 64) : request.source ? slug(request.source.key, 64) : "task-" + requestDigest(request.requestId));
+  return { worktreePath: `${parent === "/" ? "" : parent}/.herdr-worktrees/${leaf}`, branch: `mission-control/${leaf}`, leaf };
+}
 function sourceIdentity(source) {
   if (!source) return null;
   for (const field of ["kind", "connectionId", "site", "id", "key"]) text2(source[field], `source ${field}`, field === "site" ? 2048 : 512);
@@ -507,10 +512,9 @@ async function prepareWorktree(request, { spaceName, exec } = {}) {
     await validateCheckout(shape, exec);
     return { v: 1, requestId: request.requestId, originId: request.originId, ...shape, path: shape.checkoutRoot, worktree: false };
   }
-  const leaf = slug(spaceName || request.spaceId || "space", 48) + "-" + (request.source ? slug(request.source.key, 64) : "task-" + requestDigest(request.requestId));
-  const parent = shape.repoRoot.slice(0, shape.repoRoot.lastIndexOf("/")) || "/";
-  const target = request.worktreePath ? canonicalRepoPath(request.worktreePath) : `${parent === "/" ? "" : parent}/.herdr-worktrees/${leaf}`;
-  const branch = request.branch || `mission-control/${leaf}`;
+  const defaults = defaultLocation(request, spaceName), leaf = defaults.leaf;
+  const target = request.worktreePath ? canonicalRepoPath(request.worktreePath) : defaults.worktreePath;
+  const branch = request.branch || defaults.branch;
   const result = await execute(exec, shape.machine, { action: "prepare", requestId: request.requestId, originId: request.originId, ...shape, path: target, branch, leaf });
   return { ...result.spec, worktree: true };
 }

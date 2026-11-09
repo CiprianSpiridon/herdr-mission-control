@@ -13,6 +13,22 @@ export function slug(value,max=64){
   text(value,'worktree name');const v=value.normalize('NFKD').replace(/[^A-Za-z0-9_-]+/g,'-').replace(/^-+|-+$/g,'').slice(0,max).replace(/-+$/,'');
   if(!v||v==='.'||v==='..')fail('INVALID_WORKTREE','Worktree name has no safe characters');return v;
 }
+function defaultLocation(request,spaceName,name){
+  const repoRoot=canonicalRepoPath(request.repoRoot),parent=repoRoot.slice(0,repoRoot.lastIndexOf('/'))||'/';
+  const leaf=slug(spaceName||request.spaceId||'space',48)+'-'+(name?slug(name,64):request.source?slug(request.source.key,64):'task-'+requestDigest(request.requestId));
+  return {worktreePath:`${parent==='/'?'':parent}/.herdr-worktrees/${leaf}`,branch:`mission-control/${leaf}`,leaf};
+}
+/** Convert the launch form's optional friendly name into the canonical path expected by launch(). */
+export function resolveWorktreeChoice(request,{spaceName,value='',branch=''}={}){
+  const input=value.trim(),absolute=input.startsWith('/')||/^[A-Za-z]:[\\/]/.test(input);
+  if(input&&!absolute&&(/[\\/]/.test(input)||input.startsWith('~')||input==='.'||input==='..'))fail('INVALID_WORKTREE','Enter a worktree name, leave it blank for automatic naming, or use a full absolute folder path.');
+  const defaults=defaultLocation(request,spaceName,input&&!absolute?input:undefined);
+  let worktreePath=defaults.worktreePath;
+  if(absolute){try{worktreePath=canonicalRepoPath(input);}catch{fail('INVALID_WORKTREE','Use an absolute worktree folder without . or .. path segments.');}}
+  const chosenBranch=branch.trim();
+  if(chosenBranch&&(chosenBranch.startsWith('-')||/[\u0000-\u001f]/.test(chosenBranch)))fail('INVALID_WORKTREE','Enter a valid branch name, or leave it blank for automatic naming.');
+  return {worktreePath,branch:chosenBranch||defaults.branch};
+}
 function sourceIdentity(source){
   if(!source)return null;
   for(const field of ['kind','connectionId','site','id','key'])text(source[field],`source ${field}`,field==='site'?2048:512);
@@ -134,10 +150,9 @@ export async function prepareWorktree(request,{spaceName,exec}={}){
     await validateCheckout(shape,exec);
     return {v:1,requestId:request.requestId,originId:request.originId,...shape,path:shape.checkoutRoot,worktree:false};
   }
-  const leaf=slug(spaceName||request.spaceId||'space',48)+'-'+(request.source?slug(request.source.key,64):'task-'+requestDigest(request.requestId));
-  const parent=shape.repoRoot.slice(0,shape.repoRoot.lastIndexOf('/'))||'/';
-  const target=request.worktreePath?canonicalRepoPath(request.worktreePath):`${parent==='/'?'':parent}/.herdr-worktrees/${leaf}`;
-  const branch=request.branch||`mission-control/${leaf}`;
+  const defaults=defaultLocation(request,spaceName),leaf=defaults.leaf;
+  const target=request.worktreePath?canonicalRepoPath(request.worktreePath):defaults.worktreePath;
+  const branch=request.branch||defaults.branch;
   const result=await execute(exec,shape.machine,{action:'prepare',requestId:request.requestId,originId:request.originId,...shape,path:target,branch,leaf});
   return {...result.spec,worktree:true};
 }

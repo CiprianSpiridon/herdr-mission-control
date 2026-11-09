@@ -10,7 +10,7 @@ A centered 560 × 660 px dialog with 18 px padding and 12 px gaps. Follow Herdr'
 
 The menu shows a heading, destination machine/checkout, search field, and 40 px installed-tool rows with the actual tool icon, name, and numbered shortcut. Its footer offers Terminal, New space, and Worktree. The gear opens Agent shortcuts.
 
-The launch view shows pinned tools plus an overflow picker, Current checkout/New worktree choices, optional path/branch fields, and verified model, reasoning, instructions, or subagent options. Back and Start agent anchor the bottom. Settings offers pin/unpin, move-earlier, hide/show, default worktree preference, tool defaults, and Save shortcuts.
+The launch view shows pinned tools plus an overflow picker, Current checkout/New worktree choices, an optional friendly worktree name with its generated absolute folder preview and optional branch override, and verified model, reasoning, instructions, or subagent options. Back and Start agent anchor the bottom. Settings offers pin/unpin, move-earlier, hide/show, default worktree preference, tool defaults, and Save shortcuts.
 
 ## How it behaves
 
@@ -18,7 +18,7 @@ Capture the originating space, host, and live pane before taking keyboard focus 
 
 Numbers 1–9 select a visible tool while the menu has focus; search typing takes precedence. Selecting a tool opens choices rather than starting it. Escape uses Herdr's overlay dismissal. Tooltips identify icon-only controls. Menu rows retain their appearance regardless of existing sessions being working, blocked, done, or idle; running-session status belongs to Herdr's Agents surface.
 
-Show at most three pinned installed tools, defaulting to Claude/Codex/Grok when available. Other tools stay searchable. Settings persist across copies/layouts. Unsupported flags fail before creation; failed launches retain the form. A repeated acknowledged intent focuses its existing tab. Uncertain creation requires recovery and never blindly spawns twice.
+Show at most three pinned installed tools, defaulting to Claude/Codex/Grok when available. Other tools stay searchable. Settings persist across copies/layouts. Blank worktree fields automatically generate the folder and branch. Friendly names are slugged safely; full absolute folder overrides remain supported. Invalid relative paths are explained beside the field before starting. Unsupported flags fail before creation; failed launches retain the form. A repeated acknowledged intent focuses its existing tab. Uncertain creation requires recovery and never blindly spawns twice.
 
 ## Built from
 

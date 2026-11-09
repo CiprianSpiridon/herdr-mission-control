@@ -811,6 +811,27 @@ function slug(value, max = 64) {
   if (!v || v === "." || v === "..") fail6("INVALID_WORKTREE", "Worktree name has no safe characters");
   return v;
 }
+function defaultLocation(request, spaceName, name2) {
+  const repoRoot = canonicalRepoPath(request.repoRoot), parent = repoRoot.slice(0, repoRoot.lastIndexOf("/")) || "/";
+  const leaf = slug(spaceName || request.spaceId || "space", 48) + "-" + (name2 ? slug(name2, 64) : request.source ? slug(request.source.key, 64) : "task-" + requestDigest(request.requestId));
+  return { worktreePath: `${parent === "/" ? "" : parent}/.herdr-worktrees/${leaf}`, branch: `mission-control/${leaf}`, leaf };
+}
+function resolveWorktreeChoice(request, { spaceName, value = "", branch = "" } = {}) {
+  const input = value.trim(), absolute = input.startsWith("/") || /^[A-Za-z]:[\\/]/.test(input);
+  if (input && !absolute && (/[\\/]/.test(input) || input.startsWith("~") || input === "." || input === "..")) fail6("INVALID_WORKTREE", "Enter a worktree name, leave it blank for automatic naming, or use a full absolute folder path.");
+  const defaults = defaultLocation(request, spaceName, input && !absolute ? input : void 0);
+  let worktreePath = defaults.worktreePath;
+  if (absolute) {
+    try {
+      worktreePath = canonicalRepoPath(input);
+    } catch {
+      fail6("INVALID_WORKTREE", "Use an absolute worktree folder without . or .. path segments.");
+    }
+  }
+  const chosenBranch = branch.trim();
+  if (chosenBranch && (chosenBranch.startsWith("-") || /[\u0000-\u001f]/.test(chosenBranch))) fail6("INVALID_WORKTREE", "Enter a valid branch name, or leave it blank for automatic naming.");
+  return { worktreePath, branch: chosenBranch || defaults.branch };
+}
 function sourceIdentity(source) {
   if (!source) return null;
   for (const field of ["kind", "connectionId", "site", "id", "key"]) text3(source[field], `source ${field}`, field === "site" ? 2048 : 512);
@@ -947,10 +968,9 @@ async function prepareWorktree(request, { spaceName, exec: exec2 } = {}) {
     await validateCheckout(shape, exec2);
     return { v: 1, requestId: request.requestId, originId: request.originId, ...shape, path: shape.checkoutRoot, worktree: false };
   }
-  const leaf = slug(spaceName || request.spaceId || "space", 48) + "-" + (request.source ? slug(request.source.key, 64) : "task-" + requestDigest(request.requestId));
-  const parent = shape.repoRoot.slice(0, shape.repoRoot.lastIndexOf("/")) || "/";
-  const target = request.worktreePath ? canonicalRepoPath(request.worktreePath) : `${parent === "/" ? "" : parent}/.herdr-worktrees/${leaf}`;
-  const branch = request.branch || `mission-control/${leaf}`;
+  const defaults = defaultLocation(request, spaceName), leaf = defaults.leaf;
+  const target = request.worktreePath ? canonicalRepoPath(request.worktreePath) : defaults.worktreePath;
+  const branch = request.branch || defaults.branch;
   const result = await execute(exec2, shape.machine, { action: "prepare", requestId: request.requestId, originId: request.originId, ...shape, path: target, branch, leaf });
   return { ...result.spec, worktree: true };
 }
@@ -1844,7 +1864,7 @@ var LaunchDialog = class {
     this.model = InputState2.new({ placeholder: "Tool default" });
     this.reasoning = InputState2.new({ placeholder: "Tool default" });
     this.instructions = InputState2.new({ placeholder: "Optional instructions" });
-    this.path = InputState2.new({ placeholder: "Automatic worktree path" });
+    this.path = InputState2.new({ placeholder: "Automatic, or e.g. clean up website content" });
     this.branch = InputState2.new({ placeholder: "Automatic branch name" });
     for (const state of [this.model, this.reasoning, this.instructions, this.path, this.branch]) state.on("change", (_e, cx2) => cx2.notify());
     this.focus.focus();
@@ -1863,6 +1883,7 @@ var LaunchDialog = class {
           if (!space) throw Object.assign(Error("Select a space before starting an agent."), { code: "SPACE_UNAVAILABLE" });
           this.target = launchTarget(await resolveSpaceRepo(space, this.capturedPanes, this.io.exec));
         }
+        this.spaceName = this.io.spaces().find((s) => s.id === this.target.spaceId && machineIdentity(s.machine) === this.target.machine)?.name;
         this.tools = await this.io.knownAgents({ on: this.target.machine });
         const choices = toolChoices(this.tools, this.preferences);
         const first = choices.all.find((t) => t.key === this.props.toolKey) || choices.quick[0] || choices.all[0];
@@ -1906,18 +1927,27 @@ var LaunchDialog = class {
     if (this.subagents !== void 0) value.subagents = this.subagents;
     return value;
   }
+  worktreeChoice() {
+    try {
+      return { value: resolveWorktreeChoice({ ...this.intent, ...this.target, source: this.props.source }, { spaceName: this.spaceName, value: this.path.value(), branch: this.branch.value() }) };
+    } catch (error2) {
+      return { error: error2.message };
+    }
+  }
   start(cx) {
     if (this.busy || this.loading || !this.target || !this.selected || !this.caps) return;
+    const choice = this.worktree ? this.worktreeChoice() : null;
+    if (choice?.error) {
+      cx.notify();
+      return;
+    }
     this.busy = true;
     this.error = null;
     cx.notify();
     return cx.spawn(async (cx2) => {
       const request = { ...this.intent, ...this.target, toolKey: this.selected.key, worktree: this.worktree, ...this.options() };
       if (this.props.source) request.source = { ...this.props.source };
-      if (this.worktree) {
-        if (this.path.value().trim()) request.worktreePath = this.path.value();
-        if (this.branch.value().trim()) request.branch = this.branch.value();
-      }
+      if (this.worktree) Object.assign(request, choice.value);
       const result = await launch(request, this.io);
       this.busy = false;
       if (result.ok) {
@@ -2047,11 +2077,12 @@ var LaunchDialog = class {
       this.worktree = true;
       cx2.notify();
     }, { primary: this.worktree })));
-    const content = v_flex2().id("launch-options").flex_1().min_h(80).overflow_y_scrollbar().gap(12).when(this.worktree, (e) => e.child(this.field("worktree-path", "Worktree folder", this.path)).child(this.field("worktree-branch", "Branch", this.branch))).child(this.advanced());
+    const choice = this.worktree ? this.worktreeChoice() : null;
+    const content = v_flex2().id("launch-options").flex_1().min_h(80).overflow_y_scrollbar().gap(12).when(this.worktree, (e) => e.child(this.field("worktree-path", "Worktree name (optional)", this.path)).child(div2().id("worktree-location").text_size(11).text_color(choice.error ? t.blocked : t.muted).child(choice.error || `Folder: ${choice.value.worktreePath}`).tooltip(choice.error || choice.value.worktreePath)).child(this.field("worktree-branch", "Branch (optional)", this.branch))).child(this.advanced());
     root.child(content).child(h_flex2().gap(8).child(textButton("back-to-agents", "Back", (_e, cx2) => {
       this.view = "menu";
       cx2.notify();
-    })).child(div2().flex_1()).child(textButton("start-agent", this.busy ? "Starting…" : "Start agent", (_e, cx2) => this.start(cx2), { primary: true, disabled: this.busy || !this.selected || !this.caps })));
+    })).child(div2().flex_1()).child(textButton("start-agent", this.busy ? "Starting…" : "Start agent", (_e, cx2) => this.start(cx2), { primary: true, disabled: this.busy || !this.selected || !this.caps || Boolean(choice?.error) })));
     return root;
   }
   close() {

@@ -4,10 +4,19 @@ import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import {spawn} from 'node:child_process';
-import {prepareWorktree,ensureWorktree,requestDigest} from '../src/shared/worktrees.js';
+import {prepareWorktree,ensureWorktree,requestDigest,resolveWorktreeChoice} from '../src/shared/worktrees.js';
 const exec=(command,args,options={})=>new Promise((resolve,reject)=>{assert.equal(options.on??null,null);const p=spawn(command,args,{cwd:options.cwd});let stdout='',stderr='';p.stdout.on('data',b=>stdout+=b);p.stderr.on('data',b=>stderr+=b);p.on('error',reject);p.on('close',code=>resolve({code,stdout,stderr}));});
 async function fixture(t){const temporary=await fs.mkdtemp(path.join(os.tmpdir(),'mc-worktree-')),root=await fs.realpath(temporary),repo=path.join(root,'repo');await fs.mkdir(repo);for(const args of [['init','-q','-b','main'],['config','user.name','QA'],['config','user.email','qa@example.invalid'],['commit','--allow-empty','-qm','Initial']]){const r=await exec('git',['-C',repo,...args]);assert.equal(r.code,0,r.stderr);}t.after(()=>fs.rm(root,{recursive:true,force:true}));return {root,repo};}
 const request=repo=>({requestId:'request-A',idempotencyKey:'request-A',originId:'origin-A',spaceId:'space-A',machine:null,repoRoot:repo,checkoutRoot:repo,worktree:true,source:{kind:'jira',connectionId:'work',site:'https://jira.example.invalid',id:'10001',key:'WEB-142'}});
+test('a friendly worktree name creates a real Git worktree with an automatic branch',async t=>{
+  const {repo}=await fixture(t),r={...request(repo),source:undefined};
+  const choice=resolveWorktreeChoice(r,{spaceName:'repo',value:'clean up website content'});
+  assert.match(choice.worktreePath,/\.herdr-worktrees\/repo-clean-up-website-content$/);
+  const launch={...r,...choice},spec=await prepareWorktree(launch,{spaceName:'repo',exec}),created=await ensureWorktree(launch,spec,{exec});
+  assert.equal(created.folder,choice.worktreePath);assert.equal((await exec('git',['-C',created.folder,'branch','--show-current'])).stdout.trim(),choice.branch);
+  assert.deepEqual(resolveWorktreeChoice(r,{spaceName:'repo'}),resolveWorktreeChoice(r,{spaceName:'repo',value:'   '}));
+  assert.deepEqual(resolveWorktreeChoice(r,{value:choice.worktreePath,branch:'custom-branch'}),{worktreePath:choice.worktreePath,branch:'custom-branch'});
+});
 test('Jira display key names a real worktree while exact owned retries retain path/ref',async t=>{
   const {repo}=await fixture(t),r=request(repo),s=await prepareWorktree(r,{spaceName:'client-portal',exec});assert.match(s.path,/client-portal-WEB-142$/);assert.equal(s.branch,'mission-control/client-portal-WEB-142');
   const first=await ensureWorktree(r,s,{exec});assert.equal(first.reused,false);

@@ -8,7 +8,7 @@
     "assets/folder.svg": "3a46023f1ff23f2112b9e0955ad32690139e8f1c071ccfdbcae8e85295365f66",
     "assets/more.svg": "a82bebdebdd8c147ef583c00b87788c4a196e04fce2a5e4a10f0ccbc432fdbe4",
     "assets/sessions.svg": "40c70935bd80015005b85b9b42368e4dfdf44ac6a3392e2f6b7fd18a59159d9d",
-    "main.js": "8d67004b2d26f91a72cdfbed15d005e428b5c064b7176689f63b73fead73bc21",
+    "main.js": "a96f1af061fb94c5ef386a6d39ec9ffd9f072918a4e1884b155a97d2606e4b9c",
     "mod.json": "14e0279462825e2065511e316da0bba789bc0f882173171af624acac22fb78c2",
     "NOTICE.md": "a8b5d717cd75101e42be39e0b87f0ee6c4d07e8c49d4e51334431195c2ae0ce0"
   },
@@ -28,6 +28,6 @@
     "src/shared/space-repo.js": "464ff46525dc00fd74813104bb9fcc770d10fef2eb366decc6f18125a6f62d07",
     "src/shared/tool-capabilities.js": "31bbf19a27d0621a8d758fdcb6d4f46a1788bd96d5d80331a938999df9012f05",
     "src/shared/ui.js": "63653a7db2c610678b687fe0263aa078f9458336d411b5be4335cba2a4b8533b",
-    "src/shared/worktrees.js": "f9c7a8a8f60af73170ab2f0449178fd6ea597cc0a7fb68c18c0403d3fffe4cbb"
+    "src/shared/worktrees.js": "adcbcc9b10fc6f08f852bdeed9d8cd0e3dc6f0bdf8104c1ebca9dc9264f360d5"
   }
 }

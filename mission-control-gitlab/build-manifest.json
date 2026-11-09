@@ -28,7 +28,7 @@
     "assets/settings.svg": "c0d3295d7dc3261c7f6e9e6eb4217b044b834d680215ac1e38f9c1efb11b2dc9",
     "assets/spaces.svg": "01d3d618b27ef141c8251358657d7533abef2bbc40b447f53728c768fa4a593b",
     "backend.mjs": "cfb18cece5ca52ad2d17a9a40028aca3687446ad424f469b72de1e3314387b86",
-    "main.js": "056566fac5a86410531c5d3fdb632bb6f5c85d14738b1f57a7defed7eed847b5",
+    "main.js": "953ed8a50432b443f4104f19f336ccd798ca20c5177773c17851f24acedd0b3a",
     "mod.json": "c6c8cd9a9ab8f0c13c762a69b23ce8f85062dc18302f328768855f1ef8ef4a2f",
     "NOTICE.md": "f20f37f2705da9d37b502d64fbe21f68f7db7280f83369013586be19e747c873"
   },
@@ -45,7 +45,7 @@
     "src/mods/mission-control-gitlab/mod.json": "aac914b4e8d8a5e799bd754acd9e920b535141fb64843fd0a6d7f0166a9a800c",
     "src/shared/config.js": "2cea2d16c0faed2eef2f8105b0adc0c6098cf556a84297249b5bd9895eddf9a7",
     "src/shared/issue-board.js": "de9f082291faaa5da7067dfc3b4d3c2c5b2e22b4558d363dd9bad2275cfca570",
-    "src/shared/launch-dialog.js": "5155469f382d117b8425ce00b7f5463679d42168a293b35aa79afecf2a4b9fc6",
+    "src/shared/launch-dialog.js": "af825d80f8d6c2a629bfe7f0e10568da53c0a28979248bc1aabf65ab41d9519f",
     "src/shared/launch-preferences.js": "c70132d68a264054de91a25704c44c7f6c6cb2e380c93f6807842bdca5558fd9",
     "src/shared/launch.js": "aa3801d2c8503eafc757ad02c619574f563684db080148963e035ded410e1368",
     "src/shared/name-ownership.js": "24f4e7060bffdb1559e76091039fc1b1e076095d72cc8b44c14596d8a37ae784",
@@ -56,6 +56,6 @@
     "src/shared/tracker-model.js": "ccff559b7b1f7160596e73fac10215d12eab265fb2b70fcf4c163216938ca66a",
     "src/shared/tracker-transport.mjs": "e8e890a65ea03d883948068999b0b8c09c3702f15f73d335092e85fb9896a563",
     "src/shared/ui.js": "63653a7db2c610678b687fe0263aa078f9458336d411b5be4335cba2a4b8533b",
-    "src/shared/worktrees.js": "f9c7a8a8f60af73170ab2f0449178fd6ea597cc0a7fb68c18c0403d3fffe4cbb"
+    "src/shared/worktrees.js": "adcbcc9b10fc6f08f852bdeed9d8cd0e3dc6f0bdf8104c1ebca9dc9264f360d5"
   }
 }

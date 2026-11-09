@@ -20,7 +20,7 @@
     "assets/search.svg": "73a02b45b12746984a4e5d9689a3ca5578f5d329e4e0b0598bd5139d81c0bdce",
     "assets/sessions.svg": "40c70935bd80015005b85b9b42368e4dfdf44ac6a3392e2f6b7fd18a59159d9d",
     "assets/settings.svg": "c0d3295d7dc3261c7f6e9e6eb4217b044b834d680215ac1e38f9c1efb11b2dc9",
-    "main.js": "f598510419b994ffab6aadf507e945aac161a43b775ba26e941223554f2528a1",
+    "main.js": "ba49c8effde7d2a72bdb6ff6844d83b5e4558d8fab7b5c74c2d50f108fafcbfe",
     "mod.json": "21a3ac7b84f85a6c8de03c9f10bf72ac0d9f5c56d938db0fcf39d0b0aa11b4d0",
     "NOTICE.md": "4e408d28539b58cdd9b665e5a4fee5c505dd7afa3a3ad5a0b9755fff7fbcf6cd"
   },
@@ -31,7 +31,7 @@
     "src/mods/mission-control-tabs/navigation.js": "bb38ea686914fd692cb48ed592c9a3375f4b464506eabfef563175623f3d6b46",
     "src/shared/closed-tabs.js": "dfd23b0a384fe8312426675dcd0b56e6ea5ecda811e55b481832ffa151c9db3e",
     "src/shared/config.js": "2cea2d16c0faed2eef2f8105b0adc0c6098cf556a84297249b5bd9895eddf9a7",
-    "src/shared/launch-dialog.js": "5155469f382d117b8425ce00b7f5463679d42168a293b35aa79afecf2a4b9fc6",
+    "src/shared/launch-dialog.js": "af825d80f8d6c2a629bfe7f0e10568da53c0a28979248bc1aabf65ab41d9519f",
     "src/shared/launch-preferences.js": "c70132d68a264054de91a25704c44c7f6c6cb2e380c93f6807842bdca5558fd9",
     "src/shared/launch.js": "aa3801d2c8503eafc757ad02c619574f563684db080148963e035ded410e1368",
     "src/shared/name-ownership.js": "24f4e7060bffdb1559e76091039fc1b1e076095d72cc8b44c14596d8a37ae784",
@@ -44,6 +44,6 @@
     "src/shared/tab-service.js": "e189325cdcac8c244b6abfab544e679366bfddab1b0551d63f267976a23ebe47",
     "src/shared/tool-capabilities.js": "31bbf19a27d0621a8d758fdcb6d4f46a1788bd96d5d80331a938999df9012f05",
     "src/shared/ui.js": "63653a7db2c610678b687fe0263aa078f9458336d411b5be4335cba2a4b8533b",
-    "src/shared/worktrees.js": "f9c7a8a8f60af73170ab2f0449178fd6ea597cc0a7fb68c18c0403d3fffe4cbb"
+    "src/shared/worktrees.js": "adcbcc9b10fc6f08f852bdeed9d8cd0e3dc6f0bdf8104c1ebca9dc9264f360d5"
   }
 }

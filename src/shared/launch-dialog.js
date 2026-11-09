@@ -5,6 +5,7 @@ import {newIntent,machineIdentity} from './session-identity.js';
 import {resolveSpaceRepo,launchTarget} from './space-repo.js';
 import {toolChoices,validateLaunchPreferences,saveLaunchPreferences} from './launch-preferences.js';
 import {launch,createLaunchIO} from './launch.js';
+import {resolveWorktreeChoice} from './worktrees.js';
 import {colors,label,iconButton,textButton,toolIcon,createSearch,searchInput,emptyState} from './ui.js';
 
 export function openLaunchDialog(mod,herdr,{spaceId,machine=null,source,target,toolKey,view='launch'}={}){
@@ -33,7 +34,7 @@ export class LaunchDialog {
     this.capturedPanes=this.herdr.panes().map(p=>({...p,focused:p.focused||p.pane===focused?.pane}));
     this.focus=cx.focus_handle();this.search=createSearch('Find an installed agent',(value)=>{this.query=value;});
     this.search.on('focus',()=>{this.typingSearch=true;});this.search.on('blur',()=>{this.typingSearch=false;});
-    this.model=InputState.new({placeholder:'Tool default'});this.reasoning=InputState.new({placeholder:'Tool default'});this.instructions=InputState.new({placeholder:'Optional instructions'});this.path=InputState.new({placeholder:'Automatic worktree path'});this.branch=InputState.new({placeholder:'Automatic branch name'});
+    this.model=InputState.new({placeholder:'Tool default'});this.reasoning=InputState.new({placeholder:'Tool default'});this.instructions=InputState.new({placeholder:'Optional instructions'});this.path=InputState.new({placeholder:'Automatic, or e.g. clean up website content'});this.branch=InputState.new({placeholder:'Automatic branch name'});
     for(const state of [this.model,this.reasoning,this.instructions,this.path,this.branch])state.on('change',(_e,cx)=>cx.notify());
     this.focus.focus();
     return cx.spawn(async(cx)=>{
@@ -49,6 +50,7 @@ export class LaunchDialog {
           if(!space)throw Object.assign(Error('Select a space before starting an agent.'),{code:'SPACE_UNAVAILABLE'});
           this.target=launchTarget(await resolveSpaceRepo(space,this.capturedPanes,this.io.exec));
         }
+        this.spaceName=this.io.spaces().find(s=>s.id===this.target.spaceId&&machineIdentity(s.machine)===this.target.machine)?.name;
         this.tools=await this.io.knownAgents({on:this.target.machine});
         const choices=toolChoices(this.tools,this.preferences);const first=choices.all.find(t=>t.key===this.props.toolKey)||choices.quick[0]||choices.all[0];
         if(first)await this.loadTool(first);
@@ -71,13 +73,19 @@ export class LaunchDialog {
     const value={};for(const [field,state]of [['model',this.model],['reasoning',this.reasoning],['instructions',this.instructions]])if(state.value().trim())value[field]=state.value();
     if(this.subagents!==undefined)value.subagents=this.subagents;return value;
   }
+  worktreeChoice(){
+    try{return {value:resolveWorktreeChoice({...this.intent,...this.target,source:this.props.source},{spaceName:this.spaceName,value:this.path.value(),branch:this.branch.value()})};}
+    catch(error){return {error:error.message};}
+  }
   start(cx){
     if(this.busy||this.loading||!this.target||!this.selected||!this.caps)return;
+    const choice=this.worktree?this.worktreeChoice():null;
+    if(choice?.error){cx.notify();return;}
     this.busy=true;this.error=null;cx.notify();
     return cx.spawn(async(cx)=>{
       const request={...this.intent,...this.target,toolKey:this.selected.key,worktree:this.worktree,...this.options()};
       if(this.props.source)request.source={...this.props.source};
-      if(this.worktree){if(this.path.value().trim())request.worktreePath=this.path.value();if(this.branch.value().trim())request.branch=this.branch.value();}
+      if(this.worktree)Object.assign(request,choice.value);
       const result=await launch(request,this.io);this.busy=false;
       if(result.ok){this.result=result;this.closeOverlay();}else this.error=result.message;
       cx.notify();return result;
@@ -140,8 +148,11 @@ export class LaunchDialog {
     root.child(h_flex().gap(6).children(shortcuts.map(tool=>textButton('tool-'+tool.key,tool.name||tool.key,(_e,cx)=>this.select(tool,cx),{primary:tool.key===this.selected?.key})))
       .when(choices.overflow.length>0,e=>e.child(iconButton(this.mod,'more-tools','more','Choose another agent',(_e,cx)=>{this.view='menu';cx.notify();}))));
     root.child(h_flex().gap(6).child(textButton('current-checkout','Current checkout',(_e,cx)=>{this.worktree=false;cx.notify();},{primary:!this.worktree})).child(textButton('new-worktree','New worktree',(_e,cx)=>{this.worktree=true;cx.notify();},{primary:this.worktree})));
-    const content=v_flex().id('launch-options').flex_1().min_h(80).overflow_y_scrollbar().gap(12).when(this.worktree,e=>e.child(this.field('worktree-path','Worktree folder',this.path)).child(this.field('worktree-branch','Branch',this.branch))).child(this.advanced());
-    root.child(content).child(h_flex().gap(8).child(textButton('back-to-agents','Back',(_e,cx)=>{this.view='menu';cx.notify();})).child(div().flex_1()).child(textButton('start-agent',this.busy?'Starting…':'Start agent',(_e,cx)=>this.start(cx),{primary:true,disabled:this.busy||!this.selected||!this.caps})));
+    const choice=this.worktree?this.worktreeChoice():null;
+    const content=v_flex().id('launch-options').flex_1().min_h(80).overflow_y_scrollbar().gap(12).when(this.worktree,e=>e.child(this.field('worktree-path','Worktree name (optional)',this.path))
+      .child(div().id('worktree-location').text_size(11).text_color(choice.error?t.blocked:t.muted).child(choice.error||`Folder: ${choice.value.worktreePath}`).tooltip(choice.error||choice.value.worktreePath))
+      .child(this.field('worktree-branch','Branch (optional)',this.branch))).child(this.advanced());
+    root.child(content).child(h_flex().gap(8).child(textButton('back-to-agents','Back',(_e,cx)=>{this.view='menu';cx.notify();})).child(div().flex_1()).child(textButton('start-agent',this.busy?'Starting…':'Start agent',(_e,cx)=>this.start(cx),{primary:true,disabled:this.busy||!this.selected||!this.caps||Boolean(choice?.error)})));
     return root;
   }
   close(){for(const state of [this.search,this.model,this.reasoning,this.instructions,this.path,this.branch])state?.release();}
