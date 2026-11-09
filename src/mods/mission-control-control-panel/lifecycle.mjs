@@ -26,7 +26,7 @@ export async function layoutsUsing(appHome, modName) {
 
 function guard(item, {activeLayout}) {
   if (item.origin === 'builtin') refuse('BUILT_IN', `${item.name} is built into Herdr; Herdr restores and updates it itself.`);
-  if (item.origin === 'installer') refuse('INSTALLER_MANAGED', `${item.name} is managed by the Mission Control installer; update or remove it with the installer.`);
+  if (item.origin === 'installer') refuse('INSTALLER_MANAGED', `${item.name} was installed with Mission Control; remove it with the installer.`);
   if (item.origin === 'self') refuse('SELF', 'The Mods manager cannot disable or remove itself.');
   if (item.kind === 'layout' && item.name === activeLayout) refuse('ACTIVE_LAYOUT', `${item.name} is the layout on screen; switch to another layout first.`);
 }

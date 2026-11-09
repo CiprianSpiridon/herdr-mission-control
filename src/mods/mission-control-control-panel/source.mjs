@@ -63,6 +63,8 @@ export function createSource({appHome, env = process.env, fetchImpl = globalThis
   async function catalog(kind, {force = false} = {}) {
     if (!['mods', 'layouts'].includes(kind)) fail('INVALID_REQUEST', 'Catalog kind must be mods or layouts.');
     const file = path.join(cache, `catalog-${kind}.json`), cached = await readJson(file);
+    // Older caches kept the catalog's repository-relative layout paths as names.
+    if (kind === 'layouts' && cached?.entries) for (const entry of cached.entries) entry.names = entry.names.map(n => path.posix.basename(n).replace(/\.json$/, ''));
     if (!force && cached && now() - cached.fetchedAt < CATALOG_TTL_MS) return {...cached, fresh: true};
     const url = fixture && env.QA_MODS_CATALOG_URL ? env.QA_MODS_CATALOG_URL.replace('{kind}', kind) : CATALOG_URLS[kind];
     try {
@@ -100,7 +102,7 @@ export function createSource({appHome, env = process.env, fetchImpl = globalThis
       path: typeof e.path === 'string' ? e.path.replace(/^\/+|\/+$/g, '') : '',
       name: String(e.name || ''), stars: Number(e.stars) || 0, pushedAt: e.pushedAt ?? null,
       previewUrl: typeof e.previewUrl === 'string' && (/^https:\/\/assets\.herdr\.dev\//.test(e.previewUrl) || fixture && /^file:\/\/\//.test(e.previewUrl)) ? e.previewUrl : null,
-      names: names.filter(n => typeof n === 'string').map(n => kind === 'layouts' ? n.replace(/\.json$/, '') : n)
+      names: names.filter(n => typeof n === 'string').map(n => kind === 'layouts' ? path.posix.basename(n).replace(/\.json$/, '') : n)
     };
   }
 

@@ -77,9 +77,10 @@ var ago = (ms) => {
   return s < 60 ? "just now" : s < 3600 ? `${Math.round(s / 60)} min ago` : s < 86400 ? `${Math.round(s / 3600)} h ago` : `${Math.round(s / 86400)} d ago`;
 };
 function actionsFor(item) {
-  if (["builtin", "installer", "self", "clone"].includes(item.state)) return [];
+  if (["builtin", "clone"].includes(item.origin) || ["builtin", "clone"].includes(item.state)) return [];
+  const protectedItem = ["installer", "self"].includes(item.origin);
   if (item.state === "disabled") return ["enable", "uninstall"];
-  const base = ["disable", "uninstall"];
+  const base = protectedItem ? [] : ["disable", "uninstall"];
   if (item.state === "update") return ["update", ...base];
   if (item.state === "ambiguous") return ["choose", ...base];
   if (item.state === "untracked") return ["link", ...base];
@@ -194,7 +195,7 @@ var MissionControlMods = class extends View {
   updateAll(cx) {
     this.run(cx, "Updating…", async () => {
       const done = [], skipped = [];
-      for (const item of this.list.filter((i) => i.state === "update")) {
+      for (const item of this.list.filter((i) => i.state === "update").sort((a, b) => Number(a.origin === "self") - Number(b.origin === "self"))) {
         try {
           const p = (await this.call({ op: "prepare", key: item.key })).prepared, a = p.review?.access;
           const risky = !p.ok || a?.hosts?.length || a?.programs?.length || a?.files || p.review?.keys?.clash?.length;

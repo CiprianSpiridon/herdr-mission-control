@@ -68,6 +68,7 @@ function createSource({ appHome, env = process.env, fetchImpl = globalThis.fetch
   async function catalog(kind, { force = false } = {}) {
     if (!["mods", "layouts"].includes(kind)) fail("INVALID_REQUEST", "Catalog kind must be mods or layouts.");
     const file = path.join(cache, `catalog-${kind}.json`), cached = await readJson3(file);
+    if (kind === "layouts" && cached?.entries) for (const entry of cached.entries) entry.names = entry.names.map((n) => path.posix.basename(n).replace(/\.json$/, ""));
     if (!force && cached && now() - cached.fetchedAt < CATALOG_TTL_MS) return { ...cached, fresh: true };
     const url = fixture && env.QA_MODS_CATALOG_URL ? env.QA_MODS_CATALOG_URL.replace("{kind}", kind) : CATALOG_URLS[kind];
     try {
@@ -116,7 +117,7 @@ function createSource({ appHome, env = process.env, fetchImpl = globalThis.fetch
       stars: Number(e.stars) || 0,
       pushedAt: e.pushedAt ?? null,
       previewUrl: typeof e.previewUrl === "string" && (/^https:\/\/assets\.herdr\.dev\//.test(e.previewUrl) || fixture && /^file:\/\/\//.test(e.previewUrl)) ? e.previewUrl : null,
-      names: names.filter((n) => typeof n === "string").map((n) => kind === "layouts" ? n.replace(/\.json$/, "") : n)
+      names: names.filter((n) => typeof n === "string").map((n) => kind === "layouts" ? path.posix.basename(n).replace(/\.json$/, "") : n)
     };
   }
   const repoDir = (source) => path.join(cache, "repos", remote(source).key + ".git");
@@ -575,11 +576,17 @@ async function adopt(source, catalogs, item, { previous = null, maxCommits = 40,
     return pending ? { state: pending.state, reason: pending.reason } : { state: "untracked", reason: "No published version matches this item." };
   }
   const exact = found.filter((r) => r.exact);
+  const preferred = (matches) => {
+    const recorded = matches.filter((r) => r.entry.fullName === previous?.source?.fullName && (previous.source.path === void 0 || r.entry.path === previous.source.path));
+    if (recorded.length === 1) return recorded[0];
+    const installed = matches.filter((r) => r.entry.path === item.installerPackage);
+    return installed.length === 1 ? installed[0] : null;
+  };
   let chosen = null;
   if (exact.length === 1) chosen = exact[0];
-  else if (exact.length > 1) chosen = exact.find((r) => r.entry.fullName === previous?.source?.fullName) || null;
+  else if (exact.length > 1) chosen = preferred(exact);
   else if (found.length === 1) chosen = found[0];
-  else chosen = found.find((r) => r.entry.fullName === previous?.source?.fullName) || null;
+  else chosen = preferred(found);
   if (!chosen) return { state: "ambiguous", candidates: (exact.length ? exact : found).map((r) => ({ fullName: r.entry.fullName, path: r.entry.path, url: r.entry.url, defaultBranch: r.entry.defaultBranch, exact: r.exact })) };
   const edited = [.../* @__PURE__ */ new Set([...Object.keys(chosen.files), ...Object.keys(item.files)])].filter((n) => chosen.files[n] !== item.files[n]).sort();
   return {
@@ -942,7 +949,7 @@ async function layoutsUsing(appHome, modName) {
 }
 function guard(item, { activeLayout }) {
   if (item.origin === "builtin") refuse("BUILT_IN", `${item.name} is built into Herdr; Herdr restores and updates it itself.`);
-  if (item.origin === "installer") refuse("INSTALLER_MANAGED", `${item.name} is managed by the Mission Control installer; update or remove it with the installer.`);
+  if (item.origin === "installer") refuse("INSTALLER_MANAGED", `${item.name} was installed with Mission Control; remove it with the installer.`);
   if (item.origin === "self") refuse("SELF", "The Mods manager cannot disable or remove itself.");
   if (item.kind === "layout" && item.name === activeLayout) refuse("ACTIVE_LAYOUT", `${item.name} is the layout on screen; switch to another layout first.`);
 }
@@ -1083,6 +1090,11 @@ async function handle(request, { env = process.env, now = () => Date.now(), herd
   const appHome = request?.appHome;
   if (typeof appHome !== "string" || !path6.isAbsolute(appHome)) return { v: 1, ok: false, code: "INVALID_REQUEST", message: "An absolute app home is required." };
   const source = createSource({ appHome, env, now }), store = createStore({ appHome, now });
+  const ensured = /* @__PURE__ */ new Map(), ensure = source.ensure;
+  source.ensure = (url) => {
+    if (!ensured.has(url)) ensured.set(url, ensure(url, { budgetMs: Math.max(1, Math.min(2e4, timeLeft() - 2e3)) }));
+    return ensured.get(url);
+  };
   const recovered = await store.recover();
   const items = async () => (await scan(appHome)).items;
   const find = async (key) => (await items()).find((i) => i.key === key) || failWith("NOT_FOUND", "That item is no longer installed.");
@@ -1119,10 +1131,10 @@ async function handle(request, { env = process.env, now = () => Date.now(), herd
     default:
       return { v: 1, ok: false, code: "INVALID_REQUEST", message: "Unknown operation." };
   }
-  async function inventory() {
+  async function inventory({ retry = false, previews = true } = {}) {
     const all = await items(), pkgs = (await store.readPackages()).packages;
     let catalogs = null, partial = false;
-    const fresh = all.filter((i) => i.origin === "user" && !pkgs[i.key]);
+    const fresh = all.filter((i) => ["user", "installer", "self"].includes(i.origin) && !i.disabled && (!pkgs[i.key] || ["pending", "unreachable"].includes(pkgs[i.key].state) || retry && pkgs[i.key].state === "untracked"));
     if (fresh.length) {
       catalogs = { mods: await source.catalog("mods").catch(() => null), layouts: await source.catalog("layouts").catch(() => null) };
       for (const item of fresh) {
@@ -1131,17 +1143,14 @@ async function handle(request, { env = process.env, now = () => Date.now(), herd
           break;
         }
         const result = await adopt(source, catalogs, item, { layoutsUsing: item.kind === "mod" ? await layoutsUsing(appHome, item.name) : [] }).catch((error) => ({ state: "unreachable", reason: error.message }));
-        if (["pending", "unreachable", "too-large"].includes(result.state)) {
-          partial ||= result.state === "pending";
-          continue;
-        }
+        partial ||= result.state === "pending";
         await store.updatePackages((v) => {
           v.packages[item.key] = { kind: item.kind, name: item.name, ...result, adoptedAt: now() };
         });
       }
     }
     await pruneRemoved({ store, now });
-    await cachePreviews();
+    if (previews) await cachePreviews();
     return { ...await describe(), partial };
   }
   async function cachePreviews() {
@@ -1171,11 +1180,13 @@ async function handle(request, { env = process.env, now = () => Date.now(), herd
     }
   }
   async function check() {
+    const adopted = await inventory({ retry: true, previews: false });
     const catalogs = { mods: await source.catalog("mods").catch(() => null), layouts: await source.catalog("layouts").catch(() => null) };
     const pkgs = (await store.readPackages()).packages;
-    let partial = false;
+    let partial = adopted.partial;
+    const eligible = new Set((await items()).filter((i) => ["user", "installer", "self"].includes(i.origin) && !i.disabled).map((i) => i.key));
     for (const [key, r] of Object.entries(pkgs)) {
-      if (!r.source || r.disabled) continue;
+      if (!r.source || r.disabled || !eligible.has(key)) continue;
       if (timeLeft() < 6e3) {
         partial = true;
         break;
@@ -1210,7 +1221,8 @@ async function handle(request, { env = process.env, now = () => Date.now(), herd
     const out = [];
     for (const i of all) {
       const r = value.packages[i.key] || {}, last = r.lastResult || {};
-      const state = i.origin !== "user" ? i.origin : i.disabled ? "disabled" : last.state === "update" ? "update" : r.state || "unknown";
+      const protectedOrigin = ["builtin", "clone"].includes(i.origin);
+      const state = protectedOrigin ? i.origin : i.disabled ? "disabled" : last.state && last.state !== "current" ? last.state : r.state || "unknown";
       const preview = path6.join(records, "cache", "previews", `${i.kind}-${i.name}.png`), previewRel = path6.relative(appHome, preview);
       out.push({
         key: i.key,

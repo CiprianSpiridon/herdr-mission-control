@@ -41,8 +41,8 @@
     "mods/mission-control-control-panel/assets/panel.svg": "9c88b7e44f25d82d3f37d069b69167c98a06cf4a6cb7f9da7dc52cc2ca10c187",
     "mods/mission-control-control-panel/assets/refresh.svg": "a4ef0613fb0794ae6554ccacbe332a0f7a6bfd346ebe94d209b112796462640a",
     "mods/mission-control-control-panel/assets/search.svg": "73a02b45b12746984a4e5d9689a3ca5578f5d329e4e0b0598bd5139d81c0bdce",
-    "mods/mission-control-control-panel/backend.mjs": "738e15587f8e18a68ef7cf9240912d4938587b0f863bb4914ecb4d46d90f73a1",
-    "mods/mission-control-control-panel/main.js": "94bbb8f6efb34e5d5a38899c3ad730060ef6d79144c34468bb7ea2112e1fc3ea",
+    "mods/mission-control-control-panel/backend.mjs": "ba0cd440e78ded53d50528c0e8090bf28931a62619e25255af5e38b44acd1927",
+    "mods/mission-control-control-panel/main.js": "9eef518df42a9ca8fc27516f30b7c421adf72b1ed4eed65178035b8ecba44c09",
     "mods/mission-control-control-panel/mod.json": "ac0f668dbf113f8b6aa8b8c70870d1c759c0d0fed9746dd74f8f6e831e0f806e",
     "mods/mission-control-control-panel/NOTICE.md": "b72f3ea4ddef870a7fca5503f0ee3c159cd8d06929e818d775b865e51cb756fc",
     "mods/mission-control-github/assets/agent.svg": "e1b2039d6c2635ffcfddceff99109fb03e8ccb40359aed00fa88a6f3d8ad3eed",
@@ -211,6 +211,6 @@
     "mods/mission-control-tabs/mod.json": "21a3ac7b84f85a6c8de03c9f10bf72ac0d9f5c56d938db0fcf39d0b0aa11b4d0",
     "mods/mission-control-tabs/NOTICE.md": "4e408d28539b58cdd9b665e5a4fee5c505dd7afa3a3ad5a0b9755fff7fbcf6cd",
     "preview.png": "8d3de41c147a654de7c1fe219de6f0cc5a37b38d75ee0cc0d8979a20d15ed470",
-    "RECIPE.md": "b66b2da0b64a2cda52344ae23556b95b1560ba04f92c12c0364d860069dcf5bc"
+    "RECIPE.md": "21b72a255b3538b810c07aca626b4e78746b3e48bb120e0189eaca07525f02fb"
   }
 }

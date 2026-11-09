@@ -314,7 +314,7 @@ async function switchLayout(app, name, { pollMs, pollAttempts }) {
 }
 
 /** appHome()/mission-control/installed-packages.json: which mods and layouts this installer owns, so the
- *  Mods manager shows them as installer-managed (read-only). Written after a successful install, removed on rollback. */
+ *  Control panel keeps removal with the installer while allowing reviewed updates. Written after a successful install, removed on rollback. */
 export const OWNERSHIP_MANIFEST = 'mission-control/installed-packages.json';
 async function updateOwnership(appHome, name, entry) {
   const file = path.join(appHome, OWNERSHIP_MANIFEST);

@@ -93,10 +93,11 @@ Mission Control only reads your trackers. It never changes an issue, comment, re
 
 The Control panel is the one part of Mission Control that changes files, and only when you click a button and confirm.
 
-- **What it shows:** each item's state: Up to date, Edited by you, Update available, Conflict, Source unknown, Disabled, Built into Herdr or Managed by the installer.
+- **What it shows:** each item's state: Up to date, Edited by you, Update available, Conflict, Source unknown, Disabled, Built into Herdr. Mission Control packages and the Control panel itself use the same update states.
 - **What it reads:** your installed mods and layouts, Herdr's `installed.json` and your `keys.json`.
 - **What it changes, when you confirm:** an item's own files when you update, disable, enable, uninstall or restore it, and only the keys that item added to `keys.json`. A key you already use for something else is never replaced.
-- **What it never touches:** Herdr's built-in mods and layouts, the mods this installer manages, the layout on screen and any mod that layout uses.
+- **Updates:** Mission Control layouts, their bundled mods and the Control panel itself offer **Update…** when a newer version is available, including the layout on screen and mods it uses. Update all updates the Control panel last.
+- **Removal protections:** Herdr's built-in mods and layouts are never changed. Installer-managed items, this panel, the layout on screen and any mod that layout uses cannot be disabled or removed here.
 - **Removed items** are kept for 30 days so you can restore them, and then deleted.
 - **Network:** the herdr.dev catalog (`https://assets.herdr.dev/`) and each item's own public repository on `https://github.com/`. No account or token is used.
 - **Its own files:** records, backups and cached preview images under `~/.config/herdr-app/mission-control/control-panel/`.

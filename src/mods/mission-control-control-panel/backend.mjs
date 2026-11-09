@@ -17,6 +17,12 @@ export async function handle(request, {env = process.env, now = () => Date.now()
   const appHome = request?.appHome;
   if (typeof appHome !== 'string' || !path.isAbsolute(appHome)) return {v: 1, ok: false, code: 'INVALID_REQUEST', message: 'An absolute app home is required.'};
   const source = createSource({appHome, env, now}), store = createStore({appHome, now});
+  // A bundle may publish many items in the same repository. Fetch it once per helper call.
+  const ensured = new Map(), ensure = source.ensure;
+  source.ensure = url => {
+    if (!ensured.has(url)) ensured.set(url, ensure(url, {budgetMs: Math.max(1, Math.min(20000, timeLeft() - 2000))}));
+    return ensured.get(url);
+  };
   const recovered = await store.recover();
   const items = async () => (await scan(appHome)).items;
   const find = async key => (await items()).find(i => i.key === key) || failWith('NOT_FOUND', 'That item is no longer installed.');
@@ -43,21 +49,22 @@ export async function handle(request, {env = process.env, now = () => Date.now()
   }
 
   /** Classify, adopt items that have no record yet (within the budget) and describe everything for the panel. */
-  async function inventory() {
+  async function inventory({retry = false, previews = true} = {}) {
     const all = await items(), pkgs = (await store.readPackages()).packages;
     let catalogs = null, partial = false;
-    const fresh = all.filter(i => i.origin === 'user' && !pkgs[i.key]);
+    const fresh = all.filter(i => ['user', 'installer', 'self'].includes(i.origin) && !i.disabled &&
+      (!pkgs[i.key] || ['pending', 'unreachable'].includes(pkgs[i.key].state) || retry && pkgs[i.key].state === 'untracked'));
     if (fresh.length) {
       catalogs = {mods: await source.catalog('mods').catch(() => null), layouts: await source.catalog('layouts').catch(() => null)};
       for (const item of fresh) {
         if (timeLeft() < 6000) { partial = true;break; }
         const result = await adopt(source, catalogs, item, {layoutsUsing: item.kind === 'mod' ? (await layoutsUsing(appHome, item.name)) : []}).catch(error => ({state: 'unreachable', reason: error.message}));
-        if (['pending', 'unreachable', 'too-large'].includes(result.state)) { partial ||= result.state === 'pending';continue; }
+        partial ||= result.state === 'pending';
         await store.updatePackages(v => { v.packages[item.key] = {kind: item.kind, name: item.name, ...result, adoptedAt: now()}; });
       }
     }
     await pruneRemoved({store, now});
-    await cachePreviews();
+    if (previews) await cachePreviews();
     return {...(await describe()), partial};
   }
 
@@ -84,10 +91,12 @@ export async function handle(request, {env = process.env, now = () => Date.now()
 
   /** Re-check adopted items for new versions (catalog headCommit gated), within the budget. */
   async function check() {
+    const adopted = await inventory({retry: true, previews: false});
     const catalogs = {mods: await source.catalog('mods').catch(() => null), layouts: await source.catalog('layouts').catch(() => null)};
-    const pkgs = (await store.readPackages()).packages;let partial = false;
+    const pkgs = (await store.readPackages()).packages;let partial = adopted.partial;
+    const eligible = new Set((await items()).filter(i => ['user', 'installer', 'self'].includes(i.origin) && !i.disabled).map(i => i.key));
     for (const [key, r] of Object.entries(pkgs)) {
-      if (!r.source || r.disabled) continue;
+      if (!r.source || r.disabled || !eligible.has(key)) continue;
       if (timeLeft() < 6000) { partial = true;break; }
       const result = await checkItem(source, catalogs, r).catch(error => ({state: 'unreachable', reason: error.message}));
       await store.updatePackages(v => { const cur = v.packages[key];if (!cur) return;cur.lastResult = result;cur.headCommit = result.headCommit ?? cur.headCommit;cur.remoteHead = result.remoteHead ?? cur.remoteHead;cur.checkedAt = now(); });
@@ -113,7 +122,8 @@ export async function handle(request, {env = process.env, now = () => Date.now()
     const out = [];
     for (const i of all) {
       const r = value.packages[i.key] || {}, last = r.lastResult || {};
-      const state = i.origin !== 'user' ? i.origin : i.disabled ? 'disabled' : last.state === 'update' ? 'update' : r.state || 'unknown';
+      const protectedOrigin = ['builtin', 'clone'].includes(i.origin);
+      const state = protectedOrigin ? i.origin : i.disabled ? 'disabled' : last.state && last.state !== 'current' ? last.state : r.state || 'unknown';
       const preview = path.join(records, 'cache', 'previews', `${i.kind}-${i.name}.png`), previewRel = path.relative(appHome, preview);
       out.push({key: i.key, kind: i.kind, name: i.name, title: i.title || null, origin: i.origin, disabled: Boolean(i.disabled), state,
         reason: last.reason || r.reason || null, source: r.source ? {fullName: r.source.fullName, path: r.source.path, url: r.source.url} : null,

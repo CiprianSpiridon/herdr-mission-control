@@ -38,6 +38,8 @@ export const EXPECTATIONS=Object.freeze({
   uninstallRestore:'Uninstall says removed items are kept for 30 days, and Restore brings back identical files',
   activeLayout:'Uninstalling the layout on screen is refused and its file stays',
   builtIn:'Herdr’s own items are listed as built in, with no actions',
+  managedUpdates:'Installer-managed mods and layouts show Update, review and apply their new versions through native input',
+  selfUpdate:'Control panel shows its own Update, applies it after review and hot-reloads without native errors',
   noErrors:'The Control panel and the fixture mods produced zero native app errors'
 });
 
@@ -75,7 +77,7 @@ export async function buildFixture({directory,home,env=process.env,catalogDir=CA
   const writeCatalog=async()=>{
     await fs.mkdir(catalogDir,{recursive:true});
     const entry=(dir,head,names,key)=>({owner:'fixture',repo:path.basename(dir),fullName:'fixture/'+path.basename(dir),url:'file://'+dir,defaultBranch:'main',headCommit:head,path:'',name:path.basename(dir),stars:0,pushedAt:null,[key]:names,hasKeys:true,hasPreview:true,previewUrl:'file://'+path.join(dir,'preview.png')});
-    await fs.writeFile(path.join(catalogDir,'mods.json'),JSON.stringify({generatedAt:new Date().toISOString(),mods:[entry(widgets,state.heads.widgets,['qa-clock','qa-notes','qa-timer'],'modNames')]}));
+    await fs.writeFile(path.join(catalogDir,'mods.json'),JSON.stringify({generatedAt:new Date().toISOString(),mods:[entry(widgets,state.heads.widgets,['qa-clock','qa-notes','qa-timer'],'modNames'),...(state.panelEntry?[state.panelEntry]:[])]}));
     await fs.writeFile(path.join(catalogDir,'layouts.json'),JSON.stringify({generatedAt:new Date().toISOString(),layouts:[entry(boards,state.heads.boards,['qa-board.json'],'layoutFiles')]}));
     // The herdr.dev catalog refreshes hourly; the gate stands in for that hour by dropping the helper's cached copy.
     for(const kind of ['mods','layouts'])await fs.rm(path.join(home,'mission-control/control-panel/cache',`catalog-${kind}.json`),{force:true});
@@ -86,6 +88,7 @@ export async function buildFixture({directory,home,env=process.env,catalogDir=CA
   // The person's own edit of QA notes, made before the panel ever runs.
   await fs.writeFile(path.join(home,'mods/qa-notes/main.js'),notes('second note mine'));
   state.push=async(files,message)=>{await put(widgets,files);state.heads.widgets=commit(widgets,message);await writeCatalog();return state.heads.widgets;};
+  state.publish=writeCatalog;
   return state;
 }
 export const UPSTREAM=Object.freeze({
@@ -253,6 +256,34 @@ export default async function mods(runtime){
     runtime.expect(!builtIn.lines.some(l=>inPanel(l)&&['disable','enable','uninstall','update','link source','choose source'].includes(norm(l.text))),EXPECTATIONS.builtIn);
     await activate('All',{text:'All'});await waitSee('QA timer');
     const preview=await capture('control-panel-preview');await fs.copyFile(path.resolve(ROOT,preview.path),path.resolve(ROOT,'.harness/control-panel-preview-candidate.png'));
+
+    // 8. Bundle ownership does not suppress updates; the manager can update and reload itself.
+    await progress('managed-updates');
+    await put(home,{'mission-control/installed-packages.json':JSON.stringify({v:1,packages:{'qa-bundle':{mods:['qa-clock',MOD],layouts:['qa-board']}}})});
+    const board=JSON.parse(await fs.readFile(path.join(fixture.boards,'layouts/qa-board.json'),'utf8'));board.theme='graphite';
+    await put(fixture.boards,{'layouts/qa-board.json':JSON.stringify(board)+'\n'});fixture.heads.boards=commit(fixture.boards,'Update managed board');
+    await fixture.push({'mods/qa-clock/main.js':clock('v4')},'Update managed clock');
+    await check();await updateFor('mod:qa-clock',fixture.heads.widgets);await updateFor('layout:qa-board',fixture.heads.boards);
+    await activate('Update managed clock',{text:'Update…',row:'QA clock'});await waitSee('Apply update');await activate('Apply update');
+    await waitSee('QA clock v4 bumped none',inLeft);
+    await activate('Update managed board',{text:'Update…',row:'qa-board'});await waitSee('Apply update');await activate('Apply update');
+    await until(async()=>JSON.parse(await fs.readFile(path.join(home,'layouts/qa-board.json'),'utf8')).theme==='graphite','managed layout updated',60000);
+    runtime.expect((await packages()).packages['mod:qa-clock'].commit===fixture.heads.widgets,EXPECTATIONS.managedUpdates);
+
+    const panelRepo=path.join(runtime.directory,'qa-panel-source');await fs.mkdir(panelRepo);
+    run('git',['init','-q','-b','main',panelRepo],{env:runtime.env,json:false});
+    await fs.cp(path.join(home,'mods',MOD),path.join(panelRepo,'mods',MOD),{recursive:true});commit(panelRepo,'Panel before update');
+    const panelMain=await fs.readFile(path.join(panelRepo,'mods',MOD,'main.js'),'utf8');
+    await put(panelRepo,{['mods/'+MOD+'/main.js']:panelMain+'\n// Native self-update fixture.\n'});
+    const panelHead=commit(panelRepo,'Update panel itself');
+    fixture.panelEntry={fullName:'fixture/qa-panel-source',url:'file://'+panelRepo,path:'',defaultBranch:'main',headCommit:panelHead,modNames:[MOD]};
+    await fixture.publish();await check();await updateFor('mod:'+MOD,panelHead);
+    await activate('Update Control panel',{text:'Update…',row:'Mission Control · Control panel'});await waitSee('Apply update');
+    runtime.expect((await fs.readFile(path.join(home,'mods',MOD,'main.js'),'utf8'))===panelMain,'Self update waits for review confirmation');
+    await activate('Apply update');
+    await until(async()=>(await packages()).packages['mod:'+MOD]?.commit===panelHead,'self update committed after hot reload',60000);
+    await waitSee('Search mods and layouts');
+    runtime.expect((await fs.readFile(path.join(home,'mods',MOD,'main.js'),'utf8')).includes('Native self-update fixture.')&&runtime.app(['status']).errors.length===0,EXPECTATIONS.selfUpdate);
     runtime.expect(runtime.app(['status']).errors.length===0&&renderFailures.length===0,EXPECTATIONS.noErrors);
     await progress('passed');
   }catch(error){

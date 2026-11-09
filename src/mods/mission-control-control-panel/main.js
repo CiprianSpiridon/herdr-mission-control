@@ -18,9 +18,10 @@ const ago=ms=>{if(!ms)return 'never';const s=Math.max(0,Math.round((Date.now()-m
 
 /** Which actions a row offers, by its state (exported for tests). */
 export function actionsFor(item){
-  if(['builtin','installer','self','clone'].includes(item.state))return [];
+  if(['builtin','clone'].includes(item.origin)||['builtin','clone'].includes(item.state))return [];
+  const protectedItem=['installer','self'].includes(item.origin);
   if(item.state==='disabled')return ['enable','uninstall'];
-  const base=['disable','uninstall'];
+  const base=protectedItem?[]:['disable','uninstall'];
   if(item.state==='update')return ['update',...base];
   if(item.state==='ambiguous')return ['choose',...base];
   if(item.state==='untracked')return ['link',...base];
@@ -76,7 +77,8 @@ export default class MissionControlMods extends View {
   updateAll(cx){
     this.run(cx,'Updating…',async()=>{
       const done=[],skipped=[];
-      for(const item of this.list.filter(i=>i.state==='update')){
+      // Updating this view hot-reloads it, so finish every other item first.
+      for(const item of this.list.filter(i=>i.state==='update').sort((a,b)=>Number(a.origin==='self')-Number(b.origin==='self'))){
         try{
           const p=(await this.call({op:'prepare',key:item.key})).prepared,a=p.review?.access;
           const risky=!p.ok||a?.hosts?.length||a?.programs?.length||a?.files||p.review?.keys?.clash?.length;

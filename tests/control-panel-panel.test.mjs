@@ -57,6 +57,32 @@ test('opening recovers first, lists every section with thumbnails, and offers Up
   let images = [];walk(tree, el => { if (el.kind === 'image') images.push(el.value); });assert.deepEqual(images, ['mission-control/control-panel/cache/previews/mod-foo.png']);
 });
 
+test('installer layouts, installer mods and the panel itself offer reviewed updates, with self updated last', async t => {
+  const managed = [
+    {...ITEMS[0], key: 'mod:mission-control-control-panel', name: 'mission-control-control-panel', origin: 'self'},
+    {...ITEMS[0], key: 'layout:mission-control', kind: 'layout', name: 'mission-control', origin: 'installer'},
+    {...ITEMS[0], key: 'mod:mission-control-agents', name: 'mission-control-agents', origin: 'installer'}
+  ];
+  for (const item of managed) {
+    assert.deepEqual(actionsFor(item), ['update']);
+    assert.deepEqual(actionsFor({...item, state: 'current'}), []);
+    assert.deepEqual(actionsFor({...item, state: 'untracked'}), ['link']);
+  }
+  const m = mount(t, {respond: r => r.op === 'prepare' ? {ok: true, prepared: {ok: true, review: {changed: ['main.js']}}}
+    : r.op === 'commit' ? {ok: true} : listing({list: managed})});
+  await m.settle();
+  for (const item of managed) {
+    assert.ok(has(m.render(), 'update-' + item.key));
+    assert.equal(has(m.render(), 'uninstall-' + item.key), false);
+  }
+  trigger(m.render(), 'update-mod:mission-control-control-panel', 'on_click', {}, m.cx);await m.settle();
+  assert.ok(has(m.render(), 'review-apply'));
+  assert.equal(m.calls.some(c => c.op === 'commit'), false, 'self update waits for Apply');
+  trigger(m.render(), 'review-cancel', 'on_click', {}, m.cx);
+  trigger(m.render(), 'mods-update-all', 'on_click', {}, m.cx);await m.settle();
+  assert.deepEqual(m.calls.filter(c => c.op === 'commit').map(c => c.key), [managed[1].key, managed[2].key, managed[0].key]);
+});
+
 test('Update shows the review before anything is written, and Apply commits', async t => {
   const m = mount(t, {respond: r => r.op === 'prepare' ? {v: 1, ok: true, prepared: {ok: true, state: 'ready', review: {subject: 'Faster', changed: ['main.js'], removed: [], keptEdited: [], access: {hosts: ['api.example.com'], programs: [], files: false}, keys: {add: [{section: 'global', key: 'ctrl-f', action: 'foo.open'}], remove: [], clash: []}}}} : r.op === 'commit' ? {v: 1, ok: true, committed: {ok: true}} : listing()});
   await m.settle();

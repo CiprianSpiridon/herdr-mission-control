@@ -132,11 +132,19 @@ export async function adopt(source, catalogs, item, {previous = null, maxCommits
     return pending ? {state: pending.state, reason: pending.reason} : {state: 'untracked', reason: 'No published version matches this item.'};
   }
   const exact = found.filter(r => r.exact);
+  const preferred = matches => {
+    const recorded = matches.filter(r => r.entry.fullName === previous?.source?.fullName &&
+      (previous.source.path === undefined || r.entry.path === previous.source.path));
+    if (recorded.length === 1) return recorded[0];
+    // Keep bundle-installed items on that bundle's source rather than an identical standalone copy.
+    const installed = matches.filter(r => r.entry.path === item.installerPackage);
+    return installed.length === 1 ? installed[0] : null;
+  };
   let chosen = null;
   if (exact.length === 1) chosen = exact[0];
-  else if (exact.length > 1) chosen = exact.find(r => r.entry.fullName === previous?.source?.fullName) || null;
+  else if (exact.length > 1) chosen = preferred(exact);
   else if (found.length === 1) chosen = found[0];
-  else chosen = found.find(r => r.entry.fullName === previous?.source?.fullName) || null;
+  else chosen = preferred(found);
   if (!chosen) return {state: 'ambiguous', candidates: (exact.length ? exact : found).map(r => ({fullName: r.entry.fullName, path: r.entry.path, url: r.entry.url, defaultBranch: r.entry.defaultBranch, exact: r.exact}))};
   const edited = [...new Set([...Object.keys(chosen.files), ...Object.keys(item.files)])].filter(n => chosen.files[n] !== item.files[n]).sort();
   return {

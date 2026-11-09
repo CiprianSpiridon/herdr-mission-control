@@ -28,7 +28,7 @@ async function fixture(t) {
     hits++;
     if (broken) { res.writeHead(503); res.end(); return; }
     const kind = req.url.includes('layouts') ? 'layouts' : 'mods';
-    const entry = {owner: 'fixture', repo: 'upstream', fullName: 'fixture/upstream', url: 'file://' + repo, defaultBranch: 'main', headCommit: head, path: '', name: 'Foo', stars: 3, pushedAt: null, [kind === 'mods' ? 'modNames' : 'layoutFiles']: kind === 'mods' ? ['foo'] : ['bar.json']};
+    const entry = {owner: 'fixture', repo: 'upstream', fullName: 'fixture/upstream', url: 'file://' + repo, defaultBranch: 'main', headCommit: head, path: '', name: 'Foo', stars: 3, pushedAt: null, [kind === 'mods' ? 'modNames' : 'layoutFiles']: kind === 'mods' ? ['foo'] : ['bundle/layouts/bar.json']};
     res.writeHead(200, {'content-type': 'application/json'});res.end(JSON.stringify({schemaVersion: 1, generatedAt: 'x', [kind]: [entry, {bad: true}]}));
   });
   await new Promise(r => server.listen(0, '127.0.0.1', r));t.after(() => server.close());
@@ -43,7 +43,11 @@ test('the catalog is read, normalized, cached for an hour and kept when a refres
   const mods = await f.source.catalog('mods');
   assert.equal(mods.entries.length, 1, 'malformed entries are dropped');
   assert.deepEqual(mods.entries[0].names, ['foo']);assert.equal(mods.entries[0].path, '');
-  const layouts = await f.source.catalog('layouts');assert.deepEqual(layouts.entries[0].names, ['bar'], 'layout file names lose .json');
+  const layouts = await f.source.catalog('layouts');assert.deepEqual(layouts.entries[0].names, ['bar'], 'repository-relative layout paths become installed names');
+  const legacy = path.join(f.source.root, 'cache/catalog-layouts.json');
+  const cached = JSON.parse(await fs.readFile(legacy, 'utf8'));cached.entries[0].names = ['bundle/layouts/bar'];
+  await fs.writeFile(legacy, JSON.stringify(cached));
+  assert.deepEqual((await f.source.catalog('layouts')).entries[0].names, ['bar'], 'existing caches are migrated without waiting an hour');
   const hits = f.hits();await f.source.catalog('mods');assert.equal(f.hits(), hits, 'a fresh cache costs no request');
   f.advance(60 * 60 * 1000 + 1);f.breakServer();
   const stale = await f.source.catalog('mods');assert.equal(stale.fresh, false);assert.equal(stale.entries.length, 1);assert.match(stale.reason, /503/);
