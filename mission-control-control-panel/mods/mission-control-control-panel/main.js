@@ -102,7 +102,7 @@ var MissionControlMods = class extends View {
     this.hideHeader = this.props.hideHeader === true;
     this.closed = false;
     this.jobs = [];
-    Object.assign(this, { list: [], removed: [], busy: null, error: null, info: null, filter: "all", query: "", review: null, confirm: null, linkFor: null, checkedAt: null, collapsed: { builtin: true } });
+    Object.assign(this, { list: [], removed: [], busy: null, preparingKey: null, error: null, info: null, filter: "all", query: "", review: null, confirm: null, linkFor: null, checkedAt: null, collapsed: { builtin: true } });
     this.search = createSearch("Search mods and layouts", (value) => {
       this.query = value;
     });
@@ -147,6 +147,7 @@ var MissionControlMods = class extends View {
   run(cx, busy, work) {
     this.busy = busy;
     this.error = null;
+    cx.notify();
     const job = cx.spawn(async (taskCx) => {
       try {
         await work(taskCx);
@@ -165,10 +166,16 @@ var MissionControlMods = class extends View {
   }
   // Actions -----------------------------------------------------------------------------------------------
   update(key2, cx, resolutions) {
+    if (this.busy || this.preparingKey) return;
     this.info = null;
+    this.preparingKey = key2;
     this.run(cx, "Preparing the update…", async () => {
-      const out = await this.call({ op: "prepare", key: key2, resolutions: resolutions || {} });
-      this.review = { key: key2, resolutions: resolutions || {}, ...out.prepared };
+      try {
+        const out = await this.call({ op: "prepare", key: key2, resolutions: resolutions || {} });
+        this.review = { key: key2, resolutions: resolutions || {}, ...out.prepared };
+      } finally {
+        this.preparingKey = null;
+      }
     });
   }
   apply(cx) {
@@ -291,9 +298,9 @@ var MissionControlMods = class extends View {
     const sourceText = item.source ? [item.source.fullName, item.source.path].filter(Boolean).join(" · ") : item.installerPackage ? `installed with ${item.installerPackage}` : null;
     const files = item.update ? item.update.changed + item.update.added + item.update.removed : 0;
     const detail = item.state === "update" && item.update ? `${item.update.subject} · ${files} ${files === 1 ? "file" : "files"} · ${ago(item.update.time)}` : item.reason;
-    const named = item.title || item.name, rowButton = (id, text, verb, action, options) => textButton(id, text, action, options).accessibility_label(`${verb} ${named}`);
+    const named = item.title || item.name, rowButton = (id, text, verb, action, options) => textButton(id, text, action, { ...options, disabled: Boolean(this.busy) }).accessibility_label(`${verb} ${named}`);
     const buttons = actionsFor(item).map((action) => {
-      if (action === "update") return rowButton("update-" + item.key, "Update…", "Update", (_e, cx) => this.update(item.key, cx), { primary: true });
+      if (action === "update") return rowButton("update-" + item.key, this.preparingKey === item.key ? "Preparing…" : "Update…", "Update", (_e, cx) => this.update(item.key, cx), { primary: true });
       if (action === "disable") return rowButton("disable-" + item.key, "Disable", "Disable", (_e, cx) => this.lifecycle("disable", item.key, cx));
       if (action === "enable") return rowButton("enable-" + item.key, "Enable", "Enable", (_e, cx) => this.lifecycle("enable", item.key, cx));
       if (action === "uninstall") return rowButton("uninstall-" + item.key, "Uninstall", "Uninstall", (_e, cx) => {

@@ -117,6 +117,31 @@ test('Update shows the review before anything is written, and Apply commits', as
   assert.deepEqual(m.calls.filter(c => c.op === 'commit').map(c => c.key), ['mod:foo']);assert.match(text(m.render()), /foo updated/);
 });
 
+for(const failed of [false,true])test(`Update redraws immediately, prevents repeat clicks and ${failed?'recovers from a preparation error':'opens its review when ready'}`,async t=>{
+  let release;const pending=new Promise(resolve=>{release=resolve;});t.after(()=>release());
+  const m=mount(t,{respond:async r=>r.op==='prepare'?(await pending,failed?
+    {ok:false,code:'CHECK_FAILED',message:'The staged mod failed its check.'}:
+    {ok:true,prepared:{ok:true,review:{changed:['main.js']}}}):listing()});
+  await m.settle();
+  const before=m.render(),notifications=m.cx.notifications;
+  trigger(before,'update-mod:foo','on_click',{},m.cx);
+  assert.ok(m.cx.notifications>notifications,'request a redraw before the helper has answered');
+  assert.match(text(m.render()),/Preparing the update…/);
+  assert.match(text(findElement(m.render(),'update-mod:foo')),/Preparing…/);
+  assert.equal(findElement(m.render(),'update-mod:foo').handlers.on_click,undefined,'pending button cannot be clicked');
+  assert.equal(has(m.render(),'review-apply'),false,'review waits for preparation');
+  trigger(before,'update-mod:foo','on_click',{},m.cx);
+  await new Promise(resolve=>setImmediate(resolve));
+  assert.equal(m.calls.filter(c=>c.op==='prepare').length,1,'a queued second click cannot prepare twice');
+  release();await m.settle();
+  if(failed){
+    assert.match(text(m.render()),/The staged mod failed its check/);
+    assert.match(text(findElement(m.render(),'update-mod:foo')),/Update…/);
+    assert.ok(findElement(m.render(),'update-mod:foo').handlers.on_click,'the person can retry');
+  }else assert.ok(has(m.render(),'review-apply'));
+  assert.doesNotMatch(text(m.render()),/Preparing…|Preparing the update…/,'pending feedback clears');
+});
+
 test('a conflict offers Keep mine, Take theirs and Open the merged files', async t => {
   let prepared = 0;
   const m = mount(t, {respond: r => r.op === 'prepare' ? (prepared++ === 0
