@@ -101,6 +101,89 @@ The ⤢ button opens the same HUD as a 94% × 92% dialog with three columns: cor
   - `.mute` (toggles)
   - `.refresh`
 
+## iMessage relay
+
+JARVIS can text you and take orders back over iMessage. This part is optional and macOS only. It's a background program (`mods/mission-control-jarvis/relay.mjs`) run by launchd, so it keeps working with the Herdr window closed. It stops while the Mac sleeps.
+
+### What you get
+- **Alerts:**
+  - `🔴 3 · <tab> (codex) needs you: <its question>`, repeated every 2 min, up to 3 times, until you answer
+  - `✅ <tab> finished`
+  - `⚠️ <tab> hit an error`
+  - a 🔴 alert when the orchestrator session is stuck on a startup screen, such as Claude Code's folder-trust prompt
+- **Replies:**
+
+  | You text | What happens |
+  | --- | --- |
+  | `3 yes` / `3 no` | Enter / Esc in that agent's terminal (on the trust prompt, `yes` picks "Yes") |
+  | `3 <message>` | Esc, then your message typed into that agent |
+  | `status` | Working, blocked and done counts, plus the agents that need you |
+  | `mode work\|focus\|night\|off` | Changes which alerts you get |
+  | `help` | The list above |
+  | anything else | Goes to the `jarvis` orchestrator session, which answers by text |
+- **Orchestrator:** the `jarvis` session is a Claude Code session (`hc` terminal `jarvis`, folder `mission-control/jarvis/orchestrator`). It starts on your first free-form text, and its instructions are in `orchestrator/CLAUDE.md`. It can:
+  - check what's running, read terminals and steer agents
+  - open ticket worktrees in any agent, the Mission Control way
+  - run several agents on one ticket and compare them
+  - swap agents when one hits a usage limit
+  - read Slack, Gmail, Calendar, Jira and GitHub through your Claude connectors
+
+  It never sends anything outward without your "send". Its `.claude/settings.json` pre-approves only read-only `hc`, `herdr-app`, `git` and `gh` commands, plus `jarvis-text`.
+- **Modes:**
+
+  | Mode | Blocked | Errors | Finished | Other texts (briefings, routines) |
+  | --- | --- | --- | --- | --- |
+  | work | ✓ | ✓ | ✓ | ✓ |
+  | focus | ✓ | ✓ | – | urgent and replies only |
+  | night | ✓ | – | – | urgent and replies only |
+  | off | – | – | – | – |
+- **Only you:** messages from anyone other than `to` are ignored, and messages that were already in the thread when the relay started are never treated as orders.
+
+### Setup
+You need a Mac with Messages signed in, Node 18 or later, the `claude` CLI, and an iPhone. The relay reads replies from the Messages database, which macOS only allows with Full Disk Access.
+
+The Messages app holds only one iMessage account per Mac user, so choose one of these:
+
+**A. Separate JARVIS identity (recommended).** JARVIS gets its own Apple ID and shows up as a normal contact that notifies you, and your personal messages stay out of it.
+1. Create an Apple ID for JARVIS, using any spare email address.
+2. Create a standard macOS user (System Settings → Users & Groups → Add User), for example `jarvis`. Log into it, sign its **Messages** into the JARVIS Apple ID, then switch back with **fast user switching**. Don't log out. To show the switcher, set Control Centre → Fast User Switching → Show in Menu Bar.
+3. In your own user, install the mod and the relay:
+   ```sh
+   ./install-relay.sh                       # background relay + jarvis-text + orchestrator files
+   ./two-user/setup-shared.sh +15551234567  # your number; sets up /Users/Shared/jarvis
+   ```
+4. Switch to the `jarvis` user and set up its half of the relay. Copy and paste don't work between Mac users, so nothing needs typing:
+   - In Finder press ⌘⇧G, go to `/Users/Shared/jarvis`, and double-click **Install JARVIS.command**. Or run `/Users/Shared/jarvis/install-helper.sh` in Terminal.
+   - Click **Allow** when macOS asks to let it control Messages.
+   - Give **Full Disk Access** to `/Users/Shared/jarvis/bin/jarvis-imessage`: drag it from Finder into System Settings → Privacy & Security → Full Disk Access. The helper reads only the JARVIS account's messages.
+5. Switch back to your user. The relay hands texts to the helper through `/Users/Shared/jarvis/out` and `in`.
+
+**B. Your own Apple ID.** Quicker, but JARVIS writes in your "note to self" thread, and your iPhone may not notify you for messages from yourself.
+1. Set `"to"` to your number and leave `"self": true` in `~/.config/herdr-app/mission-control/jarvis/relay.json`.
+2. Run `./install-relay.sh`.
+3. Give **Full Disk Access** to `~/.config/herdr-app/mission-control/jarvis/bin/jarvis-relay`. That's a dedicated copy of node, so the access doesn't extend to every node script.
+
+**Then, for either option:**
+1. Text JARVIS `status`. You should get a summary back.
+2. Text a question such as "what tickets are open?". The first one starts the orchestrator.
+3. If you get a 🔴 about the folder-trust prompt, approve it with `<n> yes`, or run `hc attach jarvis`.
+4. On the iPhone, save JARVIS as a contact. Optionally set its text tone to **Emergency Bypass**, so alerts ring through silent mode.
+
+### Good to know
+- **Both users must stay logged in.** Switch users, never log out. After a restart, log into the JARVIS user once, then switch back.
+- **Texts pass through Apple's servers.** The orchestrator is told to keep them to summaries (ticket, agent, status) with no code, secrets or customer data.
+- **The orchestrator inherits your Claude Code permission mode.** If your default is auto mode, it can run commands without asking. Its rules still forbid sending anything outward without your "send".
+- **`yes` presses Enter,** which picks the default option. That's "Yes" on Claude Code and Codex approval prompts. Check it for other agents.
+- **Files:**
+  - `relay.json`: `to`, `self`, `transport`, `mode`, `alerts`, `repeat`, `orchestrator`, `facetime`
+  - `relay.log`
+  - `relay-state.json`
+  - `outbox/`
+
+  These are all in `~/.config/herdr-app/mission-control/jarvis/`. The JARVIS user's helper logs to the same path in its own home.
+- **Uninstall:** run `./install-relay.sh uninstall` in your user, and `/Users/Shared/jarvis/install-helper.sh uninstall` in the JARVIS user.
+- **FaceTime:** `relay.mjs call` rings `facetime.to`, but it's off by default (`facetime.enabled: false`), because FaceTime calls don't connect in some countries. A two-way voice conversation would also need call audio routed through a virtual audio device plus speech-to-text, which isn't built.
+
 ## Built from
 
 - `layouts/mission-control-jarvis.json`: Classic's node tree plus the `jarvis-hud` block `{ mod: "mission-control-jarvis", props: { view: "hud" } }`. The dialog uses `props: { view: "full" }`.
