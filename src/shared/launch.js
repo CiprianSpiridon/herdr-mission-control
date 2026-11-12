@@ -54,20 +54,35 @@ export function verifyTabAcknowledgement(value,request){
   for(const f of ['space','tab','terminal'])text(value[f],`acknowledged ${f}`);localTerminalAddress(value.terminal,request.machine);return {space:value.space,tab:value.tab,terminal:value.terminal};
 }
 const WRAPPERS=Object.freeze({'-lic':'"$@"; exec "$0" -li','-c':'"$@"; exec "${SHELL:-sh}" -i'});
-function observedArgv(raw,expected,task){
-  if(!Array.isArray(raw.argv))return false;
-  // Herdr 0.1.11 passes tab.new's task to the program as its last argument; accept exactly the task we sent.
-  const accepted=[expected,...(task?[[...expected,task]]:[])].map(value=>JSON.stringify(value)),args=raw.argv;
+// Herdr 0.1.13 starts a remote program through this login-shell dispatcher (tests/fixtures/herdr-0113-launch-argv.json):
+// sh -c '<dispatcher>' sh <program…>. It execs $SHELL with the local -lic wrapper (fish has its own branch) and falls back to
+// the older sh -c wrapper for any other shell.
+export const REMOTE_DISPATCH="shell=${SHELL:-/bin/sh}\ncase \"${shell##*/}\" in\n  fish) exec \"$shell\" -lic 'command $argv[2..]; exec $argv[1] -li' \"$shell\" \"$@\" ;;\n  sh|bash|zsh|dash|ksh) exec \"$shell\" -lic '\"$@\"; exec \"$0\" -li' \"$shell\" \"$@\" ;;\n  *) exec sh -c '\"$@\"; exec \"${SHELL:-sh}\" -i' sh \"$@\" ;;\nesac";
+/**
+ * True when argv is exactly one accepted program argv, or one wrapped in an actual Herdr launch wrapper captured in isolated
+ * native evidence: 0.1.10 used the user's zsh/bash, 0.1.11 uses /bin/sh locally and a bare `sh -c` form on a remote host,
+ * 0.1.13 starts a remote program through REMOTE_DISPATCH. The only matcher: native scenarios import it rather than copy it.
+ */
+export function launchArgvMatches(argv,acceptedArgvs){
+  if(!Array.isArray(argv)||!Array.isArray(acceptedArgvs))return false;
+  const accepted=acceptedArgvs.map(value=>JSON.stringify(value)),args=argv;
   if(accepted.includes(JSON.stringify(args)))return true;
-  // Actual Herdr login-shell wrappers captured in isolated native evidence: 0.1.10 used the user's
-  // zsh/bash, 0.1.11 uses /bin/sh locally and a bare `sh -c` form on a remote host.
+  if(args[0]==='sh'&&args[1]==='-c'&&args[2]===REMOTE_DISPATCH&&args[3]==='sh'&&accepted.includes(JSON.stringify(args.slice(4))))return true;
   const shell=args[0];
   return typeof shell==='string'&&(shell.startsWith('/')||!shell.includes('/'))&&/^(?:sh|bash|zsh|dash|ksh)$/.test(shell.split('/').pop())&&WRAPPERS[args[1]]===args[2]&&args[3]===shell&&accepted.includes(JSON.stringify(args.slice(4)));
 }
+function observedArgv(raw,expected,task){
+  // Herdr 0.1.11 passes tab.new's task to the program as its last argument; accept exactly the task we sent.
+  return Array.isArray(raw?.argv)&&launchArgvMatches(raw.argv,[expected,...(task?[[...expected,task]]:[])]);
+}
 /** The local login-shell wrapper still in the foreground itself, before its program's job takes over. */
 function shellHoldsForeground(raw){
-  const args=Array.isArray(raw?.argv)?raw.argv:[];
-  return args[1]==='-lic'&&WRAPPERS['-lic']===args[2]&&Number.isSafeInteger(raw.pid)&&raw.foreground?.pid===raw.pid;
+  const args=Array.isArray(raw?.argv)?raw.argv:[],own=Number.isSafeInteger(raw?.pid)&&raw.foreground?.pid===raw.pid;
+  if(args[1]==='-lic'&&WRAPPERS['-lic']===args[2])return own;
+  // A 0.1.13 remote dispatcher: its process becomes the login shell that starts the job. Only the older `sh -c` fallback
+  // (a non-POSIX, non-fish $SHELL) stays in front with the program as its child, and is bound as before.
+  if(args[1]==='-c'&&args[2]===REMOTE_DISPATCH){const fg=Array.isArray(raw.foreground?.argv)?raw.foreground.argv:[];return own&&!(fg[1]==='-c'&&fg[2]===WRAPPERS['-c']);}
+  return false;
 }
 async function inspect(io,r,ack){
   const listing=await io.exec('herdr-app',['ls']);if(listing.code!==0)fail('ACK_UNVERIFIED','Cannot inspect the acknowledged tab');

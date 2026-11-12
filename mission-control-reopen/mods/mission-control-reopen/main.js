@@ -174,15 +174,15 @@ function localTerminalAddress(address, on) {
 function terminalIdentity(raw, on = null) {
   if (!raw || !Number.isSafeInteger(raw.created_ms) || raw.created_ms < 0) fail2("Full raw terminal created_ms is required");
   const machine2 = machineIdentity(on), local = localTerminalAddress(raw.address, machine2);
-  const pid = raw.foreground?.pid ?? null;
-  if (pid !== null && (!Number.isSafeInteger(pid) || pid <= 0)) fail2("Invalid foreground PID");
-  return { machine: machine2, address: machine2 ? machine2 + "/" + local : local, createdMs: raw.created_ms, foregroundPid: pid };
+  const pid3 = raw.foreground?.pid ?? null;
+  if (pid3 !== null && (!Number.isSafeInteger(pid3) || pid3 <= 0)) fail2("Invalid foreground PID");
+  return { machine: machine2, address: machine2 ? machine2 + "/" + local : local, createdMs: raw.created_ms, foregroundPid: pid3 };
 }
 function terminalKey(identity) {
   if (!identity || !Number.isSafeInteger(identity.createdMs) || identity.createdMs < 0) fail2("Missing terminal generation");
-  const on = machineIdentity(identity.machine), local = localTerminalAddress(identity.address, on), pid = identity.foregroundPid ?? null;
-  if (pid !== null && (!Number.isSafeInteger(pid) || pid <= 0)) fail2("Invalid foreground PID");
-  return JSON.stringify([on, local, identity.createdMs, pid]);
+  const on = machineIdentity(identity.machine), local = localTerminalAddress(identity.address, on), pid3 = identity.foregroundPid ?? null;
+  if (pid3 !== null && (!Number.isSafeInteger(pid3) || pid3 <= 0)) fail2("Invalid foreground PID");
+  return JSON.stringify([on, local, identity.createdMs, pid3]);
 }
 
 // src/shared/launch-preferences.js
@@ -263,7 +263,7 @@ function parseCapabilities(tool, { on = null, help = "", resumeHelp = "", versio
 }
 async function probeCapabilities(tool, { on = null, exec } = {}) {
   if (!installedTools([tool]).length) fail4("TOOL_UNAVAILABLE", "The selected tool is not installed on this machine");
-  const call = async (flags) => {
+  const call2 = async (flags) => {
     try {
       const r = await exec(tool.run[0], [...tool.run.slice(1), ...flags], { on: machineIdentity(on) });
       return r.code === 0 && typeof r.stdout === "string" ? r.stdout.slice(0, 65536) : "";
@@ -271,8 +271,8 @@ async function probeCapabilities(tool, { on = null, exec } = {}) {
       return "";
     }
   };
-  const help = await call(["--help"]), version = (await call(["--version"])).trim();
-  const resumeHelp = tool.key === "codex" && /Codex CLI/.test(help) ? await call(["resume", "--help"]) : "";
+  const help = await call2(["--help"]), version = (await call2(["--version"])).trim();
+  const resumeHelp = tool.key === "codex" && /Codex CLI/.test(help) ? await call2(["resume", "--help"]) : "";
   return parseCapabilities(tool, { on, help, resumeHelp, version: version || "unavailable", probeError: help ? null : "Advanced options unavailable: direct help probing failed. Base configured launch is available." });
 }
 function buildArguments(capabilities, { options = {}, resumeSessionId, newSessionId, prompt } = {}) {
@@ -1102,16 +1102,31 @@ function verifyTabAcknowledgement(value, request) {
   return { space: value.space, tab: value.tab, terminal: value.terminal };
 }
 var WRAPPERS = Object.freeze({ "-lic": '"$@"; exec "$0" -li', "-c": '"$@"; exec "${SHELL:-sh}" -i' });
-function observedArgv(raw, expected, task) {
-  if (!Array.isArray(raw.argv)) return false;
-  const accepted = [expected, ...task ? [[...expected, task]] : []].map((value) => JSON.stringify(value)), args = raw.argv;
+var REMOTE_DISPATCH = `shell=\${SHELL:-/bin/sh}
+case "\${shell##*/}" in
+  fish) exec "$shell" -lic 'command $argv[2..]; exec $argv[1] -li' "$shell" "$@" ;;
+  sh|bash|zsh|dash|ksh) exec "$shell" -lic '"$@"; exec "$0" -li' "$shell" "$@" ;;
+  *) exec sh -c '"$@"; exec "\${SHELL:-sh}" -i' sh "$@" ;;
+esac`;
+function launchArgvMatches(argv, acceptedArgvs) {
+  if (!Array.isArray(argv) || !Array.isArray(acceptedArgvs)) return false;
+  const accepted = acceptedArgvs.map((value) => JSON.stringify(value)), args = argv;
   if (accepted.includes(JSON.stringify(args))) return true;
+  if (args[0] === "sh" && args[1] === "-c" && args[2] === REMOTE_DISPATCH && args[3] === "sh" && accepted.includes(JSON.stringify(args.slice(4)))) return true;
   const shell = args[0];
   return typeof shell === "string" && (shell.startsWith("/") || !shell.includes("/")) && /^(?:sh|bash|zsh|dash|ksh)$/.test(shell.split("/").pop()) && WRAPPERS[args[1]] === args[2] && args[3] === shell && accepted.includes(JSON.stringify(args.slice(4)));
 }
+function observedArgv(raw, expected, task) {
+  return Array.isArray(raw?.argv) && launchArgvMatches(raw.argv, [expected, ...task ? [[...expected, task]] : []]);
+}
 function shellHoldsForeground(raw) {
-  const args = Array.isArray(raw?.argv) ? raw.argv : [];
-  return args[1] === "-lic" && WRAPPERS["-lic"] === args[2] && Number.isSafeInteger(raw.pid) && raw.foreground?.pid === raw.pid;
+  const args = Array.isArray(raw?.argv) ? raw.argv : [], own = Number.isSafeInteger(raw?.pid) && raw.foreground?.pid === raw.pid;
+  if (args[1] === "-lic" && WRAPPERS["-lic"] === args[2]) return own;
+  if (args[1] === "-c" && args[2] === REMOTE_DISPATCH) {
+    const fg = Array.isArray(raw.foreground?.argv) ? raw.foreground.argv : [];
+    return own && !(fg[1] === "-c" && fg[2] === WRAPPERS["-c"]);
+  }
+  return false;
 }
 async function inspect(io, r, ack2) {
   const listing = await io.exec("herdr-app", ["ls"]);
@@ -1383,14 +1398,14 @@ async function journal(io) {
   return value.requests;
 }
 function attempts(requests, session) {
-  const p = prefix(session), key3 = sessionKey(session), found = [];
+  const p = prefix(session), key3 = sessionKey(session), found2 = [];
   for (const record2 of Object.values(requests)) {
     const id = record2?.request?.idempotencyKey;
     if (typeof id !== "string" || !id.startsWith(p) || !/^(0|[1-9]\d{0,8})$/.test(id.slice(p.length))) continue;
     if (record2.sessionProposal && sessionKey(record2.sessionProposal) !== key3) fail8("RESUME_CONFLICT", "Saved resume state belongs to a different exact session; nothing was started");
-    found.push({ epoch: Number(id.slice(p.length)), record: record2 });
+    found2.push({ epoch: Number(id.slice(p.length)), record: record2 });
   }
-  return found.sort((a, b) => b.epoch - a.epoch);
+  return found2.sort((a, b) => b.epoch - a.epoch);
 }
 async function full(io, address, on) {
   const local = localTerminalAddress(address, on);
@@ -1436,7 +1451,7 @@ async function sameRepo(io, r, cwd, cache) {
   const repo = cache.get(r.repoRoot), other = await commonDir(io, path, r.machine);
   return repo === void 0 || other === void 0 || other !== null && other === repo;
 }
-async function inspectHost(io, r, { tool, bindings, found, terminals }) {
+async function inspectHost(io, r, { tool, bindings, found: found2, terminals }) {
   const on = r.machine, key3 = sessionKey(r.session);
   for (const [requestId, b] of Object.entries(bindings.proposals)) if (b.state === "committed" && b.session && sessionKey(b.session) === key3 && b.ack.terminal.machine === on) {
     const actual = await full(io, b.ack.terminal.address, on);
@@ -1450,7 +1465,7 @@ async function inspectHost(io, r, { tool, bindings, found, terminals }) {
     } catch {
     }
   }
-  for (const { record: record2 } of found) if (record2.ack && !["complete", "failed"].includes(record2.state)) try {
+  for (const { record: record2 } of found2) if (record2.ack && !["complete", "failed"].includes(record2.state)) try {
     pending.set(localTerminalAddress(record2.ack.terminal, on), record2);
   } catch {
   }
@@ -1490,7 +1505,7 @@ async function verifyCheckout(io, r) {
     fail8("WORKTREE_MISSING", "The original repository or working directory is missing on its host. Locate it, then retry; the saved session is unchanged.");
   }
 }
-function choose(r, found, own, requests, clock) {
+function choose(r, found2, own, requests, clock) {
   const p = prefix(r.session), byId = requests[r.requestId], busy = () => fail8("RESUME_IN_PROGRESS", "This exact session is already being resumed; wait for its acknowledgment.");
   if (byId) {
     if (typeof byId.request?.idempotencyKey !== "string" || !byId.request.idempotencyKey.startsWith(p)) fail8("RETRY_CHANGED", "This resume request ID already belongs to different work");
@@ -1500,7 +1515,7 @@ function choose(r, found, own, requests, clock) {
     if (own[0].leaseUntil > clock) busy();
     return { takeover: own[0].request };
   }
-  const latest = found[0];
+  const latest = found2[0];
   if (!latest) return { key: p + "0" };
   if (!latest.record.ack && inFlight(latest.record, clock)) busy();
   return { key: p + (latest.epoch + 1) };
@@ -1518,7 +1533,7 @@ async function resume(input, io) {
     const space = io.spaces().find((s) => s.id === r.spaceId);
     if (!space) fail8("SPACE_UNAVAILABLE", "The destination space is no longer open; nothing was started.");
     if (machineIdentity(space.machine) !== on) fail8("WRONG_HOST", "This session belongs to another host and is only resumed on its original host.");
-    let tools, requests, found, live;
+    let tools, requests, found2, live;
     try {
       tools = installedTools(await io.knownAgents({ on }));
     } catch {
@@ -1527,7 +1542,7 @@ async function resume(input, io) {
     const tool = tools.find((t) => t.key === r.toolKey) || null;
     for (let pass = 0; pass < 2 && !live?.exact && (!live || live.candidates.length); pass++) {
       requests = await journal(io);
-      found = attempts(requests, r.session);
+      found2 = attempts(requests, r.session);
       const bindings = (await new BindingStore(io, { clock: () => now2(io) }).read()).value;
       let listing = null, terminals = null;
       try {
@@ -1540,14 +1555,14 @@ async function resume(input, io) {
       }
       if (!Array.isArray(terminals)) fail8("HOST_UNAVAILABLE", "The original host could not list its live terminals; nothing was started.");
       if (terminals.length > 1e3) fail8("HOST_UNAVAILABLE", "The original host has too many live terminals to verify safely; nothing was started.");
-      live = await inspectHost(io, r, { tool, bindings, found, terminals });
+      live = await inspectHost(io, r, { tool, bindings, found: found2, terminals });
     }
     if (live.exact) {
       io.run("agent.focus", { terminal: live.exact.terminal.address });
       return freeze({ ok: true, action: "focus", tabId: live.exact.tabId, terminalId: live.exact.terminal.address, reused: true, originId: live.exact.originId, session: r.session });
     }
     if (live.candidates.length) {
-      if (found.some(({ record: record2 }) => inFlight(record2, clock))) fail8("RESUME_IN_PROGRESS", "This exact session is already being resumed; wait for its acknowledgment.");
+      if (found2.some(({ record: record2 }) => inFlight(record2, clock))) fail8("RESUME_IN_PROGRESS", "This exact session is already being resumed; wait for its acknowledgment.");
       fail8("AMBIGUOUS_RUNNING_SESSION", `A running ${r.session.provider} terminal in this repository has no exact session binding. Locate it, retry its binding, or close it and retry; nothing was resumed.`, { candidates: live.candidates });
     }
     if (!tool) fail8("TOOL_UNAVAILABLE", "The session tool is not installed on its original host.");
@@ -1559,7 +1574,7 @@ async function resume(input, io) {
       if (source && (source.providerRoot !== r.session.providerRoot || source.credentialScope !== r.session.credentialScope)) fail8("ACCOUNT_MISMATCH", "This session belongs to a different provider profile than the one enabled on its host; nothing was started.");
     }
     await verifyCheckout(io, r);
-    const choice = choose(r, found, live.own, requests, clock), names = new NameOwnership(io, { clock: () => now2(io) });
+    const choice = choose(r, found2, live.own, requests, clock), names = new NameOwnership(io, { clock: () => now2(io) });
     const request = choice.takeover ? { ...choice.takeover } : { requestId: r.requestId, idempotencyKey: choice.key, originId: choice.originId || await owner(names, r), spaceId: r.spaceId, machine: on, repoRoot: r.repoRoot, checkoutRoot: r.cwd, toolKey: r.toolKey, worktree: false };
     const result = await launch(request, { ...io, exactResumeSession: r.session });
     if (!result.ok) return result.code === "LAUNCH_BUSY" ? failure("RESUME_IN_PROGRESS", "This exact session is already being resumed; wait for its acknowledgment.") : failure(result.code, result.message, result.recovery);
@@ -2008,13 +2023,13 @@ function snapshotWorld(api, at = clockOf(api)) {
     if (machine2 === void 0) continue;
     hosts.set(hostKey(machine2), { machine: machine2, ready: m.layout === "ready", spaces: {}, tabs: {} });
   }
-  const spaces = api.spaces() || [], machineOf = /* @__PURE__ */ new Map(), byTab = /* @__PURE__ */ new Map(), agents = /* @__PURE__ */ new Set();
+  const spaces = api.spaces() || [], machineOf2 = /* @__PURE__ */ new Map(), byTab = /* @__PURE__ */ new Map(), agents = /* @__PURE__ */ new Set();
   for (const s of spaces) {
     const m = safeMachine(s?.machine);
-    if (m !== void 0 && typeof s.id === "string") machineOf.set(s.id, m);
+    if (m !== void 0 && typeof s.id === "string") machineOf2.set(s.id, m);
   }
   for (const a of (typeof api.agents === "function" ? api.agents() : []) || []) {
-    const m = machineOf.get(a?.space);
+    const m = machineOf2.get(a?.space);
     if (m === void 0) continue;
     try {
       agents.add(qualified(localTerminalAddress(a.address, m), m));
@@ -2027,7 +2042,7 @@ function snapshotWorld(api, at = clockOf(api)) {
     byTab.get(p.tab).push(p);
   }
   for (const s of spaces) {
-    const machine2 = machineOf.get(s?.id);
+    const machine2 = machineOf2.get(s?.id);
     if (machine2 === void 0) continue;
     const h = hosts.get(hostKey(machine2));
     if (!h?.ready) continue;
@@ -2103,16 +2118,16 @@ function hydrationNeeds(value, world) {
   return needs;
 }
 function closures(value, world) {
-  const found = [];
+  const found2 = [];
   for (const [key3, live] of world.hosts) {
     const prev = value.hosts[key3];
     if (!live.ready || !continuity(prev, world.at)) continue;
     for (const [tid, old] of Object.entries(prev.tabs)) {
       if (live.tabs[tid] || !old.terms.length || value.suppress.some((s) => s.machine === live.machine && s.tab === old.id && s.until > world.at) || old.terms.some((t) => world.live.has(t.address))) continue;
-      found.push({ machine: live.machine, tab: old });
+      found2.push({ machine: live.machine, tab: old });
     }
   }
-  return found;
+  return found2;
 }
 async function launchRequests(io) {
   const home = (typeof io.appHome === "function" ? io.appHome() : io.appHome).replace(/[/\\]+$/, ""), raw = await io.readTextFile(home + "/mission-control/launches.json");
@@ -2312,6 +2327,8 @@ ID=re.compile(r"[^\x00-\x1f\x7f]{1,256}")
 NAME=re.compile(r"[a-z0-9][a-z0-9._+-]{0,63}")
 # Herdr login wrappers: local "-lic" and the remote "-c" form (split so the JS template never interpolates).
 WRAPS={"-lic":'"$@"; exec "$0" -li',"-c":'"$@"; exec "$' '{SHELL:-sh}" -i'}
+# Herdr 0.1.13 remote launches: sh -c '<login-shell dispatcher>' sh <program...> (tests/fixtures/herdr-0113-launch-argv.json).
+DISPATCH='shell=$' '{SHELL:-/bin/sh}\ncase "$' '{shell##*/}" in\n  fish) exec "$shell" -lic \'command $argv[2..]; exec $argv[1] -li\' "$shell" "$@" ;;\n  sh|bash|zsh|dash|ksh) exec "$shell" -lic \'"$@"; exec "$0" -li\' "$shell" "$@" ;;\n  *) exec sh -c \'"$@"; exec "$' '{SHELL:-sh}" -i\' sh "$@" ;;\nesac'
 used=0
 class Stop(Exception):
  pass
@@ -2362,7 +2379,7 @@ def path(v):
 def program(argv):
  if not isinstance(argv,list) or not argv or not all(isinstance(a,str) for a in argv):
   return None
- if len(argv)>4 and WRAPS.get(argv[1])==argv[2] and argv[3]==argv[0]:
+ if len(argv)>4 and (WRAPS.get(argv[1])==argv[2] and argv[3]==argv[0] or argv[:2]==["sh","-c"] and argv[2]==DISPATCH and argv[3]=="sh"):
   argv=argv[4:]
  name=os.path.basename(argv[0]).lower()
  return name if NAME.fullmatch(name) else None
@@ -2428,7 +2445,7 @@ function historyRows(out, machine2) {
 }
 async function importClosedHistory(machine2, io, { timeoutMs = LIMITS.historyMs, maxBytes = LIMITS.historyBytes, batch = LIMITS.historyBatch } = {}) {
   const on = machineIdentity(machine2), journal2 = new ClosedJournal(io), key3 = hostKey(on), where2 = on ?? "this computer";
-  const unavailable = async (reason) => {
+  const unavailable2 = async (reason) => {
     try {
       await journal2.edit((d, now3) => {
         d.imports[key3] = { at: now3, state: "unavailable", reason, cursor: d.imports[key3]?.cursor ?? null };
@@ -2437,7 +2454,7 @@ async function importClosedHistory(machine2, io, { timeoutMs = LIMITS.historyMs,
     }
     return freeze2({ ok: false, code: "OLDER_HISTORY_UNAVAILABLE", machine: on, message: `Older closed-tab history is unavailable on ${where2}: ${reason} Current history was kept.` });
   };
-  if (typeof io.machines === "function" && io.machines().find((m) => safeMachine(m?.name) === on)?.layout !== "ready") return unavailable("the machine is offline or still loading.");
+  if (typeof io.machines === "function" && io.machines().find((m) => safeMachine(m?.name) === on)?.layout !== "ready") return unavailable2("the machine is offline or still loading.");
   let before;
   try {
     before = (await journal2.read()).value;
@@ -2449,18 +2466,18 @@ async function importClosedHistory(machine2, io, { timeoutMs = LIMITS.historyMs,
   try {
     result = await io.exec("python3", ["-c", HISTORY_WRAPPER, request], { on });
   } catch {
-    return unavailable("Python 3 could not be started there.");
+    return unavailable2("Python 3 could not be started there.");
   }
-  if (result?.code !== 0 || typeof result.stdout !== "string" || result.stdout.length > LIMITS.historyOutput) return unavailable("the history helper failed.");
+  if (result?.code !== 0 || typeof result.stdout !== "string" || result.stdout.length > LIMITS.historyOutput) return unavailable2("the history helper failed.");
   let out;
   try {
     out = JSON.parse(result.stdout);
   } catch {
-    return unavailable("the history helper returned invalid data.");
+    return unavailable2("the history helper returned invalid data.");
   }
-  if (out?.ok !== true) return unavailable(historyReasons[out?.code] || "the history helper failed.");
+  if (out?.ok !== true) return unavailable2(historyReasons[out?.code] || "the history helper failed.");
   const rows = historyRows(out, on), cursor = typeof out.cursor === "string" && /^t[0-9a-z]{1,63}$/.test(out.cursor) ? out.cursor : null, complete = out.complete === true && !cursor;
-  if (!rows) return unavailable("the history helper returned invalid data.");
+  if (!rows) return unavailable2("the history helper returned invalid data.");
   const world = snapshotWorld(io), live = world.hosts.get(key3), groups = /* @__PURE__ */ new Map();
   for (const r of rows) {
     const k = JSON.stringify([r.space, r.tab]);
@@ -2585,11 +2602,11 @@ function restorePlan(record2, kind = "tab") {
   return { mode: "shell", terminal: record2.terminals[0], notices: [...record2.kind === "agent" ? ["agent-not-resumed"] : [], ...notices] };
 }
 function reopenPreview(value, kind, { now: now3 = Date.now() } = {}) {
-  const base3 = { kind, label: kind === "agent" ? "Reopen last agent" : "Reopen last tab", recordId: null, title: null, detail: null, imported: false, reason: null, lastError: null };
-  if (!value) return freeze3({ ...base3, state: "loading", reason: "Reading closed tabs…" });
+  const base5 = { kind, label: kind === "agent" ? "Reopen last agent" : "Reopen last tab", recordId: null, title: null, detail: null, imported: false, reason: null, lastError: null };
+  if (!value) return freeze3({ ...base5, state: "loading", reason: "Reading closed tabs…" });
   const choice = selectRecord(value, kind, { now: now3 });
-  if (choice.error && !choice.record) return freeze3({ ...base3, state: choice.error[0] === "HISTORY_PARTIAL" ? "partial" : "empty", reason: choice.error[1] });
-  const r = choice.record, preview = { ...base3, state: "ready", recordId: r.id, title: recordTitle(r), detail: recordDestination(r), imported: r.source === "imported", lastError: r.error?.message ?? null };
+  if (choice.error && !choice.record) return freeze3({ ...base5, state: choice.error[0] === "HISTORY_PARTIAL" ? "partial" : "empty", reason: choice.error[1] });
+  const r = choice.record, preview = { ...base5, state: "ready", recordId: r.id, title: recordTitle(r), detail: recordDestination(r), imported: r.source === "imported", lastError: r.error?.message ?? null };
   if (choice.error) return freeze3({ ...preview, state: "busy", reason: choice.error[1] });
   try {
     const p = restorePlan(r, kind);
@@ -2890,6 +2907,1448 @@ var ReopenController = class {
   }
 };
 
+// src/shared/codex-session-hook.js
+var CODEX_LABEL = "mission-control.codex-session";
+var HOOK_TIMEOUT_S = 5;
+var UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+var MAX_OUTPUT = 65536;
+var START_TIME_PY = String.raw`
+def mc_start_ms(pid):
+    import calendar, os, subprocess, time
+    proc = os.environ.get("MC_RESTART_TEST_PROC", "/proc")
+    try:
+        pid = int(pid)
+        if pid <= 0:
+            return None
+        if os.path.isdir(os.path.join(proc, str(pid))):
+            with open(os.path.join(proc, str(pid), "stat")) as handle:
+                fields = handle.read().rsplit(")", 1)[1].split()
+            ticks = int(fields[19])
+            with open(os.path.join(proc, "stat")) as handle:
+                btime = next(int(line.split()[1]) for line in handle if line.startswith("btime "))
+            return (btime + ticks // os.sysconf("SC_CLK_TCK")) * 1000
+        if os.path.isdir(proc) and proc != "/proc":
+            return None
+        env = dict(os.environ)
+        env.update({"TZ": "UTC", "LC_ALL": "C"})
+        out = subprocess.run(["ps", "-o", "lstart=", "-p", str(pid)], capture_output=True, timeout=1.5, env=env)
+        text = out.stdout.decode("ascii", "replace").strip() if out.returncode == 0 else ""
+        if not text:
+            return None
+        return calendar.timegm(time.strptime(" ".join(text.split()), "%a %b %d %H:%M:%S %Y")) * 1000
+    except Exception:
+        return None
+`;
+var HOOK_BODY = String.raw`
+import json, os, re, subprocess, sys, time
+
+UUID = re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$", re.I)
+ADDRESS = re.compile(r"^t[0-9a-z]{1,63}$")
+# Herdr's launch wrappers (local login shell, remote sh -c); split so no template ever interpolates.
+WRAPPERS = {"-lic": '"$@"; exec "$0" -li', "-c": '"$@"; exec "$' + '{SHELL:-sh}" -i'}
+SHELLS = {"sh", "bash", "zsh", "dash", "ksh"}
+LABEL = "mission-control.codex-session"
+END = time.monotonic() + 3.5
+
+
+def run(args):
+    try:
+        p = subprocess.run(args, capture_output=True, timeout=max(0.1, END - time.monotonic()))
+        return p.stdout.decode("utf-8", "replace") if p.returncode == 0 else None
+    except Exception:
+        return None
+
+
+def hc():
+    for folder in os.environ.get("PATH", "").split(os.pathsep):
+        if folder and os.access(os.path.join(folder, "hc"), os.X_OK):
+            return os.path.join(folder, "hc")
+    local = os.path.expanduser("~/.local/bin/hc")
+    return local if os.access(local, os.X_OK) else None
+
+
+def parent(pid):
+    out = run(["ps", "-o", "ppid=", "-p", str(pid)])
+    try:
+        return int(out.strip())
+    except Exception:
+        return None
+
+
+def argv_of(pid):
+    out = run(["ps", "-o", "args=", "-p", str(pid)])
+    return out.split() if out else []
+
+
+def children(pid):
+    found = []
+    for line in (run(["ps", "-A", "-o", "pid=,ppid="]) or "").splitlines():
+        parts = line.split()
+        if len(parts) == 2 and parts[1] == str(pid):
+            found.append(int(parts[0]))
+    return found
+
+
+def top_level(path, session):
+    if not isinstance(path, str) or not path.startswith("/"):
+        return False
+    with open(path, "rb") as handle:
+        head = handle.read(262145)
+    cut = head.find(b"\n")
+    if cut < 0 or cut > 262144:
+        return False
+    first = json.loads(head[:cut].decode("utf-8"))
+    meta = first.get("payload") if isinstance(first, dict) else None
+    return first.get("type") == "session_meta" and isinstance(meta, dict) and meta.get("id") == session and meta.get("parent_thread_id") is None
+
+
+def agent_of(raw):
+    foreground = raw.get("foreground") if isinstance(raw, dict) else None
+    pid = foreground.get("pid") if isinstance(foreground, dict) else None
+    argv = foreground.get("argv") if isinstance(foreground, dict) else None
+    if type(pid) is not int or pid <= 1:
+        return None
+    if isinstance(argv, list) and len(argv) >= 3 and WRAPPERS.get(argv[1]) == argv[2]:
+        kids = children(pid)
+        return kids[0] if len(kids) == 1 else None
+    return pid
+
+
+def main():
+    raw = sys.stdin.buffer.read(65537)
+    if len(raw) > 65536:
+        return
+    event = json.loads(raw.decode("utf-8"))
+    session, terminal = event.get("session_id"), os.environ.get("HC_TERMINAL_ID", "")
+    if event.get("hook_event_name") != "SessionStart" or not isinstance(session, str) or not UUID.match(session) or not ADDRESS.match(terminal):
+        return
+    if not top_level(event.get("transcript_path"), session):
+        return
+    tool = hc()
+    listing = run([tool, "get", terminal, "--json"]) if tool else None
+    if listing is None:
+        return
+    agent = agent_of(json.loads(listing))
+    if agent is None:
+        return
+    chain, pid = [], os.getppid()
+    while pid and pid > 1 and len(chain) < 3:
+        chain.append(pid)
+        if pid == agent:
+            break
+        pid = parent(pid)
+    if not chain or chain[-1] != agent:
+        return
+    for step in chain:
+        argv = argv_of(step)
+        if "app-server" in argv:
+            return
+        if step != agent and (not argv or os.path.basename(argv[0]).lstrip("-") not in SHELLS):
+            return
+    started = mc_start_ms(agent)
+    if started is None:
+        return
+    run([tool, "label", terminal, "%s=%d:%d:%s" % (LABEL, agent, started, session)])
+
+
+try:
+    main()
+except Exception:
+    pass
+sys.exit(0)
+`;
+var HOOK_SCRIPT = "#!/usr/bin/env python3\n# Mission Control: labels this Herdr terminal with the exact Codex session it runs.\n# Installed by Mission Control; remove it from Mission Control (Set up Codex resume).\n" + START_TIME_PY + HOOK_BODY;
+var HOOK_HELPER = String.raw`
+import json, os, stat, sys, time
+
+MARK = "mission-control-session-hook.py"
+request = json.loads(sys.argv[1])
+
+
+def out(value):
+    sys.stdout.write(json.dumps(value, separators=(",", ":")))
+    sys.exit(0)
+
+
+class Spans:
+    def __init__(self, text):
+        self.t, self.i, self.d = text, 0, json.JSONDecoder()
+
+    def ws(self):
+        while self.i < len(self.t) and self.t[self.i] in " \t\r\n":
+            self.i += 1
+
+    def value(self):
+        self.ws()
+        start, c = self.i, self.t[self.i]
+        if c in "{[":
+            close, items = ("}" if c == "{" else "]"), []
+            self.i += 1
+            self.ws()
+            if self.t[self.i] == close:
+                self.i += 1
+                return {"kind": "object" if c == "{" else "array", "start": start, "end": self.i, "items": items}
+            while True:
+                self.ws()
+                if c == "{":
+                    key_start = self.i
+                    key, self.i = self.d.raw_decode(self.t, self.i)
+                    if not isinstance(key, str):
+                        raise ValueError("key")
+                    self.ws()
+                    if self.t[self.i] != ":":
+                        raise ValueError("colon")
+                    self.i += 1
+                    v = self.value()
+                    items.append({"key": key, "start": key_start, "end": v["end"], "value": v})
+                else:
+                    items.append(self.value())
+                self.ws()
+                if self.t[self.i] == ",":
+                    self.i += 1
+                    continue
+                if self.t[self.i] != close:
+                    raise ValueError("close")
+                self.i += 1
+                return {"kind": "object" if c == "{" else "array", "start": start, "end": self.i, "items": items}
+        _, self.i = self.d.raw_decode(self.t, self.i)
+        return {"kind": "scalar", "start": start, "end": self.i}
+
+
+def member(obj, key):
+    found = [m for m in obj["items"] if m["key"] == key]
+    return found[-1] if found else None
+
+
+def ours(group):
+    return isinstance(group, dict) and isinstance(group.get("hooks"), list) and any(isinstance(h, dict) and MARK in str(h.get("command", "")) for h in group["hooks"])
+
+
+def groups(value):
+    hooks = value.get("hooks") if isinstance(value, dict) else None
+    start = hooks.get("SessionStart") if isinstance(hooks, dict) else None
+    return start if isinstance(start, list) else []
+
+
+def splice(text, group):
+    root = Spans(text).value()
+    if root["kind"] != "object":
+        raise ValueError("hooks.json is not an object")
+    def add(obj, member_text):
+        if obj["items"]:
+            end = obj["items"][-1]["end"]
+            return text[:end] + ", " + member_text + text[end:]
+        return text[: obj["start"] + 1] + member_text + text[obj["start"] + 1 :]
+    hooks = member(root, "hooks")
+    if hooks is None:
+        return add(root, '"hooks": {"SessionStart": [' + group + "]}")
+    if hooks["value"]["kind"] != "object":
+        raise ValueError("hooks is not an object")
+    start = member(hooks["value"], "SessionStart")
+    if start is None:
+        return add(hooks["value"], '"SessionStart": [' + group + "]")
+    array = start["value"]
+    if array["kind"] != "array":
+        raise ValueError("SessionStart is not an array")
+    if not array["items"]:
+        return text[: array["start"] + 1] + group + text[array["end"] - 1 :]
+    last = array["items"][-1]["end"]
+    return text[:last] + ", " + group + text[last:]
+
+
+def cut(text, index):
+    root = Spans(text).value()
+    items = member(member(root, "hooks")["value"], "SessionStart")["value"]["items"]
+    item = items[index]
+    if index > 0:
+        return text[: items[index - 1]["end"]] + text[item["end"] :]
+    if len(items) > 1:
+        return text[: item["start"]] + text[items[1]["start"] :]
+    return text[: item["start"]] + text[item["end"] :]
+
+
+def spans_of(text):
+    root = Spans(text).value()
+    hooks = member(root, "hooks")
+    start = member(hooks["value"], "SessionStart") if hooks and hooks["value"]["kind"] == "object" else None
+    return [text[i["start"] : i["end"]] for i in start["value"]["items"]] if start and start["value"]["kind"] == "array" else []
+
+
+def write_atomic(path, data, mode):
+    tmp = path + ".mission-control-tmp-%d" % os.getpid()
+    with open(tmp, "w", encoding="utf-8") as handle:
+        handle.write(data)
+    os.chmod(tmp, mode)
+    os.replace(tmp, path)
+
+
+home = os.environ.get("CODEX_HOME") or os.path.expanduser("~/.codex")
+home = os.path.realpath(home)
+op, script = request.get("op"), request.get("script")
+if request.get("v") != 1 or op not in ("install", "status", "remove") or (op == "install" and not isinstance(script, str)):
+    out({"ok": False, "code": "INVALID_REQUEST", "message": "Unsupported hook request."})
+if not os.path.isdir(home):
+    out({"ok": False, "code": "NO_CODEX", "message": "Codex has no home folder on this machine.", "codexHome": home})
+hooks_path, script_path = os.path.join(home, "hooks.json"), os.path.join(home, MARK)
+if "'" in script_path:
+    out({"ok": False, "code": "UNSAFE_PATH", "message": "The Codex folder path contains a quote.", "codexHome": home})
+if os.path.islink(hooks_path) or os.path.islink(script_path):
+    out({"ok": False, "code": "SYMLINK", "message": "hooks.json or the hook script is a symbolic link; nothing was changed.", "codexHome": home})
+original = None
+if os.path.exists(hooks_path):
+    if os.path.getsize(hooks_path) > 1048576:
+        out({"ok": False, "code": "TOO_LARGE", "message": "hooks.json is larger than 1 MiB; nothing was changed.", "codexHome": home})
+    with open(hooks_path, encoding="utf-8") as handle:
+        original = handle.read()
+    try:
+        parsed = json.loads(original)
+        if not isinstance(parsed, dict):
+            raise ValueError("object")
+        Spans(original).value()
+    except Exception:
+        out({"ok": False, "code": "INVALID_HOOKS", "message": "hooks.json is not a valid JSON object; nothing was changed.", "codexHome": home})
+else:
+    parsed = {}
+existing = groups(parsed)
+mine = [i for i, g in enumerate(existing) if ours(g)]
+has_script = os.path.isfile(script_path)
+if op == "status":
+    current = None
+    if has_script:
+        with open(script_path, encoding="utf-8", errors="replace") as handle:
+            current = handle.read()
+    out({"ok": True, "codexHome": home, "installed": bool(mine), "index": mine[0] if mine else None, "script": has_script, "current": current == script if isinstance(script, str) else None})
+mode = stat.S_IMODE(os.stat(hooks_path).st_mode) if original is not None else 0o644
+stamp = time.strftime("%Y%m%dT%H%M%S", time.gmtime())
+
+
+def commit(text):
+    if original is not None:
+        backup = hooks_path + ".mission-control-" + stamp + ".bak"
+        with open(backup, "w", encoding="utf-8") as handle:
+            handle.write(original)
+        os.chmod(backup, mode)
+        with open(hooks_path, encoding="utf-8") as handle:
+            if handle.read() != original:
+                out({"ok": False, "code": "CONFLICT", "message": "hooks.json changed while it was being updated; nothing was changed.", "codexHome": home})
+    else:
+        backup = None
+        if os.path.exists(hooks_path):
+            out({"ok": False, "code": "CONFLICT", "message": "hooks.json appeared while it was being created; nothing was changed.", "codexHome": home})
+    write_atomic(hooks_path, text, mode)
+    return backup
+
+
+if op == "install":
+    if not has_script or open(script_path, encoding="utf-8", errors="replace").read() != script:
+        write_atomic(script_path, script, 0o644)
+    if mine:
+        out({"ok": True, "codexHome": home, "installed": True, "changed": False, "index": mine[0]})
+    group = json.dumps({"hooks": [{"type": "command", "command": "python3 '" + script_path + "'", "timeout": int(request.get("timeout", 5))}]})
+    base = original if original is not None else "{}\n"
+    text = splice(base, group)
+    after = json.loads(text)
+    before_spans, after_spans = spans_of(base), spans_of(text)
+    keep = dict(after)
+    if not (groups(after)[: len(existing)] == existing and after_spans[: len(before_spans)] == before_spans and len(groups(after)) == len(existing) + 1 and ours(groups(after)[-1])):
+        out({"ok": False, "code": "SPLICE_FAILED", "message": "The new hook could not be added without changing existing hooks; nothing was changed.", "codexHome": home})
+    other = {k: v for k, v in after.items() if k != "hooks"} == {k: v for k, v in parsed.items() if k != "hooks"}
+    other_hooks = {k: v for k, v in after["hooks"].items() if k != "SessionStart"} == {k: v for k, v in (parsed.get("hooks") or {}).items() if k != "SessionStart"}
+    if not (other and other_hooks):
+        out({"ok": False, "code": "SPLICE_FAILED", "message": "The new hook could not be added without changing existing hooks; nothing was changed.", "codexHome": home})
+    backup = commit(text)
+    out({"ok": True, "codexHome": home, "installed": True, "changed": True, "index": len(existing), "backup": backup})
+
+# remove
+if not mine:
+    if has_script:
+        os.remove(script_path)
+    out({"ok": True, "codexHome": home, "installed": False, "changed": False, "laterGroups": 0})
+index = mine[0]
+text = cut(original, index)
+after = json.loads(text)
+expected = [g for i, g in enumerate(existing) if i != index]
+if groups(after) != expected:
+    out({"ok": False, "code": "SPLICE_FAILED", "message": "The hook could not be removed without changing other hooks; nothing was changed.", "codexHome": home})
+backup = commit(text)
+if has_script:
+    os.remove(script_path)
+out({"ok": True, "codexHome": home, "installed": False, "changed": True, "laterGroups": len(existing) - index - 1, "backup": backup})
+`;
+function parseCodexLabel(value) {
+  if (typeof value !== "string" || value.length > 120) return null;
+  const m = /^([1-9]\d{0,9}):(\d{1,15}):([0-9a-f-]{36})$/i.exec(value);
+  if (!m || !UUID.test(m[3])) return null;
+  const pid3 = Number(m[1]), startMs = Number(m[2]);
+  return Number.isSafeInteger(pid3) && Number.isSafeInteger(startMs) ? Object.freeze({ pid: pid3, startMs, sessionId: m[3].toLowerCase() }) : null;
+}
+async function codexHook(io, op, { machine: machine2 = null, timeout = HOOK_TIMEOUT_S } = {}) {
+  if (!["install", "status", "remove"].includes(op)) return Object.freeze({ ok: false, code: "INVALID_REQUEST", message: "Unsupported Codex hook action." });
+  const on = machineIdentity(machine2), request = JSON.stringify({ v: 1, op, timeout, ...op === "remove" ? {} : { script: HOOK_SCRIPT } });
+  let result;
+  try {
+    result = await io.exec("python3", ["-c", HOOK_HELPER, request], { on });
+  } catch {
+    return Object.freeze({ ok: false, code: "HOST_UNAVAILABLE", message: `${on ?? "This computer"} could not run its Codex hook helper.` });
+  }
+  if (result?.code !== 0 || typeof result.stdout !== "string" || result.stdout.length > MAX_OUTPUT) return Object.freeze({ ok: false, code: "HOST_UNAVAILABLE", message: `${on ?? "This computer"} could not run its Codex hook helper (python3 is required).` });
+  try {
+    const value = JSON.parse(result.stdout);
+    if (value && typeof value === "object" && typeof value.ok === "boolean") return Object.freeze({ ...value, machine: on });
+  } catch {
+  }
+  return Object.freeze({ ok: false, code: "INVALID_RESPONSE", message: "The Codex hook helper returned an invalid answer." });
+}
+
+// src/shared/restart-host.js
+var HOST_LIMITS = Object.freeze({ terminals: 64, children: 8, output: 1048576, request: 65536 });
+var UUID2 = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+var ADDRESS = /^t[0-9a-z]{1,63}$/;
+var KEY = /^[A-Za-z0-9._-]{1,200}$/;
+var HOST_HELPER = START_TIME_PY + String.raw`
+import calendar, json, os, re, subprocess, sys, time
+
+END = time.monotonic() + 2.0
+request = json.loads(sys.argv[1])
+UUID = re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$", re.I)
+PROC = os.environ.get("MC_RESTART_TEST_PROC", "/proc")
+LSOF = os.environ.get("MC_RESTART_TEST_LSOF", "lsof")
+CLAIMS = os.environ.get("MC_RESTART_TEST_CLAIMS") or os.path.expanduser("~/.local/state/mission-control/restart-claims")
+
+
+def out(value):
+    sys.stdout.write(json.dumps(value, separators=(",", ":")))
+    sys.exit(0)
+
+
+def left():
+    return max(0.05, END - time.monotonic())
+
+
+def proc_mode():
+    return os.path.isdir(PROC) and (PROC != "/proc" or os.path.isdir("/proc/self"))
+
+
+def table():
+    """pid -> (ppid, name) for every process, from /proc or one ps call."""
+    rows = {}
+    if proc_mode():
+        for entry in os.listdir(PROC)[:65536]:
+            if not entry.isdigit():
+                continue
+            try:
+                with open(os.path.join(PROC, entry, "stat")) as handle:
+                    head, rest = handle.read().rsplit(")", 1)
+                name = head.split("(", 1)[1]
+                rows[int(entry)] = (int(rest.split()[1]), name)
+            except Exception:
+                continue
+        return rows
+    env = dict(os.environ)
+    env.update({"LC_ALL": "C"})
+    p = subprocess.run(["ps", "-A", "-o", "pid=,ppid=,comm="], capture_output=True, timeout=left(), env=env)
+    if p.returncode != 0:
+        raise OSError("ps")
+    for line in p.stdout.decode("utf-8", "replace").splitlines():
+        parts = line.split(None, 2)
+        if len(parts) == 3 and parts[0].isdigit() and parts[1].isdigit():
+            rows[int(parts[0])] = (int(parts[1]), parts[2].strip())
+    return rows
+
+
+def short(name):
+    return os.path.basename(name or "").lstrip("-") or None
+
+
+def info(pid, rows):
+    if type(pid) is not int or pid not in rows:
+        return None
+    start = mc_start_ms(pid)
+    return {"pid": pid, "ppid": rows[pid][0], "name": short(rows[pid][1]), "startMs": start, "ageMs": None if start is None else max(0, int(time.time() * 1000) - start)}
+
+
+def lstart_ms(text):
+    try:
+        return calendar.timegm(time.strptime(" ".join(str(text).split()), "%a %b %d %H:%M:%S %Y")) * 1000
+    except Exception:
+        return None
+
+
+def claude(root, pid, start):
+    path = os.path.join(root, "sessions", "%d.json" % pid)
+    try:
+        fd = os.open(path, os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0))
+    except OSError:
+        return {"code": "NO_RECORD"}
+    try:
+        if os.fstat(fd).st_size > 65536:
+            return {"code": "INVALID_RECORD"}
+        record = json.loads(os.read(fd, 65537).decode("utf-8"))
+    except Exception:
+        return {"code": "INVALID_RECORD"}
+    finally:
+        os.close(fd)
+    session = record.get("sessionId") if isinstance(record, dict) else None
+    if record.get("pid") != pid or record.get("kind") != "interactive" or not isinstance(session, str) or not UUID.match(session):
+        return {"code": "INVALID_RECORD"}
+    if start is None:
+        return {"code": "PROCESS_UNKNOWN"}
+    recorded = lstart_ms(record.get("procStart")) if record.get("procStart") is not None else None
+    if recorded is not None:
+        ok = recorded // 1000 == start // 1000
+    else:
+        began = record.get("startedAt")
+        ok = type(began) in (int, float) and abs(began - start) <= 5000
+    return {"sessionId": session.lower(), "via": "pid-record"} if ok else {"code": "PROCESS_MISMATCH"}
+
+
+def open_files(pid):
+    if proc_mode():
+        folder = os.path.join(PROC, str(pid), "fd")
+        names = []
+        for fd in os.listdir(folder)[:4096]:
+            try:
+                names.append(os.readlink(os.path.join(folder, fd)))
+            except OSError:
+                continue
+        return names
+    p = subprocess.run([LSOF, "-a", "-n", "-P", "-p", str(pid), "-Fn"], capture_output=True, timeout=left())
+    if p.returncode not in (0, 1) or len(p.stdout) > 1048576:
+        raise OSError("lsof")
+    return [line[1:] for line in p.stdout.decode("utf-8", "replace").splitlines() if line.startswith("n")]
+
+
+def grok(root, pid):
+    base = os.path.realpath(root).rstrip("/")
+    pattern = re.compile("^" + re.escape(base) + r"/sessions/[^/]+/([0-9a-f-]{36})/events\.jsonl$", re.I)
+    try:
+        names = open_files(pid)
+    except Exception:
+        return {"code": "UNAVAILABLE"}
+    found = {m.group(1).lower() for m in (pattern.match(n) for n in names) if m and UUID.match(m.group(1))}
+    if len(found) == 1:
+        return {"sessionId": found.pop(), "via": "open-file"}
+    return {"code": "AMBIGUOUS" if found else "NO_SESSION"}
+
+
+def facts():
+    rows = table()
+    result = []
+    for t in request.get("terminals", [])[:64]:
+        shell, fg = info(t.get("shellPid"), rows), info(t.get("foregroundPid"), rows)
+        kids = []
+        if fg:
+            kids = [info(pid, rows) for pid, row in sorted(rows.items()) if row[0] == fg["pid"]][:8]
+        sessions = []
+        for proc in ([fg] if fg else []) + kids[:4]:
+            s = {"pid": proc["pid"]}
+            if request.get("claudeRoot"):
+                s["claude"] = claude(os.path.expanduser(request["claudeRoot"]), proc["pid"], proc["startMs"])
+            if request.get("grokRoot"):
+                s["grok"] = grok(os.path.expanduser(request["grokRoot"]), proc["pid"])
+            sessions.append(s)
+        result.append({"address": t.get("address"), "shell": shell, "foreground": fg, "children": kids, "sessions": sessions})
+    out({"v": 1, "ok": True, "terminals": result})
+
+
+def claim():
+    key = request.get("key")
+    if not isinstance(key, str) or not re.match(r"^[A-Za-z0-9._-]{1,200}$", key):
+        out({"v": 1, "ok": False, "code": "INVALID_KEY"})
+    os.makedirs(CLAIMS, mode=0o700, exist_ok=True)
+    cutoff = time.time() - 7 * 86400
+    for name in os.listdir(CLAIMS)[:200]:
+        try:
+            if os.lstat(os.path.join(CLAIMS, name)).st_mtime < cutoff:
+                os.remove(os.path.join(CLAIMS, name))
+        except OSError:
+            pass
+    try:
+        fd = os.open(os.path.join(CLAIMS, key), os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+        os.write(fd, json.dumps({"at": int(time.time() * 1000), "owner": str(request.get("owner", ""))[:120]}).encode())
+        os.close(fd)
+        out({"v": 1, "ok": True, "claimed": True})
+    except FileExistsError:
+        out({"v": 1, "ok": True, "claimed": False})
+
+
+try:
+    if request.get("v") != 1:
+        out({"v": 1, "ok": False, "code": "INVALID_REQUEST"})
+    if request.get("op") == "facts":
+        facts()
+    if request.get("op") == "claim":
+        claim()
+    out({"v": 1, "ok": False, "code": "INVALID_REQUEST"})
+except SystemExit:
+    raise
+except Exception:
+    out({"v": 1, "ok": False, "code": "UNAVAILABLE"})
+`;
+var unavailable = (on, code = "UNAVAILABLE") => Object.freeze({ ok: false, code, machine: on });
+async function call(io, on, request) {
+  const text9 = JSON.stringify(request);
+  if (text9.length > HOST_LIMITS.request) return unavailable(on, "REQUEST_TOO_LARGE");
+  let result;
+  try {
+    result = await io.exec("python3", ["-c", HOST_HELPER, text9], { on });
+  } catch {
+    return unavailable(on, "HOST_UNAVAILABLE");
+  }
+  if (result?.code !== 0 || typeof result.stdout !== "string" || result.stdout.length > HOST_LIMITS.output) return unavailable(on, "HOST_UNAVAILABLE");
+  try {
+    const value = JSON.parse(result.stdout);
+    if (value?.v === 1 && typeof value.ok === "boolean") return value;
+  } catch {
+  }
+  return unavailable(on, "INVALID_RESPONSE");
+}
+var pid = (v) => Number.isSafeInteger(v) && v > 1 ? v : null;
+var proc = (v) => v && pid(v.pid) ? Object.freeze({ pid: v.pid, ppid: Number.isSafeInteger(v.ppid) ? v.ppid : null, name: typeof v.name === "string" ? v.name.slice(0, 64) : null, startMs: Number.isSafeInteger(v.startMs) ? v.startMs : null, ageMs: Number.isSafeInteger(v.ageMs) ? v.ageMs : null }) : null;
+var found = (v) => v && typeof v.sessionId === "string" && UUID2.test(v.sessionId) ? Object.freeze({ sessionId: v.sessionId.toLowerCase(), via: v.via === "open-file" ? "open-file" : "pid-record" }) : Object.freeze({ code: typeof v?.code === "string" ? v.code.slice(0, 40) : "UNAVAILABLE" });
+async function hostFacts(io, { machine: machine2 = null, terminals = [], claudeRoot = null, grokRoot = null } = {}) {
+  const on = machineIdentity(machine2), asked = terminals.filter((t) => ADDRESS.test(t?.address ?? "")).slice(0, HOST_LIMITS.terminals).map((t) => ({ address: t.address, shellPid: pid(t.shellPid), foregroundPid: pid(t.foregroundPid) }));
+  if (!asked.length) return Object.freeze({ ok: true, machine: on, terminals: /* @__PURE__ */ new Map() });
+  const value = await call(io, on, { v: 1, op: "facts", terminals: asked, claudeRoot: typeof claudeRoot === "string" ? claudeRoot : null, grokRoot: typeof grokRoot === "string" ? grokRoot : null });
+  if (!value.ok || !Array.isArray(value.terminals)) return unavailable(on, value.code || "INVALID_RESPONSE");
+  const map = /* @__PURE__ */ new Map(), known3 = new Set(asked.map((t) => t.address));
+  for (const t of value.terminals) {
+    if (!known3.has(t?.address)) continue;
+    const sessions = /* @__PURE__ */ new Map();
+    for (const s of Array.isArray(t.sessions) ? t.sessions : []) if (pid(s?.pid)) sessions.set(s.pid, Object.freeze({ ...s.claude ? { claude: found(s.claude) } : {}, ...s.grok ? { grok: found(s.grok) } : {} }));
+    map.set(t.address, Object.freeze({ shell: proc(t.shell), foreground: proc(t.foreground), children: Object.freeze((Array.isArray(t.children) ? t.children : []).map(proc).filter(Boolean).slice(0, HOST_LIMITS.children)), sessions }));
+  }
+  return Object.freeze({ ok: true, machine: on, terminals: map });
+}
+async function hostClaim(io, { machine: machine2 = null, key: key3, owner: owner2 = "" } = {}) {
+  const on = machineIdentity(machine2);
+  if (typeof key3 !== "string" || !KEY.test(key3)) return unavailable(on, "INVALID_KEY");
+  const value = await call(io, on, { v: 1, op: "claim", key: key3, owner: String(owner2).slice(0, 120) });
+  return value.ok ? Object.freeze({ ok: true, claimed: value.claimed === true, machine: on }) : unavailable(on, value.code);
+}
+
+// src/shared/restart-resume.js
+var RESTART = Object.freeze({ version: 1, entriesPerMachine: 500, bytes: 900 * 1024, machines: 32, typeWindowMs: 15 * 6e4, sendingStaleMs: 6e4, graceMs: 6e4, offerMs: 24 * 36e5, leaseMs: 15e3, seenRefreshMs: 6e4, maxSends: 4 });
+var RESTART_STATE_KEY = "mission-control-restart-v1";
+var STATES = Object.freeze(["tracking", "lost", "sending", "sent", "offered", "skipped"]);
+var VIAS = Object.freeze(["pid-record", "codex-hook", "open-file", "argv", "binding"]);
+var PROVIDERS = Object.freeze(["claude", "codex", "grok"]);
+var POSIX_SHELLS = /* @__PURE__ */ new Set(["sh", "bash", "zsh", "dash", "ksh"]);
+var UUID3 = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+var ADDRESS2 = /^t[0-9a-z]{1,63}$/;
+var WRAPPERS2 = Object.freeze({ "-lic": '"$@"; exec "$0" -li', "-c": '"$@"; exec "${SHELL:-sh}" -i' });
+var RestartError = class extends Error {
+  constructor(code, message) {
+    super(message);
+    this.name = "RestartError";
+    this.code = code;
+  }
+};
+var fail11 = (code, message) => {
+  throw new RestartError(code, message);
+};
+var plain2 = (v) => v !== null && typeof v === "object" && !Array.isArray(v);
+var time3 = (v) => Number.isSafeInteger(v) && v >= 0;
+var pid2 = (v) => Number.isSafeInteger(v) && v > 1;
+var text8 = (v, max = 256) => typeof v === "string" && v.length > 0 && v.length <= max && !/[\u0000-\u001f]/.test(v) && !["__proto__", "constructor", "prototype"].includes(v);
+var clone6 = (v) => JSON.parse(JSON.stringify(v));
+var freeze4 = (v) => {
+  if (v && typeof v === "object" && !Object.isFrozen(v)) {
+    for (const c of Object.values(v)) freeze4(c);
+    Object.freeze(v);
+  }
+  return v;
+};
+var base3 = (v) => typeof v === "string" ? v.slice(v.lastIndexOf("/") + 1).replace(/^-+/, "") : "";
+function machineKey(machine2) {
+  const m = machineIdentity(machine2);
+  if (m === "local") fail11("INVALID_MACHINE", 'A machine named "local" cannot be recorded');
+  return m === null ? "local" : m;
+}
+var machineOf = (key3) => key3 === "local" ? null : key3;
+function resumePreference(config) {
+  const v = config?.preferences?.resumeAfterRestart;
+  if (v === void 0) return freeze4({ on: true, reason: null });
+  if (typeof v === "boolean") return freeze4({ on: v, reason: v ? null : "Resume after restart is turned off." });
+  return freeze4({ on: false, reason: "preferences.resumeAfterRestart is not true or false, so resume after restart is off." });
+}
+function argvSession(argv) {
+  if (!Array.isArray(argv)) return null;
+  const words = argv.slice(0, 32).map(String), names = words.slice(0, 3).map(base3);
+  const provider = names.some((n) => n === "claude") || words.slice(0, 3).some((w) => w.includes("/@anthropic-ai/claude-code/")) ? "claude" : names.some((n) => n === "codex") ? "codex" : names.some((n) => /^grok(?:$|-)/.test(n)) ? "grok" : null;
+  if (!provider) return null;
+  for (let i = 0; i < words.length; i++) {
+    const w = words[i];
+    let id = null;
+    if (provider !== "codex" && (w === "--resume" || w === "-r")) id = words[i + 1];
+    else if (provider !== "codex" && w.startsWith("--resume=")) id = w.slice(9);
+    else if (provider === "codex" && w === "resume") id = words[i + 1];
+    if (typeof id === "string" && UUID3.test(id)) return freeze4({ provider, sessionId: id.toLowerCase(), via: "argv" });
+  }
+  return null;
+}
+function providerOf({ programKey, app, argv, name: name2 } = {}) {
+  const k = String(programKey || "").toLowerCase();
+  if (PROVIDERS.includes(k)) return k;
+  const a = String(app || "").toLowerCase();
+  if (a === "claude-code" || a === "claude") return "claude";
+  if (a === "codex") return "codex";
+  if (a === "grok-build" || a === "grok") return "grok";
+  const words = Array.isArray(argv) ? argv.slice(0, 3).map(String) : [], names = [...words.map(base3), base3(name2)];
+  if (names.includes("claude") || words.some((w) => w.includes("/@anthropic-ai/claude-code/"))) return "claude";
+  if (names.includes("codex")) return "codex";
+  if (names.some((n) => /^grok(?:$|-)/.test(n))) return "grok";
+  return null;
+}
+function isWrapper(argv) {
+  return Array.isArray(argv) && argv.length >= 3 && WRAPPERS2[argv[1]] === argv[2] && POSIX_SHELLS.has(base3(argv[0]));
+}
+function agentProcess(foreground, children = []) {
+  if (isWrapper(foreground?.argv)) return children.length === 1 ? children[0] : null;
+  return foreground && pid2(foreground.pid) ? foreground : null;
+}
+function resumeLine(argv) {
+  if (!Array.isArray(argv) || !argv.length || argv.some((w) => typeof w !== "string" || !w || w.includes("\0") || /[\n\r]/.test(w))) fail11("INVALID_ARGV", "A resume command needs plain words");
+  return argv.map((w) => /^[A-Za-z0-9_@%+=:,./-]+$/.test(w) ? w : "'" + w.replace(/'/g, "'\\''") + "'").join(" ");
+}
+var cdPrefix = (cwd) => "cd " + resumeLine([cwd]) + " && ";
+var emptyJournal2 = () => ({ v: RESTART.version, revision: 0, lease: null, machines: {} });
+function entry(e) {
+  if (!plain2(e) || !STATES.includes(e.state)) fail11("INVALID_JOURNAL", "Invalid running-agent entry");
+  for (const f of ["spaceId", "tabId", "toolKey"]) if (!text8(e[f])) fail11("INVALID_JOURNAL", "Invalid " + f);
+  if (!text8(e.cwd, 4096) || !e.cwd.startsWith("/")) fail11("INVALID_JOURNAL", "Invalid cwd");
+  if (!PROVIDERS.includes(e.provider) || !UUID3.test(e.sessionId ?? "") || !VIAS.includes(e.via)) fail11("INVALID_JOURNAL", "Invalid session identity");
+  for (const f of ["shellPid", "agentPid"]) if (!pid2(e[f])) fail11("INVALID_JOURNAL", "Invalid " + f);
+  for (const f of ["shellStartMs", "agentStartMs", "seenAt"]) if (!time3(e[f])) fail11("INVALID_JOURNAL", "Invalid " + f);
+  for (const f of ["lostAt", "offeredAt", "sendingAt", "sentAt"]) if (e[f] !== void 0 && !time3(e[f])) fail11("INVALID_JOURNAL", "Invalid " + f);
+  for (const f of ["lostBy", "reason", "line", "passId", "claimKey"]) if (e[f] !== void 0 && !text8(e[f], 2048)) fail11("INVALID_JOURNAL", "Invalid " + f);
+  if (e.createdMs !== void 0 && !time3(e.createdMs)) fail11("INVALID_JOURNAL", "Invalid createdMs");
+  return e;
+}
+function validateJournal2(value) {
+  if (!plain2(value) || value.v !== RESTART.version || !time3(value.revision) || !plain2(value.machines)) fail11("INVALID_JOURNAL", "Invalid running-agents journal");
+  if (value.lease !== null && !(plain2(value.lease) && text8(value.lease.owner) && time3(value.lease.expiresAt))) fail11("INVALID_JOURNAL", "Invalid lease");
+  const keys = Object.keys(value.machines);
+  if (keys.length > RESTART.machines) fail11("INVALID_JOURNAL", "Too many machines");
+  for (const k of keys) {
+    const m = value.machines[k];
+    if (!text8(k, 128) || !plain2(m) || !time3(m.observedAt) || !plain2(m.terminals)) fail11("INVALID_JOURNAL", "Invalid machine record");
+    const addresses = Object.keys(m.terminals);
+    if (addresses.length > RESTART.entriesPerMachine) fail11("INVALID_JOURNAL", "Too many entries");
+    for (const a of addresses) {
+      if (!ADDRESS2.test(a)) fail11("INVALID_JOURNAL", "Invalid terminal address");
+      entry(m.terminals[a]);
+    }
+  }
+  return value;
+}
+function fit2(draft) {
+  const rank = { skipped: 0, offered: 1, sent: 2, tracking: 3, lost: 4, sending: 5 };
+  for (let guard = 0; guard < 5e3 && JSON.stringify(draft).length > RESTART.bytes; guard++) {
+    let worst = null;
+    for (const [k, m] of Object.entries(draft.machines)) for (const [a, e] of Object.entries(m.terminals)) if (!worst || rank[e.state] < rank[worst.e.state] || rank[e.state] === rank[worst.e.state] && e.seenAt < worst.e.seenAt) worst = { k, a, e };
+    if (!worst) break;
+    delete draft.machines[worst.k].terminals[worst.a];
+  }
+}
+var isConflict4 = (e) => ["STALE", "CONFLICT", "EAGAIN"].includes(e?.code) || /stale|contents?.*changed|expected.*match|compare.and.set/i.test(e?.message || "");
+var RunningAgents = class {
+  constructor(io, { clock = () => Date.now() } = {}) {
+    this.io = io;
+    this.clock = clock;
+    const home = typeof io.appHome === "function" ? io.appHome() : io.appHome;
+    this.path = String(home).replace(/[/\\]+$/, "") + "/mission-control/running-agents.json";
+  }
+  /** {raw, value, status}: status "ok", "missing", "newer" (left untouched, feature idle) or "invalid" (kept aside). */
+  async read() {
+    const raw = await this.io.readTextFile(this.path);
+    if (raw === null || raw === void 0) return { raw: null, value: emptyJournal2(), status: "missing" };
+    let parsed;
+    try {
+      parsed = JSON.parse(raw);
+    } catch {
+      return { raw, value: emptyJournal2(), status: "invalid" };
+    }
+    if (plain2(parsed) && Number.isSafeInteger(parsed.v) && parsed.v > RESTART.version) return { raw, value: null, status: "newer" };
+    try {
+      return { raw, value: validateJournal2(parsed), status: "ok" };
+    } catch {
+      return { raw, value: emptyJournal2(), status: "invalid" };
+    }
+  }
+  /** fn(draft, now) returns {write:false} to skip the write, or any result. A newer journal is never written. */
+  async edit(fn) {
+    for (let attempt = 0; attempt < 4; attempt++) {
+      const { raw, value, status } = await this.read();
+      if (status === "newer") fail11("NEWER_JOURNAL", "running-agents.json was written by a newer Mission Control; it is left untouched");
+      if (status === "invalid" && raw !== null) {
+        const aside = this.path + ".invalid-" + this.clock();
+        try {
+          await this.io.writeTextFile(aside, raw, null);
+        } catch {
+        }
+      }
+      const draft = clone6(value), now3 = this.clock(), result = fn(draft, now3) || {};
+      if (result.write === false && status !== "invalid") return { value, result };
+      draft.revision = (value.revision || 0) + 1;
+      fit2(draft);
+      validateJournal2(draft);
+      await this.io.ensureDirectory?.(this.path.slice(0, this.path.lastIndexOf("/")));
+      try {
+        await this.io.writeTextFile(this.path, JSON.stringify(draft) + "\n", raw);
+        return { value: draft, result };
+      } catch (error2) {
+        if (!isConflict4(error2) || attempt === 3) throw error2;
+      }
+    }
+    fail11("CONFLICT", "running-agents.json kept changing");
+  }
+};
+function takeLease(draft, owner2, now3) {
+  const l = draft.lease;
+  if (l && l.owner !== owner2 && l.expiresAt > now3) return false;
+  if (!l || l.owner !== owner2 || l.expiresAt - now3 < RESTART.leaseMs / 2) draft.lease = { owner: owner2, expiresAt: now3 + RESTART.leaseMs };
+  return true;
+}
+function releaseLease(draft, owner2) {
+  if (draft.lease?.owner !== owner2) return { write: false };
+  draft.lease = null;
+  return {};
+}
+function observeMachine(draft, obs, { owner: owner2, now: now3 }) {
+  const key3 = machineKey(obs.machine), out = { lost: [], removed: [], added: [], changed: false };
+  if (!obs.ok) return out;
+  const m = draft.machines[key3] || (draft.machines[key3] = { observedAt: now3, lastContinuousAt: now3, terminals: {} });
+  if (now3 - m.observedAt >= RESTART.seenRefreshMs) {
+    m.observedAt = now3;
+    out.changed = true;
+  }
+  const remove = (a, why) => {
+    delete m.terminals[a];
+    out.removed.push({ address: a, why });
+    out.changed = true;
+  };
+  for (const [a, e] of Object.entries(m.terminals)) {
+    const t = obs.terminals.get(a);
+    if (!t) {
+      if (obs.live && !obs.live.has(a)) remove(a, "closed");
+      continue;
+    }
+    if (e.createdMs !== void 0 && t.createdMs !== void 0 && t.createdMs !== e.createdMs) {
+      remove(a, "replaced");
+      continue;
+    }
+    const sameShell = t.shellPid === e.shellPid && t.shellStartMs === e.shellStartMs;
+    if (e.state === "tracking") {
+      if (!sameShell) {
+        if (t.spaceId !== e.spaceId || t.tabId !== e.tabId) {
+          remove(a, "moved");
+          continue;
+        }
+        Object.assign(e, { state: "lost", lostAt: now3, lostBy: owner2, shellPid: t.shellPid, shellStartMs: t.shellStartMs });
+        out.lost.push(a);
+        out.changed = true;
+        continue;
+      }
+      if (t.spaceId !== e.spaceId || t.tabId !== e.tabId) {
+        e.spaceId = t.spaceId;
+        e.tabId = t.tabId;
+        out.changed = true;
+      }
+      const ag = t.agent;
+      if (!ag || ag.pid !== e.agentPid || ag.startMs !== e.agentStartMs) {
+        remove(a, "quit");
+        continue;
+      }
+      if (ag.sessionId && ag.sessionId !== e.sessionId) {
+        e.sessionId = ag.sessionId;
+        e.via = ag.via;
+        out.changed = true;
+      }
+      if (t.cwd && t.cwd !== e.cwd && t.cwd.startsWith("/")) {
+        e.cwd = t.cwd;
+        out.changed = true;
+      }
+      if (now3 - e.seenAt >= RESTART.seenRefreshMs) {
+        e.seenAt = now3;
+        out.changed = true;
+      }
+      continue;
+    }
+    if (!sameShell) {
+      if (e.state === "lost") {
+        Object.assign(e, { lostAt: now3, lostBy: owner2, shellPid: t.shellPid, shellStartMs: t.shellStartMs });
+        out.changed = true;
+        out.lost.push(a);
+      } else remove(a, "restarted-again");
+      continue;
+    }
+    if (e.state === "sent") {
+      const ag = t.agent;
+      if (ag && ag.provider === e.provider) {
+        Object.assign(e, { state: "tracking", agentPid: ag.pid, agentStartMs: ag.startMs, seenAt: now3, ...ag.sessionId ? { sessionId: ag.sessionId, via: ag.via } : {} });
+        for (const f of ["lostAt", "lostBy", "offeredAt", "sendingAt", "sentAt", "reason", "line", "passId", "claimKey"]) delete e[f];
+        out.changed = true;
+      } else if (now3 - (e.sentAt ?? now3) >= RESTART.graceMs) remove(a, "resume-ended");
+      continue;
+    }
+    if (e.state === "offered") {
+      if (!t.foregroundIsShell || now3 - (e.offeredAt ?? now3) >= RESTART.offerMs) remove(a, t.foregroundIsShell ? "offer-expired" : "shell-used");
+      continue;
+    }
+    if (e.state === "sending" && now3 - (e.sendingAt ?? now3) >= RESTART.sendingStaleMs) {
+      Object.assign(e, { state: "offered", offeredAt: now3, reason: "The resume command was not confirmed as sent." });
+      out.changed = true;
+      continue;
+    }
+    if (e.state === "skipped") remove(a, "skipped");
+  }
+  for (const [a, t] of obs.terminals) {
+    const ag = t.agent;
+    if (m.terminals[a] || !ag || !ag.sessionId || !PROVIDERS.includes(ag.provider)) continue;
+    if (Object.keys(m.terminals).length >= RESTART.entriesPerMachine) break;
+    if (!text8(t.spaceId) || !text8(t.tabId) || !text8(t.cwd, 4096) || !t.cwd.startsWith("/") || !pid2(t.shellPid) || !time3(t.shellStartMs) || !pid2(ag.pid) || !time3(ag.startMs)) continue;
+    m.terminals[a] = { spaceId: t.spaceId, tabId: t.tabId, cwd: t.cwd, toolKey: ag.toolKey || ag.provider, provider: ag.provider, sessionId: ag.sessionId, via: ag.via, shellPid: t.shellPid, shellStartMs: t.shellStartMs, agentPid: ag.pid, agentStartMs: ag.startMs, seenAt: now3, state: "tracking", ...time3(t.createdMs) ? { createdMs: t.createdMs } : {} };
+    out.added.push(a);
+    out.changed = true;
+  }
+  if (out.changed) m.lastContinuousAt = now3;
+  return out;
+}
+function fallbackArgv(provider, sessionId) {
+  return provider === "codex" ? ["codex", "resume", sessionId] : [provider, "--resume", sessionId];
+}
+function decide(e, { t, preference, tool }) {
+  if (!preference.on) return { type: "skip", reason: preference.reason || "Resume after restart is turned off." };
+  const argv = tool?.argv || fallbackArgv(e.provider, e.sessionId);
+  let line2;
+  try {
+    line2 = resumeLine(argv);
+  } catch {
+    return { type: "skip", reason: "No safe resume command could be built." };
+  }
+  const offer = (reason, { cd = false } = {}) => ({ type: "offer", reason, line: (cd ? cdPrefix(e.cwd) : "") + line2 });
+  if (!tool?.argv) return offer(tool?.reason || `${e.provider} is not installed or its exact resume is not verified on this machine.`);
+  if (!t || !t.foregroundIsShell) return offer("The restored shell is already running something else.");
+  if (!POSIX_SHELLS.has(base3(t.shellName || ""))) return offer(`The restored shell is ${t.shellName || "unknown"}, not a POSIX shell.`);
+  if (t.cwd !== e.cwd) return offer("The restored shell is in another folder.", { cd: true });
+  if (!Number.isSafeInteger(t.shellAgeMs)) return offer("The restored shell’s age is unknown.");
+  if (t.shellAgeMs > RESTART.typeWindowMs) return offer("The restored shell is more than 15 minutes old.");
+  return { type: "type", reason: null, line: line2 };
+}
+var claimKey = (address, e, { offer } = {}) => [address, e.shellPid, e.shellStartMs].join("-") + (offer ? "-offer-" + offer : "");
+function markSending(draft, { machine: machine2, address, passId, claim, line: line2, expect = ["lost"], now: now3 }) {
+  const e = draft.machines[machineKey(machine2)]?.terminals[address];
+  if (!e || !expect.includes(e.state)) return false;
+  Object.assign(e, { state: "sending", sendingAt: now3, passId, claimKey: claim, line: line2 });
+  return true;
+}
+function markOutcome(draft, { machine: machine2, address, state, reason, line: line2, passId, now: now3 }) {
+  const e = draft.machines[machineKey(machine2)]?.terminals[address];
+  if (!e) return false;
+  e.state = state;
+  if (passId) e.passId = passId;
+  if (line2) e.line = line2;
+  if (reason) e.reason = reason;
+  else delete e.reason;
+  if (state === "sent") e.sentAt = now3;
+  if (state === "offered") e.offeredAt = now3;
+  return true;
+}
+function dismiss(draft, { machine: machine2, address }) {
+  const m = draft.machines[machineKey(machine2)];
+  if (!m?.terminals[address]) return { write: false };
+  delete m.terminals[address];
+  return {};
+}
+function offers(value) {
+  const list = [];
+  for (const [k, m] of Object.entries(value?.machines || {})) for (const [a, e] of Object.entries(m.terminals)) if (e.state === "offered") list.push(freeze4({ machine: machineOf(k), address: a, spaceId: e.spaceId, tabId: e.tabId, provider: e.provider, sessionId: e.sessionId, cwd: e.cwd, line: e.line ?? resumeLine(fallbackArgv(e.provider, e.sessionId)), reason: e.reason ?? null }));
+  return list;
+}
+
+// src/shared/restart-runner.js
+var RUNNER = Object.freeze({ episodeMs: 9e4, tickMs: 5e3, budget: 8, refreshMs: 3e4, journalRefreshMs: 5e3, listMs: 3e4, factsFreshMs: 1e4, codexStatusMs: 6e5, staleTickMs: 25e3 });
+var SHELL_NAMES = /* @__PURE__ */ new Set([...POSIX_SHELLS, "fish", "nu", "tcsh", "csh", "elvish", "xonsh"]);
+var DEFAULT_ROOTS = { claude: "~/.claude", grok: "~/.grok" };
+var freeze5 = (v) => {
+  if (v && typeof v === "object" && !Object.isFrozen(v)) {
+    for (const c of Object.values(v)) freeze5(c);
+    Object.freeze(v);
+  }
+  return v;
+};
+var base4 = (v) => typeof v === "string" ? v.slice(v.lastIndexOf("/") + 1).replace(/^-+/, "") : "";
+var safeMachine3 = (v) => {
+  try {
+    return machineIdentity(v);
+  } catch {
+    return void 0;
+  }
+};
+var qualify2 = (id, on) => on ? on + "/" + id : id;
+var Budget = class {
+  constructor(n) {
+    this.left = n;
+  }
+  take(n = 1) {
+    if (this.left < n) return false;
+    this.left -= n;
+    return true;
+  }
+};
+var RestartRunner = class {
+  constructor(io, { owner: owner2, clock = () => Date.now(), budget = RUNNER.budget } = {}) {
+    this.io = io;
+    this.owner = owner2 || "restart-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 8);
+    this.clock = clock;
+    this.budgetSize = budget;
+    this.journal = new RunningAgents(io, { clock });
+    this.bindings = new BindingStore(io, { clock });
+    this.fetched = /* @__PURE__ */ new Map();
+    this.signatures = /* @__PURE__ */ new Map();
+    this.facts = /* @__PURE__ */ new Map();
+    this.listed = /* @__PURE__ */ new Map();
+    this.codex = /* @__PURE__ */ new Map();
+    this.codexAt = 0;
+    this.value = null;
+    this.status = "starting";
+    this.error = null;
+    this.ticking = 0;
+    this.passes = 0;
+    this.closed = false;
+    this.lastSummary = null;
+  }
+  async exec(budget, cmd, args, options) {
+    if (budget && !budget.take()) throw Object.assign(Error("budget"), { code: "BUDGET" });
+    return this.io.exec(cmd, args, options);
+  }
+  /** One bounded step. Never throws. */
+  async tick() {
+    const now3 = this.clock();
+    if (this.closed || this.ticking && now3 - this.ticking < RUNNER.staleTickMs) return { skipped: true };
+    this.ticking = now3;
+    try {
+      const { value, status } = await this.journal.read();
+      if (status === "newer") {
+        this.status = "idle-newer";
+        this.value = null;
+        return { idle: true };
+      }
+      this.value = value;
+      const budget = new Budget(this.budgetSize);
+      const { result } = await this.journal.edit((d, t) => {
+        const before = JSON.stringify(d.lease), owned = takeLease(d, this.owner, t);
+        return { write: JSON.stringify(d.lease) !== before ? void 0 : false, owned };
+      });
+      if (!result.owned) {
+        this.status = "watching";
+        return { owned: false };
+      }
+      this.status = "observing";
+      if (this.hasLost(this.value)) await this.pass(budget);
+      await this.observe(budget);
+      if (now3 - this.codexAt >= RUNNER.codexStatusMs) await this.refreshCodex();
+      this.value = (await this.journal.read()).value;
+      this.error = null;
+      return { owned: true };
+    } catch (error2) {
+      this.error = freeze5({ code: error2?.code || "RESTART_FAILED", message: error2?.code === "NEWER_JOURNAL" ? error2.message : "Resume after restart could not check agents; nothing was typed." });
+      return { error: this.error };
+    } finally {
+      this.ticking = 0;
+    }
+  }
+  hasLost(value) {
+    return Object.values(value?.machines || {}).some((m) => Object.values(m.terminals).some((e) => e.state === "lost"));
+  }
+  machines() {
+    const list = typeof this.io.machines === "function" ? this.io.machines() || [] : [{ name: null, layout: "ready" }];
+    return list.filter((m) => m && !m.temporary && m.layout === "ready" && safeMachine3(m.name) !== void 0).map((m) => safeMachine3(m.name));
+  }
+  /** Every terminal worth a look on each machine: agents(), agent-program panes and journal entries. */
+  candidates() {
+    const spaces = this.io.spaces?.() || [], machineOfSpace = /* @__PURE__ */ new Map(), tabSpace = /* @__PURE__ */ new Map(), out = /* @__PURE__ */ new Map();
+    for (const s of spaces) {
+      const m = safeMachine3(s?.machine);
+      if (m === void 0) continue;
+      machineOfSpace.set(s.id, m);
+      for (const t of s.tabs || []) tabSpace.set(t.id, s.id);
+    }
+    const add = (m, address, info) => {
+      let local;
+      try {
+        local = localTerminalAddress(address, m);
+      } catch {
+        return;
+      }
+      const key3 = machineKey(m);
+      if (!out.has(key3)) out.set(key3, /* @__PURE__ */ new Map());
+      const map = out.get(key3), prev = map.get(local) || {};
+      map.set(local, { ...prev, ...info });
+    };
+    for (const a of this.io.agents?.() || []) {
+      const m = machineOfSpace.get(a?.space);
+      if (m === void 0 || !a.address) continue;
+      add(m, a.address, { app: a.app, programKey: a.program?.key, status: a.status });
+    }
+    for (const p of this.io.panes?.() || []) {
+      if (!p?.terminal) continue;
+      const k = String(p.program?.key || "").toLowerCase();
+      if (!(p.program?.agent === true || ["claude", "codex", "grok"].includes(k))) continue;
+      const m = machineOfSpace.get(tabSpace.get(p.tab));
+      if (m === void 0) continue;
+      add(m, p.terminal, { programKey: p.program?.key, app: p.app });
+    }
+    for (const [key3, m] of Object.entries(this.value?.machines || {})) for (const a of Object.keys(m.terminals)) {
+      if (!out.has(key3)) out.set(key3, /* @__PURE__ */ new Map());
+      const map = out.get(key3);
+      if (!map.has(a)) map.set(a, {});
+      map.get(a).journal = true;
+    }
+    return out;
+  }
+  async roots(provider, machine2) {
+    try {
+      const s = await this.io.sessionSource?.(provider, machine2);
+      if (s?.providerRoot) return s.providerRoot;
+    } catch {
+    }
+    return null;
+  }
+  async observe(budget) {
+    const now3 = this.clock(), ready = new Set(this.machines().map((m) => machineKey(m))), all = [...this.candidates()];
+    const turn = all.length ? (this.turn = (this.turn ?? -1) + 1) % all.length : 0;
+    for (const [key3, terms] of [...all.slice(turn), ...all.slice(0, turn)]) {
+      if (!ready.has(key3) || budget.left < 2) continue;
+      const machine2 = machineOf(key3);
+      const order = [...terms].map(([a, info]) => {
+        const sig = JSON.stringify([info.programKey ?? null, info.app ?? null, Boolean(info.status)]), changed = this.signatures.get(key3 + a) !== sig, last = this.fetched.get(key3 + a) ?? 0;
+        return { a, info, sig, score: info.journal ? now3 - last >= RUNNER.journalRefreshMs ? 0 : 3 : changed ? 1 : now3 - last >= RUNNER.refreshMs ? 2 : 9, last };
+      }).filter((x) => x.score < 9).sort((x, y) => x.score - y.score || x.last - y.last);
+      let live = null;
+      if (now3 - (this.listed.get(key3) ?? 0) >= RUNNER.listMs && Object.keys(this.value?.machines?.[key3]?.terminals || {}).length && budget.left >= 3 && budget.take()) {
+        try {
+          const r = await this.io.exec("hc", ["ls", "--json"], { on: machine2 });
+          const list = r?.code === 0 ? JSON.parse(r.stdout).terminals : null;
+          if (Array.isArray(list)) {
+            live = /* @__PURE__ */ new Set();
+            for (const t of list) if (t && (t.state === void 0 || t.state === "live")) try {
+              live.add(localTerminalAddress(t.address, machine2));
+            } catch {
+            }
+            this.listed.set(key3, now3);
+          }
+        } catch {
+        }
+      }
+      const raws = /* @__PURE__ */ new Map();
+      for (const x of order) {
+        if (budget.left < 2) break;
+        budget.take();
+        try {
+          const r = await this.io.exec("hc", ["get", x.a, "--json"], { on: machine2 });
+          if (r?.code !== 0) continue;
+          const raw = JSON.parse(r.stdout);
+          if (localTerminalAddress(raw.address, machine2) !== x.a || raw.state && raw.state !== "live") continue;
+          raws.set(x.a, { raw, info: x.info });
+          this.fetched.set(key3 + x.a, now3);
+          this.signatures.set(key3 + x.a, x.sig);
+        } catch {
+        }
+      }
+      if (!raws.size && !live) continue;
+      const [claudeRoot, grokRoot] = await Promise.all([this.roots("claude", machine2), this.roots("grok", machine2)]);
+      let facts = { ok: false };
+      if (raws.size && budget.take()) facts = await hostFacts(this.io, { machine: machine2, terminals: [...raws].map(([a, { raw }]) => ({ address: a, shellPid: raw.pid, foregroundPid: raw.foreground?.pid })), claudeRoot: claudeRoot ?? DEFAULT_ROOTS.claude, grokRoot: grokRoot ?? DEFAULT_ROOTS.grok }).then((r) => r, () => ({ ok: false }));
+      const terminals = /* @__PURE__ */ new Map();
+      for (const [a, { raw, info }] of raws) {
+        const f = facts.ok ? facts.terminals.get(a) : null;
+        if (!f?.shell || !Number.isSafeInteger(f.shell.startMs)) continue;
+        const t = await this.describe(machine2, a, raw, info, f);
+        if (t) {
+          terminals.set(a, t);
+          this.facts.set(key3 + a, { at: now3, t });
+        }
+      }
+      const obs = { machine: machine2, ok: true, at: now3, live, terminals };
+      const { result } = await this.journal.edit((d, t) => {
+        if (d.lease?.owner !== this.owner) return { write: false, lost: [] };
+        const r = observeMachine(d, obs, { owner: this.owner, now: t });
+        return r.changed ? r : { ...r, write: false };
+      });
+      if (result?.lost?.length) {
+        for (const a of result.lost) if (raws.get(a)?.raw?.labels?.[CODEX_LABEL] !== void 0 && budget.take()) try {
+          await this.io.exec("hc", ["label", a, CODEX_LABEL + "="], { on: machine2 });
+        } catch {
+        }
+      }
+    }
+  }
+  /** Turns hc get + host facts into the observation the journal rules take. */
+  async describe(machine2, address, raw, info, f) {
+    const labels = raw.labels || {}, spaceId = labels["herdr.space"], tabId = labels["herdr.tab"];
+    if (typeof spaceId !== "string" || typeof tabId !== "string") return null;
+    const fg = raw.foreground || {}, shellPid = raw.pid;
+    if (!Number.isSafeInteger(shellPid)) return null;
+    const fgFacts = f.foreground && f.foreground.pid === fg.pid ? f.foreground : null;
+    const picked = agentProcess({ pid: fg.pid, argv: fg.argv }, f.children);
+    const agentFacts = picked ? picked.pid === fg.pid ? fgFacts : f.children.find((c) => c.pid === picked.pid) : null;
+    const provider = agentFacts ? providerOf({ programKey: info.programKey, app: info.app, argv: picked.pid === fg.pid ? fg.argv : null, name: agentFacts.name }) : null;
+    const foregroundIsShell = fg.pid === shellPid && SHELL_NAMES.has(base4(f.shell.name || "")) && !isWrapper(fg.argv) && !providerOf({ argv: fg.argv, name: fg.name });
+    const cwd = typeof fg.cwd === "string" ? fg.cwd : typeof raw.cwd === "string" ? raw.cwd : null;
+    let agent = null;
+    if (provider && agentFacts && Number.isSafeInteger(agentFacts.startMs) && !foregroundIsShell) {
+      const s = f.sessions.get(agentFacts.pid) || {};
+      let session = null;
+      if (provider === "claude" && s.claude?.sessionId) session = { sessionId: s.claude.sessionId, via: "pid-record" };
+      if (!session && provider === "codex") {
+        const l = parseCodexLabel(labels[CODEX_LABEL]);
+        if (l && l.pid === agentFacts.pid && l.startMs === agentFacts.startMs) session = { sessionId: l.sessionId, via: "codex-hook" };
+      }
+      if (!session && provider === "grok" && s.grok?.sessionId) session = { sessionId: s.grok.sessionId, via: "open-file" };
+      if (!session && picked.pid === fg.pid) {
+        const hit = argvSession(fg.argv);
+        if (hit && hit.provider === provider) session = { sessionId: hit.sessionId, via: "argv" };
+      }
+      if (!session) try {
+        const bound = await this.bindings.readCommitted(terminalIdentity(raw, machine2));
+        if (bound?.session?.provider === provider) session = { sessionId: bound.session.sessionId, via: "binding" };
+      } catch {
+      }
+      agent = { pid: agentFacts.pid, startMs: agentFacts.startMs, provider, toolKey: provider, sessionId: session?.sessionId ?? null, via: session?.via ?? null };
+    }
+    return { createdMs: Number.isSafeInteger(raw.created_ms) ? raw.created_ms : void 0, spaceId: qualify2(spaceId, machine2), tabId: qualify2(tabId, machine2), shellPid, shellStartMs: f.shell.startMs, shellName: f.shell.name, shellAgeMs: f.shell.ageMs, foregroundIsShell, cwd, agent };
+  }
+  /** Verified resume argv for a provider on a machine; fresh skips the 60 s capability cache. */
+  async tool(provider, machine2, { fresh = false } = {}) {
+    let tools;
+    try {
+      tools = installedTools(await this.io.knownAgents({ on: machine2 }));
+    } catch {
+      return { argv: null, reason: `${machine2 ?? "This computer"} could not list its installed tools.` };
+    }
+    const tool = tools.find((t) => t.key === provider);
+    if (!tool) return { argv: null, reason: `${provider} is not installed on ${machine2 ?? "this computer"}.` };
+    let caps;
+    try {
+      caps = fresh ? await new CapabilityRegistry(this.io.exec).get(tool, machine2) : this.io.capabilities ? await this.io.capabilities.get(tool, machine2) : await new CapabilityRegistry(this.io.exec).get(tool, machine2);
+    } catch {
+      return { argv: null, reason: `${provider}'s options could not be checked.` };
+    }
+    if (caps?.provider !== provider || !caps.resume) return { argv: null, reason: `This ${provider} has no verified exact-session resume.` };
+    return { argv: null, caps, reason: null };
+  }
+  /** One restart pass over lost entries, within the tick budget. */
+  async pass(budget) {
+    const now3 = this.clock(), passId = this.owner + "-p" + ++this.passes, summary = { passId, at: now3, resumed: [], offered: [], skipped: [], failed: [] };
+    let preference;
+    try {
+      preference = resumePreference((await readConfig(this.io)).value);
+    } catch {
+      preference = { on: false, reason: "Mission Control settings could not be read, so nothing was typed." };
+    }
+    const tools = /* @__PURE__ */ new Map();
+    let sends = 0;
+    for (const [key3, m] of Object.entries(this.value.machines)) {
+      const machine2 = machineOf(key3);
+      for (const [address, e] of Object.entries(m.terminals)) {
+        if (e.state !== "lost") continue;
+        const fresh = this.facts.get(key3 + address);
+        if (!fresh || now3 - fresh.at > RUNNER.factsFreshMs || fresh.t.shellPid !== e.shellPid) continue;
+        const tk = key3 + "\0" + e.provider;
+        if (!tools.has(tk)) {
+          if (!budget.take(2)) continue;
+          tools.set(tk, await this.tool(e.provider, machine2));
+        }
+        const tool = tools.get(tk);
+        let argv = null;
+        try {
+          if (tool.caps) argv = buildArguments(tool.caps, { resumeSessionId: e.sessionId });
+        } catch {
+        }
+        const d = decide(e, { t: fresh.t, preference, tool: { argv, reason: tool.reason }, now: now3 });
+        const row = { machine: machine2, address, tabId: e.tabId, provider: e.provider, line: d.line ?? null, reason: d.reason ?? null };
+        if (d.type !== "type") {
+          await this.journal.edit((draft, t) => markOutcome(draft, { machine: machine2, address, state: d.type === "skip" ? "skipped" : "offered", reason: d.reason, line: d.line, passId, now: t }) ? {} : { write: false });
+          summary[d.type === "skip" ? "skipped" : "offered"].push(row);
+          continue;
+        }
+        if (sends >= RESTART.maxSends || budget.left < 3) continue;
+        sends++;
+        const sent = await this.send(budget, { machine: machine2, address, e, line: d.line, passId, claim: claimKey(address, e), expect: ["lost"] });
+        if (sent.ok) summary.resumed.push(row);
+        else if (sent.offered) summary.failed.push({ ...row, reason: sent.reason ?? null });
+      }
+    }
+    const episode = this.episode && now3 - this.episode.at < RUNNER.episodeMs ? this.episode : this.episode = { passId, at: now3, resumed: [], offered: [], skipped: [], failed: [] };
+    for (const k of ["resumed", "offered", "skipped", "failed"]) episode[k].push(...summary[k]);
+    episode.passId = passId;
+    const remaining = Object.values((await this.journal.read()).value?.machines || {}).some((m) => Object.values(m.terminals).some((e) => e.state === "lost" || e.state === "sending"));
+    if ((!remaining || now3 - episode.at >= RUNNER.episodeMs) && (episode.resumed.length || episode.offered.length || episode.failed.length)) {
+      this.publish({ ...episode });
+      this.episode = null;
+    }
+    return summary;
+  }
+  /** Claim on the host, CAS sending, fresh foreground check, hc send. Failures become offers. */
+  async send(budget, { machine: machine2, address, e, line: line2, passId, claim, expect }) {
+    const offer = async (reason) => {
+      await this.journal.edit((d, t) => markOutcome(d, { machine: machine2, address, state: "offered", reason, line: line2, passId, now: t }) ? {} : { write: false });
+      return { ok: false, offered: true, reason };
+    };
+    const c = await hostClaim(this.io, { machine: machine2, key: claim, owner: this.owner });
+    if (!c.ok) return { ok: false, reason: "The machine could not be reached to claim this resume." };
+    if (!c.claimed) return { ok: false, reason: "Another Mission Control is resuming this agent." };
+    const { result } = await this.journal.edit((d, t) => {
+      const ok = markSending(d, { machine: machine2, address, passId, claim, line: line2, expect, now: t });
+      return ok ? { ok } : { write: false, ok };
+    });
+    if (!result.ok) return { ok: false, reason: "This agent was already handled." };
+    let raw = null;
+    try {
+      if (!budget || budget.take()) {
+        const r2 = await this.io.exec("hc", ["get", address, "--json"], { on: machine2 });
+        if (r2?.code === 0) raw = JSON.parse(r2.stdout);
+      }
+    } catch {
+    }
+    if (!raw || raw.pid !== e.shellPid || raw.foreground?.pid !== raw.pid) return offer("The restored shell changed before the command could be typed.");
+    let r;
+    try {
+      if (budget && !budget.take()) return offer("Typing was postponed.");
+      r = await this.io.exec("hc", ["send", address, line2], { on: machine2 });
+    } catch {
+      return offer("The resume command could not be typed.");
+    }
+    if (r?.code !== 0) return offer("Herdr refused to type the resume command.");
+    await this.journal.edit((d, t) => markOutcome(d, { machine: machine2, address, state: "sent", line: line2, passId, now: t }) ? {} : { write: false });
+    return { ok: true };
+  }
+  publish(summary) {
+    this.lastSummary = freeze5(summary);
+    let shared2 = null;
+    try {
+      shared2 = this.io.shared?.(RESTART_STATE_KEY);
+    } catch {
+    }
+    if (shared2?.toastedPassId === summary.passId) return;
+    try {
+      this.io.setShared?.(RESTART_STATE_KEY, { v: 1, passId: summary.passId, toastedPassId: summary.passId, summary });
+    } catch {
+    }
+    const names = /* @__PURE__ */ new Map();
+    for (const sp of this.io.spaces?.() || []) for (const t of sp.tabs || []) names.set(t.id, t.name || null);
+    const tab = (r) => names.get(r.tabId) || r.tabId, needs = [...summary.failed, ...summary.offered], n = summary.resumed.length;
+    const body = [
+      n ? `Resumed ${n} agent${n === 1 ? "" : "s"}: ${summary.resumed.slice(0, 6).map(tab).join(", ")}${n > 6 ? "…" : ""}.` : null,
+      ...needs.slice(0, 3).map((r) => `${tab(r)} needs you: ${r.line}${r.reason ? " (" + r.reason + ")" : ""}`),
+      needs.length > 3 ? `${needs.length - 3} more in the Reopen bar.` : null
+    ].filter(Boolean).join("\n");
+    try {
+      this.io.notify?.({ title: "Agents after restart", body, level: needs.length ? "warning" : "success" });
+    } catch {
+    }
+  }
+  /** Reads the journal for display without observing (popups and non-lease copies). */
+  async refresh() {
+    try {
+      const { value, status } = await this.journal.read();
+      this.value = status === "newer" ? null : value;
+      this.status = status === "newer" ? "idle-newer" : this.status;
+    } catch {
+    }
+    return this.value;
+  }
+  /** Offers for display. */
+  offers() {
+    return offers(this.value);
+  }
+  /** Resume one offer the person clicked: fresh capabilities, its own claim, the same send protocol. */
+  async resumeOffer({ machine: machine2 = null, address }) {
+    try {
+      const { value, status } = await this.journal.read();
+      if (status === "newer") return { ok: false, reason: "Resume after restart is idle: a newer Mission Control owns its journal." };
+      const key3 = machineKey(machine2), e = value.machines[key3]?.terminals[address];
+      if (!e || e.state !== "offered") return { ok: false, reason: "This offer is gone." };
+      const tool = await this.tool(e.provider, machine2, { fresh: true });
+      let argv = null;
+      try {
+        if (tool.caps) argv = buildArguments(tool.caps, { resumeSessionId: e.sessionId });
+      } catch {
+      }
+      if (!argv) return { ok: false, reason: tool.reason || "Exact resume is not verified on this machine.", line: e.line };
+      let raw = null;
+      try {
+        const r = await this.io.exec("hc", ["get", address, "--json"], { on: machine2 });
+        if (r?.code === 0) raw = JSON.parse(r.stdout);
+      } catch {
+      }
+      if (!raw || raw.pid !== e.shellPid || raw.foreground?.pid !== raw.pid) return { ok: false, reason: "That shell is busy or gone; run the command yourself.", line: e.line };
+      const cwd = raw.foreground?.cwd ?? raw.cwd, line2 = (cwd === e.cwd ? "" : cdPrefix(e.cwd)) + resumeLine(argv);
+      const result = await this.send(null, { machine: machine2, address, e, line: line2, passId: this.owner + "-offer", claim: claimKey(address, e, { offer: value.revision }), expect: ["offered"] });
+      this.value = (await this.journal.read()).value;
+      return result.ok ? { ok: true } : { ok: false, reason: result.reason, line: line2 };
+    } catch {
+      return { ok: false, reason: "The offer could not be resumed." };
+    }
+  }
+  async dismissOffer({ machine: machine2 = null, address }) {
+    try {
+      await this.journal.edit((d) => dismiss(d, { machine: machine2, address }));
+      this.value = (await this.journal.read()).value;
+      return { ok: true };
+    } catch {
+      return { ok: false };
+    }
+  }
+  async resumeAll() {
+    const results = [];
+    for (const o of this.offers()) results.push(await this.resumeOffer(o));
+    return results;
+  }
+  /** Codex hook state per machine where Codex is installed. */
+  async refreshCodex() {
+    this.codexAt = this.clock();
+    for (const machine2 of this.machines()) {
+      let tools = [];
+      try {
+        tools = installedTools(await this.io.knownAgents({ on: machine2 }));
+      } catch {
+        continue;
+      }
+      if (!tools.some((t) => t.key === "codex")) {
+        this.codex.delete(machineKey(machine2));
+        continue;
+      }
+      this.codex.set(machineKey(machine2), await codexHook(this.io, "status", { machine: machine2 }));
+    }
+  }
+  codexSetup() {
+    return [...this.codex].map(([key3, s]) => freeze5({ machine: machineOf(key3), installed: s.ok && s.installed === true, ok: s.ok, message: s.ok ? null : s.message }));
+  }
+  async installCodex(machine2 = null) {
+    const r = await codexHook(this.io, "install", { machine: machine2 });
+    if (r.ok) this.codex.set(machineKey(machine2), { ...r, installed: true });
+    return r;
+  }
+  async removeCodex(machine2 = null) {
+    const r = await codexHook(this.io, "remove", { machine: machine2 });
+    if (r.ok) this.codex.set(machineKey(machine2), { ...r, installed: false });
+    return r;
+  }
+  snapshot() {
+    return freeze5({ status: this.status, error: this.error, offers: this.offers(), codex: this.codexSetup(), summary: this.lastSummary });
+  }
+  async release() {
+    this.closed = true;
+    try {
+      await this.journal.edit((d) => releaseLease(d, this.owner));
+    } catch {
+    }
+  }
+};
+
 // src/shared/ui.js
 import { div, svg, image } from "gpui-kit";
 import { h_flex, v_flex, Input, InputState } from "gpui-base";
@@ -2925,6 +4384,13 @@ var ago = (at, now3) => {
 };
 var kindLabel = (kind) => kind === "agent" ? "Reopen last agent" : "Reopen last tab";
 var IMPORT_STALE_MS = LIMITS.historyMs * LIMITS.hosts + 3e4;
+var RESTART_HELP = Object.freeze([
+  "After a reboot, logout or Herdr core crash, Herdr brings each terminal back as a plain shell. Mission Control then types the agent’s own resume command with its exact session ID into that shell (for example claude --resume <id>), so each agent comes back in the tab it ran in.",
+  "Agents you quit stay closed. An agent that crashes inside a tab returns you to that tab’s shell, which looks exactly like quitting, so it is not resumed.",
+  "It types only into a sh, bash, zsh, dash or ksh shell that is still idle, in the same folder, less than 15 minutes after the shell came back. Otherwise it offers Resume here instead.",
+  "Codex sessions are learned through a small Codex hook. Use Set up Codex resume; Codex then asks you to trust the hook once. Start Codex with --no-daemon so the hook runs in your terminal.",
+  'Turn it off with "resumeAfterRestart": false under preferences in mission-control/config.json.'
+]);
 var MissionControlReopen = class extends View {
   init(_props, cx) {
     this.props = herdr.props() || {};
@@ -2940,8 +4406,17 @@ var MissionControlReopen = class extends View {
     if (this.role === "help") return;
     this.io = createLaunchIO(herdr);
     this.controller = new ReopenController(this.io, { owner: MOD + "-" + this.instance });
+    this.runner = new RestartRunner(this.io, { owner: MOD + "-" + this.instance + "-restart" });
+    this.restarting = 0;
+    this.restartStatus = null;
     this.poll(cx, { force: true });
     this.timers.push(cx.timer.every(LIMITS.observeMs, (eventCx) => this.poll(eventCx)));
+    if (this.role === "bar") this.timers.push(cx.timer.every(RUNNER.tickMs, (eventCx) => this.restartTick(eventCx)));
+    this.spawn(cx, async () => {
+      if (this.role === "bar") await this.runner.tick();
+      else await this.runner.refresh();
+      await this.runner.refreshCodex();
+    });
     this.commandTask = cx.spawn(async (taskCx) => {
       while (!this.closed) {
         const command = await herdr.nextCommand();
@@ -3004,6 +4479,50 @@ var MissionControlReopen = class extends View {
       if (result.ok && this.role === "popup" && this.props.overlay) herdr.closeOverlay(this.props.overlay);
     });
   }
+  restartFingerprint() {
+    return JSON.stringify([this.runner.offers().map((o) => [o.machine, o.address, o.reason]), this.runner.codexSetup(), this.runner.error?.code ?? null]);
+  }
+  restartTick(cx) {
+    if (this.closed || !this.runner) return;
+    const now3 = Date.now();
+    if (this.restarting && now3 - this.restarting < RUNNER.staleTickMs) return;
+    this.restarting = now3;
+    const before = this.restartFingerprint();
+    return this.spawn(cx, async () => {
+      await this.runner.tick();
+      this.restarting = 0;
+      return this.restartFingerprint() !== before;
+    });
+  }
+  restartAct(work, cx) {
+    if (this.closed || !this.runner) return;
+    this.restartStatus = "Working…";
+    cx.notify();
+    return this.spawn(cx, async () => {
+      const message = await work();
+      if (this.closed) return false;
+      this.restartStatus = message || null;
+    });
+  }
+  resumeOffers(cx, offer) {
+    return this.restartAct(async () => {
+      const results = offer ? [await this.runner.resumeOffer(offer)] : await this.runner.resumeAll();
+      const failed = results.filter((r) => !r.ok);
+      return failed.length ? failed.map((r) => r.reason + (r.line ? " Run: " + r.line : "")).join(" ") : `Resumed ${results.length} agent${results.length === 1 ? "" : "s"}.`;
+    }, cx);
+  }
+  dismissOffer(cx, offer) {
+    return this.restartAct(async () => {
+      for (const o of offer ? [offer] : this.runner.offers()) await this.runner.dismissOffer(o);
+      return null;
+    }, cx);
+  }
+  setupCodex(cx, machine2) {
+    return this.restartAct(async () => {
+      const r = await this.runner.installCodex(machine2);
+      return r.ok ? "Codex resume is set up. Codex asks you to trust the new hook the next time it starts." : r.message;
+    }, cx);
+  }
   record(id) {
     return this.controller.value?.records.find((r) => r.id === id) || null;
   }
@@ -3050,20 +4569,20 @@ var MissionControlReopen = class extends View {
   tooltip(p) {
     return [p.label + (p.title ? ": " + p.title : ""), p.detail, p.imported ? "Imported history" : null, p.reason, p.lastError ? "Last attempt: " + p.lastError : null].filter(Boolean).join("\n");
   }
-  link(id, text8, action, { disabled = false } = {}) {
+  link(id, text9, action, { disabled = false } = {}) {
     const t = colors();
-    let el = div2().id(id).text_size(11).text_color(disabled ? t.dim : t.accent).role("button").accessibility_label(text8).on_mouse_down("left", (_e, cx) => cx.stop_propagation());
+    let el = div2().id(id).text_size(11).text_color(disabled ? t.dim : t.accent).role("button").accessibility_label(text9).on_mouse_down("left", (_e, cx) => cx.stop_propagation());
     if (!disabled) el = el.cursor_pointer().hover((s) => s.text_color(t.foreground)).on_click((e, cx) => {
       cx.stop_propagation();
       return action(e, cx);
     });
-    return el.child(text8);
+    return el.child(text9);
   }
-  pill(id, text8, preview, action) {
+  pill(id, text9, preview, action) {
     const t = colors(), enabled = preview.state === "ready" && !this.controller.running();
-    let el = h_flex2().id(id).h(20).px(8).items_center().rounded(5).border(1).border_color(t.border).bg(enabled ? t.surface : "#00000000").text_color(enabled ? t.foreground : t.dim).role("button").accessibility_label(text8).tooltip(this.tooltip(preview)).on_mouse_down("left", (_e, cx) => cx.stop_propagation());
+    let el = h_flex2().id(id).h(20).px(8).items_center().rounded(5).border(1).border_color(t.border).bg(enabled ? t.surface : "#00000000").text_color(enabled ? t.foreground : t.dim).role("button").accessibility_label(text9).tooltip(this.tooltip(preview)).on_mouse_down("left", (_e, cx) => cx.stop_propagation());
     if (enabled) el = el.cursor_pointer().hover((s) => s.bg(t.hover)).on_click(action);
-    return el.child(text8);
+    return el.child(text9);
   }
   statusLine(tab) {
     const s = this.status;
@@ -3077,13 +4596,25 @@ var MissionControlReopen = class extends View {
   }
   bar() {
     const t = colors(), tab = this.controller.preview("tab"), agent = this.controller.preview("agent"), failed = this.status?.result && !this.status.result.ok;
-    return h_flex2().id("reopen-bar").size_full().px(8).gap(6).items_center().bg(t.chrome).border_t(1).border_color(t.border).text_size(11).child(icon(MOD, "sessions", 13).text_color(t.dim)).child(this.pill("reopen-tab", "Reopen tab", tab, (_e, cx) => this.act("tab", cx))).child(this.pill("reopen-agent", "Reopen agent", agent, (_e, cx) => this.act("agent", cx))).child(div2().id("reopen-status").flex_1().min_w(0).truncate().text_color(failed ? t.blocked : t.muted).child(this.statusLine(tab))).child(iconButton(MOD, "reopen-more", "more", "Closed tabs and recovery", () => this.openPopup(), { size: 22 })).child(this.link("reopen-help", "Help", () => this.openHelp()));
+    return h_flex2().id("reopen-bar").size_full().px(8).gap(6).items_center().bg(t.chrome).border_t(1).border_color(t.border).text_size(11).child(icon(MOD, "sessions", 13).text_color(t.dim)).child(this.pill("reopen-tab", "Reopen tab", tab, (_e, cx) => this.act("tab", cx))).child(this.pill("reopen-agent", "Reopen agent", agent, (_e, cx) => this.act("agent", cx))).when(this.runner.offers().length > 0, (e) => e.child(this.restartPill())).child(div2().id("reopen-status").flex_1().min_w(0).truncate().text_color(failed ? t.blocked : t.muted).child(this.statusLine(tab))).child(iconButton(MOD, "reopen-more", "more", "Closed tabs and recovery", () => this.openPopup(), { size: 22 })).child(this.link("reopen-help", "Help", () => this.openHelp()));
   }
   action(id, name2, preview, handler) {
     const t = colors(), enabled = preview.state === "ready" && !this.controller.running(), detail = ["ready", "busy"].includes(preview.state) ? [preview.title, preview.detail, preview.imported ? "imported" : null].filter(Boolean).join(" · ") : preview.reason;
     let el = h_flex2().id(id).p(8).gap(9).items_center().rounded(6).border(1).border_color(t.border).role("button").accessibility_label(preview.label).tooltip(this.tooltip(preview)).text_color(enabled ? t.foreground : t.dim);
     if (enabled) el = el.cursor_pointer().hover((s) => s.bg(t.hover)).on_click(handler);
     return el.child(icon(MOD, name2, 16).text_color(enabled ? t.accent : t.dim)).child(v_flex2().flex_1().min_w(0).gap(2).child(div2().text_size(12).child(preview.label)).child(div2().text_size(10).text_color(t.muted).truncate().child(detail || "")).when(Boolean(preview.reason) && ["ready", "unsupported"].includes(preview.state) && detail !== preview.reason, (e) => e.child(div2().text_size(10).text_color(preview.state === "ready" ? t.dim : t.blocked).child(preview.reason))));
+  }
+  restartPill() {
+    const t = colors(), n = this.runner.offers().length, text9 = `Resume ${n} agent${n === 1 ? "" : "s"}`;
+    return h_flex2().id("restart-resume").h(20).px(8).items_center().rounded(5).border(1).border_color(t.accent).bg(t.surface).text_color(t.foreground).role("button").accessibility_label(text9 + " from before the restart").tooltip(["From before the restart:", ...this.runner.offers().map((o) => o.line + (o.reason ? "\n  " + o.reason : ""))].join("\n")).cursor_pointer().hover((s) => s.bg(t.hover)).on_mouse_down("left", (_e, cx) => cx.stop_propagation()).on_click((_e, cx) => {
+      cx.stop_propagation();
+      this.resumeOffers(cx);
+    }).child(text9);
+  }
+  restartSection() {
+    const t = colors(), list = this.runner.offers(), codex = this.runner.codexSetup().filter((c) => c.ok && !c.installed);
+    if (!list.length && !codex.length && !this.restartStatus) return null;
+    return v_flex2().id("restart-section").flex_none().gap(4).when(list.length > 0, (e) => e.child(h_flex2().gap(8).items_center().child(label("From before the restart", { muted: true, size: 10 })).child(div2().flex_1()).child(this.link("restart-resume-all", "Resume all", (_e, cx) => this.resumeOffers(cx))).child(this.link("restart-dismiss-all", "Dismiss", (_e, cx) => this.dismissOffer(cx)))).children(list.map((o, i) => h_flex2().id("restart-offer-" + i).min_h(34).px(6).gap(8).items_center().rounded(5).border(1).border_color(t.border).child(icon(MOD, "agent", 14).text_color(t.dim)).child(v_flex2().flex_1().min_w(0).child(div2().truncate().text_color(t.foreground).child(o.line)).child(div2().truncate().text_size(10).text_color(t.dim).child([o.machine || "This Mac", o.reason].filter(Boolean).join(" · ")))).child(this.link("restart-offer-resume-" + i, "Resume", (_e, cx) => this.resumeOffers(cx, o))).child(iconButton(MOD, "restart-offer-dismiss-" + i, "close", "Dismiss", (_e, cx) => this.dismissOffer(cx, o), { size: 22 }))))).children(codex.map((c, i) => h_flex2().id("restart-codex-" + i).gap(8).items_center().child(div2().flex_1().min_w(0).text_size(11).text_color(t.muted).child(`Codex on ${c.machine || "this Mac"} can come back after a restart once its session hook is set up.`)).child(this.link("restart-codex-setup-" + i, "Set up Codex resume", (_e, cx) => this.setupCodex(cx, c.machine))))).when(Boolean(this.restartStatus), (e) => e.child(div2().id("restart-status").text_size(10).text_color(t.muted).child(this.restartStatus)));
   }
   statusBlock() {
     const t = colors(), s = this.status;
@@ -3099,11 +4630,11 @@ var MissionControlReopen = class extends View {
   }
   popup() {
     const t = colors(), tab = this.controller.preview("tab"), agent = this.controller.preview("agent"), rows = this.controller.recent(6), now3 = Date.now();
-    return v_flex2().id("reopen-popup").size_full().overflow_y_scrollbar().p(10).gap(8).bg(t.surface).text_size(12).child(h_flex2().h(24).gap(6).items_center().child(icon(MOD, "sessions", 15).text_color(t.muted)).child(label("Reopen", { size: 13 })).child(div2().flex_1()).child(this.link("popup-help", "Help", () => this.openHelp())).when(Boolean(this.props.overlay), (e) => e.child(iconButton(MOD, "popup-close", "close", "Close", () => herdr.closeOverlay(this.props.overlay), { size: 22 })))).child(this.action("popup-reopen-tab", "sessions", tab, (_e, cx) => this.act("tab", cx))).child(this.action("popup-reopen-agent", "agent", agent, (_e, cx) => this.act("agent", cx))).when(Boolean(this.status), (e) => e.child(this.statusBlock())).when(Boolean(this.controller.error), (e) => e.child(div2().id("reopen-error").text_size(11).text_color(t.blocked).child(this.controller.error.message))).child(label("Recently closed", { muted: true, size: 10 })).child(rows.length ? v_flex2().id("reopen-recent").flex_none().gap(2).children(rows.map((r) => this.row(r, now3))) : v_flex2().id("reopen-empty").flex_none().p(12).gap(6).items_center().child(label("Nothing to reopen yet")).child(div2().text_size(11).text_color(t.muted).child("Tabs you close while this bar or the Mission Control tab bar runs appear here. Import older history to look further back."))).child(h_flex2().gap(8).items_center().child(this.link("reopen-import", this.importing ? "Importing…" : "Import older history", (_e, cx) => this.importHistory(cx), { disabled: Boolean(this.importing) })).child(div2().flex_1().min_w(0).truncate().text_size(10).text_color(t.dim).child(this.importStatus || "")));
+    return v_flex2().id("reopen-popup").size_full().overflow_y_scrollbar().p(10).gap(8).bg(t.surface).text_size(12).child(h_flex2().h(24).gap(6).items_center().child(icon(MOD, "sessions", 15).text_color(t.muted)).child(label("Reopen", { size: 13 })).child(div2().flex_1()).child(this.link("popup-help", "Help", () => this.openHelp())).when(Boolean(this.props.overlay), (e) => e.child(iconButton(MOD, "popup-close", "close", "Close", () => herdr.closeOverlay(this.props.overlay), { size: 22 })))).child(this.action("popup-reopen-tab", "sessions", tab, (_e, cx) => this.act("tab", cx))).child(this.action("popup-reopen-agent", "agent", agent, (_e, cx) => this.act("agent", cx))).when(Boolean(this.status), (e) => e.child(this.statusBlock())).when(Boolean(this.restartSection()), (e) => e.child(this.restartSection())).when(Boolean(this.controller.error), (e) => e.child(div2().id("reopen-error").text_size(11).text_color(t.blocked).child(this.controller.error.message))).child(label("Recently closed", { muted: true, size: 10 })).child(rows.length ? v_flex2().id("reopen-recent").flex_none().gap(2).children(rows.map((r) => this.row(r, now3))) : v_flex2().id("reopen-empty").flex_none().p(12).gap(6).items_center().child(label("Nothing to reopen yet")).child(div2().text_size(11).text_color(t.muted).child("Tabs you close while this bar or the Mission Control tab bar runs appear here. Import older history to look further back."))).child(h_flex2().gap(8).items_center().child(this.link("reopen-import", this.importing ? "Importing…" : "Import older history", (_e, cx) => this.importHistory(cx), { disabled: Boolean(this.importing) })).child(div2().flex_1().min_w(0).truncate().text_size(10).text_color(t.dim).child(this.importStatus || "")));
   }
   help() {
     const t = colors();
-    return v_flex2().id("reopen-help-view").size_full().p(18).gap(10).bg(t.surface).text_size(12).child(h_flex2().gap(8).items_center().child(icon(MOD, "sessions", 16).text_color(t.muted)).child(label("Reopen: what comes back", { size: 14 })).child(div2().flex_1()).when(Boolean(this.props.overlay), (e) => e.child(iconButton(MOD, "help-close", "close", "Close", () => herdr.closeOverlay(this.props.overlay))))).child(v_flex2().id("reopen-limitations").flex_1().min_h(0).overflow_y_scrollbar().gap(8).children(REOPEN_LIMITATIONS.map((line2, i) => h_flex2().id("limitation-" + i).gap(8).items_start().child(div2().mt(6).size(4).rounded_full().flex_none().bg(t.dim)).child(div2().flex_1().min_w(0).text_color(t.muted).child(line2)))));
+    return v_flex2().id("reopen-help-view").size_full().p(18).gap(10).bg(t.surface).text_size(12).child(h_flex2().gap(8).items_center().child(icon(MOD, "sessions", 16).text_color(t.muted)).child(label("Reopen: what comes back", { size: 14 })).child(div2().flex_1()).when(Boolean(this.props.overlay), (e) => e.child(iconButton(MOD, "help-close", "close", "Close", () => herdr.closeOverlay(this.props.overlay))))).child(v_flex2().id("reopen-limitations").flex_1().min_h(0).overflow_y_scrollbar().gap(8).children([...REOPEN_LIMITATIONS, ...RESTART_HELP].map((line2, i) => h_flex2().id("limitation-" + i).gap(8).items_start().child(div2().mt(6).size(4).rounded_full().flex_none().bg(t.dim)).child(div2().flex_1().min_w(0).text_color(t.muted).child(line2)))));
   }
   render() {
     if (this.role === "help") return this.help();
@@ -3114,10 +4645,12 @@ var MissionControlReopen = class extends View {
     for (const timer of this.timers) timer?.cancel?.();
     for (const job of this.jobs) job?.cancel?.();
     this.commandTask?.cancel?.();
-    if (this.role === "bar" && this.controller) return this.controller.release().catch(() => {
-    });
+    if (this.role === "bar" && this.controller) return Promise.all([this.controller.release().catch(() => {
+    }), this.runner?.release().catch(() => {
+    })]);
   }
 };
 export {
+  RESTART_HELP,
   MissionControlReopen as default
 };

@@ -369,6 +369,8 @@ ID=re.compile(r"[^\x00-\x1f\x7f]{1,256}")
 NAME=re.compile(r"[a-z0-9][a-z0-9._+-]{0,63}")
 # Herdr login wrappers: local "-lic" and the remote "-c" form (split so the JS template never interpolates).
 WRAPS={"-lic":'"$@"; exec "$0" -li',"-c":'"$@"; exec "$' '{SHELL:-sh}" -i'}
+# Herdr 0.1.13 remote launches: sh -c '<login-shell dispatcher>' sh <program...> (tests/fixtures/herdr-0113-launch-argv.json).
+DISPATCH='shell=$' '{SHELL:-/bin/sh}\ncase "$' '{shell##*/}" in\n  fish) exec "$shell" -lic \'command $argv[2..]; exec $argv[1] -li\' "$shell" "$@" ;;\n  sh|bash|zsh|dash|ksh) exec "$shell" -lic \'"$@"; exec "$0" -li\' "$shell" "$@" ;;\n  *) exec sh -c \'"$@"; exec "$' '{SHELL:-sh}" -i\' sh "$@" ;;\nesac'
 used=0
 class Stop(Exception):
  pass
@@ -419,7 +421,7 @@ def path(v):
 def program(argv):
  if not isinstance(argv,list) or not argv or not all(isinstance(a,str) for a in argv):
   return None
- if len(argv)>4 and WRAPS.get(argv[1])==argv[2] and argv[3]==argv[0]:
+ if len(argv)>4 and (WRAPS.get(argv[1])==argv[2] and argv[3]==argv[0] or argv[:2]==["sh","-c"] and argv[2]==DISPATCH and argv[3]=="sh"):
   argv=argv[4:]
  name=os.path.basename(argv[0]).lower()
  return name if NAME.fullmatch(name) else None

@@ -1,0 +1,84 @@
+{
+  "local": {
+    "sent": [
+      "/private/tmp/mcqa-fjrwHQ/qa-claude",
+      "--resume",
+      "ea0a9f69-1702-47d6-8114-6190ae245b1b"
+    ],
+    "ack": {
+      "space": "qa-sp-b37ebfc2a6fd00d73f8779db",
+      "tab": "tbdf0fa27b5b7eb771568c4f4b35649771",
+      "terminal": "t2"
+    },
+    "argv": [
+      "/bin/sh",
+      "-lic",
+      "\"$@\"; exec \"$0\" -li",
+      "/bin/sh",
+      "/private/tmp/mcqa-fjrwHQ/qa-claude",
+      "--resume",
+      "ea0a9f69-1702-47d6-8114-6190ae245b1b"
+    ],
+    "pid": 17922,
+    "foreground": {
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python",
+        "/private/tmp/mcqa-fjrwHQ/qa-claude",
+        "--resume",
+        "ea0a9f69-1702-47d6-8114-6190ae245b1b"
+      ],
+      "cwd": "/private/tmp/mcqa-fjrwHQ/fixture-repo",
+      "name": "Python",
+      "pid": 17928
+    },
+    "program": null
+  },
+  "remote": {
+    "sent": [
+      "/private/tmp/mcqa-fjrwHQ/qa-claude",
+      "--resume",
+      "ea0a9f69-1702-47d6-8114-6190ae245b1b"
+    ],
+    "ack": {
+      "space": "qa-server/qa-sp-e27b4abd6c5be65246fa0797",
+      "tab": "qa-server/tba9ec6efb51505ba7bd142d8ebfef5893",
+      "terminal": "qa-server/t2"
+    },
+    "argv": [
+      "sh",
+      "-c",
+      "shell=${SHELL:-/bin/sh}\ncase \"${shell##*/}\" in\n  fish) exec \"$shell\" -lic 'command $argv[2..]; exec $argv[1] -li' \"$shell\" \"$@\" ;;\n  sh|bash|zsh|dash|ksh) exec \"$shell\" -lic '\"$@\"; exec \"$0\" -li' \"$shell\" \"$@\" ;;\n  *) exec sh -c '\"$@\"; exec \"${SHELL:-sh}\" -i' sh \"$@\" ;;\nesac",
+      "sh",
+      "/private/tmp/mcqa-fjrwHQ/qa-claude",
+      "--resume",
+      "ea0a9f69-1702-47d6-8114-6190ae245b1b"
+    ],
+    "pid": 17998,
+    "foreground": {
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python",
+        "/private/tmp/mcqa-fjrwHQ/qa-claude",
+        "--resume",
+        "ea0a9f69-1702-47d6-8114-6190ae245b1b"
+      ],
+      "cwd": "/private/tmp/mcqa-eXpiy2/fixture-repo",
+      "name": "Python",
+      "pid": 18004
+    },
+    "program": null
+  },
+  "versions": {
+    "herdr-app": "0.1.13",
+    "hc": "0.1.17",
+    "herdr-core": "0.1.17 (an update to 0.1.18 was offered but not taken)"
+  },
+  "provenance": {
+    "observedAt": "2026-11-07",
+    "method": "Throwaway private-harness diagnostic (node scripts/native-harness.mjs run diag-remote-argv, deleted afterwards): tab.new with argv on the private local core and on a second private core reached through hc machine add --via; hc get --json on each.",
+    "versions": {
+      "herdr-app": "0.1.13",
+      "hc": "0.1.17",
+      "herdr-core": "0.1.17 (an update to 0.1.18 was offered but not taken)"
+    }
+  }
+}

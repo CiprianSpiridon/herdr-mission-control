@@ -9,19 +9,21 @@ import {buildPackage} from '../scripts/project.mjs';
 import Reopen from '../src/mods/mission-control-reopen/main.js';
 import {ReopenController,REOPEN_COMMANDS} from '../src/shared/reopen.js';
 import {injectNative,context,trigger,findElement,Element} from './support/native-recording.mjs';
+import {HOOK_HELPER} from '../src/shared/codex-session-hook.js';
+import {HOST_HELPER} from '../src/shared/restart-host.js';
 
 const MOD='mission-control-reopen',root=new URL('../',import.meta.url).pathname;
 function texts(node){const out=[];const walk=v=>{if(typeof v==='string')out.push(v);else if(v instanceof Element){for(const c of v.calls)if(c.method==='tooltip')out.push(String(c.args[0]));v.nodes.forEach(walk);}};walk(node);return out.join('\n');}
-async function fixture(t){
+async function fixture(t,{tools=[],hook={installed:false}}={}){
   const dir=await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(),'mc-reopen-mod-'))),home=path.join(dir,'app'),repo=path.join(dir,'repo');
   t.after(()=>fs.rm(dir,{recursive:true,force:true}));await fs.mkdir(repo);
-  let count=0,props={},running=null;
+  let count=0,props={},running=null;const claims=new Set();
   const world={spaces:[{id:'space-A',name:'repo',named:false,machine:null,folder:repo,tabs:[]}]},raws=new Map(),effects=[],created=[],copies=[],waiting=[];
   const addTab=(folder,name)=>{count++;const tab='tab-'+count,terminal='t'+count;world.spaces[0].tabs.push({id:tab,index:world.spaces[0].tabs.length+1,name:name||String(count),named:Boolean(name),panes:1});raws.set(terminal,{address:terminal,created_ms:1000+count,state:'live',cwd:folder,foreground:{pid:700+count,name:'zsh'},argv:['/bin/zsh','-l'],labels:{'herdr.space':'space-A','herdr.tab':tab}});return {space:'space-A',tab,terminal};};
   injectNative({props:()=>props,appHome:home,home:dir,machines:[{name:null,layout:'ready'}],spaces:()=>world.spaces,agents:[],
     panes:()=>world.spaces.flatMap(s=>s.tabs.map(tab=>{const terminal='t'+tab.id.slice(4);return {pane:'p-'+terminal,tab:tab.id,terminal,cwd:raws.get(terminal).cwd,title:'zsh',program:{key:'zsh',name:'zsh',agent:false},status:null};})),
     terminals:()=>[...raws].filter(([,r])=>r.state==='live').map(([address])=>({address,state:'live'})),
-    knownAgents:async()=>[],run:(name,args)=>{effects.push(['run',name,args]);return null;},openOverlay:spec=>{effects.push(['overlay',spec]);return 'overlay-'+effects.length;},closeOverlay:id=>{effects.push(['close',id]);return null;},notify:n=>{effects.push(['notify',n]);return 'toast';},
+    knownAgents:async()=>tools,run:(name,args)=>{effects.push(['run',name,args]);return null;},openOverlay:spec=>{effects.push(['overlay',spec]);return 'overlay-'+effects.length;},closeOverlay:id=>{effects.push(['close',id]);return null;},notify:n=>{effects.push(['notify',n]);return 'toast';},
     nextCommand:()=>{if(running)running.loop=true;return new Promise(resolve=>waiting.push(resolve));},
     readTextFile:async file=>{effects.push(['read',file]);try{return await fs.readFile(file,'utf8');}catch(e){if(e.code==='ENOENT')return null;throw e;}},
     writeTextFile:async(file,next,expected)=>{let actual=null;try{actual=sync.readFileSync(file,'utf8');}catch(e){if(e.code!=='ENOENT')throw e;}if(actual!==expected)throw Object.assign(Error('stale'),{code:'STALE'});const temp=file+'.'+Math.random().toString(36).slice(2);sync.writeFileSync(temp,next);sync.renameSync(temp,file);},
@@ -30,6 +32,11 @@ async function fixture(t){
       if(cmd==='mkdir'){await fs.mkdir(args[1],{recursive:true});return {code:0,stdout:'',stderr:''};}
       if(cmd==='hc'&&args[0]==='get'){const raw=raws.get(args[1]);return raw?{code:0,stdout:JSON.stringify(raw)}:{code:1,stdout:''};}
       if(cmd==='test')return {code:sync.existsSync(args[1])?0:1,stdout:''};
+      if(cmd==='python3'&&args[1]===HOOK_HELPER){const q=JSON.parse(args[2]);if(q.op==='install')hook.installed=true;return {code:0,stdout:JSON.stringify({ok:true,installed:hook.installed,codexHome:'/home/me/.codex'})};}
+      if(cmd==='python3'&&args[1]===HOST_HELPER){const q=JSON.parse(args[2]);if(q.op!=='claim')return {code:0,stdout:JSON.stringify({v:1,ok:true,terminals:[]})};const fresh=!claims.has(q.key);claims.add(q.key);return {code:0,stdout:JSON.stringify({v:1,ok:true,claimed:fresh})};}
+      if(cmd==='hc'&&args[0]==='send')return {code:0,stdout:''};
+      if(cmd==='claude'&&args[0]==='--help')return {code:0,stdout:'Claude Code\nUsage: claude [options] [prompt]\n --resume [value]\n'};
+      if(cmd==='claude'&&args[0]==='--version')return {code:0,stdout:'2.1.0'};
       if(cmd==='herdr-app'&&args[0]==='do'){assert.equal(args[1],'tab.new');const input=JSON.parse(args[2]);created.push(input);return {code:0,stdout:JSON.stringify(addTab(input.folder,input.name))};}
       throw Error('Unexpected command '+cmd);
     }});
@@ -46,12 +53,12 @@ async function fixture(t){
   const close=tab=>{const t=world.spaces[0].tabs.find(x=>x.id===tab);world.spaces[0].tabs=world.spaces[0].tabs.filter(x=>x!==t);raws.get('t'+tab.slice(4)).state='finished';};
   const journal=async()=>JSON.parse(await fs.readFile(path.join(home,'mission-control/closed.json'),'utf8'));
   const teardown=async()=>{for(const c of copies)await c.view.close();await deliver('shutdown');};
-  return {dir,home,repo,world,effects,created,copies,mount,flush,tick,deliver,close,journal,teardown,shell:(folder=repo,name)=>addTab(folder,name)};
+  return {dir,home,repo,world,raws,effects,created,copies,mount,flush,tick,deliver,close,journal,teardown,shell:(folder=repo,name)=>addTab(folder,name)};
 }
 
 test('two mounted bar copies keep one lease-held watcher and record a close exactly once',async t=>{
   const f=await fixture(t);f.shell();f.shell();const a=f.mount(),b=f.mount();await f.flush();
-  assert.deepEqual([a,b].map(c=>c.timers.map(x=>x.ms)),[[2000],[2000]]);
+  assert.deepEqual([a,b].map(c=>c.timers.map(x=>x.ms)),[[2000,5000],[2000,5000]],'closed-tab watcher and resume-after-restart runner');
   for(let i=0;i<3;i++)await f.tick();
   const lease=(await f.journal()).lease.owner,owners=[a,b].map(c=>MOD+'-'+c.view.instance+'-watch');assert.ok(owners.includes(lease),lease);
   f.close('tab-2');for(let i=0;i<4;i++)await f.tick();
@@ -101,6 +108,32 @@ test('a failed reopen shows its reason and recovery in the popup; Forget removes
   trigger(tree,'recover-dismiss','on_click',{},popup.cx);await f.flush();
   const left=(await f.journal()).records;assert.deepEqual(left.map(r=>r.tab.id),['tab-2']);
   tree=popup.render();assert.throws(()=>findElement(tree,'reopen-result'),/found 0/);assert.match(texts(findElement(tree,'popup-reopen-tab')),/zsh · repo · This Mac/);
+  await f.teardown();
+});
+
+const SESSION='9b0765f9-d49d-4198-9b67-4034011fd925';
+async function offer(f,address,{shellPid,revision=3}){
+  const file=path.join(f.home,'mission-control/running-agents.json');await fs.mkdir(path.dirname(file),{recursive:true});
+  const entry={spaceId:'space-A',tabId:'tab-1',cwd:f.repo,toolKey:'claude',provider:'claude',sessionId:SESSION,via:'pid-record',shellPid,shellStartMs:1794020000000,agentPid:900,agentStartMs:1794010000000,seenAt:1794010000000,state:'offered',offeredAt:Date.now(),reason:'The restored shell is more than 15 minutes old.',line:'claude --resume '+SESSION};
+  await fs.writeFile(file,JSON.stringify({v:1,revision,lease:null,machines:{local:{observedAt:1,lastContinuousAt:1,terminals:{[address]:entry}}}}));
+}
+test('resume after restart: offers show as a bar pill and a popup section, act once; Codex setup only where needed',async t=>{
+  const f=await fixture(t,{tools:[{key:'claude',name:'Claude Code',run:['claude'],installed:true},{key:'codex',name:'Codex',run:['codex'],installed:true}]});
+  const {terminal}=f.shell();const raw=f.raws.get(terminal);raw.pid=raw.foreground.pid;
+  const bar=f.mount();await f.flush();assert.throws(()=>findElement(bar.render(),'restart-resume'),/found 0/,'no pill without offers');
+  await offer(f,terminal,{shellPid:raw.pid});await f.tick([bar]);
+  const pill=findElement(bar.render(),'restart-resume');assert.match(texts(pill),/Resume 1 agent/);assert.match(texts(pill),/claude --resume/);
+  const popup=f.mount({view:'popup'});await f.flush();let tree=popup.render();
+  assert.match(texts(findElement(tree,'restart-section')),/From before the restart/);assert.match(texts(tree),/more than 15 minutes old/);
+  assert.ok(findElement(tree,'restart-codex-setup-0'),'Codex is installed here without its hook');
+  trigger(tree,'restart-offer-resume-0','on_click',{},popup.cx);await f.flush();
+  const sends=f.effects.filter(e=>e[0]==='exec'&&e[1]==='hc'&&e[2][0]==='send');assert.deepEqual(sends.map(e=>e[2]),[['send',terminal,'claude --resume '+SESSION]]);
+  await f.tick([popup]);tree=popup.render();assert.throws(()=>findElement(tree,'restart-offer-resume-0'),/found 0/,'the offer is gone once resumed');
+  trigger(tree,'restart-codex-setup-0','on_click',{},popup.cx);await f.flush();
+  assert.match(texts(popup.render()),/Codex resume is set up/);assert.ok(f.effects.some(e=>e[0]==='exec'&&e[1]==='python3'&&JSON.parse(e[2][2]).op==='install'));
+  await offer(f,terminal,{shellPid:raw.pid,revision:9});await f.tick([bar]);trigger(bar.render(),'restart-resume','on_click',{},bar.cx);await f.flush();
+  assert.equal(f.effects.filter(e=>e[0]==='exec'&&e[1]==='hc'&&e[2][0]==='send').length,2,'the bar pill resumes the new offer once');
+  const help=f.mount({view:'help'});assert.match(texts(help.render()),/Agents you quit stay closed/);
   await f.teardown();
 });
 

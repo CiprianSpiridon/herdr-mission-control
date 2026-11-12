@@ -14,6 +14,7 @@ Mission Control is a set of layouts and mods for the [Herdr](https://herdr.dev) 
 - **Review help for pull and merge requests.** Review, Address comments and Fix checks each send a ready-made task to an agent in that branch's checkout.
 - **Tabs that name themselves.** Tabs take the agent's own title or the issue key, and a name you type always wins.
 - **Undo for closing.** Reopen last tab brings back a closed shell in its folder. Reopen last agent resumes the exact conversation you closed.
+- **Agents come back after a restart.** After a reboot, a logout or a Herdr core crash, Mission Control resumes recorded agent conversations in the tabs they ran in. Agents you quit stay closed. Codex needs a one-time **Set up Codex resume** (in the Sources gear or the Reopen bar); Codex then asks you to trust that hook once.
 - **Two views, one button.** **Mission Control** is the overview. **Classic** keeps your terminals front and centre and opens the work queue as a side panel only when you ask: a button for each source, with its service's icon, sits right after the view swap. The button at the top right swaps between them without closing anything.
 - **Show only what you use.** The gear next to that button turns individual sources off, for example GitLab if you don't use it.
 - **Keep your mods and layouts up to date.** The Control panel lists every mod and layout you have installed, with each one's own preview image, and tells you when a newer version is on GitHub. You see exactly what an update changes before anything is written, and edits you made yourself are kept and merged. You can also disable, enable, uninstall and restore them.
@@ -88,6 +89,7 @@ Mission Control only reads your trackers. It never changes an issue, comment, re
 - **Tokens:** read from environment variables you name, or from `gh` for GitHub. Never written anywhere.
 - **Files:** its own settings under `~/.config/herdr-app/mission-control/`, and your coding tools' session history (for example `~/.claude/projects` and `~/.codex/sessions`), read-only. It never reads tools' login files.
 - **Programs:** `git`, `python3`, Herdr's `hc`, the coding agent you choose, and Node.js for the tracker helpers.
+- **Resume after restart:** the Tabs and Reopen mods record which conversation each agent terminal runs in `~/.config/herdr-app/mission-control/running-agents.json`. To learn it, they read process lists, the files a running Grok holds open, and Claude Code's own process records (never transcripts), and they type the resume command into the restored terminal with `hc send`. **Set up Codex resume** is the one change to a tool's own configuration: when you click it, it adds one hook to Codex's `hooks.json` and a script beside it, keeps a backup, and changes nothing else. The hook reads the first line of the session file Codex hands it and labels that terminal.
 
 ### The Control panel
 
@@ -109,6 +111,8 @@ The full per-mod list is in [docs/access.md](docs/access.md), and each package's
 - Tracker support has been tested against realistic local test servers. It hasn't been tested yet against a real company's Jira, GitHub or GitLab account.
 - Resume uses the exact conversation ID only. It never falls back to "the last conversation".
 - Reopen brings back the main terminal of a tab, not split panes.
+- Resume after restart types the agent's own resume command (for example `claude --resume <id>`) into the shell Herdr brings back, only when that shell is idle, in the same folder and less than 15 minutes old. Time powered off does not expire the saved session, including overnight after battery loss. Otherwise **Resume N** appears next to the Reopen buttons so you decide. An agent that crashes inside a tab drops you back to that tab's shell, which looks exactly like quitting, so it is not resumed. Turn it off with `"resumeAfterRestart": false` ([configuration](docs/configuration.md#resume-after-restart)).
+- Codex sessions are learned through a small Codex hook. Start Codex with `--no-daemon` so the hook runs in your terminal.
 - Agents keep whatever account they are signed in with. Mission Control doesn't switch accounts.
 - Jira command-line and local MCP helpers run on this computer, even for spaces on another machine.
 

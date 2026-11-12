@@ -6,6 +6,7 @@ import path from 'node:path';
 import os from 'node:os';
 import {spawn} from 'node:child_process';
 import {ClosedJournal,ClosedWatcher,importClosedHistory,snapshotWorld,validateClosedJournal,LIMITS,HISTORY_WRAPPER} from '../src/shared/closed-tabs.js';
+import recorded from './fixtures/herdr-0113-launch-argv.json' with {type:'json'};
 import {BindingStore,argvSessionProof} from '../src/shared/session-bindings.js';
 import {NameOwnership} from '../src/shared/name-ownership.js';
 import {terminalIdentity} from '../src/shared/session-identity.js';
@@ -176,6 +177,10 @@ test('history import runs a bounded wrapper on each host itself and keeps only s
   assert.equal(byKey.tb8.kind,'agent');assert.equal(byKey.tb8.terminals[0].program.key,'claude');assert.equal(byKey.tb9.kind,'shell');assert.equal(byKey.tb8.terminals[0].startCwd,f.repo);
   assertNoArgv(await f.file());for(const out of f.outputs){assertNoArgv(out);assert.ok(out.length<LIMITS.historyOutput);}
   assert.equal((await importClosedHistory(null,f.io)).added,0,'re-import dedupes');
+  // Herdr 0.1.13 starts a remote program through a login-shell dispatcher: the recorded argv still names the agent.
+  const h=await fixture(t);await h.host('server',{ls:{terminals:[{address:'t2',state:'finished'}]},get:{t2:{address:'t2',created_ms:100,finished_ms:900,state:'finished',cwd:h.repo,argv:recorded.remote.argv,title:'old work',labels:{'herdr.space':'sp9','herdr.tab':'tb7'}}}});
+  const dispatched=await importClosedHistory('server',h.io);assert.equal(dispatched.added,1,JSON.stringify(dispatched));
+  const hv=await h.journal();assert.equal(hv.records[0].terminals[0].program.key,'qa-claude','the dispatcher is stripped to the agent program');assertNoArgv(await h.file());
   // A bounded batch is partial: labelled unordered, resumable from its cursor, never globally newest.
   const g=await fixture(t);await g.host(null,{ls:{terminals:[1,2,3].map(n=>({address:'t'+n,state:'finished'}))},get:Object.fromEntries([1,2,3].map(n=>['t'+n,{address:'t'+n,created_ms:n,finished_ms:n*100,state:'finished',cwd:g.repo,argv,labels:{'herdr.space':'s','herdr.tab':'tab'+n}}]))});
   const partial=await importClosedHistory(null,g.io,{batch:1});assert.equal(partial.complete,false);assert.equal(partial.added,1);

@@ -1,4 +1,5 @@
 import fs from 'node:fs/promises';
+import sync from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import assert from 'node:assert/strict';
@@ -36,7 +37,7 @@ export function fileIO(home){
 }
 
 /** Disposable Claude-shaped actor: verified help, exact argv/cwd/pid records, Herdr agent status, no provider call. */
-export function actorSource(directory,legacyFlag){return String.raw`#!/usr/bin/env python3
+export function actorSource(directory,legacyFlag,rootsFile){return String.raw`#!/usr/bin/env python3
 import os,sys,json,select,time
 if '--help' in sys.argv[1:]:
  lines=['Claude Code QA fixture','Usage: claude [options] [prompt]',' --session-id <uuid>']
@@ -52,11 +53,98 @@ record={'tool':'claude','pid':os.getpid(),'cwd':os.getcwd(),'argv':sys.argv[1:],
 file=os.path.join(directory,str(os.getpid())+'.json')
 with open(file+'.next','w') as output: json.dump(record,output)
 os.replace(file+'.next',file)
+# Like Claude Code: a PID record naming this process's exact session, written into every configured profile root.
+import subprocess,uuid
+args=sys.argv[1:];sid=None
+for i,a in enumerate(args):
+ if a in ('--session-id','--resume') and i+1<len(args): sid=args[i+1]
+sid=sid or str(uuid.uuid4())
+try:
+ roots=json.load(open(${JSON.stringify(rootsFile)}))
+except Exception:
+ roots=[]
+start=' '.join(subprocess.run(['ps','-o','lstart=','-p',str(os.getpid())],capture_output=True,text=True,env=dict(os.environ,TZ='UTC',LC_ALL='C')).stdout.split())
+for root in roots:
+ os.makedirs(os.path.join(root,'sessions'),exist_ok=True)
+ with open(os.path.join(root,'sessions',str(os.getpid())+'.json'),'w') as output: json.dump({'pid':os.getpid(),'kind':'interactive','sessionId':sid,'cwd':os.getcwd(),'procStart':start,'startedAt':int(time.time()*1000),'pidDomain':'darwin'},output)
 print('Disposable reopen actor; no provider call.',flush=True)
 while True:
  print('\x1b]7501;state=idle:app=claude-code\x1b\\',end='',flush=True)
  ready,_,_=select.select([sys.stdin],[],[],2)
- if ready and not os.read(sys.stdin.fileno(),65536): break
+ if ready:
+  data=os.read(sys.stdin.fileno(),65536)
+  if not data: break
+  if b'quit' in data: sys.exit(0)
+`;}
+
+/** Grok-shaped actor: verified help, the one events.jsonl it holds open (as Grok does), Herdr agent status. */
+export function grokSource(directory){return String.raw`#!/usr/bin/env python3
+import os,sys,json,select,time,uuid,urllib.parse
+args=sys.argv[1:]
+if '--help' in args:
+ print('Grok Build TUI QA fixture'+chr(10)+'Usage: grok [options]'+chr(10)+' --resume <id>')
+ sys.exit(0)
+if '--version' in args:
+ print('Native grok fixture 1.0')
+ sys.exit(0)
+sid=None
+for i,a in enumerate(args):
+ if a=='--resume' and i+1<len(args): sid=args[i+1]
+sid=sid or str(uuid.uuid4())
+folder=os.path.join(os.path.expanduser('~'),'.grok','sessions',urllib.parse.quote(os.getcwd(),safe=''),sid)
+os.makedirs(folder,exist_ok=True)
+events=open(os.path.join(folder,'events.jsonl'),'a')
+record={'tool':'grok','pid':os.getpid(),'cwd':os.getcwd(),'argv':args,'sessionId':sid,'startedMs':int(time.time()*1000)}
+file=os.path.join(${JSON.stringify(directory)},str(os.getpid())+'.json')
+with open(file+'.next','w') as output: json.dump(record,output)
+os.replace(file+'.next',file)
+print('Disposable Grok actor; no provider call.',flush=True)
+while True:
+ print('\x1b]7501;state=idle:app=grok-build\x1b\\',end='',flush=True)
+ ready,_,_=select.select([sys.stdin],[],[],2)
+ if ready:
+  data=os.read(sys.stdin.fileno(),65536)
+  if not data or b'quit' in data: break
+`;}
+
+/** Codex-shaped actor: verified help and resume help, a session file, and the real installed Mission Control hook run as Codex runs it. */
+export function codexSource(directory){return String.raw`#!/usr/bin/env python3
+import os,sys,json,select,subprocess,time,uuid
+args=sys.argv[1:]
+if args[:1]==['resume'] and '--help' in args:
+ print('Usage: codex resume [OPTIONS] [SESSION_ID] [PROMPT]')
+ sys.exit(0)
+if '--help' in args:
+ print('Codex CLI QA fixture'+chr(10)+'Usage: codex [OPTIONS] [PROMPT]')
+ sys.exit(0)
+if '--version' in args:
+ print('Native codex fixture 1.0')
+ sys.exit(0)
+resumed='resume' in args and args.index('resume')+1<len(args)
+sid=args[args.index('resume')+1] if resumed else str(uuid.uuid4())
+home=os.environ.get('CODEX_HOME') or os.path.expanduser('~/.codex')
+folder=os.path.join(home,'sessions',time.strftime('%Y/%m/%d'))
+os.makedirs(folder,exist_ok=True)
+transcript=os.path.join(folder,'rollout-'+time.strftime('%Y-%m-%dT%H-%M-%S')+'-'+sid+'.jsonl')
+with open(transcript,'a') as output:
+ output.write(json.dumps({'type':'session_meta','payload':{'id':sid,'session_id':sid,'cwd':os.getcwd(),'source':'cli','thread_source':'user','base_instructions':'q'*30000}})+chr(10))
+hook=os.path.join(home,'mission-control-session-hook.py')
+hooked=None
+if os.path.exists(hook):
+ event={'session_id':sid,'transcript_path':transcript,'cwd':os.getcwd(),'hook_event_name':'SessionStart','model':'qa','permission_mode':'default','source':'resume' if resumed else 'startup'}
+ p=subprocess.run(['python3',hook],input=json.dumps(event).encode(),capture_output=True,timeout=15)
+ hooked={'code':p.returncode,'stdout':p.stdout.decode('utf-8','replace')}
+record={'tool':'codex','pid':os.getpid(),'cwd':os.getcwd(),'argv':args,'sessionId':sid,'hooked':hooked,'startedMs':int(time.time()*1000)}
+file=os.path.join(${JSON.stringify(directory)},str(os.getpid())+'.json')
+with open(file+'.next','w') as output: json.dump(record,output)
+os.replace(file+'.next',file)
+print('Disposable Codex actor; no provider call.',flush=True)
+while True:
+ print('\x1b]7501;state=idle:app=codex\x1b\\',end='',flush=True)
+ ready,_,_=select.select([sys.stdin],[],[],2)
+ if ready:
+  data=os.read(sys.stdin.fileno(),65536)
+  if not data or b'quit' in data: break
 `;}
 
 /** Transport for the second private core. The gate file refuses new connections and drops the live one. */
@@ -86,9 +174,11 @@ while True:
 `;}
 
 export async function writeFixtures(directory){
-  const actorDir=path.join(directory,'actor-runs'),actor=path.join(directory,'qa-claude'),legacyFlag=path.join(directory,'qa-claude-without-resume');
-  await fs.mkdir(actorDir,{recursive:true});await fs.writeFile(actor,actorSource(actorDir,legacyFlag));await fs.chmod(actor,0o700);
-  return {actor,actorDir,legacyFlag};
+  const actorDir=path.join(directory,'actor-runs'),actor=path.join(directory,'qa-claude'),legacyFlag=path.join(directory,'qa-claude-without-resume'),rootsFile=path.join(directory,'claude-roots.json');
+  const grok=path.join(directory,'qa-grok'),codex=path.join(directory,'qa-codex');
+  await fs.mkdir(actorDir,{recursive:true});await fs.writeFile(actor,actorSource(actorDir,legacyFlag,rootsFile));await fs.chmod(actor,0o700);
+  await fs.writeFile(grok,grokSource(actorDir));await fs.chmod(grok,0o700);await fs.writeFile(codex,codexSource(actorDir));await fs.chmod(codex,0o700);
+  return {actor,actorDir,legacyFlag,rootsFile,grok,codex};
 }
 export async function readRuns(directory){const runs=[];for(const name of await fs.readdir(directory))if(/^[0-9]+\.json$/.test(name))try{runs.push(JSON.parse(await fs.readFile(path.join(directory,name),'utf8')));}catch{}return runs;}
 
@@ -217,6 +307,11 @@ export default async function reopenNative(runtime){
     await bindKey(home);
 
     const ui=nativeUI(runtime,{copies:2}),{pick,click,has,visible,pill,openPopup,closeOverlay,typeKeys,inTabs,inBars,inBody}=ui;
+    // Herdr's own "herdr-core <version> is ready · Open Updates" notice can appear after start and cover the bars' right edge.
+    // Close it with its × as a person would (about 28 px right of the link); it is the app's, not this mod's.
+    const notice=await until(async()=>{const o=await ui.observe('Open Updates'),n=o.matches.find(m=>m.confidence>=0.6);return n?{o,n}:null;},'Herdr update notice',12000).catch(()=>null);
+    if(notice){await runtime.driver.click({x:notice.n.frame.x+notice.n.frame.width+20,y:notice.n.frame.y+notice.n.frame.height/2-8,width:16,height:16},{expectedSize:notice.o.window});Object.assign(runtime.driver.actions.at(-1),{control:'Close the Herdr update notice',observation:notice.o.source});
+      await until(async()=>!(await has('Open Updates')),'Herdr update notice closed',20000);}
     const value=async()=>(await journal.read()).value,recordsOf=async(machine,tabId)=>(await value()).records.filter(r=>r.machine===machine&&r.tab.id===tabId);
     const snapshot=async(machine,tabId)=>{const h=(await value()).hosts[hostKey(machine)];return h?.state==='ready'?h.tabs[localId(tabId,machine)]??null:null;};
     const named=async(machine,name)=>Object.values((await value()).hosts[hostKey(machine)]?.tabs||{}).filter(t=>t.named&&t.name===name);
@@ -365,6 +460,76 @@ export default async function reopenNative(runtime){
 
     console.log('Reopen native: final empty state, errors and standalone install');
     await openPopup();await visible('Nothing to reopen yet',inBody);runtime.expect((await value()).records.length===0,'After every reopen the popup shows the empty state again');await closeOverlay();
+    console.log('Reopen native: resume after restart');
+    // Agents of three tools on both hosts, started as kept core programs and as tab.new wrappers. The person quits one;
+    // the terminal process of every other one is SIGKILLed while no Reopen bar runs, so keep recovery restores plain shells.
+    const restartJournal=path.join(home,'mission-control/running-agents.json'),readRestart=async()=>{try{return JSON.parse(await fs.readFile(restartJournal,'utf8'));}catch{return null;}};
+    const entryOf=async(machine,address)=>(await readRestart())?.machines?.[machine===null?'local':machine]?.terminals?.[address]??null;
+    await fs.writeFile(fixtures.rootsFile,JSON.stringify([providers.local,providers.server]));
+    await fs.mkdir(path.join(runtime.env.HOME,'.codex'),{recursive:true});
+    await fs.writeFile(path.join(home,'programs.json'),JSON.stringify({programs:{claude:{name:'QA Claude',run:[fixtures.actor]},grok:{name:'QA Grok',run:[fixtures.grok]},codex:{name:'QA Codex',run:[fixtures.codex]}}})+'\n');
+    await fs.writeFile(path.join(home,'layouts','reopen-bare.json'),JSON.stringify(reopenLayout(0),null,2)+'\n');
+    await openPopup();
+    await click('Set up Codex resume',(n,o)=>n.text==='Set up Codex resume'&&inBody(n,o),{only:true,description:'Set up Codex resume link',control:'Set up Codex resume'});
+    const hooks=await until(async()=>{try{const v=JSON.parse(await fs.readFile(path.join(runtime.env.HOME,'.codex','hooks.json'),'utf8'));return v.hooks?.SessionStart?.some(g=>g.hooks?.some(h=>String(h.command).includes('mission-control-session-hook.py')))?v:null;}catch{return null;}},'Codex session hook installed through the popup',30000);
+    runtime.expect(Boolean(hooks)&&sync.existsSync(path.join(runtime.env.HOME,'.codex','mission-control-session-hook.py')),'Set up Codex resume installs the session hook through the native popup');
+    await closeOverlay();
+    const kept=(core,machine,spaceLocal,{program,args=[],folder,name})=>{const tab='qa-restart-'+name;const ack=core.hc(['run','--bg','--keep','--no-parent','--json','--cwd',folder,'--label','herdr.space='+spaceLocal,'--label','herdr.tab='+tab,'--',program,...args]);return {core,machine,address:localTerminalAddress(ack.address,machine),name};};
+    const wrapped=(core,machine,{space,folder,name,session})=>{const ack=runtime.app(['do','tab.new',JSON.stringify({space,folder,name,argv:[fixtures.actor,'--session-id',session]})]);return {core,machine,address:localTerminalAddress(ack.terminal,machine),name};};
+    const ids={claude:crypto.randomUUID(),wrappedLocal:crypto.randomUUID(),remote:crypto.randomUUID(),wrappedRemote:crypto.randomUUID(),quit:crypto.randomUUID()};
+    const remoteSpace=localId(remote.id,HOST);
+    const agents=[
+      {...kept(runtime,null,runtime.spaceId,{program:fixtures.actor,args:['--session-id',ids.claude],folder:runtime.repo,name:'claude'}),tool:'claude',session:ids.claude,via:'pid-record',flag:'--resume'},
+      {...kept(runtime,null,runtime.spaceId,{program:fixtures.grok,folder:runtime.repo,name:'grok'}),tool:'grok',via:'open-file',flag:'--resume'},
+      {...kept(runtime,null,runtime.spaceId,{program:fixtures.codex,folder:runtime.repo,name:'codex'}),tool:'codex',via:'codex-hook',flag:'resume'},
+      {...wrapped(runtime,null,{space:runtime.spaceId,folder:runtime.repo,name:'wrapped claude',session:ids.wrappedLocal}),tool:'claude',session:ids.wrappedLocal,via:'pid-record',flag:'--resume'},
+      {...kept(server,HOST,remoteSpace,{program:fixtures.actor,args:['--session-id',ids.remote],folder:server.repo,name:'remote-claude'}),tool:'claude',session:ids.remote,via:'pid-record',flag:'--resume'},
+      {...wrapped(server,HOST,{space:remote.id,folder:server.repo,name:'remote wrapped',session:ids.wrappedRemote}),tool:'claude',session:ids.wrappedRemote,via:'pid-record',flag:'--resume'}
+    ];
+    const quitter={...kept(runtime,null,runtime.spaceId,{program:fixtures.actor,args:['--session-id',ids.quit],folder:runtime.repo,name:'quitter'}),session:ids.quit};
+    // Grok and Codex choose their own session IDs; read them from the actors' own records.
+    for(const a of agents.filter(x=>!x.session)){const raw=a.core.hc(['get',a.address,'--json']);const run=await until(async()=>(await actorRuns()).find(r=>r.tool===a.tool&&r.pid===raw.foreground?.pid),a.tool+' actor started',40000);a.session=run.sessionId;}
+    const recordedAll=await until(async()=>{for(const a of [...agents,quitter]){const e=await entryOf(a.machine,a.address);if(e?.state!=='tracking'||e.sessionId!==a.session||(a.via&&e.via!==a.via))return null;}return true;},'every running agent recorded with its exact session',120000).catch(async error=>{throw Error(error.message+' journal '+JSON.stringify(await readRestart()));});
+    runtime.expect(recordedAll===true,'Resume after restart records each running agent with its exact session on both hosts');
+    runtime.hc(['send',quitter.address,'quit'],{json:false});
+    await until(async()=>!(await entryOf(null,quitter.address)),'the quit agent is forgotten',90000);
+    const before=new Map();for(const a of agents){const raw=a.core.hc(['get',a.address,'--json']);before.set(a,{pid:raw.pid,created:raw.created_ms,labels:JSON.stringify(raw.labels),foreground:raw.foreground?.pid});}
+    const ownerBefore=(await readRestart())?.lease?.owner;
+    // The harness stores the window's layout under its own name; switch back to exactly the layout that was showing.
+    const shownLayout=runtime.app(['status']).layout;
+    runtime.app(['do','layout.switch',JSON.stringify({name:'reopen-bare'})]);await until(()=>runtime.app(['status']).layout==='reopen-bare','layout without Reopen bars shown',30000);
+    await until(async()=>!(await readRestart())?.lease,'closed Reopen bars released the restart lease',30000);
+    const killTree=pid=>{let kids=[];try{kids=run('pgrep',['-P',String(pid)],{json:false}).split(/\s+/).filter(Boolean).map(Number);}catch{}for(const p of [pid,...kids])try{process.kill(p,'SIGKILL');}catch{}};
+    for(const a of agents){const b=before.get(a);killTree(b.pid);if(b.foreground&&b.foreground!==b.pid)killTree(b.foreground);}
+    const recovered=await until(()=>agents.every(a=>{const raw=a.core.hc(['get',a.address,'--json']),b=before.get(a);return raw.state==='live'&&raw.pid!==b.pid&&raw.foreground?.pid===raw.pid&&raw.created_ms===b.created&&JSON.stringify(raw.labels)===b.labels;}),'keep recovery gives every killed terminal a shell at its address',60000);
+    runtime.expect(recovered===true,'Killed terminal processes come back as shells at the same addresses with the same labels');
+    runtime.app(['do','layout.switch',JSON.stringify({name:shownLayout})]);await until(()=>runtime.app(['status']).layout===shownLayout,'Reopen bars mounted again',30000);
+    const lostBy=new Map();
+    const resumed=await until(async()=>{
+      for(const a of agents){const e=await entryOf(a.machine,a.address);if(e?.lostBy&&!lostBy.has(a))lostBy.set(a,e.lostBy);}
+      const runs=await actorRuns();return agents.every(a=>runs.some(r=>r.argv.includes(a.flag)&&r.argv[r.argv.indexOf(a.flag)+1]===a.session))?runs:null;
+    },'every restored shell resumed its exact session',120000).catch(async error=>{throw Error(error.message+' journal '+JSON.stringify(await readRestart()));});
+    runtime.expect(agents.every(a=>lostBy.get(a)&&lostBy.get(a)!==ownerBefore&&/^mission-control-reopen-[0-9a-z]+-[0-9a-z]+-restart$/.test(lostBy.get(a))),'A fresh runner finds every loss from the journal after the Reopen bars were out of the app');
+    await delay(15000);
+    const resumes=async a=>(await actorRuns()).filter(r=>r.argv.includes(a.flag)&&r.argv[r.argv.indexOf(a.flag)+1]===a.session);
+    let exact=true;for(const a of agents){const list=await resumes(a),raw=a.core.hc(['get',a.address,'--json']);const started=list[0];const inTerminal=started&&(raw.foreground?.pid===started.pid);exact=exact&&list.length===1&&inTerminal&&started.cwd===(a.machine?server.repo:runtime.repo);}
+    runtime.expect(exact,'Each restored shell receives its exact resume command once on its own host');
+    runtime.expect((await actorRuns()).filter(r=>r.argv.includes('--resume')&&r.argv.includes(ids.quit)).length===0,'An agent the person quit is not resumed');
+    runtime.app(['do','layout.switch',JSON.stringify({name:'reopen-bare'})]);await until(()=>runtime.app(['status']).layout==='reopen-bare','bars out again',30000);
+    runtime.app(['do','layout.switch',JSON.stringify({name:shownLayout})]);await until(()=>runtime.app(['status']).layout===shownLayout,'bars back again',30000);await delay(20000);
+    let once=true;for(const a of agents)once=once&&(await resumes(a)).length===1;
+    runtime.expect(once,'Reloading the bars and a second mounted copy type nothing more');
+    // An exact resume that cannot be verified is offered, never typed; Resume types it once it is verified again.
+    await delay(65000);
+    const offered={...kept(runtime,null,runtime.spaceId,{program:fixtures.actor,args:['--session-id',ids.quit.replace(/^.{8}/,'0ffe4ed0')],folder:runtime.repo,name:'offered'}),session:ids.quit.replace(/^.{8}/,'0ffe4ed0')};
+    await until(async()=>(await entryOf(null,offered.address))?.state==='tracking','offered agent recorded',90000);
+    await fs.writeFile(fixtures.legacyFlag,'no exact resume\n');const rawO=runtime.hc(['get',offered.address,'--json']);killTree(rawO.pid);
+    await until(async()=>(await entryOf(null,offered.address))?.state==='offered','unverified resume offered',90000);
+    await visible('Resume 1 agent',inBars);await fs.rm(fixtures.legacyFlag);
+    runtime.expect((await actorRuns()).filter(r=>r.argv.includes('--resume')&&r.argv.includes(offered.session)).length===0,'An unverified resume is offered and never typed');
+    await click('Resume 1 agent',(n,o)=>n.text==='Resume 1 agent'&&inBars(n,o),{index:0,min:1,description:'Resume offered agent pill',control:'Resume 1 agent'});
+    const offerRun=await until(async()=>(await actorRuns()).find(r=>r.argv.includes('--resume')&&r.argv.includes(offered.session)),'offered agent resumed after the click',60000);await delay(8000);
+    runtime.expect(Boolean(offerRun)&&(await actorRuns()).filter(r=>r.argv.includes('--resume')&&r.argv.includes(offered.session)).length===1,'Resume on an offer types its exact command once');
     runtime.expect(runtime.app(['status']).errors?.length===0,'Every reopen workflow produced zero native app errors');
     runtime.expect((await fs.readdir(path.join(home,'mods'))).filter(n=>n.startsWith('mission-control-')).join(',')===MOD,'Only this standalone custom mod is installed');
     // The preview is promoted only by `promote-preview` after the harness validated a passing receipt.

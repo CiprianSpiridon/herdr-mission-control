@@ -34,7 +34,23 @@ All private settings live in `appHome()/mission-control/config.json` (normally `
 - **Jira** connections are `api` (Basic or Bearer, optional `cloudId` routed through the Atlassian gateway), `cli`, `mcp-stdio` or `mcp-http`. CLI and stdio MCP run on this computer only.
 - **GitHub** connections name either `credentialEnv` or an existing `gh` `{host, account}`. In progress needs an explicit label or Projects status mapping; otherwise open issues are To do and closed issues Done.
 - **GitLab** connections name a bearer `tokenEnv`. In progress needs the optional label mapping shown above.
-- Other private files in the same folder: `launches.json`, `session-bindings.json`, `names.json`, `tab-names.json` and `closed.json`. They are excluded from packages and from Git.
+- Other private files in the same folder: `launches.json`, `session-bindings.json`, `names.json`, `tab-names.json`, `closed.json` and `running-agents.json`. They are excluded from packages and from Git.
+
+## Resume after restart
+
+When Herdr brings an agent's terminal back as a plain shell because the terminal's own process was lost (a reboot, a logout, a Herdr core crash, or that process killed), Mission Control types the agent's own resume command with its exact session ID into that shell. It is on by default. To turn it off, set it under `preferences`:
+
+```json
+"preferences": { "resumeAfterRestart": false }
+```
+
+Anything other than `true` or `false` also turns it off and says so. With it off, Mission Control keeps recording but never types and never offers.
+
+- **Typed by itself** only when the restored shell is an idle sh, bash, zsh, dash or ksh, is in the folder the agent ran in, is less than 15 minutes old, and the tool's own help still verifies its exact resume on that machine. Time powered off does not expire a recorded running agent: after battery loss it can resume even if the laptop stays off overnight. The 15-minute limit starts when the restored shell starts.
+- **Offered otherwise**, as **Resume N** next to the Reopen buttons (Tabs) or **Resume N agents** in the Reopen bar, with the exact command for each. Resume types it once; Dismiss forgets it. An offer also goes away once that shell runs anything else, or after 24 hours.
+- **Never resumed:** agents you quit, and agents that crash inside a tab (Herdr's wrapper turns back into the tab's shell, which looks exactly like quitting).
+- **Codex** needs **Set up Codex resume** once per machine, in the Sources gear (Tabs) or the Reopen bar. It installs `mission-control-session-hook.py` into Codex's home (`$CODEX_HOME` or `~/.codex`) and adds one SessionStart hook at the end of `hooks.json`, after a dated backup. The next time Codex starts it asks you to trust the hook (`/hooks`); until then Codex agents are not recorded. Start Codex with `--no-daemon`, so the hook runs inside your terminal. A Herdr integration update that rewrites `hooks.json` can drop the hook; the setup action then appears again.
+- **Files:** `running-agents.json` in this folder holds `{terminal, tool, session ID}` per running agent; nothing else about the conversation. It is excluded from packages and from Git like the other journals.
 
 ## Context and quota sources
 

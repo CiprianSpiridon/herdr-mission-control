@@ -14,6 +14,7 @@ import {BindingStore,argvSessionProof} from '../../src/shared/session-bindings.j
 import {probeCapabilities,buildArguments} from '../../src/shared/tool-capabilities.js';
 import {resumeSupport} from '../../src/shared/resume.js';
 import {historyRecord,parseWorktrees,membershipIndex,deriveSessions,repoKey} from '../../src/mods/mission-control-sessions/model.js';
+import {launchArgvMatches} from '../../src/shared/launch.js';
 
 const MOD='mission-control-sessions',UI='mission-control-sessions-ui-v1',PROVIDERS=['claude','codex','grok'];
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
@@ -25,9 +26,8 @@ const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]
 const read=async file=>{try{return await fs.readFile(file);}catch(error){if(error.code==='ENOENT')return null;throw error;}};
 const readText=async file=>(await read(file))?.toString('utf8')??null;
 const localId=(id,machine)=>machine&&id.startsWith(machine+'/')?id.slice(machine.length+1):id;
-// Exact launch argv, or the actual Herdr login-shell wrapper launch already accepts.
-// Herdr's login-shell wrappers: 0.1.10 used the user's zsh/bash; 0.1.11 uses /bin/sh locally and `sh -c` remotely (see launch.js observedArgv).
-const wrapped=(argv,expected)=>Array.isArray(argv)&&(JSON.stringify(argv)===JSON.stringify(expected)||typeof argv[0]==='string'&&(argv[0].startsWith('/')||!argv[0].includes('/'))&&/^(?:sh|bash|zsh|dash|ksh)$/.test(argv[0].split('/').pop())&&({'-lic':'"$@"; exec "$0" -li','-c':'"$@"; exec "${SHELL:-sh}" -i'})[argv[1]]===argv[2]&&argv[3]===argv[0]&&JSON.stringify(argv.slice(4))===JSON.stringify(expected));
+// Exact launch argv, or an actual Herdr launch wrapper around it: the one matcher launch.js uses for its exact-session proof.
+const wrapped=(argv,expected)=>launchArgvMatches(argv,[expected]);
 
 export const TITLES=Object.freeze({A:'Trace token refresh',B:'Review deployment checks',C:'Draft release notes',G:'Audit flaky checkout',X:'Legacy imported chat',S1:'Repair pagination',S2:'Tune cache headers',R1:'Watch server health',R2:'Rotate server logs'});
 export const MANUAL='Pinned investigation';

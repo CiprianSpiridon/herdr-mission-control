@@ -1262,16 +1262,31 @@ function verifyTabAcknowledgement(value, request) {
   return { space: value.space, tab: value.tab, terminal: value.terminal };
 }
 var WRAPPERS = Object.freeze({ "-lic": '"$@"; exec "$0" -li', "-c": '"$@"; exec "${SHELL:-sh}" -i' });
-function observedArgv(raw, expected, task) {
-  if (!Array.isArray(raw.argv)) return false;
-  const accepted = [expected, ...task ? [[...expected, task]] : []].map((value) => JSON.stringify(value)), args = raw.argv;
+var REMOTE_DISPATCH = `shell=\${SHELL:-/bin/sh}
+case "\${shell##*/}" in
+  fish) exec "$shell" -lic 'command $argv[2..]; exec $argv[1] -li' "$shell" "$@" ;;
+  sh|bash|zsh|dash|ksh) exec "$shell" -lic '"$@"; exec "$0" -li' "$shell" "$@" ;;
+  *) exec sh -c '"$@"; exec "\${SHELL:-sh}" -i' sh "$@" ;;
+esac`;
+function launchArgvMatches(argv, acceptedArgvs) {
+  if (!Array.isArray(argv) || !Array.isArray(acceptedArgvs)) return false;
+  const accepted = acceptedArgvs.map((value) => JSON.stringify(value)), args = argv;
   if (accepted.includes(JSON.stringify(args))) return true;
+  if (args[0] === "sh" && args[1] === "-c" && args[2] === REMOTE_DISPATCH && args[3] === "sh" && accepted.includes(JSON.stringify(args.slice(4)))) return true;
   const shell = args[0];
   return typeof shell === "string" && (shell.startsWith("/") || !shell.includes("/")) && /^(?:sh|bash|zsh|dash|ksh)$/.test(shell.split("/").pop()) && WRAPPERS[args[1]] === args[2] && args[3] === shell && accepted.includes(JSON.stringify(args.slice(4)));
 }
+function observedArgv(raw, expected, task) {
+  return Array.isArray(raw?.argv) && launchArgvMatches(raw.argv, [expected, ...task ? [[...expected, task]] : []]);
+}
 function shellHoldsForeground(raw) {
-  const args = Array.isArray(raw?.argv) ? raw.argv : [];
-  return args[1] === "-lic" && WRAPPERS["-lic"] === args[2] && Number.isSafeInteger(raw.pid) && raw.foreground?.pid === raw.pid;
+  const args = Array.isArray(raw?.argv) ? raw.argv : [], own = Number.isSafeInteger(raw?.pid) && raw.foreground?.pid === raw.pid;
+  if (args[1] === "-lic" && WRAPPERS["-lic"] === args[2]) return own;
+  if (args[1] === "-c" && args[2] === REMOTE_DISPATCH) {
+    const fg = Array.isArray(raw.foreground?.argv) ? raw.foreground.argv : [];
+    return own && !(fg[1] === "-c" && fg[2] === WRAPPERS["-c"]);
+  }
+  return false;
 }
 async function inspect(io, r, ack) {
   const listing = await io.exec("herdr-app", ["ls"]);

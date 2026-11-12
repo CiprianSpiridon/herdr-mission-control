@@ -5,7 +5,8 @@ import sync from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
 import {spawn} from 'node:child_process';
-import {launch,createLaunchIO} from '../src/shared/launch.js';
+import {launch,createLaunchIO,launchArgvMatches,REMOTE_DISPATCH} from '../src/shared/launch.js';
+import recorded from './fixtures/herdr-0113-launch-argv.json' with {type:'json'};
 import {parseCapabilities} from '../src/shared/tool-capabilities.js';
 import {BindingStore} from '../src/shared/session-bindings.js';
 const child=(cmd,args,options={})=>new Promise((resolve,reject)=>{const p=spawn(cmd,args,{cwd:options.cwd});let stdout='',stderr='';p.stdout.on('data',b=>stdout+=b);p.stderr.on('data',b=>stderr+=b);p.on('error',reject);p.on('close',code=>resolve({code,stdout,stderr}));});
@@ -13,7 +14,7 @@ async function fixture(t){
  const root=await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(),'mc-launch-'))),repo=path.join(root,'repo');await fs.mkdir(repo);
  for(const args of [['init','-q','-b','main'],['config','user.name','QA'],['config','user.email','qa@example.invalid'],['commit','--allow-empty','-qm','Initial']])assert.equal((await child('git',['-C',repo,...args])).code,0);
  t.after(()=>fs.rm(root,{recursive:true,force:true}));
- let count=0,now=1000,malformed=false,failCommit=false,appendTask=false,extraArg=null,shellFirst=0,prefix=['/bin/zsh','-lic','"$@"; exec "$0" -li','/bin/zsh'];const effects=[],calls=[],raws=new Map(),world={spaces:[{id:'space-A',name:'client-portal',machine:null,folder:repo,tabs:[]}]};
+ let count=0,now=1000,malformed=false,failCommit=false,appendTask=false,extraArg=null,shellFirst=0,fallback=false,prefix=['/bin/zsh','-lic','"$@"; exec "$0" -li','/bin/zsh'];const effects=[],calls=[],raws=new Map(),world={spaces:[{id:'space-A',name:'client-portal',machine:null,folder:repo,tabs:[]}]};
  const tools=['claude','codex','grok'].map(key=>({key,name:key,run:['qa-'+key],installed:true}));
  const io={appHome:root,clock:()=>now,spaces:()=>world.spaces,knownAgents:async()=>tools,run:(...args)=>effects.push(args),sessionSource:async provider=>({providerRoot:root+'/.providers/'+provider,credentialScope:'fixture'}),delay:async()=>{},
   capabilities:{get:async tool=>parseCapabilities(tool,{help:tool.key==='claude'?'Claude Code\nUsage: claude [options] [prompt]\n --session-id <uuid>\n --resume [value]\n --model <model>\n --append-system-prompt <prompt>':tool.key==='grok'?'Grok Build TUI\nUsage: grok [OPTIONS] [PROMPT]\n --session-id <SESSION_ID>\n --resume [<SESSION_ID_OR_TITLE>]\n --model <MODEL>':'Codex CLI\nUsage: codex [OPTIONS] [PROMPT]\n --no-daemon\n --model <MODEL>',resumeHelp:'Usage: codex resume [OPTIONS] [SESSION_ID] [PROMPT]'})},
@@ -34,11 +35,13 @@ async function fixture(t){
    if(cmd==='hc'&&args[0]==='get'){
     // The wrapper shell holds the foreground for its first reads, as Herdr 0.1.11's /bin/sh does before its job starts.
     const raw=raws.get(args[1]);if(raw?.shellReads>0){raw.shellReads--;const {shellReads,...shown}=raw;return {code:0,stdout:JSON.stringify({...shown,foreground:{pid:raw.pid}})};}
+    // The 0.1.13 dispatcher's `*)` branch: the older `sh -c` wrapper stays in front with the program as its child.
+    if(raw&&fallback){const {shellReads,...shown}=raw;return {code:0,stdout:JSON.stringify({...shown,foreground:{pid:raw.pid,argv:['sh','-c','"$@"; exec "${SHELL:-sh}" -i','sh',...raw.argv.slice(4)]}})};}
     const {shellReads,...shown}=raw||{};return {code:0,stdout:JSON.stringify(raw?shown:undefined)};
    }
    assert.equal(options.on??null,null);return child(cmd,args,options);
   }};
- return {root,repo,io,world,raws,effects,calls,count:()=>count,setTime:n=>now=n,malform:()=>malformed=true,failCommit:()=>failCommit=true,setShell:(path,repeat=path)=>prefix=[path,'-lic','"$@"; exec "$0" -li',repeat],setPrefix:value=>prefix=value,shellFirst:n=>shellFirst=n,appendTask:()=>appendTask=true,extraArg:value=>extraArg=value};
+ return {root,repo,io,world,raws,effects,calls,count:()=>count,setTime:n=>now=n,malform:()=>malformed=true,failCommit:()=>failCommit=true,setShell:(path,repeat=path)=>prefix=[path,'-lic','"$@"; exec "$0" -li',repeat],setPrefix:value=>prefix=value,shellFirst:n=>shellFirst=n,appendTask:()=>appendTask=true,extraArg:value=>extraArg=value,fallback:()=>fallback=true};
 }
 const request=(repo,id='A')=>({requestId:id,idempotencyKey:id,originId:'origin-'+id,spaceId:'space-A',machine:null,repoRoot:repo,checkoutRoot:repo,toolKey:'claude',worktree:false});
 const issue=()=>({kind:'jira',connectionId:'work',site:'https://jira.example.invalid',id:'10001',key:'WEB-142',title:'Fix login redirect',url:'https://jira.example.invalid/browse/WEB-142',body:'Steps to reproduce; `$(this is task data)`'});
@@ -55,6 +58,24 @@ test('exact-session proof accepts Herdr 0.1.11 local /bin/sh, remote sh -c and o
  // Herdr 0.1.11 on a remote host: a bare `sh -c` wrapper that keeps the shell in the foreground.
  f.setPrefix(['sh','-c','"$@"; exec "${SHELL:-sh}" -i','sh']);assert.equal((await launch(request(f.repo,'remote'),f.io)).ok,true);
  for(const[id,prefix]of [['remote-script',['sh','-c','"$@"; exec "$0" -li','sh']],['remote-repeat',['sh','-c','"$@"; exec "${SHELL:-sh}" -i','bash']]]){f.setPrefix(prefix);assert.equal((await launch(request(f.repo,id),f.io)).code,'UNPROVEN_SESSION',id);}
+});
+test('Herdr 0.1.13: the recorded local and remote launch argv bind their exact session; altered forms never do',async t=>{
+ assert.equal(recorded.versions['herdr-app'],'0.1.13');assert.equal(REMOTE_DISPATCH,recorded.remote.argv[2],'the dispatcher constant is the recorded argv byte for byte');
+ for(const side of ['local','remote'])assert.equal(launchArgvMatches(recorded[side].argv,[recorded[side].sent]),true,side);
+ const f=await fixture(t);
+ for(const[id,side]of [['local-0113','local'],['remote-0113','remote']]){f.setPrefix(recorded[side].argv.slice(0,4));const r=await launch(request(f.repo,id),f.io);assert.equal(r.ok,true,side+' '+JSON.stringify(r));}
+ for(const[id,prefix]of [['altered',['sh','-c',REMOTE_DISPATCH+' ','sh']],['first-word',['bash','-c',REMOTE_DISPATCH,'sh']],['repeat-word',['sh','-c',REMOTE_DISPATCH,'bash']],['absolute',['/bin/sh','-c',REMOTE_DISPATCH,'sh']]]){f.setPrefix(prefix);assert.equal((await launch(request(f.repo,id),f.io)).code,'UNPROVEN_SESSION',id);}
+ f.setPrefix(recorded.remote.argv.slice(0,4));f.extraArg('--extra');assert.equal((await launch(request(f.repo,'trailing'),f.io)).code,'UNPROVEN_SESSION','a different trailing argument');
+});
+test('Herdr 0.1.13: a dispatcher-launched login shell in front is never bound; the sh -c fallback is bound as before',async t=>{
+ const f=await fixture(t);f.setPrefix(recorded.remote.argv.slice(0,4));f.shellFirst(2);
+ const r=await launch(request(f.repo,'starting'),f.io);assert.equal(r.ok,true,JSON.stringify(r));
+ const store=new BindingStore(f.io,{clock:f.io.clock}),raw=f.raws.get(r.terminalId);
+ assert.equal((await store.readCommitted({machine:null,address:r.terminalId,createdMs:raw.created_ms,foregroundPid:raw.foreground.pid})).session.sessionId,r.session.sessionId,'bound to the program, not the shell');
+ assert.equal(await store.readCommitted({machine:null,address:r.terminalId,createdMs:raw.created_ms,foregroundPid:raw.pid}),null);
+ const g=await fixture(t);g.setPrefix(recorded.remote.argv.slice(0,4));g.fallback();
+ const fb=await launch(request(g.repo,'fallback'),g.io);assert.equal(fb.ok,true,JSON.stringify(fb));const raw2=g.raws.get(fb.terminalId);
+ assert.equal((await new BindingStore(g.io,{clock:g.io.clock}).readCommitted({machine:null,address:fb.terminalId,createdMs:raw2.created_ms,foregroundPid:raw2.pid})).session.sessionId,fb.session.sessionId,'the old sh -c wrapper that stays in front is bound');
 });
 test('Herdr 0.1.11 appends the sent task as the last argument; exact-session proof accepts only that exact task',async t=>{
  const f=await fixture(t);f.appendTask();const sent=await launch({...request(f.repo,'task-arg'),source:issue()},f.io);assert.equal(sent.ok,true,JSON.stringify(sent));

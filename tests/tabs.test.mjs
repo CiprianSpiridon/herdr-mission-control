@@ -5,6 +5,8 @@ import sync from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {build} from 'esbuild';
+import {HOST_HELPER} from '../src/shared/restart-host.js';
+import {HOOK_HELPER} from '../src/shared/codex-session-hook.js';
 import Tabs,{MOD,VIEWS,COMMANDS,STATUS,ICONS,TIMING,REQUEST_EVENT,viewRole,lightsPadding,leftOffset,primaryPanes} from '../src/mods/mission-control-tabs/main.js';
 import {SOURCES,NAV_STATE} from '../src/mods/mission-control-tabs/navigation.js';
 import {SERVICE_LIMITS} from '../src/shared/tab-service.js';
@@ -38,7 +40,7 @@ async function fixture(t){
   const realNow=Date.now;let offset=0;Date.now=()=>realNow()+offset;t.after(()=>{Date.now=realNow;});
   let count=0,props={},running=null;
   const world={spaces:[],panes:[],raws:new Map(),tree:overviewTree(),name:'mission-control',layouts:['main','mission-control','mission-control-classic'],focused:null,
-    window:{platform:'macos',titlebar:'none',buttons:false,maximized:false,fullscreen:false,active:true},zoom:1,tools:[{...CLAUDE,run:['claude'],installed:true},{...CODEX,run:['codex'],installed:true}]};
+    window:{platform:'macos',titlebar:'none',buttons:false,maximized:false,fullscreen:false,active:true},zoom:1,claims:new Set(),sends:[],hook:false,tools:[{...CLAUDE,run:['claude'],installed:true},{...CODEX,run:['codex'],installed:true}]};
   const effects=[],created=[],copies=[],waiting=[],known=[];
   const tabOf=id=>{for(const s of world.spaces){const i=s.tabs.findIndex(x=>x.id===id);if(i>=0)return {s,i,tab:s.tabs[i]};}return null;};
   const space=(id,{name='repo',machine=null,folder=repo,active=true}={})=>{if(active)for(const s of world.spaces)s.active=false;const s={id,name,named:false,folder,machine,branch:null,active,status:null,tabs:[]};world.spaces.push(s);return s;};
@@ -76,8 +78,12 @@ async function fixture(t){
       if(cmd==='hc'&&args[0]==='get'){const raw=world.raws.get((on?on+'/':'')+args[1]);return raw?ok(JSON.stringify(raw)):{code:1,stdout:'',stderr:'missing'};}
       if(cmd==='test')return {code:sync.existsSync(args[1])?0:1,stdout:'',stderr:''};
       if(cmd==='sleep')return ok('');
+      if(cmd==='python3'&&args[1]===HOST_HELPER){const q=JSON.parse(args[2]);if(q.op==='claim'){const fresh=!world.claims.has(q.key);world.claims.add(q.key);return ok(JSON.stringify({v:1,ok:true,claimed:fresh}));}return ok(JSON.stringify({v:1,ok:true,terminals:[]}));}
+      if(cmd==='python3'&&args[1]===HOOK_HELPER){const q=JSON.parse(args[2]);if(q.op==='install')world.hook=true;return ok(JSON.stringify({ok:true,installed:world.hook,codexHome:'/home/me/.codex'}));}
+      if(cmd==='hc'&&args[0]==='send'){world.sends.push([on,args[1],args[2]]);return ok('');}
+      if(cmd==='hc'&&(args[0]==='ls'||args[0]==='label'))return ok(args[0]==='ls'?JSON.stringify({terminals:[...world.raws.values()].filter(r=>r.state==='live')}):'');
       if(cmd==='git'){const top=on?'/srv/app':repo;if(args.includes('--show-toplevel'))return ok(top+'\n');if(args.includes('--git-common-dir'))return ok(top+'/.git\n');if(args.includes('list'))return ok('worktree '+top+'\0HEAD '+'a'.repeat(40)+'\0branch refs/heads/main\0\0');return {code:1,stdout:'',stderr:'unsupported'};}
-      if(cmd==='claude'||cmd==='codex')return ok(args.includes('--help')?'Claude Code\nUsage: claude [options] [prompt]\n --model <model>':'');
+      if(cmd==='claude'||cmd==='codex')return ok(args.includes('--help')?'Claude Code\nUsage: claude [options] [prompt]\n --model <model>\n --resume [value]':'');
       if(cmd==='herdr-app'&&args[0]==='do'){
         assert.equal(args[1],'tab.new');const input=JSON.parse(args[2]),s=world.spaces.find(x=>x.id===input.space);created.push(input);
         const id=addTab(s.id,{name:input.name,program:input.argv?CLAUDE:ZSH,cwd:input.folder,active:true,argv:input.argv?['/bin/zsh','-lic','"$@"; exec "$0" -li','/bin/zsh',...input.argv]:['/bin/zsh','-l']});
@@ -346,8 +352,31 @@ test('rendering many tabs stays cheap: labels are computed once per name change'
   await f.teardown();
 });
 
+test('resume after restart: a pill only while offers exist, a popup that acts once, and Codex setup in the Sources gear',async t=>{
+  const f=await fixture(t);f.space('space-A');f.addTab('space-A',{program:ZSH});
+  const SESSION='9b0765f9-d49d-4198-9b67-4034011fd925',raw=f.world.raws.get('t1');raw.pid=raw.foreground.pid;
+  const bar=f.mount(),other=f.mount();await f.flush();await f.tick();
+  assert.throws(()=>findElement(bar.render(),'mc-restart'),/found 0/,'no pill without offers');
+  const file=path.join(f.home,'mission-control/running-agents.json'),entry={spaceId:'space-A',tabId:'tab-1',cwd:f.repo,toolKey:'claude',provider:'claude',sessionId:SESSION,via:'pid-record',shellPid:raw.pid,shellStartMs:1794020000000,agentPid:900,agentStartMs:1794010000000,seenAt:1794010000000,state:'offered',offeredAt:Date.now(),reason:'The restored shell is in another folder.',line:'cd /repo && claude --resume '+SESSION};
+  await fs.writeFile(file,JSON.stringify({v:1,revision:4,lease:null,machines:{local:{observedAt:1,lastContinuousAt:1,terminals:{t1:entry}}}}));
+  await f.tick(undefined,6000);
+  const pill=findElement(bar.render(),'mc-restart');assert.match(texts(pill),/Resume 1/);assert.match(texts(pill),/claude --resume/);
+  trigger(bar.render(),'mc-restart','on_click',{},bar.cx);assert.equal(f.effects.filter(e=>e[0]==='overlay').at(-1)[1].props.view,'restart');
+  const popup=f.mount({view:'restart',overlay:'o-restart'});await f.flush();let tree=popup.render();
+  assert.match(texts(findElement(tree,'mc-restart-offer-0')),/another folder/);
+  trigger(tree,'mc-restart-resume-0','on_click',{},popup.cx);await f.flush();
+  assert.deepEqual(f.world.sends,[[null,'t1','claude --resume '+SESSION]],'the shell is in the recorded folder now, so no cd is needed');
+  tree=popup.render();assert.throws(()=>findElement(tree,'mc-restart-resume-all'),/found 0/,'nothing left to resume');assert.ok(findElement(tree,'mc-restart-empty'));assert.equal(f.world.sends.length,1);
+  assert.equal(f.effects.filter(e=>e[0]==='notify').length,0,'resuming from an offer posts no extra toast in any copy');
+  const sources=f.mount({view:'sources',overlay:'o-sources'});await f.flush();tree=sources.render();
+  assert.ok(findElement(tree,'mc-restart-codex-setup-0'),'Codex is installed here without its hook');
+  trigger(tree,'mc-restart-codex-setup-0','on_click',{},sources.cx);await f.flush();assert.equal(f.world.hook,true);assert.match(texts(sources.render()),/Codex resume is set up/);
+  await f.tick(undefined,6000);assert.throws(()=>findElement(bar.render(),'mc-restart'),/found 0/,'the pill goes when the offer is resumed');
+  await f.teardown();
+});
+
 test('roles dispatch from one module and the manifest stays standalone',async()=>{
-  assert.deepEqual(VIEWS,['topbar','navigation','menu','launch','settings','context','sources']);
+  assert.deepEqual(VIEWS,['topbar','navigation','menu','launch','settings','context','sources','restart']);
   assert.equal(viewRole({}),'topbar');assert.equal(viewRole({overlay:'o'}),'menu');assert.equal(viewRole({view:'navigation'}),'navigation');assert.equal(viewRole({view:'x'}),'unknown');
   const manifest=JSON.parse(await fs.readFile(path.join(root,'src/mods',MOD,'mod.json'),'utf8')),catalog=JSON.parse(await fs.readFile(path.join(root,'src/assets/icons.json'),'utf8'));
   assert.equal(manifest.place,'none','no second strip is docked into a layout that already has one');assert.deepEqual(manifest.overlay,{kind:'dialog',width:560,height:660});

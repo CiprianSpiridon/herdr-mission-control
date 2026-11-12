@@ -1,0 +1,67 @@
+{
+  "v": 1,
+  "kind": "mission-control-codex-session-probe",
+  "observedAt": "2026-11-07T10:55:00Z",
+  "codexVersion": "codex-cli 0.167.0 (native aarch64-apple-darwin, npm wrapper execve's into it)",
+  "setup": "Throwaway Codex TUI in a scratch git project outside Herdr, private pty, fake HC_* variables (no route to any Herdr core), -s read-only -a never. A project SessionStart hook that only logged its input was trusted through Codex's own hook review; both trust entries were removed afterwards and ~/.codex/config.toml returned to its exact prior SHA256.",
+  "assertions": [
+    {
+      "label": "SessionStart fires at the first submitted prompt, not at TUI start",
+      "passed": true
+    },
+    {
+      "label": "SessionStart payload carries session_id, transcript_path, cwd and source (startup, then clear after /clear)",
+      "passed": true
+    },
+    {
+      "label": "Hook process inherits HC_TERMINAL_ID, HC_SCOPE and HC_TERMINAL_SOCKET from Codex's environment",
+      "passed": true
+    },
+    {
+      "label": "Hook process parent is the Codex process itself",
+      "passed": true
+    },
+    {
+      "label": "session_id equals the ID in 'codex resume <id>' printed on exit",
+      "passed": true
+    },
+    {
+      "label": "The transcript file exists before the hook runs; its session_meta header has id == session_id, parent_thread_id null, source cli, thread_source user",
+      "passed": true
+    },
+    {
+      "label": "Open files cannot identify the current session: after /clear Codex holds two thread-writer locks and two session files",
+      "passed": true
+    },
+    {
+      "label": "Codex has separate SubagentStart/SubagentStop hook events (binary strings); subagent SessionStart not exercised because the plan's usage limit was reached",
+      "passed": true
+    }
+  ],
+  "sessions": [
+    {
+      "source": "startup",
+      "sessionId": "01a1b4ca-7e74-7951-98ac-7c31b3522699"
+    },
+    {
+      "source": "clear",
+      "sessionId": "01a1b4cc-c4d4-7980-970a-411ea9d001e7"
+    }
+  ],
+  "exitMessage": "To continue this session, run: codex resume 01a1b4cc-c4d4-7980-970a-411ea9d001e7",
+  "hookEnv": {
+    "HC_TERMINAL_ID": "t-probe",
+    "HC_SCOPE": "probe-scope",
+    "HC_TERMINAL_SOCKET": "/nonexistent/probe.sock",
+    "PROBE_MARK": "1",
+    "CODEX_THREAD_ID": null
+  },
+  "hookParent": [
+    97160,
+    "97152 /opt/homebrew/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex"
+  ],
+  "limits": [
+    "The prompt hit the account usage limit, so no model turn completed; hooks fired regardless.",
+    "hc label from inside a Herdr terminal is not exercised here; the private native harness proves it."
+  ]
+}

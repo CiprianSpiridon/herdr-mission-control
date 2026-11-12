@@ -16,6 +16,7 @@ import {createLaunchIO} from '../../shared/launch.js';
 import {LaunchDialog,openLaunchDialog} from '../../shared/launch-dialog.js';
 import {TabNameService} from '../../shared/tab-service.js';
 import {ReopenController} from '../../shared/reopen.js';
+import {RestartRunner,RUNNER} from '../../shared/restart-runner.js';
 import {displayLabel,folderName,NAME_LIMITS} from '../../shared/tab-names.js';
 import {colors,icon,iconButton,safeArtworkPath} from '../../shared/ui.js';
 import {NODES,SOURCES,NAV_STATE,NAV_TIMING,SOURCES_STATE,layoutContract,scopeOf,selectSource,swapView,togglePanel,restoreView,renderNavigation,renderSwap,renderPanelToggle,hiddenSources,setSourceShown,sourceState,renderSourceButtons} from './navigation.js';
@@ -23,7 +24,7 @@ import {NODES,SOURCES,NAV_STATE,NAV_TIMING,SOURCES_STATE,layoutContract,scopeOf,
 export const MOD='mission-control-tabs';
 /** Versioned shared keys: a context-menu request for the bar, and key-command de-duplication across copies. */
 export const REQUEST_EVENT='mission-control-tabs-request-v1',COMMAND_EVENT='mission-control-tabs-command-v1';
-export const VIEWS=Object.freeze(['topbar','navigation','menu','launch','settings','context','sources']);
+export const VIEWS=Object.freeze(['topbar','navigation','menu','launch','settings','context','sources','restart']);
 /** keys.json actions: "mission-control-tabs.<command>". None is bound by default. */
 export const COMMANDS=Object.freeze(['new','settings','sources','reopen-tab','reopen-agent','swap','panel','rename','automatic-name','close',...SOURCES.map(s=>'source-'+s.id)]);
 /** Every in-flight flag is a timestamp with a staleness bound: an interrupted task never clears its own. */
@@ -82,13 +83,16 @@ export default class MissionControlTabs extends View {
     if(DIALOG_VIEWS.has(this.role)){this.dialog=new LaunchDialog(MOD,this.props,herdr);this.dialog.init(cx);return;}
     // setShared re-renders every mod, so the strip follows a changed source choice without a timer.
     if(this.role==='navigation')return this.restore();
-    if(this.role==='sources')return;
+    // The Sources gear and the restart popup read the resume-after-restart journal; only the top bar observes.
+    if(this.role==='sources'||this.role==='restart'){this.restartStatus=null;try{this.restart=new RestartRunner(createLaunchIO(herdr),{owner:MOD+'-'+this.instance+'-restart-view'});this.spawn(cx,async()=>{await this.restart.refresh();await this.restart.refreshCodex();return !this.closed;});}catch{}return;}
     if(this.role!=='topbar')return;
     Object.assign(this,{press:null,ticking:0,reopening:0,closing:new Map(),handled:new Set(),picking:null,namesAt:0,wheelAt:0,labels:new Map(),labelGen:0,previewMemo:null,home:safeHome(),service:null,reopen:null,error:null});
     try{
       const io=createLaunchIO(herdr);this.reopen=new ReopenController(io,{owner:MOD+'-'+this.instance+'-reopen'});
       // One naming / close-history service per bar copy; its CAS leases keep a single writer per app home.
       this.service=new TabNameService(io,{owner:MOD+'-'+this.instance,closed:this.reopen,home:this.home});
+      // Resume after restart: its own 5 s cadence, driven from this bar's tick but never inside the close-history pass.
+      this.restart=new RestartRunner(io,{owner:MOD+'-'+this.instance+'-restart'});this.restartAt=0;this.restartBusy=0;
     }catch(error){this.error=error?.message||'Automatic tab names are unavailable.';}
     this.restore();
     this.timers.push(cx.timer.every(TIMING.tickMs,eventCx=>this.tick(eventCx)));this.tick(cx);
@@ -111,8 +115,44 @@ export default class MissionControlTabs extends View {
     if(nav?.source&&nav.swap?.to===contract?.name&&Date.now()-nav.swap.at<=NAV_TIMING.swapRestoreMs&&contract.active&&contract.active!==nav.source)this.restore(contract);
   }
   activeSpace(){return (herdr.spaces()||[]).find(s=>s?.active)||null;}
+  restartTick(cx,now){
+    if(!this.restart||now-this.restartAt<RUNNER.tickMs||this.restartBusy&&now-this.restartBusy<RUNNER.staleTickMs)return;this.restartAt=now;this.restartBusy=now;
+    const fingerprint=()=>JSON.stringify(this.restart.offers().map(o=>[o.machine,o.address]));const before=fingerprint();
+    this.spawn(cx,async()=>{await this.restart.tick();if(!this.codexAt){this.codexAt=now;await this.restart.refreshCodex();}this.restartBusy=0;return !this.closed&&fingerprint()!==before;});
+  }
+  openRestart(){herdr.openOverlay({mod:MOD,kind:'popup',width:360,height:320,props:{view:'restart'}});}
+  restartAct(work,cx){
+    if(this.closed||!this.restart)return;this.restartStatus='Working…';cx.notify();
+    this.spawn(cx,async()=>{const message=await work();if(this.closed)return false;this.restartStatus=message||null;return true;});
+  }
+  resumeOffers(cx,offer){return this.restartAct(async()=>{const results=offer?[await this.restart.resumeOffer(offer)]:await this.restart.resumeAll();const failed=results.filter(r=>!r.ok);
+    return failed.length?failed.map(r=>r.reason+(r.line?' Run: '+r.line:'')).join(' '):`Resumed ${results.length} agent${results.length===1?'':'s'}.`;},cx);}
+  dismissOffers(cx,offer){return this.restartAct(async()=>{for(const o of offer?[offer]:this.restart.offers())await this.restart.dismissOffer(o);return null;},cx);}
+  setupCodex(cx,machine){return this.restartAct(async()=>{const r=await this.restart.installCodex(machine);return r.ok?'Codex resume is set up. Codex asks you to trust the new hook the next time it starts.':r.message;},cx);}
+  restartPill(){
+    const t=colors(),list=this.restart.offers(),n=list.length,text=`Resume ${n}`;
+    return h_flex().id('mc-restart').h(22).px(8).flex_none().items_center().rounded(6).border(1).border_color(t.accent).text_size(11.5).text_color(t.foreground).role('button')
+      .accessibility_label(`Resume ${n} agent${n===1?'':'s'} from before the restart`).tooltip(['From before the restart:',...list.map(o=>o.line+(o.reason?'\n  '+o.reason:'')),'Click to resume or dismiss them.'].join('\n'))
+      .cursor_pointer().hover(st=>st.bg(t.hover)).on_mouse_down('left',(_e,cx)=>cx.stop_propagation()).on_click((_e,cx)=>{cx.stop_propagation();this.openRestart();}).child(text);
+  }
+  codexRows(t){
+    return this.restart?this.restart.codexSetup().filter(c=>c.ok&&!c.installed).map((c,i)=>h_flex().id('mc-restart-codex-'+i).min_h(30).px(8).gap(8).items_center().rounded(6)
+      .child(div().flex_1().min_w(0).text_size(11).text_color(t.muted).child(`Codex on ${c.machine||'this Mac'} comes back after a restart once its session hook is set up.`))
+      .child(div().id('mc-restart-codex-setup-'+i).text_size(11).text_color(t.accent).role('button').cursor_pointer().on_click((_e,cx)=>{cx.stop_propagation();this.setupCodex(cx,c.machine);}).child('Set up Codex resume'))):[];
+  }
+  restartPanel(){
+    const t=colors(),list=this.restart?this.restart.offers():[],link=(id,text,fn)=>div().id(id).text_size(11).text_color(t.accent).role('button').cursor_pointer().hover(st=>st.text_color(t.foreground)).on_click((_e,cx)=>{cx.stop_propagation();fn(cx);}).child(text);
+    return v_flex().id('mc-restart-panel').size_full().p(10).gap(6).bg(t.surface).text_size(12).text_color(t.foreground).overflow_y_scrollbar()
+      .child(h_flex().gap(8).items_center().child(div().flex_1().text_size(12.5).child('From before the restart')).when(list.length>0,e=>e.child(link('mc-restart-resume-all','Resume all',cx=>this.resumeOffers(cx))).child(link('mc-restart-dismiss-all','Dismiss',cx=>this.dismissOffers(cx)))))
+      .when(!list.length,e=>e.child(div().id('mc-restart-empty').text_size(11).text_color(t.dim).child('Nothing to resume. Agents that were running when their terminal was lost show here when they could not be resumed by themselves.')))
+      .children(list.map((o,i)=>h_flex().id('mc-restart-offer-'+i).min_h(36).px(8).gap(8).items_center().rounded(6).border(1).border_color(t.border)
+        .child(v_flex().flex_1().min_w(0).child(div().truncate().child(o.line)).child(div().truncate().text_size(10.5).text_color(t.dim).child([o.machine||'This Mac',o.reason].filter(Boolean).join(' · '))))
+        .child(link('mc-restart-resume-'+i,'Resume',cx=>this.resumeOffers(cx,o))).child(link('mc-restart-dismiss-'+i,'Dismiss',cx=>this.dismissOffers(cx,o)))))
+      .children(this.codexRows(t))
+      .when(Boolean(this.restartStatus),e=>e.child(div().id('mc-restart-status').text_size(10.5).text_color(t.muted).child(this.restartStatus)));
+  }
   tick(cx){
-    if(this.closed||!this.service)return;const now=Date.now();this.restoreOnLayoutChange();this.takeRequest(cx);
+    if(this.closed||!this.service)return;const now=Date.now();this.restoreOnLayoutChange();this.takeRequest(cx);this.restartTick(cx,now);
     if(now-this.namesAt>=TIMING.namesMs){this.namesAt=now;this.spawn(cx,async()=>{const tools=await herdr.knownAgents({on:null});if(!this.closed&&Array.isArray(tools))this.service.setKnownNames(tools.map(t=>t?.name));return false;});}
     // The Reopen buttons read closed history directly, so a copy whose service pass is stuck or not recording never shows a stale "last" record.
     if(this.reopen&&!this.reopen.running()&&now-(this.reopenReadAt||0)>=TIMING.reopenReadMs){this.reopenReadAt=now;const before=this.reopen.value?.revision??null;this.spawn(cx,async()=>{await this.reopen.refresh();return !this.closed&&(this.reopen.value?.revision??null)!==before;});}
@@ -260,6 +300,7 @@ export default class MissionControlTabs extends View {
         .children(tabs.map((tab,i)=>this.tabItem(tab,i,ctx))))
       .child(plus)
       .when(Boolean(previews),el=>el.child(this.reopenButton('reopen-tab','refresh','tab',previews.tab)).child(this.reopenButton('reopen-agent','agent','agent',previews.agent)))
+      .when(Boolean(this.restart?.offers().length),el=>el.child(this.restartPill()))
       .when(Boolean(panel),el=>el.child(panel))
       .child(iconButton(MOD,'mc-sources','settings','Mission Control sources: choose which work sources to show',()=>this.openSources(),{size:26}))
       .child(renderSwap(MOD,contract,{compact:!(this.width>=TOPBAR_WIDE),onSwap:()=>this.swap()}))
@@ -304,10 +345,12 @@ export default class MissionControlTabs extends View {
         .on_click((_e,cx)=>{cx.stop_propagation();setSourceShown(s.id,!on,{contract:this.contract(),sharedFn:herdr.shared,setSharedFn:herdr.setShared,runFn:herdr.run});cx.notify();})
         .child(icon(MOD,s.icon,15).text_color(on?t.foreground:t.dim)).child(div().flex_1().min_w(0).truncate().text_color(on?t.foreground:t.muted).child(s.label)).child(toggle);
     };
-    return v_flex().id('mc-sources').size_full().p(8).gap(2).bg(t.surface).text_size(12.5).text_color(t.foreground).role('menu').accessibility_label('Mission Control sources')
+    return v_flex().id('mc-sources').size_full().overflow_y_scrollbar().p(8).gap(2).bg(t.surface).text_size(12.5).text_color(t.foreground).role('menu').accessibility_label('Mission Control sources')
       .child(div().id('mc-sources-title').px(8).pt(2).text_size(12.5).text_color(t.foreground).child('Work sources'))
       .child(div().id('mc-sources-note').px(8).pb(4).text_size(10.5).text_color(t.dim).child('Sources you turn off leave the navigation and the Classic panel. Their mods stay installed.'))
-      .children(SOURCES.map(row));
+      .children(SOURCES.map(row))
+      .when(this.codexRows(t).length>0,e=>e.child(div().id('mc-sources-restart').px(8).pt(6).text_size(10.5).text_color(t.dim).child('Resume after restart')).children(this.codexRows(t)))
+      .when(Boolean(this.restartStatus),e=>e.child(div().id('mc-restart-status').px(8).text_size(10.5).text_color(t.muted).child(this.restartStatus)));
   }
   render(cx){
     if(this.dialog)return this.dialog.render(cx);
@@ -315,12 +358,13 @@ export default class MissionControlTabs extends View {
     if(this.role==='topbar')return this.topbar(cx);
     if(this.role==='navigation')return this.navigation();
     if(this.role==='context')return this.contextMenu();
+    if(this.role==='restart')return this.restartPanel();
     const t=colors();return div().id('tabs-unknown-view').size_full().p(8).bg(t.chrome).text_size(11).text_color(t.blocked).child(`Unknown Mission Control tabs view "${String(this.props.view).slice(0,40)}". Use topbar or navigation.`);
   }
   close(){
     if(this.closed)return;this.closed=true;for(const timer of this.timers)timer?.cancel?.();for(const job of this.jobs)job?.cancel?.();this.commandTask?.cancel?.();this.dialog?.close();
     // Leases are released best effort; an unreleased one simply expires and another copy takes over.
-    if(this.service)return this.service.stop().catch(()=>{});
+    if(this.service)return Promise.all([this.service.stop().catch(()=>{}),this.restart?.release().catch(()=>{})]);
   }
 }
 export {NODES,SOURCES};

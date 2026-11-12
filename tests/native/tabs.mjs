@@ -120,7 +120,8 @@ export const EXPECTATIONS=Object.freeze({
   bareSources:'Without mc-work-stack all seven sources are disabled with a visible reason',
   bareStrip:'Without layout nodes the strip still selects tabs and opens the agent menu',
   noErrors:'Every tabs workflow produced zero native app errors',
-  standalone:'Only this standalone custom mod is installed and it passed herdr-app check'
+  standalone:'Only this standalone custom mod is installed and it passed herdr-app check',
+  restartOffer:'An offered resume after a restart shows the Resume pill in the bar, and Resume in its popup types the exact command once'
 });
 
 // ---------------------------------------------------------------------------------------------
@@ -441,6 +442,11 @@ export default async function tabsNative(runtime){
     runtime.app(['do','space.rename',JSON.stringify({id:runtime.spaceId,name:'client-portal'})]);runtime.app(['do','space.rename',JSON.stringify({id:remote.id,name:'server-repo'})]);
     runtime.app(['do','space.select',JSON.stringify({id:runtime.spaceId})]);await bindKeys(home);
     const ui=nativeUI(runtime),{pick,click,clickRect,clickHit,has,visible,tip,controls,park}=ui;
+    // Herdr's own "herdr-core <version> is ready · Open Updates" notice can appear after start over the bottom-right corner.
+    // Close it with its × as a person would (about 28 px right of the link); it is the app's, not this mod's.
+    const notice=await until(async()=>{const o=await ui.observe('Open Updates'),n=o.matches.find(m=>m.confidence>=0.6);return n?{o,n}:null;},'Herdr update notice',12000).catch(()=>null);
+    if(notice){await clickRect({x:notice.n.frame.x+notice.n.frame.width+20,y:notice.n.frame.y+notice.n.frame.height/2-8,width:16,height:16},notice.o,'Close the Herdr update notice');
+      await until(async()=>!(await has('Open Updates')),'Herdr update notice closed',20000);}
     // The bar refreshes its Reopen preview on its own tick; click only once the button's tooltip names the expected agent (its tab name at close),
     // so a premature click never lands on a still-disabled button and a retry never reopens a different agent.
     const reopenAgentWhenReady=async(name,label)=>{let c;await until(async()=>{c=await controls();const r=c.rects['reopen-agent'],w={expectedSize:c.observation.window};await runtime.driver.hover({x:r.x,y:r.y+r.height+40,width:2,height:2},w);await runtime.driver.hover(r,w);for(let look=0;look<5;look++){await new Promise(resolve=>setTimeout(resolve,500));const o=await ui.observe(name);if(o.matches.some(n=>n.confidence>=0.6&&near(r)(n,o)))return true;}return false;},'Reopen last agent ready for '+name,45000);await clickRect(c.rects['reopen-agent'],c.observation,label);};
@@ -677,6 +683,19 @@ export default async function tabsNative(runtime){
     await selectTab(K1);const bareMenu=await ui.openMenu();await ui.closeOverlay();
     expect(focused()===K1&&Boolean(bareMenu.header)&&!bareMenu.shipped,'bareStrip');
 
+    console.log('Tabs native: an offered resume after a restart');await progress('restart offer');
+    // An idle restored-style shell with an offered resume in the private journal: the bar shows the pill, its popup resumes it once.
+    const offerTab=runtime.app(['do','tab.new',JSON.stringify({space:runtime.spaceId,folder:runtime.repo,name:'restart offer'})]),offerAddress=localTerminalAddress(offerTab.terminal,null);
+    const offerRaw=await until(()=>{const r=runtime.hc(['get',offerAddress,'--json']);return r.state==='live'&&Number.isSafeInteger(r.pid)&&r.foreground?.pid===r.pid?r:null;},'idle shell for the restart offer',30000);
+    const offerSid=crypto.randomUUID(),restartFile=path.join(home,'mission-control','running-agents.json'),offerLine=`${actor.files.claude} --resume ${offerSid}`;
+    const offerEntry={spaceId:runtime.spaceId,tabId:offerTab.tab,cwd:offerRaw.foreground?.cwd||offerRaw.cwd,toolKey:'claude',provider:'claude',sessionId:offerSid,via:'pid-record',shellPid:offerRaw.pid,shellStartMs:Date.parse(run('ps',['-o','lstart=','-p',String(offerRaw.pid)],{json:false,env:{...process.env,TZ:'UTC',LC_ALL:'C'}}).trim().replace(/\s+/g,' ')+' UTC'),agentPid:2,agentStartMs:Date.now()-3600000,seenAt:Date.now()-3600000,state:'offered',offeredAt:Date.now(),reason:"claude's options could not be checked.",line:offerLine};
+    for(let attempt=0;attempt<5;attempt++){const journal=(await readJson(restartFile))||{v:1,revision:0,lease:null,machines:{}};journal.machines.local=journal.machines.local||{observedAt:Date.now(),lastContinuousAt:Date.now(),terminals:{}};journal.machines.local.terminals[offerAddress]=offerEntry;journal.revision=(journal.revision||0)+1;const temp=restartFile+'.qa';await fs.writeFile(temp,JSON.stringify(journal)+'\n');await fs.rename(temp,restartFile);await delay(1500);if((await readJson(restartFile))?.machines?.local?.terminals?.[offerAddress]?.state==='offered')break;}
+    await visible('Resume 1',inTop,30000);await click('Resume 1',inTop,{only:true,description:'Resume restart pill',control:'Resume 1 (restart pill)'});
+    await until(()=>ui.overlays().includes(MOD),'own restart popup',20000);
+    await click('Resume',n=>n.text==='Resume'&&!inTop(n),{only:true,description:'Resume in the restart popup',control:'Resume offered agent'});
+    const offerRun=await until(async()=>(await actor.runs()).find(r=>r.argv[0]==='--resume'&&r.argv[1]===offerSid)||null,'offered resume typed into its shell',40000);await delay(6000);
+    expect(Boolean(offerRun)&&(await actor.runs()).filter(r=>r.argv[0]==='--resume'&&r.argv[1]===offerSid).length===1&&offerRun.cwd===offerEntry.cwd&&!(await readJson(restartFile))?.machines?.local?.terminals?.[offerAddress]?.state?.startsWith('offer'),'restartOffer');
+    await ui.closeOverlay().catch(()=>{});
     expect(runtime.app(['status']).errors?.length===0,'noErrors');
     expect((await fs.readdir(path.join(home,'mods'))).filter(name=>name.startsWith('mission-control-')).join(',')===MOD&&runtime.packages.length===1&&runtime.packages[0].name===MOD&&runtime.packages[0].nativeCheck===true,'standalone');
     await progress('native Tabs scenario passed');

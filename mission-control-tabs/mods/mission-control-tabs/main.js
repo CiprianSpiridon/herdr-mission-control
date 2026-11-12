@@ -152,11 +152,11 @@ async function updateConfig(io, edit, { attempts: attempts2 = 4 } = {}) {
     if (next.revision !== snapshot.value.revision) throw new ConfigError("INVALID_EDIT", "Settings edits cannot replace the CAS revision.");
     if (next.revision === Number.MAX_SAFE_INTEGER) throw new ConfigError("REVISION_LIMIT", "Settings revision reached its supported limit; the original file has been preserved.");
     next.revision++;
-    const text8 = JSON.stringify(next, null, 2) + "\n";
-    if (text8.length > MAX_CONFIG_CHARACTERS) fail("Configuration exceeds the supported file size.");
+    const text9 = JSON.stringify(next, null, 2) + "\n";
+    if (text9.length > MAX_CONFIG_CHARACTERS) fail("Configuration exceeds the supported file size.");
     await io.ensureDirectory?.(snapshot.path.slice(0, snapshot.path.lastIndexOf("/")));
     try {
-      await io.writeTextFile(snapshot.path, text8, snapshot.raw);
+      await io.writeTextFile(snapshot.path, text9, snapshot.raw);
       return next;
     } catch (error2) {
       if (!conflict(error2)) throw error2;
@@ -200,15 +200,15 @@ function localTerminalAddress(address, on) {
 function terminalIdentity(raw, on = null) {
   if (!raw || !Number.isSafeInteger(raw.created_ms) || raw.created_ms < 0) fail2("Full raw terminal created_ms is required");
   const machine2 = machineIdentity(on), local = localTerminalAddress(raw.address, machine2);
-  const pid = raw.foreground?.pid ?? null;
-  if (pid !== null && (!Number.isSafeInteger(pid) || pid <= 0)) fail2("Invalid foreground PID");
-  return { machine: machine2, address: machine2 ? machine2 + "/" + local : local, createdMs: raw.created_ms, foregroundPid: pid };
+  const pid3 = raw.foreground?.pid ?? null;
+  if (pid3 !== null && (!Number.isSafeInteger(pid3) || pid3 <= 0)) fail2("Invalid foreground PID");
+  return { machine: machine2, address: machine2 ? machine2 + "/" + local : local, createdMs: raw.created_ms, foregroundPid: pid3 };
 }
 function terminalKey(identity) {
   if (!identity || !Number.isSafeInteger(identity.createdMs) || identity.createdMs < 0) fail2("Missing terminal generation");
-  const on = machineIdentity(identity.machine), local = localTerminalAddress(identity.address, on), pid = identity.foregroundPid ?? null;
-  if (pid !== null && (!Number.isSafeInteger(pid) || pid <= 0)) fail2("Invalid foreground PID");
-  return JSON.stringify([on, local, identity.createdMs, pid]);
+  const on = machineIdentity(identity.machine), local = localTerminalAddress(identity.address, on), pid3 = identity.foregroundPid ?? null;
+  if (pid3 !== null && (!Number.isSafeInteger(pid3) || pid3 <= 0)) fail2("Invalid foreground PID");
+  return JSON.stringify([on, local, identity.createdMs, pid3]);
 }
 var sequence = 0;
 function newIntent({ requestId, originId } = {}) {
@@ -330,7 +330,7 @@ function parseCapabilities(tool, { on = null, help = "", resumeHelp = "", versio
 }
 async function probeCapabilities(tool, { on = null, exec } = {}) {
   if (!installedTools([tool]).length) fail4("TOOL_UNAVAILABLE", "The selected tool is not installed on this machine");
-  const call = async (flags) => {
+  const call2 = async (flags) => {
     try {
       const r = await exec(tool.run[0], [...tool.run.slice(1), ...flags], { on: machineIdentity(on) });
       return r.code === 0 && typeof r.stdout === "string" ? r.stdout.slice(0, 65536) : "";
@@ -338,8 +338,8 @@ async function probeCapabilities(tool, { on = null, exec } = {}) {
       return "";
     }
   };
-  const help = await call(["--help"]), version = (await call(["--version"])).trim();
-  const resumeHelp = tool.key === "codex" && /Codex CLI/.test(help) ? await call(["resume", "--help"]) : "";
+  const help = await call2(["--help"]), version = (await call2(["--version"])).trim();
+  const resumeHelp = tool.key === "codex" && /Codex CLI/.test(help) ? await call2(["resume", "--help"]) : "";
   return parseCapabilities(tool, { on, help, resumeHelp, version: version || "unavailable", probeError: help ? null : "Advanced options unavailable: direct help probing failed. Base configured launch is available." });
 }
 function buildArguments(capabilities, { options = {}, resumeSessionId, newSessionId, prompt } = {}) {
@@ -1185,16 +1185,31 @@ function verifyTabAcknowledgement(value, request) {
   return { space: value.space, tab: value.tab, terminal: value.terminal };
 }
 var WRAPPERS = Object.freeze({ "-lic": '"$@"; exec "$0" -li', "-c": '"$@"; exec "${SHELL:-sh}" -i' });
-function observedArgv(raw, expected, task) {
-  if (!Array.isArray(raw.argv)) return false;
-  const accepted = [expected, ...task ? [[...expected, task]] : []].map((value) => JSON.stringify(value)), args = raw.argv;
+var REMOTE_DISPATCH = `shell=\${SHELL:-/bin/sh}
+case "\${shell##*/}" in
+  fish) exec "$shell" -lic 'command $argv[2..]; exec $argv[1] -li' "$shell" "$@" ;;
+  sh|bash|zsh|dash|ksh) exec "$shell" -lic '"$@"; exec "$0" -li' "$shell" "$@" ;;
+  *) exec sh -c '"$@"; exec "\${SHELL:-sh}" -i' sh "$@" ;;
+esac`;
+function launchArgvMatches(argv, acceptedArgvs) {
+  if (!Array.isArray(argv) || !Array.isArray(acceptedArgvs)) return false;
+  const accepted = acceptedArgvs.map((value) => JSON.stringify(value)), args = argv;
   if (accepted.includes(JSON.stringify(args))) return true;
+  if (args[0] === "sh" && args[1] === "-c" && args[2] === REMOTE_DISPATCH && args[3] === "sh" && accepted.includes(JSON.stringify(args.slice(4)))) return true;
   const shell = args[0];
   return typeof shell === "string" && (shell.startsWith("/") || !shell.includes("/")) && /^(?:sh|bash|zsh|dash|ksh)$/.test(shell.split("/").pop()) && WRAPPERS[args[1]] === args[2] && args[3] === shell && accepted.includes(JSON.stringify(args.slice(4)));
 }
+function observedArgv(raw, expected, task) {
+  return Array.isArray(raw?.argv) && launchArgvMatches(raw.argv, [expected, ...task ? [[...expected, task]] : []]);
+}
 function shellHoldsForeground(raw) {
-  const args = Array.isArray(raw?.argv) ? raw.argv : [];
-  return args[1] === "-lic" && WRAPPERS["-lic"] === args[2] && Number.isSafeInteger(raw.pid) && raw.foreground?.pid === raw.pid;
+  const args = Array.isArray(raw?.argv) ? raw.argv : [], own = Number.isSafeInteger(raw?.pid) && raw.foreground?.pid === raw.pid;
+  if (args[1] === "-lic" && WRAPPERS["-lic"] === args[2]) return own;
+  if (args[1] === "-c" && args[2] === REMOTE_DISPATCH) {
+    const fg = Array.isArray(raw.foreground?.argv) ? raw.foreground.argv : [];
+    return own && !(fg[1] === "-c" && fg[2] === WRAPPERS["-c"]);
+  }
+  return false;
 }
 async function inspect(io, r, ack2) {
   const listing = await io.exec("herdr-app", ["ls"]);
@@ -2147,13 +2162,13 @@ function snapshotWorld(api, at = clockOf(api)) {
     if (machine2 === void 0) continue;
     hosts.set(hostKey(machine2), { machine: machine2, ready: m.layout === "ready", spaces: {}, tabs: {} });
   }
-  const spaces2 = api.spaces() || [], machineOf2 = /* @__PURE__ */ new Map(), byTab = /* @__PURE__ */ new Map(), agents = /* @__PURE__ */ new Set();
+  const spaces2 = api.spaces() || [], machineOf3 = /* @__PURE__ */ new Map(), byTab = /* @__PURE__ */ new Map(), agents = /* @__PURE__ */ new Set();
   for (const s of spaces2) {
     const m = safeMachine(s?.machine);
-    if (m !== void 0 && typeof s.id === "string") machineOf2.set(s.id, m);
+    if (m !== void 0 && typeof s.id === "string") machineOf3.set(s.id, m);
   }
   for (const a of (typeof api.agents === "function" ? api.agents() : []) || []) {
-    const m = machineOf2.get(a?.space);
+    const m = machineOf3.get(a?.space);
     if (m === void 0) continue;
     try {
       agents.add(qualified(localTerminalAddress(a.address, m), m));
@@ -2166,7 +2181,7 @@ function snapshotWorld(api, at = clockOf(api)) {
     byTab.get(p.tab).push(p);
   }
   for (const s of spaces2) {
-    const machine2 = machineOf2.get(s?.id);
+    const machine2 = machineOf3.get(s?.id);
     if (machine2 === void 0) continue;
     const h = hosts.get(hostKey(machine2));
     if (!h?.ready) continue;
@@ -2242,16 +2257,16 @@ function hydrationNeeds(value, world) {
   return needs;
 }
 function closures(value, world) {
-  const found = [];
+  const found2 = [];
   for (const [key3, live] of world.hosts) {
     const prev = value.hosts[key3];
     if (!live.ready || !continuity(prev, world.at)) continue;
     for (const [tid, old] of Object.entries(prev.tabs)) {
       if (live.tabs[tid] || !old.terms.length || value.suppress.some((s) => s.machine === live.machine && s.tab === old.id && s.until > world.at) || old.terms.some((t) => world.live.has(t.address))) continue;
-      found.push({ machine: live.machine, tab: old });
+      found2.push({ machine: live.machine, tab: old });
     }
   }
-  return found;
+  return found2;
 }
 async function launchRequests(io) {
   const home2 = (typeof io.appHome === "function" ? io.appHome() : io.appHome).replace(/[/\\]+$/, ""), raw = await io.readTextFile(home2 + "/mission-control/launches.json");
@@ -2451,6 +2466,8 @@ ID=re.compile(r"[^\x00-\x1f\x7f]{1,256}")
 NAME=re.compile(r"[a-z0-9][a-z0-9._+-]{0,63}")
 # Herdr login wrappers: local "-lic" and the remote "-c" form (split so the JS template never interpolates).
 WRAPS={"-lic":'"$@"; exec "$0" -li',"-c":'"$@"; exec "$' '{SHELL:-sh}" -i'}
+# Herdr 0.1.13 remote launches: sh -c '<login-shell dispatcher>' sh <program...> (tests/fixtures/herdr-0113-launch-argv.json).
+DISPATCH='shell=$' '{SHELL:-/bin/sh}\ncase "$' '{shell##*/}" in\n  fish) exec "$shell" -lic \'command $argv[2..]; exec $argv[1] -li\' "$shell" "$@" ;;\n  sh|bash|zsh|dash|ksh) exec "$shell" -lic \'"$@"; exec "$0" -li\' "$shell" "$@" ;;\n  *) exec sh -c \'"$@"; exec "$' '{SHELL:-sh}" -i\' sh "$@" ;;\nesac'
 used=0
 class Stop(Exception):
  pass
@@ -2501,7 +2518,7 @@ def path(v):
 def program(argv):
  if not isinstance(argv,list) or not argv or not all(isinstance(a,str) for a in argv):
   return None
- if len(argv)>4 and WRAPS.get(argv[1])==argv[2] and argv[3]==argv[0]:
+ if len(argv)>4 and (WRAPS.get(argv[1])==argv[2] and argv[3]==argv[0] or argv[:2]==["sh","-c"] and argv[2]==DISPATCH and argv[3]=="sh"):
   argv=argv[4:]
  name=os.path.basename(argv[0]).lower()
  return name if NAME.fullmatch(name) else None
@@ -2567,7 +2584,7 @@ function historyRows(out, machine2) {
 }
 async function importClosedHistory(machine2, io, { timeoutMs = LIMITS.historyMs, maxBytes = LIMITS.historyBytes, batch = LIMITS.historyBatch } = {}) {
   const on = machineIdentity(machine2), journal2 = new ClosedJournal(io), key3 = hostKey(on), where2 = on ?? "this computer";
-  const unavailable = async (reason) => {
+  const unavailable2 = async (reason) => {
     try {
       await journal2.edit((d, now3) => {
         d.imports[key3] = { at: now3, state: "unavailable", reason, cursor: d.imports[key3]?.cursor ?? null };
@@ -2576,7 +2593,7 @@ async function importClosedHistory(machine2, io, { timeoutMs = LIMITS.historyMs,
     }
     return freeze({ ok: false, code: "OLDER_HISTORY_UNAVAILABLE", machine: on, message: `Older closed-tab history is unavailable on ${where2}: ${reason} Current history was kept.` });
   };
-  if (typeof io.machines === "function" && io.machines().find((m) => safeMachine(m?.name) === on)?.layout !== "ready") return unavailable("the machine is offline or still loading.");
+  if (typeof io.machines === "function" && io.machines().find((m) => safeMachine(m?.name) === on)?.layout !== "ready") return unavailable2("the machine is offline or still loading.");
   let before;
   try {
     before = (await journal2.read()).value;
@@ -2588,18 +2605,18 @@ async function importClosedHistory(machine2, io, { timeoutMs = LIMITS.historyMs,
   try {
     result2 = await io.exec("python3", ["-c", HISTORY_WRAPPER, request], { on });
   } catch {
-    return unavailable("Python 3 could not be started there.");
+    return unavailable2("Python 3 could not be started there.");
   }
-  if (result2?.code !== 0 || typeof result2.stdout !== "string" || result2.stdout.length > LIMITS.historyOutput) return unavailable("the history helper failed.");
+  if (result2?.code !== 0 || typeof result2.stdout !== "string" || result2.stdout.length > LIMITS.historyOutput) return unavailable2("the history helper failed.");
   let out;
   try {
     out = JSON.parse(result2.stdout);
   } catch {
-    return unavailable("the history helper returned invalid data.");
+    return unavailable2("the history helper returned invalid data.");
   }
-  if (out?.ok !== true) return unavailable(historyReasons[out?.code] || "the history helper failed.");
+  if (out?.ok !== true) return unavailable2(historyReasons[out?.code] || "the history helper failed.");
   const rows = historyRows(out, on), cursor = typeof out.cursor === "string" && /^t[0-9a-z]{1,63}$/.test(out.cursor) ? out.cursor : null, complete = out.complete === true && !cursor;
-  if (!rows) return unavailable("the history helper returned invalid data.");
+  if (!rows) return unavailable2("the history helper returned invalid data.");
   const world = snapshotWorld(io), live = world.hosts.get(key3), groups = /* @__PURE__ */ new Map();
   for (const r of rows) {
     const k = JSON.stringify([r.space, r.tab]);
@@ -2744,8 +2761,8 @@ function normalizeMeta(v) {
   const key3 = issueKey(v.key), title = cleanText(v.title, NAME_LIMITS.titleChars);
   return { key: key3, title: key3 && title ? stripKey(title, key3) : title, kind: SOURCE_KINDS.includes(v.kind) ? v.kind : null, tool, initial: cleanText(v.initial, NAME_LIMITS.chars) };
 }
-function mergeMeta(base3, extra) {
-  const a = normalizeMeta(base3), b = normalizeMeta(extra);
+function mergeMeta(base5, extra) {
+  const a = normalizeMeta(base5), b = normalizeMeta(extra);
   return { key: a.key ?? b.key, title: a.title ?? (a.key && b.key && a.key !== b.key ? null : b.title), kind: a.kind ?? b.kind, tool: a.tool ?? b.tool, initial: a.initial ?? b.initial };
 }
 function genericNames(obs, meta, { home: home2 = null, knownNames = [] } = {}) {
@@ -2804,15 +2821,15 @@ function deriveName(obs, meta = null, { home: home2 = null, knownNames = [] } = 
   return freeze2({ name: name2, full: full2, basis, key: m.key, tool: tool ? { key: tool.key ?? null, name: tool.name ?? null } : null });
 }
 var WIDE = /[ᄀ-ᅟ⺀-꓏가-힣豈-﫿︰-﹏＀-｠￠-￦\u{1f300}-\u{1faff}\u{20000}-\u{3fffd}]/u;
-function estimateWidth(text8, { charPx = NAME_LIMITS.charPx } = {}) {
+function estimateWidth(text9, { charPx = NAME_LIMITS.charPx } = {}) {
   let w = 0;
-  for (const c of chars(text8 || "")) w += WIDE.test(c) ? charPx * 2 : charPx;
+  for (const c of chars(text9 || "")) w += WIDE.test(c) ? charPx * 2 : charPx;
   return w;
 }
 function displayLabel(name2, { maxPx = NAME_LIMITS.displayPx, charPx = NAME_LIMITS.charPx, full: full2 = null } = {}) {
-  const text8 = cleanText(name2, NAME_LIMITS.titleChars) || "", whole = cleanText(full2, NAME_LIMITS.titleChars) || text8;
-  if (estimateWidth(text8, { charPx }) <= maxPx) return freeze2({ text: text8, full: whole, truncated: whole !== text8 });
-  const head = text8.split(" ")[0], keep = issueKey(head) ? chars(head).length : 1, a = chars(text8);
+  const text9 = cleanText(name2, NAME_LIMITS.titleChars) || "", whole = cleanText(full2, NAME_LIMITS.titleChars) || text9;
+  if (estimateWidth(text9, { charPx }) <= maxPx) return freeze2({ text: text9, full: whole, truncated: whole !== text9 });
+  const head = text9.split(" ")[0], keep = issueKey(head) ? chars(head).length : 1, a = chars(text9);
   while (a.length > keep && estimateWidth(a.join("").trimEnd() + "…", { charPx }) > maxPx) a.pop();
   return freeze2({ text: a.join("").trimEnd() + "…", full: whole, truncated: true });
 }
@@ -2842,7 +2859,7 @@ function ownership(own) {
 function newEntry(obs, now3) {
   return { machine: obs.machine, tabId: obs.tabId, originId: null, mode: "auto", manual: null, lastName: null, meta: emptyMeta(), candidate: null, pending: null, attempt: null, retryAt: 0, stuck: null, orphan: null, transfer: false, intent: null, missingSince: null, firstSeen: now3 };
 }
-var result = (entry2, action, reason, derived, extra = {}) => Object.freeze({ entry: entry2, action: action ? freeze2(action) : null, reason, derived, retiredUsed: -1, ...extra });
+var result = (entry3, action, reason, derived, extra = {}) => Object.freeze({ entry: entry3, action: action ? freeze2(action) : null, reason, derived, retiredUsed: -1, ...extra });
 function expire(e, now3, T) {
   const p = e.pending, tries = e.attempt && e.attempt.name === p.to ? e.attempt.tries : 1;
   e.pending = null;
@@ -3638,14 +3655,14 @@ async function journal(io) {
   return value.requests;
 }
 function attempts(requests, session) {
-  const p = prefix(session), key3 = sessionKey(session), found = [];
+  const p = prefix(session), key3 = sessionKey(session), found2 = [];
   for (const record2 of Object.values(requests)) {
     const id2 = record2?.request?.idempotencyKey;
     if (typeof id2 !== "string" || !id2.startsWith(p) || !/^(0|[1-9]\d{0,8})$/.test(id2.slice(p.length))) continue;
     if (record2.sessionProposal && sessionKey(record2.sessionProposal) !== key3) fail11("RESUME_CONFLICT", "Saved resume state belongs to a different exact session; nothing was started");
-    found.push({ epoch: Number(id2.slice(p.length)), record: record2 });
+    found2.push({ epoch: Number(id2.slice(p.length)), record: record2 });
   }
-  return found.sort((a, b) => b.epoch - a.epoch);
+  return found2.sort((a, b) => b.epoch - a.epoch);
 }
 async function full(io, address, on) {
   const local = localTerminalAddress(address, on);
@@ -3691,7 +3708,7 @@ async function sameRepo(io, r, cwd, cache) {
   const repo = cache.get(r.repoRoot), other = await commonDir(io, path, r.machine);
   return repo === void 0 || other === void 0 || other !== null && other === repo;
 }
-async function inspectHost(io, r, { tool, bindings, found, terminals }) {
+async function inspectHost(io, r, { tool, bindings, found: found2, terminals }) {
   const on = r.machine, key3 = sessionKey(r.session);
   for (const [requestId, b] of Object.entries(bindings.proposals)) if (b.state === "committed" && b.session && sessionKey(b.session) === key3 && b.ack.terminal.machine === on) {
     const actual = await full(io, b.ack.terminal.address, on);
@@ -3705,7 +3722,7 @@ async function inspectHost(io, r, { tool, bindings, found, terminals }) {
     } catch {
     }
   }
-  for (const { record: record2 } of found) if (record2.ack && !["complete", "failed"].includes(record2.state)) try {
+  for (const { record: record2 } of found2) if (record2.ack && !["complete", "failed"].includes(record2.state)) try {
     pending.set(localTerminalAddress(record2.ack.terminal, on), record2);
   } catch {
   }
@@ -3745,7 +3762,7 @@ async function verifyCheckout(io, r) {
     fail11("WORKTREE_MISSING", "The original repository or working directory is missing on its host. Locate it, then retry; the saved session is unchanged.");
   }
 }
-function choose(r, found, own, requests, clock) {
+function choose(r, found2, own, requests, clock) {
   const p = prefix(r.session), byId = requests[r.requestId], busy = () => fail11("RESUME_IN_PROGRESS", "This exact session is already being resumed; wait for its acknowledgment.");
   if (byId) {
     if (typeof byId.request?.idempotencyKey !== "string" || !byId.request.idempotencyKey.startsWith(p)) fail11("RETRY_CHANGED", "This resume request ID already belongs to different work");
@@ -3755,7 +3772,7 @@ function choose(r, found, own, requests, clock) {
     if (own[0].leaseUntil > clock) busy();
     return { takeover: own[0].request };
   }
-  const latest = found[0];
+  const latest = found2[0];
   if (!latest) return { key: p + "0" };
   if (!latest.record.ack && inFlight(latest.record, clock)) busy();
   return { key: p + (latest.epoch + 1) };
@@ -3773,7 +3790,7 @@ async function resume(input, io) {
     const space = io.spaces().find((s) => s.id === r.spaceId);
     if (!space) fail11("SPACE_UNAVAILABLE", "The destination space is no longer open; nothing was started.");
     if (machineIdentity(space.machine) !== on) fail11("WRONG_HOST", "This session belongs to another host and is only resumed on its original host.");
-    let tools, requests, found, live;
+    let tools, requests, found2, live;
     try {
       tools = installedTools(await io.knownAgents({ on }));
     } catch {
@@ -3782,7 +3799,7 @@ async function resume(input, io) {
     const tool = tools.find((t) => t.key === r.toolKey) || null;
     for (let pass = 0; pass < 2 && !live?.exact && (!live || live.candidates.length); pass++) {
       requests = await journal(io);
-      found = attempts(requests, r.session);
+      found2 = attempts(requests, r.session);
       const bindings = (await new BindingStore(io, { clock: () => now2(io) }).read()).value;
       let listing = null, terminals = null;
       try {
@@ -3795,14 +3812,14 @@ async function resume(input, io) {
       }
       if (!Array.isArray(terminals)) fail11("HOST_UNAVAILABLE", "The original host could not list its live terminals; nothing was started.");
       if (terminals.length > 1e3) fail11("HOST_UNAVAILABLE", "The original host has too many live terminals to verify safely; nothing was started.");
-      live = await inspectHost(io, r, { tool, bindings, found, terminals });
+      live = await inspectHost(io, r, { tool, bindings, found: found2, terminals });
     }
     if (live.exact) {
       io.run("agent.focus", { terminal: live.exact.terminal.address });
       return freeze4({ ok: true, action: "focus", tabId: live.exact.tabId, terminalId: live.exact.terminal.address, reused: true, originId: live.exact.originId, session: r.session });
     }
     if (live.candidates.length) {
-      if (found.some(({ record: record2 }) => inFlight(record2, clock))) fail11("RESUME_IN_PROGRESS", "This exact session is already being resumed; wait for its acknowledgment.");
+      if (found2.some(({ record: record2 }) => inFlight(record2, clock))) fail11("RESUME_IN_PROGRESS", "This exact session is already being resumed; wait for its acknowledgment.");
       fail11("AMBIGUOUS_RUNNING_SESSION", `A running ${r.session.provider} terminal in this repository has no exact session binding. Locate it, retry its binding, or close it and retry; nothing was resumed.`, { candidates: live.candidates });
     }
     if (!tool) fail11("TOOL_UNAVAILABLE", "The session tool is not installed on its original host.");
@@ -3814,7 +3831,7 @@ async function resume(input, io) {
       if (source && (source.providerRoot !== r.session.providerRoot || source.credentialScope !== r.session.credentialScope)) fail11("ACCOUNT_MISMATCH", "This session belongs to a different provider profile than the one enabled on its host; nothing was started.");
     }
     await verifyCheckout(io, r);
-    const choice = choose(r, found, live.own, requests, clock), names = new NameOwnership(io, { clock: () => now2(io) });
+    const choice = choose(r, found2, live.own, requests, clock), names = new NameOwnership(io, { clock: () => now2(io) });
     const request = choice.takeover ? { ...choice.takeover } : { requestId: r.requestId, idempotencyKey: choice.key, originId: choice.originId || await owner(names, r), spaceId: r.spaceId, machine: on, repoRoot: r.repoRoot, checkoutRoot: r.cwd, toolKey: r.toolKey, worktree: false };
     const result2 = await launch(request, { ...io, exactResumeSession: r.session });
     if (!result2.ok) return result2.code === "LAUNCH_BUSY" ? failure("RESUME_IN_PROGRESS", "This exact session is already being resumed; wait for its acknowledgment.") : failure(result2.code, result2.message, result2.recovery);
@@ -3913,11 +3930,11 @@ function restorePlan(record2, kind = "tab") {
   return { mode: "shell", terminal: record2.terminals[0], notices: [...record2.kind === "agent" ? ["agent-not-resumed"] : [], ...notices] };
 }
 function reopenPreview(value, kind, { now: now3 = Date.now() } = {}) {
-  const base3 = { kind, label: kind === "agent" ? "Reopen last agent" : "Reopen last tab", recordId: null, title: null, detail: null, imported: false, reason: null, lastError: null };
-  if (!value) return freeze5({ ...base3, state: "loading", reason: "Reading closed tabs…" });
+  const base5 = { kind, label: kind === "agent" ? "Reopen last agent" : "Reopen last tab", recordId: null, title: null, detail: null, imported: false, reason: null, lastError: null };
+  if (!value) return freeze5({ ...base5, state: "loading", reason: "Reading closed tabs…" });
   const choice = selectRecord(value, kind, { now: now3 });
-  if (choice.error && !choice.record) return freeze5({ ...base3, state: choice.error[0] === "HISTORY_PARTIAL" ? "partial" : "empty", reason: choice.error[1] });
-  const r = choice.record, preview = { ...base3, state: "ready", recordId: r.id, title: recordTitle(r), detail: recordDestination(r), imported: r.source === "imported", lastError: r.error?.message ?? null };
+  if (choice.error && !choice.record) return freeze5({ ...base5, state: choice.error[0] === "HISTORY_PARTIAL" ? "partial" : "empty", reason: choice.error[1] });
+  const r = choice.record, preview = { ...base5, state: "ready", recordId: r.id, title: recordTitle(r), detail: recordDestination(r), imported: r.source === "imported", lastError: r.error?.message ?? null };
   if (choice.error) return freeze5({ ...preview, state: "busy", reason: choice.error[1] });
   try {
     const p = restorePlan(r, kind);
@@ -4218,9 +4235,651 @@ var ReopenController = class {
   }
 };
 
-// src/mods/mission-control-tabs/navigation.js
-import { div as div3 } from "gpui-kit";
-import { h_flex as h_flex3 } from "gpui-base";
+// src/shared/codex-session-hook.js
+var CODEX_LABEL = "mission-control.codex-session";
+var HOOK_TIMEOUT_S = 5;
+var UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+var MAX_OUTPUT = 65536;
+var START_TIME_PY = String.raw`
+def mc_start_ms(pid):
+    import calendar, os, subprocess, time
+    proc = os.environ.get("MC_RESTART_TEST_PROC", "/proc")
+    try:
+        pid = int(pid)
+        if pid <= 0:
+            return None
+        if os.path.isdir(os.path.join(proc, str(pid))):
+            with open(os.path.join(proc, str(pid), "stat")) as handle:
+                fields = handle.read().rsplit(")", 1)[1].split()
+            ticks = int(fields[19])
+            with open(os.path.join(proc, "stat")) as handle:
+                btime = next(int(line.split()[1]) for line in handle if line.startswith("btime "))
+            return (btime + ticks // os.sysconf("SC_CLK_TCK")) * 1000
+        if os.path.isdir(proc) and proc != "/proc":
+            return None
+        env = dict(os.environ)
+        env.update({"TZ": "UTC", "LC_ALL": "C"})
+        out = subprocess.run(["ps", "-o", "lstart=", "-p", str(pid)], capture_output=True, timeout=1.5, env=env)
+        text = out.stdout.decode("ascii", "replace").strip() if out.returncode == 0 else ""
+        if not text:
+            return None
+        return calendar.timegm(time.strptime(" ".join(text.split()), "%a %b %d %H:%M:%S %Y")) * 1000
+    except Exception:
+        return None
+`;
+var HOOK_BODY = String.raw`
+import json, os, re, subprocess, sys, time
+
+UUID = re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$", re.I)
+ADDRESS = re.compile(r"^t[0-9a-z]{1,63}$")
+# Herdr's launch wrappers (local login shell, remote sh -c); split so no template ever interpolates.
+WRAPPERS = {"-lic": '"$@"; exec "$0" -li', "-c": '"$@"; exec "$' + '{SHELL:-sh}" -i'}
+SHELLS = {"sh", "bash", "zsh", "dash", "ksh"}
+LABEL = "mission-control.codex-session"
+END = time.monotonic() + 3.5
+
+
+def run(args):
+    try:
+        p = subprocess.run(args, capture_output=True, timeout=max(0.1, END - time.monotonic()))
+        return p.stdout.decode("utf-8", "replace") if p.returncode == 0 else None
+    except Exception:
+        return None
+
+
+def hc():
+    for folder in os.environ.get("PATH", "").split(os.pathsep):
+        if folder and os.access(os.path.join(folder, "hc"), os.X_OK):
+            return os.path.join(folder, "hc")
+    local = os.path.expanduser("~/.local/bin/hc")
+    return local if os.access(local, os.X_OK) else None
+
+
+def parent(pid):
+    out = run(["ps", "-o", "ppid=", "-p", str(pid)])
+    try:
+        return int(out.strip())
+    except Exception:
+        return None
+
+
+def argv_of(pid):
+    out = run(["ps", "-o", "args=", "-p", str(pid)])
+    return out.split() if out else []
+
+
+def children(pid):
+    found = []
+    for line in (run(["ps", "-A", "-o", "pid=,ppid="]) or "").splitlines():
+        parts = line.split()
+        if len(parts) == 2 and parts[1] == str(pid):
+            found.append(int(parts[0]))
+    return found
+
+
+def top_level(path, session):
+    if not isinstance(path, str) or not path.startswith("/"):
+        return False
+    with open(path, "rb") as handle:
+        head = handle.read(262145)
+    cut = head.find(b"\n")
+    if cut < 0 or cut > 262144:
+        return False
+    first = json.loads(head[:cut].decode("utf-8"))
+    meta = first.get("payload") if isinstance(first, dict) else None
+    return first.get("type") == "session_meta" and isinstance(meta, dict) and meta.get("id") == session and meta.get("parent_thread_id") is None
+
+
+def agent_of(raw):
+    foreground = raw.get("foreground") if isinstance(raw, dict) else None
+    pid = foreground.get("pid") if isinstance(foreground, dict) else None
+    argv = foreground.get("argv") if isinstance(foreground, dict) else None
+    if type(pid) is not int or pid <= 1:
+        return None
+    if isinstance(argv, list) and len(argv) >= 3 and WRAPPERS.get(argv[1]) == argv[2]:
+        kids = children(pid)
+        return kids[0] if len(kids) == 1 else None
+    return pid
+
+
+def main():
+    raw = sys.stdin.buffer.read(65537)
+    if len(raw) > 65536:
+        return
+    event = json.loads(raw.decode("utf-8"))
+    session, terminal = event.get("session_id"), os.environ.get("HC_TERMINAL_ID", "")
+    if event.get("hook_event_name") != "SessionStart" or not isinstance(session, str) or not UUID.match(session) or not ADDRESS.match(terminal):
+        return
+    if not top_level(event.get("transcript_path"), session):
+        return
+    tool = hc()
+    listing = run([tool, "get", terminal, "--json"]) if tool else None
+    if listing is None:
+        return
+    agent = agent_of(json.loads(listing))
+    if agent is None:
+        return
+    chain, pid = [], os.getppid()
+    while pid and pid > 1 and len(chain) < 3:
+        chain.append(pid)
+        if pid == agent:
+            break
+        pid = parent(pid)
+    if not chain or chain[-1] != agent:
+        return
+    for step in chain:
+        argv = argv_of(step)
+        if "app-server" in argv:
+            return
+        if step != agent and (not argv or os.path.basename(argv[0]).lstrip("-") not in SHELLS):
+            return
+    started = mc_start_ms(agent)
+    if started is None:
+        return
+    run([tool, "label", terminal, "%s=%d:%d:%s" % (LABEL, agent, started, session)])
+
+
+try:
+    main()
+except Exception:
+    pass
+sys.exit(0)
+`;
+var HOOK_SCRIPT = "#!/usr/bin/env python3\n# Mission Control: labels this Herdr terminal with the exact Codex session it runs.\n# Installed by Mission Control; remove it from Mission Control (Set up Codex resume).\n" + START_TIME_PY + HOOK_BODY;
+var HOOK_HELPER = String.raw`
+import json, os, stat, sys, time
+
+MARK = "mission-control-session-hook.py"
+request = json.loads(sys.argv[1])
+
+
+def out(value):
+    sys.stdout.write(json.dumps(value, separators=(",", ":")))
+    sys.exit(0)
+
+
+class Spans:
+    def __init__(self, text):
+        self.t, self.i, self.d = text, 0, json.JSONDecoder()
+
+    def ws(self):
+        while self.i < len(self.t) and self.t[self.i] in " \t\r\n":
+            self.i += 1
+
+    def value(self):
+        self.ws()
+        start, c = self.i, self.t[self.i]
+        if c in "{[":
+            close, items = ("}" if c == "{" else "]"), []
+            self.i += 1
+            self.ws()
+            if self.t[self.i] == close:
+                self.i += 1
+                return {"kind": "object" if c == "{" else "array", "start": start, "end": self.i, "items": items}
+            while True:
+                self.ws()
+                if c == "{":
+                    key_start = self.i
+                    key, self.i = self.d.raw_decode(self.t, self.i)
+                    if not isinstance(key, str):
+                        raise ValueError("key")
+                    self.ws()
+                    if self.t[self.i] != ":":
+                        raise ValueError("colon")
+                    self.i += 1
+                    v = self.value()
+                    items.append({"key": key, "start": key_start, "end": v["end"], "value": v})
+                else:
+                    items.append(self.value())
+                self.ws()
+                if self.t[self.i] == ",":
+                    self.i += 1
+                    continue
+                if self.t[self.i] != close:
+                    raise ValueError("close")
+                self.i += 1
+                return {"kind": "object" if c == "{" else "array", "start": start, "end": self.i, "items": items}
+        _, self.i = self.d.raw_decode(self.t, self.i)
+        return {"kind": "scalar", "start": start, "end": self.i}
+
+
+def member(obj, key):
+    found = [m for m in obj["items"] if m["key"] == key]
+    return found[-1] if found else None
+
+
+def ours(group):
+    return isinstance(group, dict) and isinstance(group.get("hooks"), list) and any(isinstance(h, dict) and MARK in str(h.get("command", "")) for h in group["hooks"])
+
+
+def groups(value):
+    hooks = value.get("hooks") if isinstance(value, dict) else None
+    start = hooks.get("SessionStart") if isinstance(hooks, dict) else None
+    return start if isinstance(start, list) else []
+
+
+def splice(text, group):
+    root = Spans(text).value()
+    if root["kind"] != "object":
+        raise ValueError("hooks.json is not an object")
+    def add(obj, member_text):
+        if obj["items"]:
+            end = obj["items"][-1]["end"]
+            return text[:end] + ", " + member_text + text[end:]
+        return text[: obj["start"] + 1] + member_text + text[obj["start"] + 1 :]
+    hooks = member(root, "hooks")
+    if hooks is None:
+        return add(root, '"hooks": {"SessionStart": [' + group + "]}")
+    if hooks["value"]["kind"] != "object":
+        raise ValueError("hooks is not an object")
+    start = member(hooks["value"], "SessionStart")
+    if start is None:
+        return add(hooks["value"], '"SessionStart": [' + group + "]")
+    array = start["value"]
+    if array["kind"] != "array":
+        raise ValueError("SessionStart is not an array")
+    if not array["items"]:
+        return text[: array["start"] + 1] + group + text[array["end"] - 1 :]
+    last = array["items"][-1]["end"]
+    return text[:last] + ", " + group + text[last:]
+
+
+def cut(text, index):
+    root = Spans(text).value()
+    items = member(member(root, "hooks")["value"], "SessionStart")["value"]["items"]
+    item = items[index]
+    if index > 0:
+        return text[: items[index - 1]["end"]] + text[item["end"] :]
+    if len(items) > 1:
+        return text[: item["start"]] + text[items[1]["start"] :]
+    return text[: item["start"]] + text[item["end"] :]
+
+
+def spans_of(text):
+    root = Spans(text).value()
+    hooks = member(root, "hooks")
+    start = member(hooks["value"], "SessionStart") if hooks and hooks["value"]["kind"] == "object" else None
+    return [text[i["start"] : i["end"]] for i in start["value"]["items"]] if start and start["value"]["kind"] == "array" else []
+
+
+def write_atomic(path, data, mode):
+    tmp = path + ".mission-control-tmp-%d" % os.getpid()
+    with open(tmp, "w", encoding="utf-8") as handle:
+        handle.write(data)
+    os.chmod(tmp, mode)
+    os.replace(tmp, path)
+
+
+home = os.environ.get("CODEX_HOME") or os.path.expanduser("~/.codex")
+home = os.path.realpath(home)
+op, script = request.get("op"), request.get("script")
+if request.get("v") != 1 or op not in ("install", "status", "remove") or (op == "install" and not isinstance(script, str)):
+    out({"ok": False, "code": "INVALID_REQUEST", "message": "Unsupported hook request."})
+if not os.path.isdir(home):
+    out({"ok": False, "code": "NO_CODEX", "message": "Codex has no home folder on this machine.", "codexHome": home})
+hooks_path, script_path = os.path.join(home, "hooks.json"), os.path.join(home, MARK)
+if "'" in script_path:
+    out({"ok": False, "code": "UNSAFE_PATH", "message": "The Codex folder path contains a quote.", "codexHome": home})
+if os.path.islink(hooks_path) or os.path.islink(script_path):
+    out({"ok": False, "code": "SYMLINK", "message": "hooks.json or the hook script is a symbolic link; nothing was changed.", "codexHome": home})
+original = None
+if os.path.exists(hooks_path):
+    if os.path.getsize(hooks_path) > 1048576:
+        out({"ok": False, "code": "TOO_LARGE", "message": "hooks.json is larger than 1 MiB; nothing was changed.", "codexHome": home})
+    with open(hooks_path, encoding="utf-8") as handle:
+        original = handle.read()
+    try:
+        parsed = json.loads(original)
+        if not isinstance(parsed, dict):
+            raise ValueError("object")
+        Spans(original).value()
+    except Exception:
+        out({"ok": False, "code": "INVALID_HOOKS", "message": "hooks.json is not a valid JSON object; nothing was changed.", "codexHome": home})
+else:
+    parsed = {}
+existing = groups(parsed)
+mine = [i for i, g in enumerate(existing) if ours(g)]
+has_script = os.path.isfile(script_path)
+if op == "status":
+    current = None
+    if has_script:
+        with open(script_path, encoding="utf-8", errors="replace") as handle:
+            current = handle.read()
+    out({"ok": True, "codexHome": home, "installed": bool(mine), "index": mine[0] if mine else None, "script": has_script, "current": current == script if isinstance(script, str) else None})
+mode = stat.S_IMODE(os.stat(hooks_path).st_mode) if original is not None else 0o644
+stamp = time.strftime("%Y%m%dT%H%M%S", time.gmtime())
+
+
+def commit(text):
+    if original is not None:
+        backup = hooks_path + ".mission-control-" + stamp + ".bak"
+        with open(backup, "w", encoding="utf-8") as handle:
+            handle.write(original)
+        os.chmod(backup, mode)
+        with open(hooks_path, encoding="utf-8") as handle:
+            if handle.read() != original:
+                out({"ok": False, "code": "CONFLICT", "message": "hooks.json changed while it was being updated; nothing was changed.", "codexHome": home})
+    else:
+        backup = None
+        if os.path.exists(hooks_path):
+            out({"ok": False, "code": "CONFLICT", "message": "hooks.json appeared while it was being created; nothing was changed.", "codexHome": home})
+    write_atomic(hooks_path, text, mode)
+    return backup
+
+
+if op == "install":
+    if not has_script or open(script_path, encoding="utf-8", errors="replace").read() != script:
+        write_atomic(script_path, script, 0o644)
+    if mine:
+        out({"ok": True, "codexHome": home, "installed": True, "changed": False, "index": mine[0]})
+    group = json.dumps({"hooks": [{"type": "command", "command": "python3 '" + script_path + "'", "timeout": int(request.get("timeout", 5))}]})
+    base = original if original is not None else "{}\n"
+    text = splice(base, group)
+    after = json.loads(text)
+    before_spans, after_spans = spans_of(base), spans_of(text)
+    keep = dict(after)
+    if not (groups(after)[: len(existing)] == existing and after_spans[: len(before_spans)] == before_spans and len(groups(after)) == len(existing) + 1 and ours(groups(after)[-1])):
+        out({"ok": False, "code": "SPLICE_FAILED", "message": "The new hook could not be added without changing existing hooks; nothing was changed.", "codexHome": home})
+    other = {k: v for k, v in after.items() if k != "hooks"} == {k: v for k, v in parsed.items() if k != "hooks"}
+    other_hooks = {k: v for k, v in after["hooks"].items() if k != "SessionStart"} == {k: v for k, v in (parsed.get("hooks") or {}).items() if k != "SessionStart"}
+    if not (other and other_hooks):
+        out({"ok": False, "code": "SPLICE_FAILED", "message": "The new hook could not be added without changing existing hooks; nothing was changed.", "codexHome": home})
+    backup = commit(text)
+    out({"ok": True, "codexHome": home, "installed": True, "changed": True, "index": len(existing), "backup": backup})
+
+# remove
+if not mine:
+    if has_script:
+        os.remove(script_path)
+    out({"ok": True, "codexHome": home, "installed": False, "changed": False, "laterGroups": 0})
+index = mine[0]
+text = cut(original, index)
+after = json.loads(text)
+expected = [g for i, g in enumerate(existing) if i != index]
+if groups(after) != expected:
+    out({"ok": False, "code": "SPLICE_FAILED", "message": "The hook could not be removed without changing other hooks; nothing was changed.", "codexHome": home})
+backup = commit(text)
+if has_script:
+    os.remove(script_path)
+out({"ok": True, "codexHome": home, "installed": False, "changed": True, "laterGroups": len(existing) - index - 1, "backup": backup})
+`;
+function parseCodexLabel(value) {
+  if (typeof value !== "string" || value.length > 120) return null;
+  const m = /^([1-9]\d{0,9}):(\d{1,15}):([0-9a-f-]{36})$/i.exec(value);
+  if (!m || !UUID.test(m[3])) return null;
+  const pid3 = Number(m[1]), startMs = Number(m[2]);
+  return Number.isSafeInteger(pid3) && Number.isSafeInteger(startMs) ? Object.freeze({ pid: pid3, startMs, sessionId: m[3].toLowerCase() }) : null;
+}
+async function codexHook(io, op, { machine: machine2 = null, timeout = HOOK_TIMEOUT_S } = {}) {
+  if (!["install", "status", "remove"].includes(op)) return Object.freeze({ ok: false, code: "INVALID_REQUEST", message: "Unsupported Codex hook action." });
+  const on = machineIdentity(machine2), request = JSON.stringify({ v: 1, op, timeout, ...op === "remove" ? {} : { script: HOOK_SCRIPT } });
+  let result2;
+  try {
+    result2 = await io.exec("python3", ["-c", HOOK_HELPER, request], { on });
+  } catch {
+    return Object.freeze({ ok: false, code: "HOST_UNAVAILABLE", message: `${on ?? "This computer"} could not run its Codex hook helper.` });
+  }
+  if (result2?.code !== 0 || typeof result2.stdout !== "string" || result2.stdout.length > MAX_OUTPUT) return Object.freeze({ ok: false, code: "HOST_UNAVAILABLE", message: `${on ?? "This computer"} could not run its Codex hook helper (python3 is required).` });
+  try {
+    const value = JSON.parse(result2.stdout);
+    if (value && typeof value === "object" && typeof value.ok === "boolean") return Object.freeze({ ...value, machine: on });
+  } catch {
+  }
+  return Object.freeze({ ok: false, code: "INVALID_RESPONSE", message: "The Codex hook helper returned an invalid answer." });
+}
+
+// src/shared/restart-host.js
+var HOST_LIMITS = Object.freeze({ terminals: 64, children: 8, output: 1048576, request: 65536 });
+var UUID2 = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+var ADDRESS = /^t[0-9a-z]{1,63}$/;
+var KEY2 = /^[A-Za-z0-9._-]{1,200}$/;
+var HOST_HELPER = START_TIME_PY + String.raw`
+import calendar, json, os, re, subprocess, sys, time
+
+END = time.monotonic() + 2.0
+request = json.loads(sys.argv[1])
+UUID = re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$", re.I)
+PROC = os.environ.get("MC_RESTART_TEST_PROC", "/proc")
+LSOF = os.environ.get("MC_RESTART_TEST_LSOF", "lsof")
+CLAIMS = os.environ.get("MC_RESTART_TEST_CLAIMS") or os.path.expanduser("~/.local/state/mission-control/restart-claims")
+
+
+def out(value):
+    sys.stdout.write(json.dumps(value, separators=(",", ":")))
+    sys.exit(0)
+
+
+def left():
+    return max(0.05, END - time.monotonic())
+
+
+def proc_mode():
+    return os.path.isdir(PROC) and (PROC != "/proc" or os.path.isdir("/proc/self"))
+
+
+def table():
+    """pid -> (ppid, name) for every process, from /proc or one ps call."""
+    rows = {}
+    if proc_mode():
+        for entry in os.listdir(PROC)[:65536]:
+            if not entry.isdigit():
+                continue
+            try:
+                with open(os.path.join(PROC, entry, "stat")) as handle:
+                    head, rest = handle.read().rsplit(")", 1)
+                name = head.split("(", 1)[1]
+                rows[int(entry)] = (int(rest.split()[1]), name)
+            except Exception:
+                continue
+        return rows
+    env = dict(os.environ)
+    env.update({"LC_ALL": "C"})
+    p = subprocess.run(["ps", "-A", "-o", "pid=,ppid=,comm="], capture_output=True, timeout=left(), env=env)
+    if p.returncode != 0:
+        raise OSError("ps")
+    for line in p.stdout.decode("utf-8", "replace").splitlines():
+        parts = line.split(None, 2)
+        if len(parts) == 3 and parts[0].isdigit() and parts[1].isdigit():
+            rows[int(parts[0])] = (int(parts[1]), parts[2].strip())
+    return rows
+
+
+def short(name):
+    return os.path.basename(name or "").lstrip("-") or None
+
+
+def info(pid, rows):
+    if type(pid) is not int or pid not in rows:
+        return None
+    start = mc_start_ms(pid)
+    return {"pid": pid, "ppid": rows[pid][0], "name": short(rows[pid][1]), "startMs": start, "ageMs": None if start is None else max(0, int(time.time() * 1000) - start)}
+
+
+def lstart_ms(text):
+    try:
+        return calendar.timegm(time.strptime(" ".join(str(text).split()), "%a %b %d %H:%M:%S %Y")) * 1000
+    except Exception:
+        return None
+
+
+def claude(root, pid, start):
+    path = os.path.join(root, "sessions", "%d.json" % pid)
+    try:
+        fd = os.open(path, os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0))
+    except OSError:
+        return {"code": "NO_RECORD"}
+    try:
+        if os.fstat(fd).st_size > 65536:
+            return {"code": "INVALID_RECORD"}
+        record = json.loads(os.read(fd, 65537).decode("utf-8"))
+    except Exception:
+        return {"code": "INVALID_RECORD"}
+    finally:
+        os.close(fd)
+    session = record.get("sessionId") if isinstance(record, dict) else None
+    if record.get("pid") != pid or record.get("kind") != "interactive" or not isinstance(session, str) or not UUID.match(session):
+        return {"code": "INVALID_RECORD"}
+    if start is None:
+        return {"code": "PROCESS_UNKNOWN"}
+    recorded = lstart_ms(record.get("procStart")) if record.get("procStart") is not None else None
+    if recorded is not None:
+        ok = recorded // 1000 == start // 1000
+    else:
+        began = record.get("startedAt")
+        ok = type(began) in (int, float) and abs(began - start) <= 5000
+    return {"sessionId": session.lower(), "via": "pid-record"} if ok else {"code": "PROCESS_MISMATCH"}
+
+
+def open_files(pid):
+    if proc_mode():
+        folder = os.path.join(PROC, str(pid), "fd")
+        names = []
+        for fd in os.listdir(folder)[:4096]:
+            try:
+                names.append(os.readlink(os.path.join(folder, fd)))
+            except OSError:
+                continue
+        return names
+    p = subprocess.run([LSOF, "-a", "-n", "-P", "-p", str(pid), "-Fn"], capture_output=True, timeout=left())
+    if p.returncode not in (0, 1) or len(p.stdout) > 1048576:
+        raise OSError("lsof")
+    return [line[1:] for line in p.stdout.decode("utf-8", "replace").splitlines() if line.startswith("n")]
+
+
+def grok(root, pid):
+    base = os.path.realpath(root).rstrip("/")
+    pattern = re.compile("^" + re.escape(base) + r"/sessions/[^/]+/([0-9a-f-]{36})/events\.jsonl$", re.I)
+    try:
+        names = open_files(pid)
+    except Exception:
+        return {"code": "UNAVAILABLE"}
+    found = {m.group(1).lower() for m in (pattern.match(n) for n in names) if m and UUID.match(m.group(1))}
+    if len(found) == 1:
+        return {"sessionId": found.pop(), "via": "open-file"}
+    return {"code": "AMBIGUOUS" if found else "NO_SESSION"}
+
+
+def facts():
+    rows = table()
+    result = []
+    for t in request.get("terminals", [])[:64]:
+        shell, fg = info(t.get("shellPid"), rows), info(t.get("foregroundPid"), rows)
+        kids = []
+        if fg:
+            kids = [info(pid, rows) for pid, row in sorted(rows.items()) if row[0] == fg["pid"]][:8]
+        sessions = []
+        for proc in ([fg] if fg else []) + kids[:4]:
+            s = {"pid": proc["pid"]}
+            if request.get("claudeRoot"):
+                s["claude"] = claude(os.path.expanduser(request["claudeRoot"]), proc["pid"], proc["startMs"])
+            if request.get("grokRoot"):
+                s["grok"] = grok(os.path.expanduser(request["grokRoot"]), proc["pid"])
+            sessions.append(s)
+        result.append({"address": t.get("address"), "shell": shell, "foreground": fg, "children": kids, "sessions": sessions})
+    out({"v": 1, "ok": True, "terminals": result})
+
+
+def claim():
+    key = request.get("key")
+    if not isinstance(key, str) or not re.match(r"^[A-Za-z0-9._-]{1,200}$", key):
+        out({"v": 1, "ok": False, "code": "INVALID_KEY"})
+    os.makedirs(CLAIMS, mode=0o700, exist_ok=True)
+    cutoff = time.time() - 7 * 86400
+    for name in os.listdir(CLAIMS)[:200]:
+        try:
+            if os.lstat(os.path.join(CLAIMS, name)).st_mtime < cutoff:
+                os.remove(os.path.join(CLAIMS, name))
+        except OSError:
+            pass
+    try:
+        fd = os.open(os.path.join(CLAIMS, key), os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+        os.write(fd, json.dumps({"at": int(time.time() * 1000), "owner": str(request.get("owner", ""))[:120]}).encode())
+        os.close(fd)
+        out({"v": 1, "ok": True, "claimed": True})
+    except FileExistsError:
+        out({"v": 1, "ok": True, "claimed": False})
+
+
+try:
+    if request.get("v") != 1:
+        out({"v": 1, "ok": False, "code": "INVALID_REQUEST"})
+    if request.get("op") == "facts":
+        facts()
+    if request.get("op") == "claim":
+        claim()
+    out({"v": 1, "ok": False, "code": "INVALID_REQUEST"})
+except SystemExit:
+    raise
+except Exception:
+    out({"v": 1, "ok": False, "code": "UNAVAILABLE"})
+`;
+var unavailable = (on, code = "UNAVAILABLE") => Object.freeze({ ok: false, code, machine: on });
+async function call(io, on, request) {
+  const text9 = JSON.stringify(request);
+  if (text9.length > HOST_LIMITS.request) return unavailable(on, "REQUEST_TOO_LARGE");
+  let result2;
+  try {
+    result2 = await io.exec("python3", ["-c", HOST_HELPER, text9], { on });
+  } catch {
+    return unavailable(on, "HOST_UNAVAILABLE");
+  }
+  if (result2?.code !== 0 || typeof result2.stdout !== "string" || result2.stdout.length > HOST_LIMITS.output) return unavailable(on, "HOST_UNAVAILABLE");
+  try {
+    const value = JSON.parse(result2.stdout);
+    if (value?.v === 1 && typeof value.ok === "boolean") return value;
+  } catch {
+  }
+  return unavailable(on, "INVALID_RESPONSE");
+}
+var pid = (v) => Number.isSafeInteger(v) && v > 1 ? v : null;
+var proc = (v) => v && pid(v.pid) ? Object.freeze({ pid: v.pid, ppid: Number.isSafeInteger(v.ppid) ? v.ppid : null, name: typeof v.name === "string" ? v.name.slice(0, 64) : null, startMs: Number.isSafeInteger(v.startMs) ? v.startMs : null, ageMs: Number.isSafeInteger(v.ageMs) ? v.ageMs : null }) : null;
+var found = (v) => v && typeof v.sessionId === "string" && UUID2.test(v.sessionId) ? Object.freeze({ sessionId: v.sessionId.toLowerCase(), via: v.via === "open-file" ? "open-file" : "pid-record" }) : Object.freeze({ code: typeof v?.code === "string" ? v.code.slice(0, 40) : "UNAVAILABLE" });
+async function hostFacts(io, { machine: machine2 = null, terminals = [], claudeRoot = null, grokRoot = null } = {}) {
+  const on = machineIdentity(machine2), asked = terminals.filter((t) => ADDRESS.test(t?.address ?? "")).slice(0, HOST_LIMITS.terminals).map((t) => ({ address: t.address, shellPid: pid(t.shellPid), foregroundPid: pid(t.foregroundPid) }));
+  if (!asked.length) return Object.freeze({ ok: true, machine: on, terminals: /* @__PURE__ */ new Map() });
+  const value = await call(io, on, { v: 1, op: "facts", terminals: asked, claudeRoot: typeof claudeRoot === "string" ? claudeRoot : null, grokRoot: typeof grokRoot === "string" ? grokRoot : null });
+  if (!value.ok || !Array.isArray(value.terminals)) return unavailable(on, value.code || "INVALID_RESPONSE");
+  const map = /* @__PURE__ */ new Map(), known4 = new Set(asked.map((t) => t.address));
+  for (const t of value.terminals) {
+    if (!known4.has(t?.address)) continue;
+    const sessions = /* @__PURE__ */ new Map();
+    for (const s of Array.isArray(t.sessions) ? t.sessions : []) if (pid(s?.pid)) sessions.set(s.pid, Object.freeze({ ...s.claude ? { claude: found(s.claude) } : {}, ...s.grok ? { grok: found(s.grok) } : {} }));
+    map.set(t.address, Object.freeze({ shell: proc(t.shell), foreground: proc(t.foreground), children: Object.freeze((Array.isArray(t.children) ? t.children : []).map(proc).filter(Boolean).slice(0, HOST_LIMITS.children)), sessions }));
+  }
+  return Object.freeze({ ok: true, machine: on, terminals: map });
+}
+async function hostClaim(io, { machine: machine2 = null, key: key3, owner: owner2 = "" } = {}) {
+  const on = machineIdentity(machine2);
+  if (typeof key3 !== "string" || !KEY2.test(key3)) return unavailable(on, "INVALID_KEY");
+  const value = await call(io, on, { v: 1, op: "claim", key: key3, owner: String(owner2).slice(0, 120) });
+  return value.ok ? Object.freeze({ ok: true, claimed: value.claimed === true, machine: on }) : unavailable(on, value.code);
+}
+
+// src/shared/restart-resume.js
+var RESTART = Object.freeze({ version: 1, entriesPerMachine: 500, bytes: 900 * 1024, machines: 32, typeWindowMs: 15 * 6e4, sendingStaleMs: 6e4, graceMs: 6e4, offerMs: 24 * 36e5, leaseMs: 15e3, seenRefreshMs: 6e4, maxSends: 4 });
+var RESTART_STATE_KEY = "mission-control-restart-v1";
+var STATES = Object.freeze(["tracking", "lost", "sending", "sent", "offered", "skipped"]);
+var VIAS = Object.freeze(["pid-record", "codex-hook", "open-file", "argv", "binding"]);
+var PROVIDERS = Object.freeze(["claude", "codex", "grok"]);
+var POSIX_SHELLS = /* @__PURE__ */ new Set(["sh", "bash", "zsh", "dash", "ksh"]);
+var UUID3 = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+var ADDRESS2 = /^t[0-9a-z]{1,63}$/;
+var WRAPPERS2 = Object.freeze({ "-lic": '"$@"; exec "$0" -li', "-c": '"$@"; exec "${SHELL:-sh}" -i' });
+var RestartError = class extends Error {
+  constructor(code, message) {
+    super(message);
+    this.name = "RestartError";
+    this.code = code;
+  }
+};
+var fail13 = (code, message) => {
+  throw new RestartError(code, message);
+};
+var plain4 = (v) => v !== null && typeof v === "object" && !Array.isArray(v);
+var time4 = (v) => Number.isSafeInteger(v) && v >= 0;
+var pid2 = (v) => Number.isSafeInteger(v) && v > 1;
+var text8 = (v, max = 256) => typeof v === "string" && v.length > 0 && v.length <= max && !/[\u0000-\u001f]/.test(v) && !["__proto__", "constructor", "prototype"].includes(v);
+var clone8 = (v) => JSON.parse(JSON.stringify(v));
 var freeze6 = (v) => {
   if (v && typeof v === "object" && !Object.isFrozen(v)) {
     for (const c of Object.values(v)) freeze6(c);
@@ -4228,13 +4887,813 @@ var freeze6 = (v) => {
   }
   return v;
 };
-var plain4 = (v) => v !== null && typeof v === "object" && !Array.isArray(v);
+var base3 = (v) => typeof v === "string" ? v.slice(v.lastIndexOf("/") + 1).replace(/^-+/, "") : "";
+function machineKey(machine2) {
+  const m = machineIdentity(machine2);
+  if (m === "local") fail13("INVALID_MACHINE", 'A machine named "local" cannot be recorded');
+  return m === null ? "local" : m;
+}
+var machineOf2 = (key3) => key3 === "local" ? null : key3;
+function resumePreference(config) {
+  const v = config?.preferences?.resumeAfterRestart;
+  if (v === void 0) return freeze6({ on: true, reason: null });
+  if (typeof v === "boolean") return freeze6({ on: v, reason: v ? null : "Resume after restart is turned off." });
+  return freeze6({ on: false, reason: "preferences.resumeAfterRestart is not true or false, so resume after restart is off." });
+}
+function argvSession(argv) {
+  if (!Array.isArray(argv)) return null;
+  const words = argv.slice(0, 32).map(String), names = words.slice(0, 3).map(base3);
+  const provider = names.some((n) => n === "claude") || words.slice(0, 3).some((w) => w.includes("/@anthropic-ai/claude-code/")) ? "claude" : names.some((n) => n === "codex") ? "codex" : names.some((n) => /^grok(?:$|-)/.test(n)) ? "grok" : null;
+  if (!provider) return null;
+  for (let i = 0; i < words.length; i++) {
+    const w = words[i];
+    let id2 = null;
+    if (provider !== "codex" && (w === "--resume" || w === "-r")) id2 = words[i + 1];
+    else if (provider !== "codex" && w.startsWith("--resume=")) id2 = w.slice(9);
+    else if (provider === "codex" && w === "resume") id2 = words[i + 1];
+    if (typeof id2 === "string" && UUID3.test(id2)) return freeze6({ provider, sessionId: id2.toLowerCase(), via: "argv" });
+  }
+  return null;
+}
+function providerOf({ programKey, app, argv, name: name2 } = {}) {
+  const k = String(programKey || "").toLowerCase();
+  if (PROVIDERS.includes(k)) return k;
+  const a = String(app || "").toLowerCase();
+  if (a === "claude-code" || a === "claude") return "claude";
+  if (a === "codex") return "codex";
+  if (a === "grok-build" || a === "grok") return "grok";
+  const words = Array.isArray(argv) ? argv.slice(0, 3).map(String) : [], names = [...words.map(base3), base3(name2)];
+  if (names.includes("claude") || words.some((w) => w.includes("/@anthropic-ai/claude-code/"))) return "claude";
+  if (names.includes("codex")) return "codex";
+  if (names.some((n) => /^grok(?:$|-)/.test(n))) return "grok";
+  return null;
+}
+function isWrapper(argv) {
+  return Array.isArray(argv) && argv.length >= 3 && WRAPPERS2[argv[1]] === argv[2] && POSIX_SHELLS.has(base3(argv[0]));
+}
+function agentProcess(foreground, children = []) {
+  if (isWrapper(foreground?.argv)) return children.length === 1 ? children[0] : null;
+  return foreground && pid2(foreground.pid) ? foreground : null;
+}
+function resumeLine(argv) {
+  if (!Array.isArray(argv) || !argv.length || argv.some((w) => typeof w !== "string" || !w || w.includes("\0") || /[\n\r]/.test(w))) fail13("INVALID_ARGV", "A resume command needs plain words");
+  return argv.map((w) => /^[A-Za-z0-9_@%+=:,./-]+$/.test(w) ? w : "'" + w.replace(/'/g, "'\\''") + "'").join(" ");
+}
+var cdPrefix = (cwd) => "cd " + resumeLine([cwd]) + " && ";
+var emptyJournal2 = () => ({ v: RESTART.version, revision: 0, lease: null, machines: {} });
+function entry2(e) {
+  if (!plain4(e) || !STATES.includes(e.state)) fail13("INVALID_JOURNAL", "Invalid running-agent entry");
+  for (const f of ["spaceId", "tabId", "toolKey"]) if (!text8(e[f])) fail13("INVALID_JOURNAL", "Invalid " + f);
+  if (!text8(e.cwd, 4096) || !e.cwd.startsWith("/")) fail13("INVALID_JOURNAL", "Invalid cwd");
+  if (!PROVIDERS.includes(e.provider) || !UUID3.test(e.sessionId ?? "") || !VIAS.includes(e.via)) fail13("INVALID_JOURNAL", "Invalid session identity");
+  for (const f of ["shellPid", "agentPid"]) if (!pid2(e[f])) fail13("INVALID_JOURNAL", "Invalid " + f);
+  for (const f of ["shellStartMs", "agentStartMs", "seenAt"]) if (!time4(e[f])) fail13("INVALID_JOURNAL", "Invalid " + f);
+  for (const f of ["lostAt", "offeredAt", "sendingAt", "sentAt"]) if (e[f] !== void 0 && !time4(e[f])) fail13("INVALID_JOURNAL", "Invalid " + f);
+  for (const f of ["lostBy", "reason", "line", "passId", "claimKey"]) if (e[f] !== void 0 && !text8(e[f], 2048)) fail13("INVALID_JOURNAL", "Invalid " + f);
+  if (e.createdMs !== void 0 && !time4(e.createdMs)) fail13("INVALID_JOURNAL", "Invalid createdMs");
+  return e;
+}
+function validateJournal2(value) {
+  if (!plain4(value) || value.v !== RESTART.version || !time4(value.revision) || !plain4(value.machines)) fail13("INVALID_JOURNAL", "Invalid running-agents journal");
+  if (value.lease !== null && !(plain4(value.lease) && text8(value.lease.owner) && time4(value.lease.expiresAt))) fail13("INVALID_JOURNAL", "Invalid lease");
+  const keys = Object.keys(value.machines);
+  if (keys.length > RESTART.machines) fail13("INVALID_JOURNAL", "Too many machines");
+  for (const k of keys) {
+    const m = value.machines[k];
+    if (!text8(k, 128) || !plain4(m) || !time4(m.observedAt) || !plain4(m.terminals)) fail13("INVALID_JOURNAL", "Invalid machine record");
+    const addresses = Object.keys(m.terminals);
+    if (addresses.length > RESTART.entriesPerMachine) fail13("INVALID_JOURNAL", "Too many entries");
+    for (const a of addresses) {
+      if (!ADDRESS2.test(a)) fail13("INVALID_JOURNAL", "Invalid terminal address");
+      entry2(m.terminals[a]);
+    }
+  }
+  return value;
+}
+function fit2(draft) {
+  const rank = { skipped: 0, offered: 1, sent: 2, tracking: 3, lost: 4, sending: 5 };
+  for (let guard = 0; guard < 5e3 && JSON.stringify(draft).length > RESTART.bytes; guard++) {
+    let worst = null;
+    for (const [k, m] of Object.entries(draft.machines)) for (const [a, e] of Object.entries(m.terminals)) if (!worst || rank[e.state] < rank[worst.e.state] || rank[e.state] === rank[worst.e.state] && e.seenAt < worst.e.seenAt) worst = { k, a, e };
+    if (!worst) break;
+    delete draft.machines[worst.k].terminals[worst.a];
+  }
+}
+var isConflict5 = (e) => ["STALE", "CONFLICT", "EAGAIN"].includes(e?.code) || /stale|contents?.*changed|expected.*match|compare.and.set/i.test(e?.message || "");
+var RunningAgents = class {
+  constructor(io, { clock = () => Date.now() } = {}) {
+    this.io = io;
+    this.clock = clock;
+    const home2 = typeof io.appHome === "function" ? io.appHome() : io.appHome;
+    this.path = String(home2).replace(/[/\\]+$/, "") + "/mission-control/running-agents.json";
+  }
+  /** {raw, value, status}: status "ok", "missing", "newer" (left untouched, feature idle) or "invalid" (kept aside). */
+  async read() {
+    const raw = await this.io.readTextFile(this.path);
+    if (raw === null || raw === void 0) return { raw: null, value: emptyJournal2(), status: "missing" };
+    let parsed;
+    try {
+      parsed = JSON.parse(raw);
+    } catch {
+      return { raw, value: emptyJournal2(), status: "invalid" };
+    }
+    if (plain4(parsed) && Number.isSafeInteger(parsed.v) && parsed.v > RESTART.version) return { raw, value: null, status: "newer" };
+    try {
+      return { raw, value: validateJournal2(parsed), status: "ok" };
+    } catch {
+      return { raw, value: emptyJournal2(), status: "invalid" };
+    }
+  }
+  /** fn(draft, now) returns {write:false} to skip the write, or any result. A newer journal is never written. */
+  async edit(fn) {
+    for (let attempt = 0; attempt < 4; attempt++) {
+      const { raw, value, status } = await this.read();
+      if (status === "newer") fail13("NEWER_JOURNAL", "running-agents.json was written by a newer Mission Control; it is left untouched");
+      if (status === "invalid" && raw !== null) {
+        const aside = this.path + ".invalid-" + this.clock();
+        try {
+          await this.io.writeTextFile(aside, raw, null);
+        } catch {
+        }
+      }
+      const draft = clone8(value), now3 = this.clock(), result2 = fn(draft, now3) || {};
+      if (result2.write === false && status !== "invalid") return { value, result: result2 };
+      draft.revision = (value.revision || 0) + 1;
+      fit2(draft);
+      validateJournal2(draft);
+      await this.io.ensureDirectory?.(this.path.slice(0, this.path.lastIndexOf("/")));
+      try {
+        await this.io.writeTextFile(this.path, JSON.stringify(draft) + "\n", raw);
+        return { value: draft, result: result2 };
+      } catch (error2) {
+        if (!isConflict5(error2) || attempt === 3) throw error2;
+      }
+    }
+    fail13("CONFLICT", "running-agents.json kept changing");
+  }
+};
+function takeLease(draft, owner2, now3) {
+  const l = draft.lease;
+  if (l && l.owner !== owner2 && l.expiresAt > now3) return false;
+  if (!l || l.owner !== owner2 || l.expiresAt - now3 < RESTART.leaseMs / 2) draft.lease = { owner: owner2, expiresAt: now3 + RESTART.leaseMs };
+  return true;
+}
+function releaseLease(draft, owner2) {
+  if (draft.lease?.owner !== owner2) return { write: false };
+  draft.lease = null;
+  return {};
+}
+function observeMachine(draft, obs, { owner: owner2, now: now3 }) {
+  const key3 = machineKey(obs.machine), out = { lost: [], removed: [], added: [], changed: false };
+  if (!obs.ok) return out;
+  const m = draft.machines[key3] || (draft.machines[key3] = { observedAt: now3, lastContinuousAt: now3, terminals: {} });
+  if (now3 - m.observedAt >= RESTART.seenRefreshMs) {
+    m.observedAt = now3;
+    out.changed = true;
+  }
+  const remove = (a, why) => {
+    delete m.terminals[a];
+    out.removed.push({ address: a, why });
+    out.changed = true;
+  };
+  for (const [a, e] of Object.entries(m.terminals)) {
+    const t = obs.terminals.get(a);
+    if (!t) {
+      if (obs.live && !obs.live.has(a)) remove(a, "closed");
+      continue;
+    }
+    if (e.createdMs !== void 0 && t.createdMs !== void 0 && t.createdMs !== e.createdMs) {
+      remove(a, "replaced");
+      continue;
+    }
+    const sameShell = t.shellPid === e.shellPid && t.shellStartMs === e.shellStartMs;
+    if (e.state === "tracking") {
+      if (!sameShell) {
+        if (t.spaceId !== e.spaceId || t.tabId !== e.tabId) {
+          remove(a, "moved");
+          continue;
+        }
+        Object.assign(e, { state: "lost", lostAt: now3, lostBy: owner2, shellPid: t.shellPid, shellStartMs: t.shellStartMs });
+        out.lost.push(a);
+        out.changed = true;
+        continue;
+      }
+      if (t.spaceId !== e.spaceId || t.tabId !== e.tabId) {
+        e.spaceId = t.spaceId;
+        e.tabId = t.tabId;
+        out.changed = true;
+      }
+      const ag = t.agent;
+      if (!ag || ag.pid !== e.agentPid || ag.startMs !== e.agentStartMs) {
+        remove(a, "quit");
+        continue;
+      }
+      if (ag.sessionId && ag.sessionId !== e.sessionId) {
+        e.sessionId = ag.sessionId;
+        e.via = ag.via;
+        out.changed = true;
+      }
+      if (t.cwd && t.cwd !== e.cwd && t.cwd.startsWith("/")) {
+        e.cwd = t.cwd;
+        out.changed = true;
+      }
+      if (now3 - e.seenAt >= RESTART.seenRefreshMs) {
+        e.seenAt = now3;
+        out.changed = true;
+      }
+      continue;
+    }
+    if (!sameShell) {
+      if (e.state === "lost") {
+        Object.assign(e, { lostAt: now3, lostBy: owner2, shellPid: t.shellPid, shellStartMs: t.shellStartMs });
+        out.changed = true;
+        out.lost.push(a);
+      } else remove(a, "restarted-again");
+      continue;
+    }
+    if (e.state === "sent") {
+      const ag = t.agent;
+      if (ag && ag.provider === e.provider) {
+        Object.assign(e, { state: "tracking", agentPid: ag.pid, agentStartMs: ag.startMs, seenAt: now3, ...ag.sessionId ? { sessionId: ag.sessionId, via: ag.via } : {} });
+        for (const f of ["lostAt", "lostBy", "offeredAt", "sendingAt", "sentAt", "reason", "line", "passId", "claimKey"]) delete e[f];
+        out.changed = true;
+      } else if (now3 - (e.sentAt ?? now3) >= RESTART.graceMs) remove(a, "resume-ended");
+      continue;
+    }
+    if (e.state === "offered") {
+      if (!t.foregroundIsShell || now3 - (e.offeredAt ?? now3) >= RESTART.offerMs) remove(a, t.foregroundIsShell ? "offer-expired" : "shell-used");
+      continue;
+    }
+    if (e.state === "sending" && now3 - (e.sendingAt ?? now3) >= RESTART.sendingStaleMs) {
+      Object.assign(e, { state: "offered", offeredAt: now3, reason: "The resume command was not confirmed as sent." });
+      out.changed = true;
+      continue;
+    }
+    if (e.state === "skipped") remove(a, "skipped");
+  }
+  for (const [a, t] of obs.terminals) {
+    const ag = t.agent;
+    if (m.terminals[a] || !ag || !ag.sessionId || !PROVIDERS.includes(ag.provider)) continue;
+    if (Object.keys(m.terminals).length >= RESTART.entriesPerMachine) break;
+    if (!text8(t.spaceId) || !text8(t.tabId) || !text8(t.cwd, 4096) || !t.cwd.startsWith("/") || !pid2(t.shellPid) || !time4(t.shellStartMs) || !pid2(ag.pid) || !time4(ag.startMs)) continue;
+    m.terminals[a] = { spaceId: t.spaceId, tabId: t.tabId, cwd: t.cwd, toolKey: ag.toolKey || ag.provider, provider: ag.provider, sessionId: ag.sessionId, via: ag.via, shellPid: t.shellPid, shellStartMs: t.shellStartMs, agentPid: ag.pid, agentStartMs: ag.startMs, seenAt: now3, state: "tracking", ...time4(t.createdMs) ? { createdMs: t.createdMs } : {} };
+    out.added.push(a);
+    out.changed = true;
+  }
+  if (out.changed) m.lastContinuousAt = now3;
+  return out;
+}
+function fallbackArgv(provider, sessionId) {
+  return provider === "codex" ? ["codex", "resume", sessionId] : [provider, "--resume", sessionId];
+}
+function decide(e, { t, preference, tool }) {
+  if (!preference.on) return { type: "skip", reason: preference.reason || "Resume after restart is turned off." };
+  const argv = tool?.argv || fallbackArgv(e.provider, e.sessionId);
+  let line2;
+  try {
+    line2 = resumeLine(argv);
+  } catch {
+    return { type: "skip", reason: "No safe resume command could be built." };
+  }
+  const offer = (reason, { cd = false } = {}) => ({ type: "offer", reason, line: (cd ? cdPrefix(e.cwd) : "") + line2 });
+  if (!tool?.argv) return offer(tool?.reason || `${e.provider} is not installed or its exact resume is not verified on this machine.`);
+  if (!t || !t.foregroundIsShell) return offer("The restored shell is already running something else.");
+  if (!POSIX_SHELLS.has(base3(t.shellName || ""))) return offer(`The restored shell is ${t.shellName || "unknown"}, not a POSIX shell.`);
+  if (t.cwd !== e.cwd) return offer("The restored shell is in another folder.", { cd: true });
+  if (!Number.isSafeInteger(t.shellAgeMs)) return offer("The restored shell’s age is unknown.");
+  if (t.shellAgeMs > RESTART.typeWindowMs) return offer("The restored shell is more than 15 minutes old.");
+  return { type: "type", reason: null, line: line2 };
+}
+var claimKey = (address, e, { offer } = {}) => [address, e.shellPid, e.shellStartMs].join("-") + (offer ? "-offer-" + offer : "");
+function markSending(draft, { machine: machine2, address, passId, claim, line: line2, expect = ["lost"], now: now3 }) {
+  const e = draft.machines[machineKey(machine2)]?.terminals[address];
+  if (!e || !expect.includes(e.state)) return false;
+  Object.assign(e, { state: "sending", sendingAt: now3, passId, claimKey: claim, line: line2 });
+  return true;
+}
+function markOutcome(draft, { machine: machine2, address, state, reason, line: line2, passId, now: now3 }) {
+  const e = draft.machines[machineKey(machine2)]?.terminals[address];
+  if (!e) return false;
+  e.state = state;
+  if (passId) e.passId = passId;
+  if (line2) e.line = line2;
+  if (reason) e.reason = reason;
+  else delete e.reason;
+  if (state === "sent") e.sentAt = now3;
+  if (state === "offered") e.offeredAt = now3;
+  return true;
+}
+function dismiss(draft, { machine: machine2, address }) {
+  const m = draft.machines[machineKey(machine2)];
+  if (!m?.terminals[address]) return { write: false };
+  delete m.terminals[address];
+  return {};
+}
+function offers(value) {
+  const list = [];
+  for (const [k, m] of Object.entries(value?.machines || {})) for (const [a, e] of Object.entries(m.terminals)) if (e.state === "offered") list.push(freeze6({ machine: machineOf2(k), address: a, spaceId: e.spaceId, tabId: e.tabId, provider: e.provider, sessionId: e.sessionId, cwd: e.cwd, line: e.line ?? resumeLine(fallbackArgv(e.provider, e.sessionId)), reason: e.reason ?? null }));
+  return list;
+}
+
+// src/shared/restart-runner.js
+var RUNNER = Object.freeze({ episodeMs: 9e4, tickMs: 5e3, budget: 8, refreshMs: 3e4, journalRefreshMs: 5e3, listMs: 3e4, factsFreshMs: 1e4, codexStatusMs: 6e5, staleTickMs: 25e3 });
+var SHELL_NAMES = /* @__PURE__ */ new Set([...POSIX_SHELLS, "fish", "nu", "tcsh", "csh", "elvish", "xonsh"]);
+var DEFAULT_ROOTS = { claude: "~/.claude", grok: "~/.grok" };
+var freeze7 = (v) => {
+  if (v && typeof v === "object" && !Object.isFrozen(v)) {
+    for (const c of Object.values(v)) freeze7(c);
+    Object.freeze(v);
+  }
+  return v;
+};
+var base4 = (v) => typeof v === "string" ? v.slice(v.lastIndexOf("/") + 1).replace(/^-+/, "") : "";
+var safeMachine3 = (v) => {
+  try {
+    return machineIdentity(v);
+  } catch {
+    return void 0;
+  }
+};
+var qualify2 = (id2, on) => on ? on + "/" + id2 : id2;
+var Budget = class {
+  constructor(n) {
+    this.left = n;
+  }
+  take(n = 1) {
+    if (this.left < n) return false;
+    this.left -= n;
+    return true;
+  }
+};
+var RestartRunner = class {
+  constructor(io, { owner: owner2, clock = () => Date.now(), budget = RUNNER.budget } = {}) {
+    this.io = io;
+    this.owner = owner2 || "restart-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 8);
+    this.clock = clock;
+    this.budgetSize = budget;
+    this.journal = new RunningAgents(io, { clock });
+    this.bindings = new BindingStore(io, { clock });
+    this.fetched = /* @__PURE__ */ new Map();
+    this.signatures = /* @__PURE__ */ new Map();
+    this.facts = /* @__PURE__ */ new Map();
+    this.listed = /* @__PURE__ */ new Map();
+    this.codex = /* @__PURE__ */ new Map();
+    this.codexAt = 0;
+    this.value = null;
+    this.status = "starting";
+    this.error = null;
+    this.ticking = 0;
+    this.passes = 0;
+    this.closed = false;
+    this.lastSummary = null;
+  }
+  async exec(budget, cmd, args, options) {
+    if (budget && !budget.take()) throw Object.assign(Error("budget"), { code: "BUDGET" });
+    return this.io.exec(cmd, args, options);
+  }
+  /** One bounded step. Never throws. */
+  async tick() {
+    const now3 = this.clock();
+    if (this.closed || this.ticking && now3 - this.ticking < RUNNER.staleTickMs) return { skipped: true };
+    this.ticking = now3;
+    try {
+      const { value, status } = await this.journal.read();
+      if (status === "newer") {
+        this.status = "idle-newer";
+        this.value = null;
+        return { idle: true };
+      }
+      this.value = value;
+      const budget = new Budget(this.budgetSize);
+      const { result: result2 } = await this.journal.edit((d, t) => {
+        const before = JSON.stringify(d.lease), owned = takeLease(d, this.owner, t);
+        return { write: JSON.stringify(d.lease) !== before ? void 0 : false, owned };
+      });
+      if (!result2.owned) {
+        this.status = "watching";
+        return { owned: false };
+      }
+      this.status = "observing";
+      if (this.hasLost(this.value)) await this.pass(budget);
+      await this.observe(budget);
+      if (now3 - this.codexAt >= RUNNER.codexStatusMs) await this.refreshCodex();
+      this.value = (await this.journal.read()).value;
+      this.error = null;
+      return { owned: true };
+    } catch (error2) {
+      this.error = freeze7({ code: error2?.code || "RESTART_FAILED", message: error2?.code === "NEWER_JOURNAL" ? error2.message : "Resume after restart could not check agents; nothing was typed." });
+      return { error: this.error };
+    } finally {
+      this.ticking = 0;
+    }
+  }
+  hasLost(value) {
+    return Object.values(value?.machines || {}).some((m) => Object.values(m.terminals).some((e) => e.state === "lost"));
+  }
+  machines() {
+    const list = typeof this.io.machines === "function" ? this.io.machines() || [] : [{ name: null, layout: "ready" }];
+    return list.filter((m) => m && !m.temporary && m.layout === "ready" && safeMachine3(m.name) !== void 0).map((m) => safeMachine3(m.name));
+  }
+  /** Every terminal worth a look on each machine: agents(), agent-program panes and journal entries. */
+  candidates() {
+    const spaces2 = this.io.spaces?.() || [], machineOfSpace = /* @__PURE__ */ new Map(), tabSpace = /* @__PURE__ */ new Map(), out = /* @__PURE__ */ new Map();
+    for (const s of spaces2) {
+      const m = safeMachine3(s?.machine);
+      if (m === void 0) continue;
+      machineOfSpace.set(s.id, m);
+      for (const t of s.tabs || []) tabSpace.set(t.id, s.id);
+    }
+    const add = (m, address, info) => {
+      let local;
+      try {
+        local = localTerminalAddress(address, m);
+      } catch {
+        return;
+      }
+      const key3 = machineKey(m);
+      if (!out.has(key3)) out.set(key3, /* @__PURE__ */ new Map());
+      const map = out.get(key3), prev = map.get(local) || {};
+      map.set(local, { ...prev, ...info });
+    };
+    for (const a of this.io.agents?.() || []) {
+      const m = machineOfSpace.get(a?.space);
+      if (m === void 0 || !a.address) continue;
+      add(m, a.address, { app: a.app, programKey: a.program?.key, status: a.status });
+    }
+    for (const p of this.io.panes?.() || []) {
+      if (!p?.terminal) continue;
+      const k = String(p.program?.key || "").toLowerCase();
+      if (!(p.program?.agent === true || ["claude", "codex", "grok"].includes(k))) continue;
+      const m = machineOfSpace.get(tabSpace.get(p.tab));
+      if (m === void 0) continue;
+      add(m, p.terminal, { programKey: p.program?.key, app: p.app });
+    }
+    for (const [key3, m] of Object.entries(this.value?.machines || {})) for (const a of Object.keys(m.terminals)) {
+      if (!out.has(key3)) out.set(key3, /* @__PURE__ */ new Map());
+      const map = out.get(key3);
+      if (!map.has(a)) map.set(a, {});
+      map.get(a).journal = true;
+    }
+    return out;
+  }
+  async roots(provider, machine2) {
+    try {
+      const s = await this.io.sessionSource?.(provider, machine2);
+      if (s?.providerRoot) return s.providerRoot;
+    } catch {
+    }
+    return null;
+  }
+  async observe(budget) {
+    const now3 = this.clock(), ready = new Set(this.machines().map((m) => machineKey(m))), all = [...this.candidates()];
+    const turn = all.length ? (this.turn = (this.turn ?? -1) + 1) % all.length : 0;
+    for (const [key3, terms] of [...all.slice(turn), ...all.slice(0, turn)]) {
+      if (!ready.has(key3) || budget.left < 2) continue;
+      const machine2 = machineOf2(key3);
+      const order = [...terms].map(([a, info]) => {
+        const sig = JSON.stringify([info.programKey ?? null, info.app ?? null, Boolean(info.status)]), changed = this.signatures.get(key3 + a) !== sig, last = this.fetched.get(key3 + a) ?? 0;
+        return { a, info, sig, score: info.journal ? now3 - last >= RUNNER.journalRefreshMs ? 0 : 3 : changed ? 1 : now3 - last >= RUNNER.refreshMs ? 2 : 9, last };
+      }).filter((x) => x.score < 9).sort((x, y) => x.score - y.score || x.last - y.last);
+      let live = null;
+      if (now3 - (this.listed.get(key3) ?? 0) >= RUNNER.listMs && Object.keys(this.value?.machines?.[key3]?.terminals || {}).length && budget.left >= 3 && budget.take()) {
+        try {
+          const r = await this.io.exec("hc", ["ls", "--json"], { on: machine2 });
+          const list = r?.code === 0 ? JSON.parse(r.stdout).terminals : null;
+          if (Array.isArray(list)) {
+            live = /* @__PURE__ */ new Set();
+            for (const t of list) if (t && (t.state === void 0 || t.state === "live")) try {
+              live.add(localTerminalAddress(t.address, machine2));
+            } catch {
+            }
+            this.listed.set(key3, now3);
+          }
+        } catch {
+        }
+      }
+      const raws = /* @__PURE__ */ new Map();
+      for (const x of order) {
+        if (budget.left < 2) break;
+        budget.take();
+        try {
+          const r = await this.io.exec("hc", ["get", x.a, "--json"], { on: machine2 });
+          if (r?.code !== 0) continue;
+          const raw = JSON.parse(r.stdout);
+          if (localTerminalAddress(raw.address, machine2) !== x.a || raw.state && raw.state !== "live") continue;
+          raws.set(x.a, { raw, info: x.info });
+          this.fetched.set(key3 + x.a, now3);
+          this.signatures.set(key3 + x.a, x.sig);
+        } catch {
+        }
+      }
+      if (!raws.size && !live) continue;
+      const [claudeRoot, grokRoot] = await Promise.all([this.roots("claude", machine2), this.roots("grok", machine2)]);
+      let facts = { ok: false };
+      if (raws.size && budget.take()) facts = await hostFacts(this.io, { machine: machine2, terminals: [...raws].map(([a, { raw }]) => ({ address: a, shellPid: raw.pid, foregroundPid: raw.foreground?.pid })), claudeRoot: claudeRoot ?? DEFAULT_ROOTS.claude, grokRoot: grokRoot ?? DEFAULT_ROOTS.grok }).then((r) => r, () => ({ ok: false }));
+      const terminals = /* @__PURE__ */ new Map();
+      for (const [a, { raw, info }] of raws) {
+        const f = facts.ok ? facts.terminals.get(a) : null;
+        if (!f?.shell || !Number.isSafeInteger(f.shell.startMs)) continue;
+        const t = await this.describe(machine2, a, raw, info, f);
+        if (t) {
+          terminals.set(a, t);
+          this.facts.set(key3 + a, { at: now3, t });
+        }
+      }
+      const obs = { machine: machine2, ok: true, at: now3, live, terminals };
+      const { result: result2 } = await this.journal.edit((d, t) => {
+        if (d.lease?.owner !== this.owner) return { write: false, lost: [] };
+        const r = observeMachine(d, obs, { owner: this.owner, now: t });
+        return r.changed ? r : { ...r, write: false };
+      });
+      if (result2?.lost?.length) {
+        for (const a of result2.lost) if (raws.get(a)?.raw?.labels?.[CODEX_LABEL] !== void 0 && budget.take()) try {
+          await this.io.exec("hc", ["label", a, CODEX_LABEL + "="], { on: machine2 });
+        } catch {
+        }
+      }
+    }
+  }
+  /** Turns hc get + host facts into the observation the journal rules take. */
+  async describe(machine2, address, raw, info, f) {
+    const labels = raw.labels || {}, spaceId = labels["herdr.space"], tabId = labels["herdr.tab"];
+    if (typeof spaceId !== "string" || typeof tabId !== "string") return null;
+    const fg = raw.foreground || {}, shellPid = raw.pid;
+    if (!Number.isSafeInteger(shellPid)) return null;
+    const fgFacts = f.foreground && f.foreground.pid === fg.pid ? f.foreground : null;
+    const picked = agentProcess({ pid: fg.pid, argv: fg.argv }, f.children);
+    const agentFacts = picked ? picked.pid === fg.pid ? fgFacts : f.children.find((c) => c.pid === picked.pid) : null;
+    const provider = agentFacts ? providerOf({ programKey: info.programKey, app: info.app, argv: picked.pid === fg.pid ? fg.argv : null, name: agentFacts.name }) : null;
+    const foregroundIsShell = fg.pid === shellPid && SHELL_NAMES.has(base4(f.shell.name || "")) && !isWrapper(fg.argv) && !providerOf({ argv: fg.argv, name: fg.name });
+    const cwd = typeof fg.cwd === "string" ? fg.cwd : typeof raw.cwd === "string" ? raw.cwd : null;
+    let agent = null;
+    if (provider && agentFacts && Number.isSafeInteger(agentFacts.startMs) && !foregroundIsShell) {
+      const s = f.sessions.get(agentFacts.pid) || {};
+      let session = null;
+      if (provider === "claude" && s.claude?.sessionId) session = { sessionId: s.claude.sessionId, via: "pid-record" };
+      if (!session && provider === "codex") {
+        const l = parseCodexLabel(labels[CODEX_LABEL]);
+        if (l && l.pid === agentFacts.pid && l.startMs === agentFacts.startMs) session = { sessionId: l.sessionId, via: "codex-hook" };
+      }
+      if (!session && provider === "grok" && s.grok?.sessionId) session = { sessionId: s.grok.sessionId, via: "open-file" };
+      if (!session && picked.pid === fg.pid) {
+        const hit = argvSession(fg.argv);
+        if (hit && hit.provider === provider) session = { sessionId: hit.sessionId, via: "argv" };
+      }
+      if (!session) try {
+        const bound = await this.bindings.readCommitted(terminalIdentity(raw, machine2));
+        if (bound?.session?.provider === provider) session = { sessionId: bound.session.sessionId, via: "binding" };
+      } catch {
+      }
+      agent = { pid: agentFacts.pid, startMs: agentFacts.startMs, provider, toolKey: provider, sessionId: session?.sessionId ?? null, via: session?.via ?? null };
+    }
+    return { createdMs: Number.isSafeInteger(raw.created_ms) ? raw.created_ms : void 0, spaceId: qualify2(spaceId, machine2), tabId: qualify2(tabId, machine2), shellPid, shellStartMs: f.shell.startMs, shellName: f.shell.name, shellAgeMs: f.shell.ageMs, foregroundIsShell, cwd, agent };
+  }
+  /** Verified resume argv for a provider on a machine; fresh skips the 60 s capability cache. */
+  async tool(provider, machine2, { fresh = false } = {}) {
+    let tools;
+    try {
+      tools = installedTools(await this.io.knownAgents({ on: machine2 }));
+    } catch {
+      return { argv: null, reason: `${machine2 ?? "This computer"} could not list its installed tools.` };
+    }
+    const tool = tools.find((t) => t.key === provider);
+    if (!tool) return { argv: null, reason: `${provider} is not installed on ${machine2 ?? "this computer"}.` };
+    let caps;
+    try {
+      caps = fresh ? await new CapabilityRegistry(this.io.exec).get(tool, machine2) : this.io.capabilities ? await this.io.capabilities.get(tool, machine2) : await new CapabilityRegistry(this.io.exec).get(tool, machine2);
+    } catch {
+      return { argv: null, reason: `${provider}'s options could not be checked.` };
+    }
+    if (caps?.provider !== provider || !caps.resume) return { argv: null, reason: `This ${provider} has no verified exact-session resume.` };
+    return { argv: null, caps, reason: null };
+  }
+  /** One restart pass over lost entries, within the tick budget. */
+  async pass(budget) {
+    const now3 = this.clock(), passId = this.owner + "-p" + ++this.passes, summary = { passId, at: now3, resumed: [], offered: [], skipped: [], failed: [] };
+    let preference;
+    try {
+      preference = resumePreference((await readConfig(this.io)).value);
+    } catch {
+      preference = { on: false, reason: "Mission Control settings could not be read, so nothing was typed." };
+    }
+    const tools = /* @__PURE__ */ new Map();
+    let sends = 0;
+    for (const [key3, m] of Object.entries(this.value.machines)) {
+      const machine2 = machineOf2(key3);
+      for (const [address, e] of Object.entries(m.terminals)) {
+        if (e.state !== "lost") continue;
+        const fresh = this.facts.get(key3 + address);
+        if (!fresh || now3 - fresh.at > RUNNER.factsFreshMs || fresh.t.shellPid !== e.shellPid) continue;
+        const tk = key3 + "\0" + e.provider;
+        if (!tools.has(tk)) {
+          if (!budget.take(2)) continue;
+          tools.set(tk, await this.tool(e.provider, machine2));
+        }
+        const tool = tools.get(tk);
+        let argv = null;
+        try {
+          if (tool.caps) argv = buildArguments(tool.caps, { resumeSessionId: e.sessionId });
+        } catch {
+        }
+        const d = decide(e, { t: fresh.t, preference, tool: { argv, reason: tool.reason }, now: now3 });
+        const row = { machine: machine2, address, tabId: e.tabId, provider: e.provider, line: d.line ?? null, reason: d.reason ?? null };
+        if (d.type !== "type") {
+          await this.journal.edit((draft, t) => markOutcome(draft, { machine: machine2, address, state: d.type === "skip" ? "skipped" : "offered", reason: d.reason, line: d.line, passId, now: t }) ? {} : { write: false });
+          summary[d.type === "skip" ? "skipped" : "offered"].push(row);
+          continue;
+        }
+        if (sends >= RESTART.maxSends || budget.left < 3) continue;
+        sends++;
+        const sent = await this.send(budget, { machine: machine2, address, e, line: d.line, passId, claim: claimKey(address, e), expect: ["lost"] });
+        if (sent.ok) summary.resumed.push(row);
+        else if (sent.offered) summary.failed.push({ ...row, reason: sent.reason ?? null });
+      }
+    }
+    const episode = this.episode && now3 - this.episode.at < RUNNER.episodeMs ? this.episode : this.episode = { passId, at: now3, resumed: [], offered: [], skipped: [], failed: [] };
+    for (const k of ["resumed", "offered", "skipped", "failed"]) episode[k].push(...summary[k]);
+    episode.passId = passId;
+    const remaining = Object.values((await this.journal.read()).value?.machines || {}).some((m) => Object.values(m.terminals).some((e) => e.state === "lost" || e.state === "sending"));
+    if ((!remaining || now3 - episode.at >= RUNNER.episodeMs) && (episode.resumed.length || episode.offered.length || episode.failed.length)) {
+      this.publish({ ...episode });
+      this.episode = null;
+    }
+    return summary;
+  }
+  /** Claim on the host, CAS sending, fresh foreground check, hc send. Failures become offers. */
+  async send(budget, { machine: machine2, address, e, line: line2, passId, claim, expect }) {
+    const offer = async (reason) => {
+      await this.journal.edit((d, t) => markOutcome(d, { machine: machine2, address, state: "offered", reason, line: line2, passId, now: t }) ? {} : { write: false });
+      return { ok: false, offered: true, reason };
+    };
+    const c = await hostClaim(this.io, { machine: machine2, key: claim, owner: this.owner });
+    if (!c.ok) return { ok: false, reason: "The machine could not be reached to claim this resume." };
+    if (!c.claimed) return { ok: false, reason: "Another Mission Control is resuming this agent." };
+    const { result: result2 } = await this.journal.edit((d, t) => {
+      const ok2 = markSending(d, { machine: machine2, address, passId, claim, line: line2, expect, now: t });
+      return ok2 ? { ok: ok2 } : { write: false, ok: ok2 };
+    });
+    if (!result2.ok) return { ok: false, reason: "This agent was already handled." };
+    let raw = null;
+    try {
+      if (!budget || budget.take()) {
+        const r2 = await this.io.exec("hc", ["get", address, "--json"], { on: machine2 });
+        if (r2?.code === 0) raw = JSON.parse(r2.stdout);
+      }
+    } catch {
+    }
+    if (!raw || raw.pid !== e.shellPid || raw.foreground?.pid !== raw.pid) return offer("The restored shell changed before the command could be typed.");
+    let r;
+    try {
+      if (budget && !budget.take()) return offer("Typing was postponed.");
+      r = await this.io.exec("hc", ["send", address, line2], { on: machine2 });
+    } catch {
+      return offer("The resume command could not be typed.");
+    }
+    if (r?.code !== 0) return offer("Herdr refused to type the resume command.");
+    await this.journal.edit((d, t) => markOutcome(d, { machine: machine2, address, state: "sent", line: line2, passId, now: t }) ? {} : { write: false });
+    return { ok: true };
+  }
+  publish(summary) {
+    this.lastSummary = freeze7(summary);
+    let shared2 = null;
+    try {
+      shared2 = this.io.shared?.(RESTART_STATE_KEY);
+    } catch {
+    }
+    if (shared2?.toastedPassId === summary.passId) return;
+    try {
+      this.io.setShared?.(RESTART_STATE_KEY, { v: 1, passId: summary.passId, toastedPassId: summary.passId, summary });
+    } catch {
+    }
+    const names = /* @__PURE__ */ new Map();
+    for (const sp of this.io.spaces?.() || []) for (const t of sp.tabs || []) names.set(t.id, t.name || null);
+    const tab = (r) => names.get(r.tabId) || r.tabId, needs = [...summary.failed, ...summary.offered], n = summary.resumed.length;
+    const body = [
+      n ? `Resumed ${n} agent${n === 1 ? "" : "s"}: ${summary.resumed.slice(0, 6).map(tab).join(", ")}${n > 6 ? "…" : ""}.` : null,
+      ...needs.slice(0, 3).map((r) => `${tab(r)} needs you: ${r.line}${r.reason ? " (" + r.reason + ")" : ""}`),
+      needs.length > 3 ? `${needs.length - 3} more in the Reopen bar.` : null
+    ].filter(Boolean).join("\n");
+    try {
+      this.io.notify?.({ title: "Agents after restart", body, level: needs.length ? "warning" : "success" });
+    } catch {
+    }
+  }
+  /** Reads the journal for display without observing (popups and non-lease copies). */
+  async refresh() {
+    try {
+      const { value, status } = await this.journal.read();
+      this.value = status === "newer" ? null : value;
+      this.status = status === "newer" ? "idle-newer" : this.status;
+    } catch {
+    }
+    return this.value;
+  }
+  /** Offers for display. */
+  offers() {
+    return offers(this.value);
+  }
+  /** Resume one offer the person clicked: fresh capabilities, its own claim, the same send protocol. */
+  async resumeOffer({ machine: machine2 = null, address }) {
+    try {
+      const { value, status } = await this.journal.read();
+      if (status === "newer") return { ok: false, reason: "Resume after restart is idle: a newer Mission Control owns its journal." };
+      const key3 = machineKey(machine2), e = value.machines[key3]?.terminals[address];
+      if (!e || e.state !== "offered") return { ok: false, reason: "This offer is gone." };
+      const tool = await this.tool(e.provider, machine2, { fresh: true });
+      let argv = null;
+      try {
+        if (tool.caps) argv = buildArguments(tool.caps, { resumeSessionId: e.sessionId });
+      } catch {
+      }
+      if (!argv) return { ok: false, reason: tool.reason || "Exact resume is not verified on this machine.", line: e.line };
+      let raw = null;
+      try {
+        const r = await this.io.exec("hc", ["get", address, "--json"], { on: machine2 });
+        if (r?.code === 0) raw = JSON.parse(r.stdout);
+      } catch {
+      }
+      if (!raw || raw.pid !== e.shellPid || raw.foreground?.pid !== raw.pid) return { ok: false, reason: "That shell is busy or gone; run the command yourself.", line: e.line };
+      const cwd = raw.foreground?.cwd ?? raw.cwd, line2 = (cwd === e.cwd ? "" : cdPrefix(e.cwd)) + resumeLine(argv);
+      const result2 = await this.send(null, { machine: machine2, address, e, line: line2, passId: this.owner + "-offer", claim: claimKey(address, e, { offer: value.revision }), expect: ["offered"] });
+      this.value = (await this.journal.read()).value;
+      return result2.ok ? { ok: true } : { ok: false, reason: result2.reason, line: line2 };
+    } catch {
+      return { ok: false, reason: "The offer could not be resumed." };
+    }
+  }
+  async dismissOffer({ machine: machine2 = null, address }) {
+    try {
+      await this.journal.edit((d) => dismiss(d, { machine: machine2, address }));
+      this.value = (await this.journal.read()).value;
+      return { ok: true };
+    } catch {
+      return { ok: false };
+    }
+  }
+  async resumeAll() {
+    const results = [];
+    for (const o of this.offers()) results.push(await this.resumeOffer(o));
+    return results;
+  }
+  /** Codex hook state per machine where Codex is installed. */
+  async refreshCodex() {
+    this.codexAt = this.clock();
+    for (const machine2 of this.machines()) {
+      let tools = [];
+      try {
+        tools = installedTools(await this.io.knownAgents({ on: machine2 }));
+      } catch {
+        continue;
+      }
+      if (!tools.some((t) => t.key === "codex")) {
+        this.codex.delete(machineKey(machine2));
+        continue;
+      }
+      this.codex.set(machineKey(machine2), await codexHook(this.io, "status", { machine: machine2 }));
+    }
+  }
+  codexSetup() {
+    return [...this.codex].map(([key3, s]) => freeze7({ machine: machineOf2(key3), installed: s.ok && s.installed === true, ok: s.ok, message: s.ok ? null : s.message }));
+  }
+  async installCodex(machine2 = null) {
+    const r = await codexHook(this.io, "install", { machine: machine2 });
+    if (r.ok) this.codex.set(machineKey(machine2), { ...r, installed: true });
+    return r;
+  }
+  async removeCodex(machine2 = null) {
+    const r = await codexHook(this.io, "remove", { machine: machine2 });
+    if (r.ok) this.codex.set(machineKey(machine2), { ...r, installed: false });
+    return r;
+  }
+  snapshot() {
+    return freeze7({ status: this.status, error: this.error, offers: this.offers(), codex: this.codexSetup(), summary: this.lastSummary });
+  }
+  async release() {
+    this.closed = true;
+    try {
+      await this.journal.edit((d) => releaseLease(d, this.owner));
+    } catch {
+    }
+  }
+};
+
+// src/mods/mission-control-tabs/navigation.js
+import { div as div3 } from "gpui-kit";
+import { h_flex as h_flex3 } from "gpui-base";
+var freeze8 = (v) => {
+  if (v && typeof v === "object" && !Object.isFrozen(v)) {
+    for (const c of Object.values(v)) freeze8(c);
+    Object.freeze(v);
+  }
+  return v;
+};
+var plain5 = (v) => v !== null && typeof v === "object" && !Array.isArray(v);
 var LAYOUT_NAME = /^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/;
 var ID = /^[A-Za-z0-9][A-Za-z0-9._:/-]{0,255}$/;
 var NAV_STATE = "mission-control-tabs-nav-v1";
 var SOURCES_STATE = "mission-control-tabs-sources-v1";
-var NODES = freeze6({ main: "mc-main", panel: "mc-work-panel", stack: "mc-work-stack" });
-var SOURCES2 = freeze6([
+var NODES = freeze8({ main: "mc-main", panel: "mc-work-panel", stack: "mc-work-stack" });
+var SOURCES2 = freeze8([
   { id: "jira", label: "Jira", short: "Jira", icon: "jira", mod: "mission-control-jira", props: { view: "panel", hideHeader: true }, scopeKey: "mission-control-jira-ui-v1" },
   { id: "github", label: "GitHub issues", short: "GitHub", icon: "github", mod: "mission-control-github", props: { view: "issues", hideHeader: true }, scopeKey: "mission-control-github-ui-v1" },
   { id: "pulls", label: "Pull requests", short: "PRs", icon: "pull-request", mod: "mission-control-github", props: { view: "pulls", hideHeader: true }, scopeKey: "mission-control-github-prs-ui-v1" },
@@ -4244,7 +5703,7 @@ var SOURCES2 = freeze6([
   // The Control panel covers the whole Herdr install, never one space: a fixed scope with its own caption.
   { id: "control-panel", label: "Control panel", short: "Control panel", icon: "layout", mod: "mission-control-control-panel", props: { hideHeader: true }, scopeKey: null, fixedScope: "all", caption: "All installed" }
 ]);
-var SOURCE_IDS = freeze6(SOURCES2.map((s) => s.id));
+var SOURCE_IDS = freeze8(SOURCES2.map((s) => s.id));
 var BY_ID = new Map(SOURCES2.map((s) => [s.id, s]));
 function hiddenSources(sharedFn) {
   let v = null;
@@ -4252,10 +5711,10 @@ function hiddenSources(sharedFn) {
     v = typeof sharedFn === "function" ? sharedFn(SOURCES_STATE) : null;
   } catch {
   }
-  return new Set(plain4(v) && v.v === 1 && Array.isArray(v.hidden) ? v.hidden.filter((id2) => BY_ID.has(id2)) : []);
+  return new Set(plain5(v) && v.v === 1 && Array.isArray(v.hidden) ? v.hidden.filter((id2) => BY_ID.has(id2)) : []);
 }
 function setSourceShown(id2, shown, { contract, sharedFn, setSharedFn, runFn } = {}) {
-  if (!BY_ID.has(id2)) return freeze6({ ok: false, code: "UNKNOWN_SOURCE", message: "Unknown source." });
+  if (!BY_ID.has(id2)) return freeze8({ ok: false, code: "UNKNOWN_SOURCE", message: "Unknown source." });
   const hidden = hiddenSources(sharedFn);
   if (shown) hidden.delete(id2);
   else hidden.add(id2);
@@ -4264,17 +5723,17 @@ function setSourceShown(id2, shown, { contract, sharedFn, setSharedFn, runFn } =
     const next = SOURCES2.find((s) => !hidden.has(s.id) && sourceState(contract, s.id, hidden).enabled);
     if (next && runFn) runFn("layout.select", { stack: NODES.stack, child: next.id });
   }
-  return freeze6({ ok: true, source: id2, shown: Boolean(shown) });
+  return freeze8({ ok: true, source: id2, shown: Boolean(shown) });
 }
-var LAYOUT_PAIR = freeze6({ "mission-control": "mission-control-classic", "mission-control-classic": "mission-control" });
-var LAYOUT_LABELS = freeze6({ "mission-control": "Mission Control", "mission-control-classic": "Classic view" });
-var NAV_TIMING = freeze6({ swapRestoreMs: 15e3 });
+var LAYOUT_PAIR = freeze8({ "mission-control": "mission-control-classic", "mission-control-classic": "mission-control" });
+var LAYOUT_LABELS = freeze8({ "mission-control": "Mission Control", "mission-control-classic": "Classic view" });
+var NAV_TIMING = freeze8({ swapRestoreMs: 15e3 });
 function findNode(tree, id2, { limit = 2e3 } = {}) {
   const stack = [tree];
   let seen = 0;
   while (stack.length && seen++ < limit) {
     const node = stack.pop();
-    if (!plain4(node)) continue;
+    if (!plain5(node)) continue;
     if (node.id === id2) return node;
     if (Array.isArray(node.children)) for (let i = node.children.length - 1; i >= 0; i--) stack.push(node.children[i]);
   }
@@ -4285,7 +5744,7 @@ var swapLabel = (name2) => LAYOUT_LABELS[name2] || "the other view";
 function layoutContract({ tree = null, name: name2 = null, names = [], props: props2 = {} } = {}) {
   const main = findNode(tree, NODES.main), panel = findNode(tree, NODES.panel), node = findNode(tree, NODES.stack);
   const stack = node && node.type === "stack" && Array.isArray(node.children) ? node : null;
-  const ids = stack ? stack.children.map((c) => plain4(c) && typeof c.id === "string" ? c.id : null).filter(Boolean) : [];
+  const ids = stack ? stack.children.map((c) => plain5(c) && typeof c.id === "string" ? c.id : null).filter(Boolean) : [];
   const children = SOURCE_IDS.filter((id2) => ids.includes(id2)), active = stack ? ids.includes(stack.active) ? stack.active : ids[0] ?? null : null;
   const shown = validName(name2) ? name2 : null, list = Array.isArray(names) ? names.filter(validName) : [];
   const to = validName(props2?.swapTo) ? props2.swapTo : shown ? LAYOUT_PAIR[shown] ?? null : null;
@@ -4294,14 +5753,14 @@ function layoutContract({ tree = null, name: name2 = null, names = [], props: pr
   else if (!to || to === shown) swap = { enabled: false, code: "NO_SWAP_TARGET", reason: "this layout names no other Mission Control view." };
   else if (!list.includes(to)) swap = { enabled: false, code: "SWAP_TARGET_MISSING", reason: `the ${swapLabel(to)} layout (${to}) is not installed.` };
   else swap = { enabled: true, to, label: swapLabel(to) };
-  return freeze6({
+  return freeze8({
     name: shown,
     main: Boolean(main),
     stack: Boolean(stack),
     children,
     active,
     stackReason: stack ? null : node ? "mc-work-stack is not a stack." : "this layout has no work stack (mc-work-stack).",
-    panel: plain4(panel) ? { hidden: panel.hidden === true } : null,
+    panel: plain5(panel) ? { hidden: panel.hidden === true } : null,
     panelControl: Boolean(panel) || props2?.panel === true,
     swap
   });
@@ -4322,7 +5781,7 @@ function scopeOf(id2, sharedFn) {
     v = sharedFn(s.scopeKey);
   } catch {
   }
-  return plain4(v) && v.v === 1 && v.all === true ? "all" : "space";
+  return plain5(v) && v.v === 1 && v.all === true ? "all" : "space";
 }
 function readNavState(sharedFn) {
   let v = null;
@@ -4331,11 +5790,11 @@ function readNavState(sharedFn) {
   } catch {
   }
   const out = { v: 1, source: null, scope: null, swap: null };
-  if (!plain4(v) || v.v !== 1) return out;
+  if (!plain5(v) || v.v !== 1) return out;
   if (BY_ID.has(v.source)) out.source = v.source;
   if (v.scope === "space" || v.scope === "all") out.scope = v.scope;
   const s = v.swap;
-  if (plain4(s) && typeof s.id === "string" && s.id.length <= 96 && validName(s.from) && validName(s.to) && Number.isSafeInteger(s.at) && s.at >= 0)
+  if (plain5(s) && typeof s.id === "string" && s.id.length <= 96 && validName(s.from) && validName(s.to) && Number.isSafeInteger(s.at) && s.at >= 0)
     out.swap = { id: s.id, from: s.from, to: s.to, at: s.at, space: typeof s.space === "string" && ID.test(s.space) ? s.space : null, tab: typeof s.tab === "string" && ID.test(s.tab) ? s.tab : null, applied: s.applied === true };
   return out;
 }
@@ -4346,7 +5805,7 @@ var write = (setSharedFn, state) => {
 var randomId3 = () => "swap-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 10);
 function selectSource(id2, { contract, sharedFn, setSharedFn, runFn, reveal = false } = {}) {
   const state = sourceState(contract, id2, hiddenSources(sharedFn));
-  if (!state.enabled) return freeze6({ ok: false, code: state.hidden ? "SOURCE_OFF" : BY_ID.has(id2) ? contract?.stack ? "SOURCE_MISSING" : "NO_WORK_STACK" : "UNKNOWN_SOURCE", message: state.reason });
+  if (!state.enabled) return freeze8({ ok: false, code: state.hidden ? "SOURCE_OFF" : BY_ID.has(id2) ? contract?.stack ? "SOURCE_MISSING" : "NO_WORK_STACK" : "UNKNOWN_SOURCE", message: state.reason });
   const commands = [];
   if (contract.active !== id2) {
     runFn("layout.select", { stack: NODES.stack, child: id2 });
@@ -4358,21 +5817,21 @@ function selectSource(id2, { contract, sharedFn, setSharedFn, runFn, reveal = fa
   }
   const prev = readNavState(sharedFn);
   write(setSharedFn, { ...prev, v: 1, source: id2, scope: scopeOf(id2, sharedFn) });
-  return freeze6({ ok: true, source: id2, commands });
+  return freeze8({ ok: true, source: id2, commands });
 }
 function togglePanel({ contract, runFn } = {}) {
-  if (!contract?.panel) return freeze6({ ok: false, code: "NO_WORK_PANEL", message: "This layout has no work panel (mc-work-panel)." });
+  if (!contract?.panel) return freeze8({ ok: false, code: "NO_WORK_PANEL", message: "This layout has no work panel (mc-work-panel)." });
   const command = contract.panel.hidden ? "layout.show" : "layout.hide";
   runFn(command, { id: NODES.panel });
-  return freeze6({ ok: true, command });
+  return freeze8({ ok: true, command });
 }
 function swapView({ contract, focused: focused2 = null, sharedFn, setSharedFn, runFn, now: now3 = Date.now(), id: id2 = randomId3() } = {}) {
-  if (!contract?.swap?.enabled) return freeze6({ ok: false, code: contract?.swap?.code || "NO_LAYOUT_NODES", message: "View swap unavailable: " + (contract?.swap?.reason || "this layout has no Mission Control nodes (mc-main).") });
+  if (!contract?.swap?.enabled) return freeze8({ ok: false, code: contract?.swap?.code || "NO_LAYOUT_NODES", message: "View swap unavailable: " + (contract?.swap?.reason || "this layout has no Mission Control nodes (mc-main).") });
   const prev = readNavState(sharedFn), source = contract.active && BY_ID.has(contract.active) ? contract.active : prev.source;
   const space = typeof focused2?.space === "string" && ID.test(focused2.space) ? focused2.space : null, tab = typeof focused2?.tab === "string" && ID.test(focused2.tab) ? focused2.tab : null;
   const state = write(setSharedFn, { v: 1, source, scope: source ? scopeOf(source, sharedFn) : prev.scope, swap: { id: id2, from: contract.name || "unknown", to: contract.swap.to, at: now3, space, tab, applied: false } });
   runFn("layout.switch", { name: contract.swap.to });
-  return freeze6({ ok: true, to: contract.swap.to, state });
+  return freeze8({ ok: true, to: contract.swap.to, state });
 }
 function restoreView({ contract, sharedFn, setSharedFn, runFn, focused: focused2 = null, spaces: spaces2 = [], now: now3 = Date.now() } = {}) {
   const state = readNavState(sharedFn), commands = [];
@@ -4393,9 +5852,9 @@ function restoreView({ contract, sharedFn, setSharedFn, runFn, focused: focused2
     }
     write(setSharedFn, { ...state, swap: { ...s, applied: true } });
   }
-  return freeze6({ commands });
+  return freeze8({ commands });
 }
-var NAV_METRICS = freeze6({ charPx: 7, icon: 14, gap: 2, pad: 12, full: { px: 10, gap: 6 }, short: { px: 8, gap: 5 }, compact: { px: 4, gap: 3 }, button: 26, minButton: 18, hide: 30, caption: 110 });
+var NAV_METRICS = freeze8({ charPx: 7, icon: 14, gap: 2, pad: 12, full: { px: 10, gap: 6 }, short: { px: 8, gap: 5 }, compact: { px: 4, gap: 3 }, button: 26, minButton: 18, hide: 30, caption: 110 });
 function navigationWidth(mode, { panel = false, button = NAV_METRICS.button, sources = SOURCES2 } = {}) {
   const m = NAV_METRICS, n = sources.length;
   let items;
@@ -4466,14 +5925,14 @@ function renderPanelToggle(mod, contract, { onToggle } = {}) {
 var MOD = "mission-control-tabs";
 var REQUEST_EVENT = "mission-control-tabs-request-v1";
 var COMMAND_EVENT = "mission-control-tabs-command-v1";
-var VIEWS = Object.freeze(["topbar", "navigation", "menu", "launch", "settings", "context", "sources"]);
+var VIEWS = Object.freeze(["topbar", "navigation", "menu", "launch", "settings", "context", "sources", "restart"]);
 var COMMANDS = Object.freeze(["new", "settings", "sources", "reopen-tab", "reopen-agent", "swap", "panel", "rename", "automatic-name", "close", ...SOURCES2.map((s) => "source-" + s.id)]);
 var TIMING = Object.freeze({ tickMs: 1e3, tickStaleMs: 2e4, pressMs: 6e3, closeMs: 1e4, reopenStaleMs: 95e3, requestMs: 5e3, namesMs: 6e4, wheelMs: 160, commandMs: 750, reopenReadMs: 2e3 });
 var STATUS = Object.freeze({ working: "Working", blocked: "Needs input", done: "Done", idle: "Idle" });
 var ICONS = Object.freeze(["agent", "branch", "close", "folder", "github", "gitlab", "jira", "layout", "more", "panel", "pin", "plus", "priority", "pull-request", "refresh", "search", "sessions", "settings"]);
 var TOPBAR_WIDE = 720;
 var DIALOG_VIEWS = /* @__PURE__ */ new Set(["menu", "launch", "settings"]);
-var plain5 = (v) => v !== null && typeof v === "object" && !Array.isArray(v);
+var plain6 = (v) => v !== null && typeof v === "object" && !Array.isArray(v);
 var randomId4 = (prefix2) => prefix2 + "-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 8);
 var safeHome = () => {
   try {
@@ -4493,7 +5952,7 @@ var num = (v) => Number.isFinite(v) && v > 0 ? v : 0;
 function leftOffset(tree, match, { limit = 2e3 } = {}) {
   let seen = 0;
   const walk = (node, x) => {
-    if (!plain5(node) || ++seen > limit) return null;
+    if (!plain6(node) || ++seen > limit) return null;
     if (match(node)) return x;
     const kids = Array.isArray(node.children) ? node.children : [];
     if (node.type === "row") {
@@ -4529,7 +5988,7 @@ function primaryPanes(tabs, panes2) {
   for (const p of panes2 || []) {
     if (!p || !ids.has(p.tab)) continue;
     const prev = out.get(p.tab), terminal3 = typeof p.terminal === "string" && p.terminal !== "", agent = terminal3 && isAgent2(p);
-    if (!prev || !prev.terminal && terminal3 || prev.terminal && !prev.agent && agent) out.set(p.tab, { program: plain5(p.program) ? p.program : null, cwd: typeof p.cwd === "string" ? p.cwd : null, terminal: terminal3, agent, mod: !terminal3 && typeof p.mod === "string" });
+    if (!prev || !prev.terminal && terminal3 || prev.terminal && !prev.agent && agent) out.set(p.tab, { program: plain6(p.program) ? p.program : null, cwd: typeof p.cwd === "string" ? p.cwd : null, terminal: terminal3, agent, mod: !terminal3 && typeof p.mod === "string" });
   }
   return out;
 }
@@ -4554,13 +6013,28 @@ var MissionControlTabs = class extends View {
       return;
     }
     if (this.role === "navigation") return this.restore();
-    if (this.role === "sources") return;
+    if (this.role === "sources" || this.role === "restart") {
+      this.restartStatus = null;
+      try {
+        this.restart = new RestartRunner(createLaunchIO(herdr), { owner: MOD + "-" + this.instance + "-restart-view" });
+        this.spawn(cx, async () => {
+          await this.restart.refresh();
+          await this.restart.refreshCodex();
+          return !this.closed;
+        });
+      } catch {
+      }
+      return;
+    }
     if (this.role !== "topbar") return;
     Object.assign(this, { press: null, ticking: 0, reopening: 0, closing: /* @__PURE__ */ new Map(), handled: /* @__PURE__ */ new Set(), picking: null, namesAt: 0, wheelAt: 0, labels: /* @__PURE__ */ new Map(), labelGen: 0, previewMemo: null, home: safeHome(), service: null, reopen: null, error: null });
     try {
       const io = createLaunchIO(herdr);
       this.reopen = new ReopenController(io, { owner: MOD + "-" + this.instance + "-reopen" });
       this.service = new TabNameService(io, { owner: MOD + "-" + this.instance, closed: this.reopen, home: this.home });
+      this.restart = new RestartRunner(io, { owner: MOD + "-" + this.instance + "-restart" });
+      this.restartAt = 0;
+      this.restartBusy = 0;
     } catch (error2) {
       this.error = error2?.message || "Automatic tab names are unavailable.";
     }
@@ -4618,11 +6092,81 @@ var MissionControlTabs = class extends View {
   activeSpace() {
     return (herdr.spaces() || []).find((s) => s?.active) || null;
   }
+  restartTick(cx, now3) {
+    if (!this.restart || now3 - this.restartAt < RUNNER.tickMs || this.restartBusy && now3 - this.restartBusy < RUNNER.staleTickMs) return;
+    this.restartAt = now3;
+    this.restartBusy = now3;
+    const fingerprint2 = () => JSON.stringify(this.restart.offers().map((o) => [o.machine, o.address]));
+    const before = fingerprint2();
+    this.spawn(cx, async () => {
+      await this.restart.tick();
+      if (!this.codexAt) {
+        this.codexAt = now3;
+        await this.restart.refreshCodex();
+      }
+      this.restartBusy = 0;
+      return !this.closed && fingerprint2() !== before;
+    });
+  }
+  openRestart() {
+    herdr.openOverlay({ mod: MOD, kind: "popup", width: 360, height: 320, props: { view: "restart" } });
+  }
+  restartAct(work, cx) {
+    if (this.closed || !this.restart) return;
+    this.restartStatus = "Working…";
+    cx.notify();
+    this.spawn(cx, async () => {
+      const message = await work();
+      if (this.closed) return false;
+      this.restartStatus = message || null;
+      return true;
+    });
+  }
+  resumeOffers(cx, offer) {
+    return this.restartAct(async () => {
+      const results = offer ? [await this.restart.resumeOffer(offer)] : await this.restart.resumeAll();
+      const failed = results.filter((r) => !r.ok);
+      return failed.length ? failed.map((r) => r.reason + (r.line ? " Run: " + r.line : "")).join(" ") : `Resumed ${results.length} agent${results.length === 1 ? "" : "s"}.`;
+    }, cx);
+  }
+  dismissOffers(cx, offer) {
+    return this.restartAct(async () => {
+      for (const o of offer ? [offer] : this.restart.offers()) await this.restart.dismissOffer(o);
+      return null;
+    }, cx);
+  }
+  setupCodex(cx, machine2) {
+    return this.restartAct(async () => {
+      const r = await this.restart.installCodex(machine2);
+      return r.ok ? "Codex resume is set up. Codex asks you to trust the new hook the next time it starts." : r.message;
+    }, cx);
+  }
+  restartPill() {
+    const t = colors(), list = this.restart.offers(), n = list.length, text9 = `Resume ${n}`;
+    return h_flex4().id("mc-restart").h(22).px(8).flex_none().items_center().rounded(6).border(1).border_color(t.accent).text_size(11.5).text_color(t.foreground).role("button").accessibility_label(`Resume ${n} agent${n === 1 ? "" : "s"} from before the restart`).tooltip(["From before the restart:", ...list.map((o) => o.line + (o.reason ? "\n  " + o.reason : "")), "Click to resume or dismiss them."].join("\n")).cursor_pointer().hover((st) => st.bg(t.hover)).on_mouse_down("left", (_e, cx) => cx.stop_propagation()).on_click((_e, cx) => {
+      cx.stop_propagation();
+      this.openRestart();
+    }).child(text9);
+  }
+  codexRows(t) {
+    return this.restart ? this.restart.codexSetup().filter((c) => c.ok && !c.installed).map((c, i) => h_flex4().id("mc-restart-codex-" + i).min_h(30).px(8).gap(8).items_center().rounded(6).child(div4().flex_1().min_w(0).text_size(11).text_color(t.muted).child(`Codex on ${c.machine || "this Mac"} comes back after a restart once its session hook is set up.`)).child(div4().id("mc-restart-codex-setup-" + i).text_size(11).text_color(t.accent).role("button").cursor_pointer().on_click((_e, cx) => {
+      cx.stop_propagation();
+      this.setupCodex(cx, c.machine);
+    }).child("Set up Codex resume"))) : [];
+  }
+  restartPanel() {
+    const t = colors(), list = this.restart ? this.restart.offers() : [], link = (id2, text9, fn) => div4().id(id2).text_size(11).text_color(t.accent).role("button").cursor_pointer().hover((st) => st.text_color(t.foreground)).on_click((_e, cx) => {
+      cx.stop_propagation();
+      fn(cx);
+    }).child(text9);
+    return v_flex3().id("mc-restart-panel").size_full().p(10).gap(6).bg(t.surface).text_size(12).text_color(t.foreground).overflow_y_scrollbar().child(h_flex4().gap(8).items_center().child(div4().flex_1().text_size(12.5).child("From before the restart")).when(list.length > 0, (e) => e.child(link("mc-restart-resume-all", "Resume all", (cx) => this.resumeOffers(cx))).child(link("mc-restart-dismiss-all", "Dismiss", (cx) => this.dismissOffers(cx))))).when(!list.length, (e) => e.child(div4().id("mc-restart-empty").text_size(11).text_color(t.dim).child("Nothing to resume. Agents that were running when their terminal was lost show here when they could not be resumed by themselves."))).children(list.map((o, i) => h_flex4().id("mc-restart-offer-" + i).min_h(36).px(8).gap(8).items_center().rounded(6).border(1).border_color(t.border).child(v_flex3().flex_1().min_w(0).child(div4().truncate().child(o.line)).child(div4().truncate().text_size(10.5).text_color(t.dim).child([o.machine || "This Mac", o.reason].filter(Boolean).join(" · ")))).child(link("mc-restart-resume-" + i, "Resume", (cx) => this.resumeOffers(cx, o))).child(link("mc-restart-dismiss-" + i, "Dismiss", (cx) => this.dismissOffers(cx, o))))).children(this.codexRows(t)).when(Boolean(this.restartStatus), (e) => e.child(div4().id("mc-restart-status").text_size(10.5).text_color(t.muted).child(this.restartStatus)));
+  }
   tick(cx) {
     if (this.closed || !this.service) return;
     const now3 = Date.now();
     this.restoreOnLayoutChange();
     this.takeRequest(cx);
+    this.restartTick(cx, now3);
     if (now3 - this.namesAt >= TIMING.namesMs) {
       this.namesAt = now3;
       this.spawn(cx, async () => {
@@ -4652,7 +6196,7 @@ var MissionControlTabs = class extends View {
   // Context-menu requests: noticed while drawing, taken in a task once the frame is described.
   pickRequest(cx) {
     const r = herdr.shared(REQUEST_EVENT);
-    if (!plain5(r) || typeof r.id !== "string" || r.claimed || this.handled.has(r.id) || this.picking === r.id) return;
+    if (!plain6(r) || typeof r.id !== "string" || r.claimed || this.handled.has(r.id) || this.picking === r.id) return;
     this.picking = r.id;
     this.spawn(cx, async (taskCx) => {
       await null;
@@ -4663,7 +6207,7 @@ var MissionControlTabs = class extends View {
   takeRequest(cx) {
     if (this.closed || !this.service) return;
     const r = herdr.shared(REQUEST_EVENT), now3 = Date.now();
-    if (!plain5(r) || r.v !== 1 || typeof r.id !== "string" || r.id.length > 96 || this.handled.has(r.id)) return;
+    if (!plain6(r) || r.v !== 1 || typeof r.id !== "string" || r.id.length > 96 || this.handled.has(r.id)) return;
     this.handled.add(r.id);
     if (this.handled.size > 64) this.handled.delete(this.handled.values().next().value);
     if (r.claimed || !Number.isSafeInteger(r.at) || now3 < r.at || now3 - r.at > TIMING.requestMs) return;
@@ -4673,7 +6217,7 @@ var MissionControlTabs = class extends View {
   command(command, cx) {
     if (typeof command !== "string" || !COMMANDS.includes(command)) return;
     const now3 = Date.now(), seen = herdr.shared(COMMAND_EVENT);
-    if (plain5(seen) && seen.command === command && seen.owner !== this.instance && now3 - seen.at >= 0 && now3 - seen.at < TIMING.commandMs) return;
+    if (plain6(seen) && seen.command === command && seen.owner !== this.instance && now3 - seen.at >= 0 && now3 - seen.at < TIMING.commandMs) return;
     herdr.setShared(COMMAND_EVENT, { v: 1, command, owner: this.instance, at: now3 });
     const space = this.activeSpace(), tab = (space?.tabs || []).find((t) => t?.active);
     if (command === "new") return this.openMenu(space);
@@ -4784,10 +6328,10 @@ var MissionControlTabs = class extends View {
     herdr.run(dy > 0 ? "tab.prev" : "tab.next");
   }
   labelFor(tab, machine2, primary) {
-    let base3 = typeof tab.name === "string" ? tab.name : "";
-    if (tab.named !== true) base3 = (primary?.agent ? primary.program?.name : folderName(primary?.cwd, { home: this.home }) || primary?.program?.name) || base3;
+    let base5 = typeof tab.name === "string" ? tab.name : "";
+    if (tab.named !== true) base5 = (primary?.agent ? primary.program?.name : folderName(primary?.cwd, { home: this.home }) || primary?.program?.name) || base5;
     const key3 = (machine2 ?? "") + "\0" + tab.id, hit = this.labels.get(key3);
-    if (hit && hit.gen === this.labelGen && hit.base === base3 && hit.name === tab.name) return hit.value;
+    if (hit && hit.gen === this.labelGen && hit.base === base5 && hit.name === tab.name) return hit.value;
     let value = null;
     if (tab.named === true && this.service) {
       try {
@@ -4795,9 +6339,9 @@ var MissionControlTabs = class extends View {
       } catch {
       }
     }
-    if (!value) value = displayLabel(base3);
+    if (!value) value = displayLabel(base5);
     if (this.labels.size >= 512) this.labels.clear();
-    this.labels.set(key3, { gen: this.labelGen, base: base3, name: tab.name, value });
+    this.labels.set(key3, { gen: this.labelGen, base: base5, name: tab.name, value });
     return value;
   }
   tabIcon(tab, primary, t) {
@@ -4837,7 +6381,7 @@ var MissionControlTabs = class extends View {
     return iconButton(MOD, id2, name2, hint, (_e, cx) => this.reopenLast(kind, cx), { disabled: !ready, size: 26 });
   }
   windowButtons(t, w) {
-    const b = (id2, text8, command, glyph) => div4().id(id2).size(26).flex_none().flex().items_center().justify_center().rounded(6).text_color(t.dim).role("button").tooltip(text8).accessibility_label(text8).cursor_pointer().hover((s) => s.bg(t.hover).text_color(t.foreground)).on_mouse_down("left", (_e, cx) => cx.stop_propagation()).on_click((_e, cx) => {
+    const b = (id2, text9, command, glyph) => div4().id(id2).size(26).flex_none().flex().items_center().justify_center().rounded(6).text_color(t.dim).role("button").tooltip(text9).accessibility_label(text9).cursor_pointer().hover((s) => s.bg(t.hover).text_color(t.foreground)).on_mouse_down("left", (_e, cx) => cx.stop_propagation()).on_click((_e, cx) => {
       cx.stop_propagation();
       herdr.run(command);
     }).child(glyph);
@@ -4863,7 +6407,7 @@ var MissionControlTabs = class extends View {
       this.press = null;
     }).on_hover((hovered) => {
       if (!hovered) this.press = null;
-    }).on_scroll_wheel((event) => this.wheel(event)).child(h_flex4().id("mc-tab-strip").flex_1().min_w(0).h_full().gap(3).items_center().overflow_x_scroll().role("tab_list").accessibility_label(space ? "Tabs in " + (space.name || "this space") : "Tabs").children(tabs.map((tab, i) => this.tabItem(tab, i, ctx)))).child(plus).when(Boolean(previews), (el) => el.child(this.reopenButton("reopen-tab", "refresh", "tab", previews.tab)).child(this.reopenButton("reopen-agent", "agent", "agent", previews.agent))).when(Boolean(panel), (el) => el.child(panel)).child(iconButton(MOD, "mc-sources", "settings", "Mission Control sources: choose which work sources to show", () => this.openSources(), { size: 26 })).child(renderSwap(MOD, contract, { compact: !(this.width >= TOPBAR_WIDE), onSwap: () => this.swap() })).when(Boolean(quick), (el) => el.child(quick)).when(w?.buttons === true, (el) => el.child(this.windowButtons(t, w)));
+    }).on_scroll_wheel((event) => this.wheel(event)).child(h_flex4().id("mc-tab-strip").flex_1().min_w(0).h_full().gap(3).items_center().overflow_x_scroll().role("tab_list").accessibility_label(space ? "Tabs in " + (space.name || "this space") : "Tabs").children(tabs.map((tab, i) => this.tabItem(tab, i, ctx)))).child(plus).when(Boolean(previews), (el) => el.child(this.reopenButton("reopen-tab", "refresh", "tab", previews.tab)).child(this.reopenButton("reopen-agent", "agent", "agent", previews.agent))).when(Boolean(this.restart?.offers().length), (el) => el.child(this.restartPill())).when(Boolean(panel), (el) => el.child(panel)).child(iconButton(MOD, "mc-sources", "settings", "Mission Control sources: choose which work sources to show", () => this.openSources(), { size: 26 })).child(renderSwap(MOD, contract, { compact: !(this.width >= TOPBAR_WIDE), onSwap: () => this.swap() })).when(Boolean(quick), (el) => el.child(quick)).when(w?.buttons === true, (el) => el.child(this.windowButtons(t, w)));
   }
   navigation() {
     const contract = this.contract(), space = this.activeSpace();
@@ -4887,21 +6431,21 @@ var MissionControlTabs = class extends View {
       }
     });
   }
-  menuItem(id2, text8, action, { disabled = false, hint = null } = {}) {
+  menuItem(id2, text9, action, { disabled = false, hint = null } = {}) {
     const t = colors();
-    let el = h_flex4().id(id2).h(28).px(8).items_center().rounded(5).role("menu_item").accessibility_label(hint || text8).text_color(disabled ? t.dim : t.foreground);
+    let el = h_flex4().id(id2).h(28).px(8).items_center().rounded(5).role("menu_item").accessibility_label(hint || text9).text_color(disabled ? t.dim : t.foreground);
     if (hint) el = el.tooltip(hint);
     if (!disabled) el = el.cursor_pointer().hover((s) => s.bg(t.hover)).on_click((_e, cx) => {
       cx.stop_propagation();
       action(cx);
     });
-    return el.child(text8);
+    return el.child(text9);
   }
   closeOverlay() {
     if (this.props.overlay) herdr.closeOverlay(this.props.overlay);
   }
   contextMenu() {
-    const t = colors(), target = plain5(this.props.target) ? this.props.target : {}, space = (herdr.spaces() || []).find((s) => s?.id === target.spaceId) || null, tab = (space?.tabs || []).find((x) => x?.id === target.tabId) || null;
+    const t = colors(), target = plain6(this.props.target) ? this.props.target : {}, space = (herdr.spaces() || []).find((s) => s?.id === target.spaceId) || null, tab = (space?.tabs || []).find((x) => x?.id === target.tabId) || null;
     const root = v_flex3().id("tab-menu").size_full().p(6).gap(2).bg(t.surface).text_size(12).text_color(t.foreground).role("menu").accessibility_label("Tab menu");
     if (!tab) return root.child(div4().id("tab-menu-gone").p(8).text_color(t.muted).child("This tab is no longer open."));
     const manual = tab.named === true && target.mode !== "auto";
@@ -4929,7 +6473,7 @@ var MissionControlTabs = class extends View {
         cx.notify();
       }).child(icon(MOD, s.icon, 15).text_color(on ? t.foreground : t.dim)).child(div4().flex_1().min_w(0).truncate().text_color(on ? t.foreground : t.muted).child(s.label)).child(toggle);
     };
-    return v_flex3().id("mc-sources").size_full().p(8).gap(2).bg(t.surface).text_size(12.5).text_color(t.foreground).role("menu").accessibility_label("Mission Control sources").child(div4().id("mc-sources-title").px(8).pt(2).text_size(12.5).text_color(t.foreground).child("Work sources")).child(div4().id("mc-sources-note").px(8).pb(4).text_size(10.5).text_color(t.dim).child("Sources you turn off leave the navigation and the Classic panel. Their mods stay installed.")).children(SOURCES2.map(row));
+    return v_flex3().id("mc-sources").size_full().overflow_y_scrollbar().p(8).gap(2).bg(t.surface).text_size(12.5).text_color(t.foreground).role("menu").accessibility_label("Mission Control sources").child(div4().id("mc-sources-title").px(8).pt(2).text_size(12.5).text_color(t.foreground).child("Work sources")).child(div4().id("mc-sources-note").px(8).pb(4).text_size(10.5).text_color(t.dim).child("Sources you turn off leave the navigation and the Classic panel. Their mods stay installed.")).children(SOURCES2.map(row)).when(this.codexRows(t).length > 0, (e) => e.child(div4().id("mc-sources-restart").px(8).pt(6).text_size(10.5).text_color(t.dim).child("Resume after restart")).children(this.codexRows(t))).when(Boolean(this.restartStatus), (e) => e.child(div4().id("mc-restart-status").px(8).text_size(10.5).text_color(t.muted).child(this.restartStatus)));
   }
   render(cx) {
     if (this.dialog) return this.dialog.render(cx);
@@ -4937,6 +6481,7 @@ var MissionControlTabs = class extends View {
     if (this.role === "topbar") return this.topbar(cx);
     if (this.role === "navigation") return this.navigation();
     if (this.role === "context") return this.contextMenu();
+    if (this.role === "restart") return this.restartPanel();
     const t = colors();
     return div4().id("tabs-unknown-view").size_full().p(8).bg(t.chrome).text_size(11).text_color(t.blocked).child(`Unknown Mission Control tabs view "${String(this.props.view).slice(0, 40)}". Use topbar or navigation.`);
   }
@@ -4947,8 +6492,9 @@ var MissionControlTabs = class extends View {
     for (const job of this.jobs) job?.cancel?.();
     this.commandTask?.cancel?.();
     this.dialog?.close();
-    if (this.service) return this.service.stop().catch(() => {
-    });
+    if (this.service) return Promise.all([this.service.stop().catch(() => {
+    }), this.restart?.release().catch(() => {
+    })]);
   }
 };
 export {

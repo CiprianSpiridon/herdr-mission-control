@@ -21,6 +21,7 @@ coverage/
 **/session-bindings.json
 **/launches.json
 **/closed.json
+**/running-agents.json
 **/shared.json
 evidence/private/
 evidence/native/install.json
