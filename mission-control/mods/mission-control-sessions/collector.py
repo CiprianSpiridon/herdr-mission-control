@@ -5,8 +5,10 @@ import hashlib
 import heapq
 import json
 import os
+import sqlite3
 import stat
 import time
+import urllib.parse
 
 COLLECTOR_VERSION = 1
 COLLECTOR_MAX_BYTES = 4 * 1024 * 1024
@@ -220,6 +222,39 @@ def collector_validate_observation(value, source):
     return value
 
 
+def collector_codex_rollouts(source, roots, sessions):
+    """Read only requested id/path pairs, never titles, messages, credentials or cumulative usage.
+
+    The index only locates IO; codex_rollout still proves the canonical session ID from the file.
+    Old/missing databases fall back to the existing bounded filesystem walk.
+    """
+    if source["provider"] != "codex" or not sessions:
+        return []
+    allowed = [root for root in roots if root in source["roots"]]
+    path = os.path.join(source["providerRoot"], "state_5.sqlite")
+    if not allowed or os.path.realpath(path) != path or not os.path.isfile(path):
+        return []
+    db = None
+    try:
+        deadline = time.monotonic() + 0.5
+        db = sqlite3.connect("file:" + urllib.parse.quote(path, safe="/") + "?mode=ro", uri=True, timeout=0.25)
+        db.set_progress_handler(lambda: time.monotonic() >= deadline, 100)
+        rows = db.execute("SELECT id, rollout_path FROM threads WHERE id IN (" + ",".join("?" for _ in sessions) + ")", sessions).fetchall()
+        result = []
+        for session, rollout in rows:
+            if not isinstance(rollout, str) or not rollout.endswith((".jsonl", ".jsonl.zst")) or collector_forbidden(rollout) or os.path.realpath(rollout) != rollout:
+                continue
+            root = next((root for root in allowed if rollout.startswith(root + os.sep)), None)
+            if root is not None:
+                result.append((session, root, rollout))
+        return result
+    except (OSError, sqlite3.Error, ValueError):
+        return []
+    finally:
+        if db is not None:
+            db.close()
+
+
 class CollectorReaders:
     """Only this capability opens files; parsers receive no arbitrary-file IO."""
     def __init__(self, request, source, roots, limit, clock=time.monotonic):
@@ -241,9 +276,27 @@ class CollectorReaders:
         # shared walk budget before the snapshot that holds the readings is even listed.
         cache_roots = self.source.get("cacheRoots", [])
         indexed_paths = set()
+        # Codex keeps dated rollout directories. Its exact-ID metadata index avoids walking
+        # thousands of unrelated files before the bounded walk reaches a running conversation.
+        resolved = set()
+        for session, root, path in collector_codex_rollouts(self.source, self.roots, requested):
+            self.check_time()
+            try:
+                info = os.lstat(path)
+            except OSError:
+                continue
+            if not stat.S_ISREG(info.st_mode):
+                continue
+            relative = str(self.roots.index(root)) + "/" + os.path.relpath(path, root)
+            entry = {"path": path, "root": root, "relative": relative, "cache": False, "size": info.st_size, "mtimeMs": info.st_mtime_ns // 1000000, "mtimeNs": info.st_mtime_ns, "device": info.st_dev, "inode": info.st_ino, "sourceDigest": collector_digest(relative + ":" + str(info.st_ino) + ":" + str(info.st_mtime_ns) + ":" + str(info.st_size))}
+            if path not in indexed_paths:
+                indexed_paths.add(path)
+                heapq.heappush(indexed, ((3, info.st_mtime_ns, relative), entry))
+            resolved.add(session)
+        direct_complete = self.source["provider"] == "codex" and bool(requested) and set(requested).issubset(resolved)
         # Conversations asked about by ID are looked up directly (<root>/<id>/ or <root>/<folder>/<id>/)
         # before the bounded walk, so a very large history folder cannot hide them.
-        for root in [r for r in self.roots if r not in cache_roots and requested and os.path.isdir(r)]:
+        for root in [r for r in self.roots if not direct_complete and r not in cache_roots and requested and os.path.isdir(r)]:
             try:
                 first = [root] + sorted(os.path.join(root, n) for n in os.listdir(root) if not n.startswith("."))[:2000]
             except OSError:
@@ -267,7 +320,7 @@ class CollectorReaders:
                         entry = {"path": path, "root": root, "relative": relative, "cache": False, "size": info.st_size, "mtimeMs": info.st_mtime_ns // 1000000, "mtimeNs": info.st_mtime_ns, "device": info.st_dev, "inode": info.st_ino, "sourceDigest": collector_digest(relative + ":" + str(info.st_ino) + ":" + str(info.st_mtime_ns) + ":" + str(info.st_size))}
                         indexed_paths.add(path)
                         heapq.heappush(indexed, ((1, info.st_mtime_ns, relative), entry))
-        for root in sorted(self.roots, key=lambda r: r not in cache_roots):
+        for root in ([] if direct_complete else sorted(self.roots, key=lambda r: r not in cache_roots)):
             if not os.path.exists(root):
                 self.errors.append({"state": "error", "code": "SOURCE_MISSING", "reason": "A configured metadata directory is missing.", "scope": collector_scope(self.source)})
                 continue

@@ -6,6 +6,9 @@ import {UsageSourceRegistry,ensureUsageDefaults,usageSourceKey} from './usage-so
 import {validateProviderObservation} from './provider-observation.js';
 import {CONTEXT_STALE_MS,normalizeContext,selectContext} from './context.js';
 import {QUOTA_STALE_MS,quotaKey,normalizeQuota,selectQuota} from './quota.js';
+import {hostFacts} from './restart-host.js';
+import {CODEX_LABEL,parseCodexLabel} from './codex-session-hook.js';
+import {agentProcess,argvSession,providerOf} from './restart-resume.js';
 /** Beyond every helper deadline: a refresh still pending this long was abandoned by the host. */
 export const REFRESH_STALE_MS=90000;
 
@@ -13,13 +16,6 @@ const bytes=value=>{let size=0;for(const character of value){const n=character.c
 const fail=(code,message)=>{throw Object.assign(Error(message),{code});};
 /** Herdr reports Claude Code's foreground command as `claude` (or a path to it, or its npm package). */
 const claudeForeground=raw=>{const argv=Array.isArray(raw?.foreground?.argv)?raw.foreground.argv.slice(0,4):[];return argv.some(a=>typeof a==='string'&&(/(^|\/)claude$/.test(a)||a.includes('/@anthropic-ai/claude-code/')));};
-/** A Codex or Grok agent started with an exact resume command names its conversation in its own argv. */
-const RESUME_ID=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-const argvSession=raw=>{
-  const argv=Array.isArray(raw?.foreground?.argv)?raw.foreground.argv.slice(0,16):[];if(!argv.length||argv.some(a=>a==='--last'||a==='--continue'))return null;
-  const base=String(argv[0]).split('/').pop(),at=(flag,provider)=>{const i=argv.indexOf(flag,1);return i>0&&RESUME_ID.test(String(argv[i+1]))?{provider,sessionId:argv[i+1]}:null;};
-  return base==='codex'?at('resume','codex'):base==='grok'?at('--resume','grok'):null;
-};
 const sameScope=(scope,source)=>scope&&['machine','provider','providerRoot','credentialScope'].every(k=>scope[k]===source[k]);
 
 export class TelemetryBridge{
@@ -86,9 +82,9 @@ export class TelemetryBridge{
     if(current.length)batches.push(current);return batches;
   }
   async scanSource(source,identities,{force=false}={}){
-    const previous=this.observations.get(source.id)||{live:[],cache:[]},times=this.lastScan.get(source.id)||{};
+    const previous=this.observations.get(source.id)||{live:[],cache:[]},times=this.lastScan.get(source.id)||{},sessions=JSON.stringify(identities.map(sessionKey).sort());
     for(const[kind,roots,interval]of [['live',source.roots,30000],['cache',source.cacheRoots||[],60000]]){
-      if(!roots.length||!identities.length||!force&&times[kind]!==undefined&&this.clock()-times[kind]<interval)continue;
+      if(!roots.length||!identities.length||!force&&times[kind+'Sessions']===sessions&&times[kind]!==undefined&&this.clock()-times[kind]<interval)continue;
       const ticket=this.sources.begin(source.id);if(!ticket)continue;
       const rows=[];let partial=false;
       try{
@@ -101,7 +97,7 @@ export class TelemetryBridge{
             if(!cursor||new Set(rows.filter(r=>r.identity&&expected.has(sessionKey(r.identity))).map(r=>sessionKey(r.identity))).size>=batch.length)break;
           }
         }
-        await this.sources.accept(ticket,rows.slice(0,1000),value=>{previous[kind]=value;this.observations.set(source.id,previous);times[kind]=this.clock();this.lastScan.set(source.id,{...times,truncated:partial});});
+        await this.sources.accept(ticket,rows.slice(0,1000),value=>{previous[kind]=value;this.observations.set(source.id,previous);times[kind]=this.clock();times[kind+'Sessions']=sessions;this.lastScan.set(source.id,{...times,truncated:partial});});
       }catch(error){if(ticket.cancelled)return;throw error;}finally{this.sources.release(ticket);}
     }
   }
@@ -154,33 +150,55 @@ export class TelemetryBridge{
         const state={...actual,session:bound?.session||null,requestId:bound?.requestId||null,sourceId:source?.id||null,unbound:!bound,reason:!bound?'No committed exact provider session binding.':!source?'This session usage source is disabled or unavailable.':null};
         if(!source)state.session=null;
         this.agentStates.set(agent.address,state);
-        if(source){if(!groups.has(source.id))groups.set(source.id,{source,identities:new Map()});groups.get(source.id).identities.set(sessionKey(bound.session),bound.session);}
         // A restart has a different terminalKey even if its address is reused.
         for(const[id,record]of Object.entries(snapshot.proposals))if(record.state==='committed'&&record.ack.terminal.machine===machine&&record.ack.terminal.address===actual.terminal.address&&terminalKey(record.ack.terminal)!==terminalKey(actual.terminal))await this.bindings.invalidate(id,'Terminal generation or foreground PID changed');
       }
-      // Agents started outside Mission Control: Claude Code's own PID records name their exact conversations.
-      const unbound=agents.map(agent=>[agent,this.agentStates.get(agent.address)]).filter(([,state])=>state?.unbound&&Number.isSafeInteger(state.terminal?.foregroundPid)&&Number.isSafeInteger(state.terminal?.createdMs));
-      const adopt=(state,source,sessionId)=>{
-        state.session={machine,provider:source.provider,credentialScope:source.credentialScope,providerRoot:source.providerRoot,sessionId};state.sourceId=source.id;state.adopted=true;state.reason=null;
-        if(!groups.has(source.id))groups.set(source.id,{source,identities:new Map()});groups.get(source.id).identities.set(sessionKey(state.session),state.session);
+      // A process can change conversations without changing PID (/clear). Read its current evidence even when a launch binding exists.
+      const candidates=agents.map(agent=>[agent,this.agentStates.get(agent.address)]).filter(([,state])=>Number.isSafeInteger(state?.terminal?.foregroundPid)&&Number.isSafeInteger(state.terminal?.createdMs));
+      const adopt=async(state,source,sessionId)=>{
+        const session={machine,provider:source.provider,credentialScope:source.credentialScope,providerRoot:source.providerRoot,sessionId};
+        if(state.requestId&&state.session&&sessionKey(state.session)!==sessionKey(session)){await this.bindings.invalidate(state.requestId,'The running agent changed conversations');state.requestId=null;}
+        state.session=session;state.sourceId=source.id;state.adopted=true;state.reason=null;
       };
       // Codex and Grok started with `codex resume <id>` / `grok --resume <id>`: the exact ID is in their own argv.
-      for(const[,state]of unbound){
-        const hit=argvSession(state.raw);if(!hit)continue;const matches=sources.filter(s=>s.provider===hit.provider);
-        if(matches.length===1)adopt(state,matches[0],hit.sessionId);else if(matches.length)state.reason=`Several ${hit.provider} profiles are enabled on this machine; no session is chosen.`;
+      for(const[,state]of candidates.filter(([,state])=>state.unbound)){
+        const argv=state.raw.foreground?.argv;if(argv?.some(a=>a==='--last'||a==='--continue'))continue;
+        const hit=argvSession(argv);if(!hit||!['codex','grok'].includes(hit.provider))continue;const matches=sources.filter(s=>s.provider===hit.provider);
+        if(matches.length===1)await adopt(state,matches[0],hit.sessionId);else if(matches.length)state.reason=`Several ${hit.provider} profiles are enabled on this machine; no session is chosen.`;
       }
-      const claudeUnbound=unbound.filter(([,state])=>!state.session&&claudeForeground(state.raw));
-      if(claudeUnbound.length){
+      // Use the same exact process evidence as restart recovery: a PID/start-bound Codex hook label or Grok's open session file.
+      for(const provider of ['codex','grok']){
+        const entries=candidates.filter(([agent,state])=>providerOf({programKey:agent.program?.key,app:agent.app,argv:state.raw.foreground?.argv,name:state.raw.foreground?.name})===provider);
+        if(!entries.length)continue;const matches=sources.filter(s=>s.provider===provider);
+        if(matches.length!==1){for(const[,state]of entries)if(!state.session)state.reason=matches.length?`Several ${provider} profiles are enabled on this machine; no session is chosen.`:`The ${provider} usage source is disabled or unavailable.`;continue;}
+        const source=matches[0],inspect=provider==='codex'?entries.filter(([,state])=>parseCodexLabel(state.raw.labels?.[CODEX_LABEL])):entries;
+        for(const[,state]of entries)if(!state.session&&!inspect.some(([,s])=>s===state))state.reason='Codex has not reported its exact conversation. Use Set up Codex resume in Sources and trust the hook in Codex.';
+        if(!inspect.length)continue;
+        const facts=await hostFacts(this.io,{machine,terminals:inspect.map(([,state])=>({address:localTerminalAddress(state.raw.address,machine),shellPid:state.raw.pid,foregroundPid:state.raw.foreground?.pid})),grokRoot:provider==='grok'?source.providerRoot:null});
+        if(this.closed)return;
+        for(const[,state]of inspect){
+          const f=facts.ok?facts.terminals.get(localTerminalAddress(state.raw.address,machine)):null,picked=f?agentProcess(state.raw.foreground,f.children):null;
+          const process=picked?(picked.pid===state.raw.foreground?.pid?f.foreground:f.children.find(c=>c.pid===picked.pid)):null;
+          if(!process||!Number.isSafeInteger(process.startMs))continue;
+          const label=provider==='codex'?parseCodexLabel(state.raw.labels?.[CODEX_LABEL]):null;
+          const sessionId=provider==='codex'?(label?.pid===process.pid&&label.startMs===process.startMs?label.sessionId:null):f.sessions.get(process.pid)?.grok?.sessionId;
+          if(sessionId)await adopt(state,source,sessionId);
+        }
+      }
+      const claudeCandidates=candidates.filter(([,state])=>claudeForeground(state.raw));
+      if(claudeCandidates.length){
         const hits=new Map();
         for(const source of sources.filter(s=>s.provider==='claude')){
-          if(this.closed)return;let found;try{found=await this.adopt(source,claudeUnbound.map(([,state])=>({pid:state.terminal.foregroundPid,notBefore:state.terminal.createdMs})));}catch{continue;}
+          if(this.closed)return;let found;try{found=await this.adopt(source,claudeCandidates.map(([,state])=>({pid:state.terminal.foregroundPid,notBefore:state.terminal.createdMs})));}catch{continue;}
           for(const[pid,sessionId]of found){if(!hits.has(pid))hits.set(pid,[]);hits.get(pid).push({source,sessionId});}
         }
-        for(const[,state]of claudeUnbound){
+        for(const[,state]of claudeCandidates){
           const found=hits.get(state.terminal.foregroundPid)||[];if(found.length!==1){if(found.length)state.reason='Several Claude Code profiles claim this process; no session is chosen.';continue;}
-          adopt(state,found[0].source,found[0].sessionId);
+          await adopt(state,found[0].source,found[0].sessionId);
         }
       }
+      // Build the scan only after current-session discovery, so old launch bindings never contribute a previous conversation's readings.
+      for(const[,state]of candidates){const source=sources.find(s=>s.id===state.sourceId);if(!state.session||!source)continue;if(!groups.has(source.id))groups.set(source.id,{source,identities:new Map()});groups.get(source.id).identities.set(sessionKey(state.session),state.session);}
       for(const group of groups.values())try{await this.scanSource(group.source,[...group.identities.values()],{force});}catch(error){for(const state of this.agentStates.values())if(state.sourceId===group.source.id){state.session=null;state.reason='This provider metadata source or Python helper is unavailable.';}}
       // Recheck the full raw generation and durable mapping after asynchronous IO.
       for(const agent of agents){if(this.closed)return;const state=this.agentStates.get(agent.address);if(!state?.session)continue;let actual;try{actual=await this.full(agent.address,machine);}catch{this.agentStates.set(agent.address,{session:null,reason:'This agent\u2019s terminal is no longer available.'});continue;}const bound=await this.bindings.readCommitted(actual.terminal);if(this.closed)return;if(terminalKey(actual.terminal)!==terminalKey(state.terminal)||!state.adopted&&(!bound||sessionKey(bound.session)!==sessionKey(state.session))){if(state.requestId)await this.bindings.invalidate(state.requestId,'Terminal identity changed during usage collection');state.session=null;state.reason='Terminal identity changed while collecting usage.';}}

@@ -27,8 +27,8 @@
     "assets/sessions.svg": "40c70935bd80015005b85b9b42368e4dfdf44ac6a3392e2f6b7fd18a59159d9d",
     "assets/settings.svg": "c0d3295d7dc3261c7f6e9e6eb4217b044b834d680215ac1e38f9c1efb11b2dc9",
     "assets/spaces.svg": "01d3d618b27ef141c8251358657d7533abef2bbc40b447f53728c768fa4a593b",
-    "collector.py": "cda35aaabc3760bb7e5772c1aac75c96bdfe03992da2c176ec4da28ae9a09ae5",
-    "main.js": "bfd06c57c6d66e018b173cd4f91374dfd98f1841780fdd5cccad46676c443a07",
+    "collector.py": "98f7a98ee3ee1f6b9cbd1da3c2ab941c92123c2168d6f5630be4da81ca8caf92",
+    "main.js": "56f23a04e81786a6b9ea5636d3cfefc4b8f901945a7f6fcd0040fcac133f9045",
     "mod.json": "19f9c364e74121c1f44dabf649b90daadcdcbdc46ee5b813aa6275ecd312159d",
     "NOTICE.md": "f20f37f2705da9d37b502d64fbe21f68f7db7280f83369013586be19e747c873"
   },
@@ -37,7 +37,8 @@
     "src/mods/mission-control-agents/main.js": "75914bad2cd21ee97340d9c097efae465464f4be71abf686a1e1359ef76ac822",
     "src/mods/mission-control-agents/mod.json": "713695128ab46876c55332e4f9dab8b2999fb6d3d923127ae6ad0e9f131f8a13",
     "src/mods/mission-control-agents/model.js": "957bccdae59efad95aabe5540948f7094859e718ff358b962a4e142015355474",
-    "src/shared/collector.py": "be8eb041fe44408cc798772dfcfebfdccf4cb6701cbf74f3cdcff39a85a18405",
+    "src/shared/codex-session-hook.js": "1eadbfefc4af197d58165f290f3b4b955bc7de4895c8cae84cbe5d16c583fbd5",
+    "src/shared/collector.py": "d60fce68dc85cdd761a74f909637a4296ffd5e589f0bf11178d58e2ae1bdc4df",
     "src/shared/config.js": "2cea2d16c0faed2eef2f8105b0adc0c6098cf556a84297249b5bd9895eddf9a7",
     "src/shared/context.js": "6c202695a40ac4c51fd931aa9c7a7159611ec96651956f6cb7b48069e2bbb0d0",
     "src/shared/name-ownership.js": "24f4e7060bffdb1559e76091039fc1b1e076095d72cc8b44c14596d8a37ae784",
@@ -46,9 +47,11 @@
     "src/shared/provider_codex.py": "dd152f4f3c277a61864d13fa859b568702118fc74568675967a6a57259bbb5a9",
     "src/shared/provider_grok.py": "19b5f58efb1f6aff4bcf1788de63f2979b819505e4295c491cc2272f8fed2ce9",
     "src/shared/quota.js": "8bfef62c230a7ff960465f3b60299c2366bc3c96e1f083540edc4e0823113bb3",
+    "src/shared/restart-host.js": "da8cf6a97b1082f069c94e943b897efcca74eb1b816e3482118ddbf3d7915cd7",
+    "src/shared/restart-resume.js": "4902e03dd817c64bfe5dcd9b0d1d97209dd1a28bff7db66b54b1120d1648d385",
     "src/shared/session-bindings.js": "8ce735273c2d4e8ee9e63bed0036276d8afa69fc92f40c22fa30ddd10c815d99",
     "src/shared/session-identity.js": "9cb414ff020c4c49c66018f8146f41261975790a4d4349da18f278f60131617e",
-    "src/shared/telemetry.js": "b870130970080557ff78c31964e7aa11744543b85a0f87ca34afbd43aba11a53",
+    "src/shared/telemetry.js": "5b43191946576aef88af7e2a2339cbe7bf8c61dbeafba585a47b43d5696da480",
     "src/shared/ui.js": "63653a7db2c610678b687fe0263aa078f9458336d411b5be4335cba2a4b8533b",
     "src/shared/usage-sources.js": "e5ed02f02e6c3648e165aed45adb32442334ea5b120c2ec8b9e6db5a1a643699"
   }

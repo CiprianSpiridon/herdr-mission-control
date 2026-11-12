@@ -200,15 +200,15 @@ function localTerminalAddress(address, on) {
 function terminalIdentity(raw, on = null) {
   if (!raw || !Number.isSafeInteger(raw.created_ms) || raw.created_ms < 0) fail2("Full raw terminal created_ms is required");
   const machine2 = machineIdentity(on), local = localTerminalAddress(raw.address, machine2);
-  const pid = raw.foreground?.pid ?? null;
-  if (pid !== null && (!Number.isSafeInteger(pid) || pid <= 0)) fail2("Invalid foreground PID");
-  return { machine: machine2, address: machine2 ? machine2 + "/" + local : local, createdMs: raw.created_ms, foregroundPid: pid };
+  const pid3 = raw.foreground?.pid ?? null;
+  if (pid3 !== null && (!Number.isSafeInteger(pid3) || pid3 <= 0)) fail2("Invalid foreground PID");
+  return { machine: machine2, address: machine2 ? machine2 + "/" + local : local, createdMs: raw.created_ms, foregroundPid: pid3 };
 }
 function terminalKey(identity) {
   if (!identity || !Number.isSafeInteger(identity.createdMs) || identity.createdMs < 0) fail2("Missing terminal generation");
-  const on = machineIdentity(identity.machine), local = localTerminalAddress(identity.address, on), pid = identity.foregroundPid ?? null;
-  if (pid !== null && (!Number.isSafeInteger(pid) || pid <= 0)) fail2("Invalid foreground PID");
-  return JSON.stringify([on, local, identity.createdMs, pid]);
+  const on = machineIdentity(identity.machine), local = localTerminalAddress(identity.address, on), pid3 = identity.foregroundPid ?? null;
+  if (pid3 !== null && (!Number.isSafeInteger(pid3) || pid3 <= 0)) fail2("Invalid foreground PID");
+  return JSON.stringify([on, local, identity.createdMs, pid3]);
 }
 
 // src/mods/mission-control-agents/model.js
@@ -258,8 +258,8 @@ function buildAgentModel({ agents: agents2 = [], terminals: terminals2 = [], spa
       const { node, depth, parent } = stack.pop();
       if (seen.has(node.address)) continue;
       seen.add(node.address);
-      const listed = native.get(node.address), base = listed || { ...node, machine: root.machine, space: root.space, spaceInfo: root.spaceInfo, title: agentTitle({ ...node, title: node.name || node.title, tab_name: null }), status: normalized(node.status, { child: true }), focus: { command: "terminal.peek", args: { terminal: node.address } }, native: false };
-      const row = { ...base, depth, parent, root: root.address, spaceName: base.spaceInfo?.name || base.space_name || "Unavailable space", ...metrics(readings.get(node.address)) };
+      const listed = native.get(node.address), base2 = listed || { ...node, machine: root.machine, space: root.space, spaceInfo: root.spaceInfo, title: agentTitle({ ...node, title: node.name || node.title, tab_name: null }), status: normalized(node.status, { child: true }), focus: { command: "terminal.peek", args: { terminal: node.address } }, native: false };
+      const row = { ...base2, depth, parent, root: root.address, spaceName: base2.spaceInfo?.name || base2.space_name || "Unavailable space", ...metrics(readings.get(node.address)) };
       row.matches = !needle || `${row.title} ${row.spaceName} ${row.machine || "This Mac"} ${row.status}`.toLowerCase().includes(needle);
       members.push(row);
       rowsByAddress.set(row.address, row);
@@ -595,10 +595,10 @@ var usageSourceKey = (source) => {
 };
 var usageSourceFingerprint = (source) => JSON.stringify(validateUsageSource(source));
 function defaultUsageSources({ machine: machine2 = null, home, installed = [] }) {
-  const base = canonical(home), on = machineIdentity(machine2), keys2 = new Set(installed.filter((t) => t.installed === true).map((t) => t.key)), result = {};
+  const base2 = canonical(home), on = machineIdentity(machine2), keys2 = new Set(installed.filter((t) => t.installed === true).map((t) => t.key)), result = {};
   for (const provider of providers) {
     if (!keys2.has(provider)) continue;
-    const root = base + "/." + provider, roots = provider === "claude" ? [root + "/projects"] : provider === "codex" ? [root + "/sessions", root + "/archived_sessions"] : [root + "/sessions"];
+    const root = base2 + "/." + provider, roots = provider === "claude" ? [root + "/projects"] : provider === "codex" ? [root + "/sessions", root + "/archived_sessions"] : [root + "/sessions"];
     const source = validateUsageSource({ v: 1, enabled: true, machine: on, provider, credentialScope: "standard", providerRoot: root, roots });
     result[usageSourceKey(source)] = source;
   }
@@ -881,6 +881,653 @@ function selectQuota(observations, identity, options = {}) {
   return normalizeQuota({ ...anchor.observation, quota: { ...anchor.observation.quota, windows: [...windows.values()] } }, identity, options);
 }
 
+// src/shared/codex-session-hook.js
+var CODEX_LABEL = "mission-control.codex-session";
+var UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+var START_TIME_PY = String.raw`
+def mc_start_ms(pid):
+    import calendar, os, subprocess, time
+    proc = os.environ.get("MC_RESTART_TEST_PROC", "/proc")
+    try:
+        pid = int(pid)
+        if pid <= 0:
+            return None
+        if os.path.isdir(os.path.join(proc, str(pid))):
+            with open(os.path.join(proc, str(pid), "stat")) as handle:
+                fields = handle.read().rsplit(")", 1)[1].split()
+            ticks = int(fields[19])
+            with open(os.path.join(proc, "stat")) as handle:
+                btime = next(int(line.split()[1]) for line in handle if line.startswith("btime "))
+            return (btime + ticks // os.sysconf("SC_CLK_TCK")) * 1000
+        if os.path.isdir(proc) and proc != "/proc":
+            return None
+        env = dict(os.environ)
+        env.update({"TZ": "UTC", "LC_ALL": "C"})
+        out = subprocess.run(["ps", "-o", "lstart=", "-p", str(pid)], capture_output=True, timeout=1.5, env=env)
+        text = out.stdout.decode("ascii", "replace").strip() if out.returncode == 0 else ""
+        if not text:
+            return None
+        return calendar.timegm(time.strptime(" ".join(text.split()), "%a %b %d %H:%M:%S %Y")) * 1000
+    except Exception:
+        return None
+`;
+var HOOK_BODY = String.raw`
+import json, os, re, subprocess, sys, time
+
+UUID = re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$", re.I)
+ADDRESS = re.compile(r"^t[0-9a-z]{1,63}$")
+# Herdr's launch wrappers (local login shell, remote sh -c); split so no template ever interpolates.
+WRAPPERS = {"-lic": '"$@"; exec "$0" -li', "-c": '"$@"; exec "$' + '{SHELL:-sh}" -i'}
+SHELLS = {"sh", "bash", "zsh", "dash", "ksh"}
+LABEL = "mission-control.codex-session"
+END = time.monotonic() + 3.5
+
+
+def run(args):
+    try:
+        p = subprocess.run(args, capture_output=True, timeout=max(0.1, END - time.monotonic()))
+        return p.stdout.decode("utf-8", "replace") if p.returncode == 0 else None
+    except Exception:
+        return None
+
+
+def hc():
+    for folder in os.environ.get("PATH", "").split(os.pathsep):
+        if folder and os.access(os.path.join(folder, "hc"), os.X_OK):
+            return os.path.join(folder, "hc")
+    local = os.path.expanduser("~/.local/bin/hc")
+    return local if os.access(local, os.X_OK) else None
+
+
+def parent(pid):
+    out = run(["ps", "-o", "ppid=", "-p", str(pid)])
+    try:
+        return int(out.strip())
+    except Exception:
+        return None
+
+
+def argv_of(pid):
+    out = run(["ps", "-o", "args=", "-p", str(pid)])
+    return out.split() if out else []
+
+
+def children(pid):
+    found = []
+    for line in (run(["ps", "-A", "-o", "pid=,ppid="]) or "").splitlines():
+        parts = line.split()
+        if len(parts) == 2 and parts[1] == str(pid):
+            found.append(int(parts[0]))
+    return found
+
+
+def top_level(path, session):
+    if not isinstance(path, str) or not path.startswith("/"):
+        return False
+    with open(path, "rb") as handle:
+        head = handle.read(262145)
+    cut = head.find(b"\n")
+    if cut < 0 or cut > 262144:
+        return False
+    first = json.loads(head[:cut].decode("utf-8"))
+    meta = first.get("payload") if isinstance(first, dict) else None
+    return first.get("type") == "session_meta" and isinstance(meta, dict) and meta.get("id") == session and meta.get("parent_thread_id") is None
+
+
+def agent_of(raw):
+    foreground = raw.get("foreground") if isinstance(raw, dict) else None
+    pid = foreground.get("pid") if isinstance(foreground, dict) else None
+    argv = foreground.get("argv") if isinstance(foreground, dict) else None
+    if type(pid) is not int or pid <= 1:
+        return None
+    if isinstance(argv, list) and len(argv) >= 3 and WRAPPERS.get(argv[1]) == argv[2]:
+        kids = children(pid)
+        return kids[0] if len(kids) == 1 else None
+    return pid
+
+
+def main():
+    raw = sys.stdin.buffer.read(65537)
+    if len(raw) > 65536:
+        return
+    event = json.loads(raw.decode("utf-8"))
+    session, terminal = event.get("session_id"), os.environ.get("HC_TERMINAL_ID", "")
+    if event.get("hook_event_name") != "SessionStart" or not isinstance(session, str) or not UUID.match(session) or not ADDRESS.match(terminal):
+        return
+    if not top_level(event.get("transcript_path"), session):
+        return
+    tool = hc()
+    listing = run([tool, "get", terminal, "--json"]) if tool else None
+    if listing is None:
+        return
+    agent = agent_of(json.loads(listing))
+    if agent is None:
+        return
+    chain, pid = [], os.getppid()
+    while pid and pid > 1 and len(chain) < 3:
+        chain.append(pid)
+        if pid == agent:
+            break
+        pid = parent(pid)
+    if not chain or chain[-1] != agent:
+        return
+    for step in chain:
+        argv = argv_of(step)
+        if "app-server" in argv:
+            return
+        if step != agent and (not argv or os.path.basename(argv[0]).lstrip("-") not in SHELLS):
+            return
+    started = mc_start_ms(agent)
+    if started is None:
+        return
+    run([tool, "label", terminal, "%s=%d:%d:%s" % (LABEL, agent, started, session)])
+
+
+try:
+    main()
+except Exception:
+    pass
+sys.exit(0)
+`;
+var HOOK_SCRIPT = "#!/usr/bin/env python3\n# Mission Control: labels this Herdr terminal with the exact Codex session it runs.\n# Installed by Mission Control; remove it from Mission Control (Set up Codex resume).\n" + START_TIME_PY + HOOK_BODY;
+var HOOK_HELPER = String.raw`
+import json, os, stat, sys, time
+
+MARK = "mission-control-session-hook.py"
+request = json.loads(sys.argv[1])
+
+
+def out(value):
+    sys.stdout.write(json.dumps(value, separators=(",", ":")))
+    sys.exit(0)
+
+
+class Spans:
+    def __init__(self, text):
+        self.t, self.i, self.d = text, 0, json.JSONDecoder()
+
+    def ws(self):
+        while self.i < len(self.t) and self.t[self.i] in " \t\r\n":
+            self.i += 1
+
+    def value(self):
+        self.ws()
+        start, c = self.i, self.t[self.i]
+        if c in "{[":
+            close, items = ("}" if c == "{" else "]"), []
+            self.i += 1
+            self.ws()
+            if self.t[self.i] == close:
+                self.i += 1
+                return {"kind": "object" if c == "{" else "array", "start": start, "end": self.i, "items": items}
+            while True:
+                self.ws()
+                if c == "{":
+                    key_start = self.i
+                    key, self.i = self.d.raw_decode(self.t, self.i)
+                    if not isinstance(key, str):
+                        raise ValueError("key")
+                    self.ws()
+                    if self.t[self.i] != ":":
+                        raise ValueError("colon")
+                    self.i += 1
+                    v = self.value()
+                    items.append({"key": key, "start": key_start, "end": v["end"], "value": v})
+                else:
+                    items.append(self.value())
+                self.ws()
+                if self.t[self.i] == ",":
+                    self.i += 1
+                    continue
+                if self.t[self.i] != close:
+                    raise ValueError("close")
+                self.i += 1
+                return {"kind": "object" if c == "{" else "array", "start": start, "end": self.i, "items": items}
+        _, self.i = self.d.raw_decode(self.t, self.i)
+        return {"kind": "scalar", "start": start, "end": self.i}
+
+
+def member(obj, key):
+    found = [m for m in obj["items"] if m["key"] == key]
+    return found[-1] if found else None
+
+
+def ours(group):
+    return isinstance(group, dict) and isinstance(group.get("hooks"), list) and any(isinstance(h, dict) and MARK in str(h.get("command", "")) for h in group["hooks"])
+
+
+def groups(value):
+    hooks = value.get("hooks") if isinstance(value, dict) else None
+    start = hooks.get("SessionStart") if isinstance(hooks, dict) else None
+    return start if isinstance(start, list) else []
+
+
+def splice(text, group):
+    root = Spans(text).value()
+    if root["kind"] != "object":
+        raise ValueError("hooks.json is not an object")
+    def add(obj, member_text):
+        if obj["items"]:
+            end = obj["items"][-1]["end"]
+            return text[:end] + ", " + member_text + text[end:]
+        return text[: obj["start"] + 1] + member_text + text[obj["start"] + 1 :]
+    hooks = member(root, "hooks")
+    if hooks is None:
+        return add(root, '"hooks": {"SessionStart": [' + group + "]}")
+    if hooks["value"]["kind"] != "object":
+        raise ValueError("hooks is not an object")
+    start = member(hooks["value"], "SessionStart")
+    if start is None:
+        return add(hooks["value"], '"SessionStart": [' + group + "]")
+    array = start["value"]
+    if array["kind"] != "array":
+        raise ValueError("SessionStart is not an array")
+    if not array["items"]:
+        return text[: array["start"] + 1] + group + text[array["end"] - 1 :]
+    last = array["items"][-1]["end"]
+    return text[:last] + ", " + group + text[last:]
+
+
+def cut(text, index):
+    root = Spans(text).value()
+    items = member(member(root, "hooks")["value"], "SessionStart")["value"]["items"]
+    item = items[index]
+    if index > 0:
+        return text[: items[index - 1]["end"]] + text[item["end"] :]
+    if len(items) > 1:
+        return text[: item["start"]] + text[items[1]["start"] :]
+    return text[: item["start"]] + text[item["end"] :]
+
+
+def spans_of(text):
+    root = Spans(text).value()
+    hooks = member(root, "hooks")
+    start = member(hooks["value"], "SessionStart") if hooks and hooks["value"]["kind"] == "object" else None
+    return [text[i["start"] : i["end"]] for i in start["value"]["items"]] if start and start["value"]["kind"] == "array" else []
+
+
+def write_atomic(path, data, mode):
+    tmp = path + ".mission-control-tmp-%d" % os.getpid()
+    with open(tmp, "w", encoding="utf-8") as handle:
+        handle.write(data)
+    os.chmod(tmp, mode)
+    os.replace(tmp, path)
+
+
+home = os.environ.get("CODEX_HOME") or os.path.expanduser("~/.codex")
+home = os.path.realpath(home)
+op, script = request.get("op"), request.get("script")
+if request.get("v") != 1 or op not in ("install", "status", "remove") or (op == "install" and not isinstance(script, str)):
+    out({"ok": False, "code": "INVALID_REQUEST", "message": "Unsupported hook request."})
+if not os.path.isdir(home):
+    out({"ok": False, "code": "NO_CODEX", "message": "Codex has no home folder on this machine.", "codexHome": home})
+hooks_path, script_path = os.path.join(home, "hooks.json"), os.path.join(home, MARK)
+if "'" in script_path:
+    out({"ok": False, "code": "UNSAFE_PATH", "message": "The Codex folder path contains a quote.", "codexHome": home})
+if os.path.islink(hooks_path) or os.path.islink(script_path):
+    out({"ok": False, "code": "SYMLINK", "message": "hooks.json or the hook script is a symbolic link; nothing was changed.", "codexHome": home})
+original = None
+if os.path.exists(hooks_path):
+    if os.path.getsize(hooks_path) > 1048576:
+        out({"ok": False, "code": "TOO_LARGE", "message": "hooks.json is larger than 1 MiB; nothing was changed.", "codexHome": home})
+    with open(hooks_path, encoding="utf-8") as handle:
+        original = handle.read()
+    try:
+        parsed = json.loads(original)
+        if not isinstance(parsed, dict):
+            raise ValueError("object")
+        Spans(original).value()
+    except Exception:
+        out({"ok": False, "code": "INVALID_HOOKS", "message": "hooks.json is not a valid JSON object; nothing was changed.", "codexHome": home})
+else:
+    parsed = {}
+existing = groups(parsed)
+mine = [i for i, g in enumerate(existing) if ours(g)]
+has_script = os.path.isfile(script_path)
+if op == "status":
+    current = None
+    if has_script:
+        with open(script_path, encoding="utf-8", errors="replace") as handle:
+            current = handle.read()
+    out({"ok": True, "codexHome": home, "installed": bool(mine), "index": mine[0] if mine else None, "script": has_script, "current": current == script if isinstance(script, str) else None})
+mode = stat.S_IMODE(os.stat(hooks_path).st_mode) if original is not None else 0o644
+stamp = time.strftime("%Y%m%dT%H%M%S", time.gmtime())
+
+
+def commit(text):
+    if original is not None:
+        backup = hooks_path + ".mission-control-" + stamp + ".bak"
+        with open(backup, "w", encoding="utf-8") as handle:
+            handle.write(original)
+        os.chmod(backup, mode)
+        with open(hooks_path, encoding="utf-8") as handle:
+            if handle.read() != original:
+                out({"ok": False, "code": "CONFLICT", "message": "hooks.json changed while it was being updated; nothing was changed.", "codexHome": home})
+    else:
+        backup = None
+        if os.path.exists(hooks_path):
+            out({"ok": False, "code": "CONFLICT", "message": "hooks.json appeared while it was being created; nothing was changed.", "codexHome": home})
+    write_atomic(hooks_path, text, mode)
+    return backup
+
+
+if op == "install":
+    if not has_script or open(script_path, encoding="utf-8", errors="replace").read() != script:
+        write_atomic(script_path, script, 0o644)
+    if mine:
+        out({"ok": True, "codexHome": home, "installed": True, "changed": False, "index": mine[0]})
+    group = json.dumps({"hooks": [{"type": "command", "command": "python3 '" + script_path + "'", "timeout": int(request.get("timeout", 5))}]})
+    base = original if original is not None else "{}\n"
+    text = splice(base, group)
+    after = json.loads(text)
+    before_spans, after_spans = spans_of(base), spans_of(text)
+    keep = dict(after)
+    if not (groups(after)[: len(existing)] == existing and after_spans[: len(before_spans)] == before_spans and len(groups(after)) == len(existing) + 1 and ours(groups(after)[-1])):
+        out({"ok": False, "code": "SPLICE_FAILED", "message": "The new hook could not be added without changing existing hooks; nothing was changed.", "codexHome": home})
+    other = {k: v for k, v in after.items() if k != "hooks"} == {k: v for k, v in parsed.items() if k != "hooks"}
+    other_hooks = {k: v for k, v in after["hooks"].items() if k != "SessionStart"} == {k: v for k, v in (parsed.get("hooks") or {}).items() if k != "SessionStart"}
+    if not (other and other_hooks):
+        out({"ok": False, "code": "SPLICE_FAILED", "message": "The new hook could not be added without changing existing hooks; nothing was changed.", "codexHome": home})
+    backup = commit(text)
+    out({"ok": True, "codexHome": home, "installed": True, "changed": True, "index": len(existing), "backup": backup})
+
+# remove
+if not mine:
+    if has_script:
+        os.remove(script_path)
+    out({"ok": True, "codexHome": home, "installed": False, "changed": False, "laterGroups": 0})
+index = mine[0]
+text = cut(original, index)
+after = json.loads(text)
+expected = [g for i, g in enumerate(existing) if i != index]
+if groups(after) != expected:
+    out({"ok": False, "code": "SPLICE_FAILED", "message": "The hook could not be removed without changing other hooks; nothing was changed.", "codexHome": home})
+backup = commit(text)
+if has_script:
+    os.remove(script_path)
+out({"ok": True, "codexHome": home, "installed": False, "changed": True, "laterGroups": len(existing) - index - 1, "backup": backup})
+`;
+function parseCodexLabel(value) {
+  if (typeof value !== "string" || value.length > 120) return null;
+  const m = /^([1-9]\d{0,9}):(\d{1,15}):([0-9a-f-]{36})$/i.exec(value);
+  if (!m || !UUID.test(m[3])) return null;
+  const pid3 = Number(m[1]), startMs = Number(m[2]);
+  return Number.isSafeInteger(pid3) && Number.isSafeInteger(startMs) ? Object.freeze({ pid: pid3, startMs, sessionId: m[3].toLowerCase() }) : null;
+}
+
+// src/shared/restart-host.js
+var HOST_LIMITS = Object.freeze({ terminals: 64, children: 8, output: 1048576, request: 65536 });
+var UUID2 = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+var ADDRESS = /^t[0-9a-z]{1,63}$/;
+var HOST_HELPER = START_TIME_PY + String.raw`
+import calendar, json, os, re, subprocess, sys, time
+
+END = time.monotonic() + 2.0
+request = json.loads(sys.argv[1])
+UUID = re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$", re.I)
+PROC = os.environ.get("MC_RESTART_TEST_PROC", "/proc")
+LSOF = os.environ.get("MC_RESTART_TEST_LSOF", "lsof")
+CLAIMS = os.environ.get("MC_RESTART_TEST_CLAIMS") or os.path.expanduser("~/.local/state/mission-control/restart-claims")
+
+
+def out(value):
+    sys.stdout.write(json.dumps(value, separators=(",", ":")))
+    sys.exit(0)
+
+
+def left():
+    return max(0.05, END - time.monotonic())
+
+
+def proc_mode():
+    return os.path.isdir(PROC) and (PROC != "/proc" or os.path.isdir("/proc/self"))
+
+
+def table():
+    """pid -> (ppid, name) for every process, from /proc or one ps call."""
+    rows = {}
+    if proc_mode():
+        for entry in os.listdir(PROC)[:65536]:
+            if not entry.isdigit():
+                continue
+            try:
+                with open(os.path.join(PROC, entry, "stat")) as handle:
+                    head, rest = handle.read().rsplit(")", 1)
+                name = head.split("(", 1)[1]
+                rows[int(entry)] = (int(rest.split()[1]), name)
+            except Exception:
+                continue
+        return rows
+    env = dict(os.environ)
+    env.update({"LC_ALL": "C"})
+    p = subprocess.run(["ps", "-A", "-o", "pid=,ppid=,comm="], capture_output=True, timeout=left(), env=env)
+    if p.returncode != 0:
+        raise OSError("ps")
+    for line in p.stdout.decode("utf-8", "replace").splitlines():
+        parts = line.split(None, 2)
+        if len(parts) == 3 and parts[0].isdigit() and parts[1].isdigit():
+            rows[int(parts[0])] = (int(parts[1]), parts[2].strip())
+    return rows
+
+
+def short(name):
+    return os.path.basename(name or "").lstrip("-") or None
+
+
+def info(pid, rows):
+    if type(pid) is not int or pid not in rows:
+        return None
+    start = mc_start_ms(pid)
+    return {"pid": pid, "ppid": rows[pid][0], "name": short(rows[pid][1]), "startMs": start, "ageMs": None if start is None else max(0, int(time.time() * 1000) - start)}
+
+
+def lstart_ms(text):
+    try:
+        return calendar.timegm(time.strptime(" ".join(str(text).split()), "%a %b %d %H:%M:%S %Y")) * 1000
+    except Exception:
+        return None
+
+
+def claude(root, pid, start):
+    path = os.path.join(root, "sessions", "%d.json" % pid)
+    try:
+        fd = os.open(path, os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0))
+    except OSError:
+        return {"code": "NO_RECORD"}
+    try:
+        if os.fstat(fd).st_size > 65536:
+            return {"code": "INVALID_RECORD"}
+        record = json.loads(os.read(fd, 65537).decode("utf-8"))
+    except Exception:
+        return {"code": "INVALID_RECORD"}
+    finally:
+        os.close(fd)
+    session = record.get("sessionId") if isinstance(record, dict) else None
+    if record.get("pid") != pid or record.get("kind") != "interactive" or not isinstance(session, str) or not UUID.match(session):
+        return {"code": "INVALID_RECORD"}
+    if start is None:
+        return {"code": "PROCESS_UNKNOWN"}
+    recorded = lstart_ms(record.get("procStart")) if record.get("procStart") is not None else None
+    if recorded is not None:
+        ok = recorded // 1000 == start // 1000
+    else:
+        began = record.get("startedAt")
+        ok = type(began) in (int, float) and abs(began - start) <= 5000
+    return {"sessionId": session.lower(), "via": "pid-record"} if ok else {"code": "PROCESS_MISMATCH"}
+
+
+def open_files(pid):
+    if proc_mode():
+        folder = os.path.join(PROC, str(pid), "fd")
+        names = []
+        for fd in os.listdir(folder)[:4096]:
+            try:
+                names.append(os.readlink(os.path.join(folder, fd)))
+            except OSError:
+                continue
+        return names
+    p = subprocess.run([LSOF, "-a", "-n", "-P", "-p", str(pid), "-Fn"], capture_output=True, timeout=left())
+    if p.returncode not in (0, 1) or len(p.stdout) > 1048576:
+        raise OSError("lsof")
+    return [line[1:] for line in p.stdout.decode("utf-8", "replace").splitlines() if line.startswith("n")]
+
+
+def grok(root, pid):
+    base = os.path.realpath(root).rstrip("/")
+    pattern = re.compile("^" + re.escape(base) + r"/sessions/[^/]+/([0-9a-f-]{36})/events\.jsonl$", re.I)
+    try:
+        names = open_files(pid)
+    except Exception:
+        return {"code": "UNAVAILABLE"}
+    found = {m.group(1).lower() for m in (pattern.match(n) for n in names) if m and UUID.match(m.group(1))}
+    if len(found) == 1:
+        return {"sessionId": found.pop(), "via": "open-file"}
+    return {"code": "AMBIGUOUS" if found else "NO_SESSION"}
+
+
+def facts():
+    rows = table()
+    result = []
+    for t in request.get("terminals", [])[:64]:
+        shell, fg = info(t.get("shellPid"), rows), info(t.get("foregroundPid"), rows)
+        kids = []
+        if fg:
+            kids = [info(pid, rows) for pid, row in sorted(rows.items()) if row[0] == fg["pid"]][:8]
+        sessions = []
+        for proc in ([fg] if fg else []) + kids[:4]:
+            s = {"pid": proc["pid"]}
+            if request.get("claudeRoot"):
+                s["claude"] = claude(os.path.expanduser(request["claudeRoot"]), proc["pid"], proc["startMs"])
+            if request.get("grokRoot"):
+                s["grok"] = grok(os.path.expanduser(request["grokRoot"]), proc["pid"])
+            sessions.append(s)
+        result.append({"address": t.get("address"), "shell": shell, "foreground": fg, "children": kids, "sessions": sessions})
+    out({"v": 1, "ok": True, "terminals": result})
+
+
+def claim():
+    key = request.get("key")
+    if not isinstance(key, str) or not re.match(r"^[A-Za-z0-9._-]{1,200}$", key):
+        out({"v": 1, "ok": False, "code": "INVALID_KEY"})
+    os.makedirs(CLAIMS, mode=0o700, exist_ok=True)
+    cutoff = time.time() - 7 * 86400
+    for name in os.listdir(CLAIMS)[:200]:
+        try:
+            if os.lstat(os.path.join(CLAIMS, name)).st_mtime < cutoff:
+                os.remove(os.path.join(CLAIMS, name))
+        except OSError:
+            pass
+    try:
+        fd = os.open(os.path.join(CLAIMS, key), os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+        os.write(fd, json.dumps({"at": int(time.time() * 1000), "owner": str(request.get("owner", ""))[:120]}).encode())
+        os.close(fd)
+        out({"v": 1, "ok": True, "claimed": True})
+    except FileExistsError:
+        out({"v": 1, "ok": True, "claimed": False})
+
+
+try:
+    if request.get("v") != 1:
+        out({"v": 1, "ok": False, "code": "INVALID_REQUEST"})
+    if request.get("op") == "facts":
+        facts()
+    if request.get("op") == "claim":
+        claim()
+    out({"v": 1, "ok": False, "code": "INVALID_REQUEST"})
+except SystemExit:
+    raise
+except Exception:
+    out({"v": 1, "ok": False, "code": "UNAVAILABLE"})
+`;
+var unavailable = (on, code = "UNAVAILABLE") => Object.freeze({ ok: false, code, machine: on });
+async function call(io, on, request) {
+  const text6 = JSON.stringify(request);
+  if (text6.length > HOST_LIMITS.request) return unavailable(on, "REQUEST_TOO_LARGE");
+  let result;
+  try {
+    result = await io.exec("python3", ["-c", HOST_HELPER, text6], { on });
+  } catch {
+    return unavailable(on, "HOST_UNAVAILABLE");
+  }
+  if (result?.code !== 0 || typeof result.stdout !== "string" || result.stdout.length > HOST_LIMITS.output) return unavailable(on, "HOST_UNAVAILABLE");
+  try {
+    const value = JSON.parse(result.stdout);
+    if (value?.v === 1 && typeof value.ok === "boolean") return value;
+  } catch {
+  }
+  return unavailable(on, "INVALID_RESPONSE");
+}
+var pid = (v) => Number.isSafeInteger(v) && v > 1 ? v : null;
+var proc = (v) => v && pid(v.pid) ? Object.freeze({ pid: v.pid, ppid: Number.isSafeInteger(v.ppid) ? v.ppid : null, name: typeof v.name === "string" ? v.name.slice(0, 64) : null, startMs: Number.isSafeInteger(v.startMs) ? v.startMs : null, ageMs: Number.isSafeInteger(v.ageMs) ? v.ageMs : null }) : null;
+var found = (v) => v && typeof v.sessionId === "string" && UUID2.test(v.sessionId) ? Object.freeze({ sessionId: v.sessionId.toLowerCase(), via: v.via === "open-file" ? "open-file" : "pid-record" }) : Object.freeze({ code: typeof v?.code === "string" ? v.code.slice(0, 40) : "UNAVAILABLE" });
+async function hostFacts(io, { machine: machine2 = null, terminals: terminals2 = [], claudeRoot = null, grokRoot = null } = {}) {
+  const on = machineIdentity(machine2), asked = terminals2.filter((t) => ADDRESS.test(t?.address ?? "")).slice(0, HOST_LIMITS.terminals).map((t) => ({ address: t.address, shellPid: pid(t.shellPid), foregroundPid: pid(t.foregroundPid) }));
+  if (!asked.length) return Object.freeze({ ok: true, machine: on, terminals: /* @__PURE__ */ new Map() });
+  const value = await call(io, on, { v: 1, op: "facts", terminals: asked, claudeRoot: typeof claudeRoot === "string" ? claudeRoot : null, grokRoot: typeof grokRoot === "string" ? grokRoot : null });
+  if (!value.ok || !Array.isArray(value.terminals)) return unavailable(on, value.code || "INVALID_RESPONSE");
+  const map = /* @__PURE__ */ new Map(), known = new Set(asked.map((t) => t.address));
+  for (const t of value.terminals) {
+    if (!known.has(t?.address)) continue;
+    const sessions = /* @__PURE__ */ new Map();
+    for (const s of Array.isArray(t.sessions) ? t.sessions : []) if (pid(s?.pid)) sessions.set(s.pid, Object.freeze({ ...s.claude ? { claude: found(s.claude) } : {}, ...s.grok ? { grok: found(s.grok) } : {} }));
+    map.set(t.address, Object.freeze({ shell: proc(t.shell), foreground: proc(t.foreground), children: Object.freeze((Array.isArray(t.children) ? t.children : []).map(proc).filter(Boolean).slice(0, HOST_LIMITS.children)), sessions }));
+  }
+  return Object.freeze({ ok: true, machine: on, terminals: map });
+}
+
+// src/shared/restart-resume.js
+var RESTART = Object.freeze({ version: 1, entriesPerMachine: 500, bytes: 900 * 1024, machines: 32, typeWindowMs: 15 * 6e4, sendingStaleMs: 6e4, graceMs: 6e4, offerMs: 24 * 36e5, leaseMs: 15e3, seenRefreshMs: 6e4, maxSends: 4 });
+var STATES = Object.freeze(["tracking", "lost", "sending", "sent", "offered", "skipped"]);
+var VIAS = Object.freeze(["pid-record", "codex-hook", "open-file", "argv", "binding"]);
+var PROVIDERS = Object.freeze(["claude", "codex", "grok"]);
+var POSIX_SHELLS = /* @__PURE__ */ new Set(["sh", "bash", "zsh", "dash", "ksh"]);
+var UUID3 = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+var WRAPPERS = Object.freeze({ "-lic": '"$@"; exec "$0" -li', "-c": '"$@"; exec "${SHELL:-sh}" -i' });
+var pid2 = (v) => Number.isSafeInteger(v) && v > 1;
+var freeze = (v) => {
+  if (v && typeof v === "object" && !Object.isFrozen(v)) {
+    for (const c of Object.values(v)) freeze(c);
+    Object.freeze(v);
+  }
+  return v;
+};
+var base = (v) => typeof v === "string" ? v.slice(v.lastIndexOf("/") + 1).replace(/^-+/, "") : "";
+function argvSession(argv) {
+  if (!Array.isArray(argv)) return null;
+  const words = argv.slice(0, 32).map(String), names = words.slice(0, 3).map(base);
+  const provider = names.some((n) => n === "claude") || words.slice(0, 3).some((w) => w.includes("/@anthropic-ai/claude-code/")) ? "claude" : names.some((n) => n === "codex") ? "codex" : names.some((n) => /^grok(?:$|-)/.test(n)) ? "grok" : null;
+  if (!provider) return null;
+  for (let i = 0; i < words.length; i++) {
+    const w = words[i];
+    let id = null;
+    if (provider !== "codex" && (w === "--resume" || w === "-r")) id = words[i + 1];
+    else if (provider !== "codex" && w.startsWith("--resume=")) id = w.slice(9);
+    else if (provider === "codex" && w === "resume") id = words[i + 1];
+    if (typeof id === "string" && UUID3.test(id)) return freeze({ provider, sessionId: id.toLowerCase(), via: "argv" });
+  }
+  return null;
+}
+function providerOf({ programKey, app, argv, name: name2 } = {}) {
+  const k = String(programKey || "").toLowerCase();
+  if (PROVIDERS.includes(k)) return k;
+  const a = String(app || "").toLowerCase();
+  if (a === "claude-code" || a === "claude") return "claude";
+  if (a === "codex") return "codex";
+  if (a === "grok-build" || a === "grok") return "grok";
+  const words = Array.isArray(argv) ? argv.slice(0, 3).map(String) : [], names = [...words.map(base), base(name2)];
+  if (names.includes("claude") || words.some((w) => w.includes("/@anthropic-ai/claude-code/"))) return "claude";
+  if (names.includes("codex")) return "codex";
+  if (names.some((n) => /^grok(?:$|-)/.test(n))) return "grok";
+  return null;
+}
+function isWrapper(argv) {
+  return Array.isArray(argv) && argv.length >= 3 && WRAPPERS[argv[1]] === argv[2] && POSIX_SHELLS.has(base(argv[0]));
+}
+function agentProcess(foreground, children = []) {
+  if (isWrapper(foreground?.argv)) return children.length === 1 ? children[0] : null;
+  return foreground && pid2(foreground.pid) ? foreground : null;
+}
+
 // src/shared/telemetry.js
 var REFRESH_STALE_MS = 9e4;
 var bytes2 = (value) => {
@@ -897,16 +1544,6 @@ var fail5 = (code, message) => {
 var claudeForeground = (raw) => {
   const argv = Array.isArray(raw?.foreground?.argv) ? raw.foreground.argv.slice(0, 4) : [];
   return argv.some((a) => typeof a === "string" && (/(^|\/)claude$/.test(a) || a.includes("/@anthropic-ai/claude-code/")));
-};
-var RESUME_ID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-var argvSession = (raw) => {
-  const argv = Array.isArray(raw?.foreground?.argv) ? raw.foreground.argv.slice(0, 16) : [];
-  if (!argv.length || argv.some((a) => a === "--last" || a === "--continue")) return null;
-  const base = String(argv[0]).split("/").pop(), at = (flag, provider) => {
-    const i = argv.indexOf(flag, 1);
-    return i > 0 && RESUME_ID.test(String(argv[i + 1])) ? { provider, sessionId: argv[i + 1] } : null;
-  };
-  return base === "codex" ? at("resume", "codex") : base === "grok" ? at("--resume", "grok") : null;
 };
 var sameScope = (scope, source) => scope && ["machine", "provider", "providerRoot", "credentialScope"].every((k) => scope[k] === source[k]);
 var TelemetryBridge = class {
@@ -1041,9 +1678,9 @@ var TelemetryBridge = class {
     return batches;
   }
   async scanSource(source, identities, { force = false } = {}) {
-    const previous = this.observations.get(source.id) || { live: [], cache: [] }, times = this.lastScan.get(source.id) || {};
+    const previous = this.observations.get(source.id) || { live: [], cache: [] }, times = this.lastScan.get(source.id) || {}, sessions = JSON.stringify(identities.map(sessionKey).sort());
     for (const [kind, roots, interval] of [["live", source.roots, 3e4], ["cache", source.cacheRoots || [], 6e4]]) {
-      if (!roots.length || !identities.length || !force && times[kind] !== void 0 && this.clock() - times[kind] < interval) continue;
+      if (!roots.length || !identities.length || !force && times[kind + "Sessions"] === sessions && times[kind] !== void 0 && this.clock() - times[kind] < interval) continue;
       const ticket = this.sources.begin(source.id);
       if (!ticket) continue;
       const rows = [];
@@ -1066,6 +1703,7 @@ var TelemetryBridge = class {
           previous[kind] = value;
           this.observations.set(source.id, previous);
           times[kind] = this.clock();
+          times[kind + "Sessions"] = sessions;
           this.lastScan.set(source.id, { ...times, truncated: partial });
         });
       } catch (error2) {
@@ -1093,9 +1731,9 @@ var TelemetryBridge = class {
       fail5("INVALID_RESPONSE", "The adoption response is not valid JSON.");
     }
     if (response?.v !== 1 || !sameScope(response.scope, source) || !Array.isArray(response.adopt)) fail5("SCOPE_MISMATCH", "The adoption response belongs to a different host/provider/profile.");
-    const found = /* @__PURE__ */ new Map(), UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-    for (const row of response.adopt) if (row && asked.has(row.pid) && typeof row.sessionId === "string" && UUID.test(row.sessionId)) found.set(row.pid, row.sessionId);
-    return found;
+    const found2 = /* @__PURE__ */ new Map(), UUID4 = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    for (const row of response.adopt) if (row && asked.has(row.pid) && typeof row.sessionId === "string" && UUID4.test(row.sessionId)) found2.set(row.pid, row.sessionId);
+    return found2;
   }
   async full(address, machine2) {
     const local = localTerminalAddress(address, machine2), result = await this.io.exec("hc", ["get", local, "--json"], { on: machine2 });
@@ -1156,52 +1794,81 @@ var TelemetryBridge = class {
         const state2 = { ...actual, session: bound?.session || null, requestId: bound?.requestId || null, sourceId: source?.id || null, unbound: !bound, reason: !bound ? "No committed exact provider session binding." : !source ? "This session usage source is disabled or unavailable." : null };
         if (!source) state2.session = null;
         this.agentStates.set(agent.address, state2);
-        if (source) {
-          if (!groups.has(source.id)) groups.set(source.id, { source, identities: /* @__PURE__ */ new Map() });
-          groups.get(source.id).identities.set(sessionKey(bound.session), bound.session);
-        }
         for (const [id, record] of Object.entries(snapshot.proposals)) if (record.state === "committed" && record.ack.terminal.machine === machine2 && record.ack.terminal.address === actual.terminal.address && terminalKey(record.ack.terminal) !== terminalKey(actual.terminal)) await this.bindings.invalidate(id, "Terminal generation or foreground PID changed");
       }
-      const unbound = agents2.map((agent) => [agent, this.agentStates.get(agent.address)]).filter(([, state2]) => state2?.unbound && Number.isSafeInteger(state2.terminal?.foregroundPid) && Number.isSafeInteger(state2.terminal?.createdMs));
-      const adopt = (state2, source, sessionId) => {
-        state2.session = { machine: machine2, provider: source.provider, credentialScope: source.credentialScope, providerRoot: source.providerRoot, sessionId };
+      const candidates = agents2.map((agent) => [agent, this.agentStates.get(agent.address)]).filter(([, state2]) => Number.isSafeInteger(state2?.terminal?.foregroundPid) && Number.isSafeInteger(state2.terminal?.createdMs));
+      const adopt = async (state2, source, sessionId) => {
+        const session2 = { machine: machine2, provider: source.provider, credentialScope: source.credentialScope, providerRoot: source.providerRoot, sessionId };
+        if (state2.requestId && state2.session && sessionKey(state2.session) !== sessionKey(session2)) {
+          await this.bindings.invalidate(state2.requestId, "The running agent changed conversations");
+          state2.requestId = null;
+        }
+        state2.session = session2;
         state2.sourceId = source.id;
         state2.adopted = true;
         state2.reason = null;
-        if (!groups.has(source.id)) groups.set(source.id, { source, identities: /* @__PURE__ */ new Map() });
-        groups.get(source.id).identities.set(sessionKey(state2.session), state2.session);
       };
-      for (const [, state2] of unbound) {
-        const hit = argvSession(state2.raw);
-        if (!hit) continue;
+      for (const [, state2] of candidates.filter(([, state3]) => state3.unbound)) {
+        const argv = state2.raw.foreground?.argv;
+        if (argv?.some((a) => a === "--last" || a === "--continue")) continue;
+        const hit = argvSession(argv);
+        if (!hit || !["codex", "grok"].includes(hit.provider)) continue;
         const matches = sources.filter((s) => s.provider === hit.provider);
-        if (matches.length === 1) adopt(state2, matches[0], hit.sessionId);
+        if (matches.length === 1) await adopt(state2, matches[0], hit.sessionId);
         else if (matches.length) state2.reason = `Several ${hit.provider} profiles are enabled on this machine; no session is chosen.`;
       }
-      const claudeUnbound = unbound.filter(([, state2]) => !state2.session && claudeForeground(state2.raw));
-      if (claudeUnbound.length) {
+      for (const provider of ["codex", "grok"]) {
+        const entries = candidates.filter(([agent, state2]) => providerOf({ programKey: agent.program?.key, app: agent.app, argv: state2.raw.foreground?.argv, name: state2.raw.foreground?.name }) === provider);
+        if (!entries.length) continue;
+        const matches = sources.filter((s) => s.provider === provider);
+        if (matches.length !== 1) {
+          for (const [, state2] of entries) if (!state2.session) state2.reason = matches.length ? `Several ${provider} profiles are enabled on this machine; no session is chosen.` : `The ${provider} usage source is disabled or unavailable.`;
+          continue;
+        }
+        const source = matches[0], inspect = provider === "codex" ? entries.filter(([, state2]) => parseCodexLabel(state2.raw.labels?.[CODEX_LABEL])) : entries;
+        for (const [, state2] of entries) if (!state2.session && !inspect.some(([, s]) => s === state2)) state2.reason = "Codex has not reported its exact conversation. Use Set up Codex resume in Sources and trust the hook in Codex.";
+        if (!inspect.length) continue;
+        const facts = await hostFacts(this.io, { machine: machine2, terminals: inspect.map(([, state2]) => ({ address: localTerminalAddress(state2.raw.address, machine2), shellPid: state2.raw.pid, foregroundPid: state2.raw.foreground?.pid })), grokRoot: provider === "grok" ? source.providerRoot : null });
+        if (this.closed) return;
+        for (const [, state2] of inspect) {
+          const f = facts.ok ? facts.terminals.get(localTerminalAddress(state2.raw.address, machine2)) : null, picked = f ? agentProcess(state2.raw.foreground, f.children) : null;
+          const process = picked ? picked.pid === state2.raw.foreground?.pid ? f.foreground : f.children.find((c) => c.pid === picked.pid) : null;
+          if (!process || !Number.isSafeInteger(process.startMs)) continue;
+          const label2 = provider === "codex" ? parseCodexLabel(state2.raw.labels?.[CODEX_LABEL]) : null;
+          const sessionId = provider === "codex" ? label2?.pid === process.pid && label2.startMs === process.startMs ? label2.sessionId : null : f.sessions.get(process.pid)?.grok?.sessionId;
+          if (sessionId) await adopt(state2, source, sessionId);
+        }
+      }
+      const claudeCandidates = candidates.filter(([, state2]) => claudeForeground(state2.raw));
+      if (claudeCandidates.length) {
         const hits = /* @__PURE__ */ new Map();
         for (const source of sources.filter((s) => s.provider === "claude")) {
           if (this.closed) return;
-          let found;
+          let found2;
           try {
-            found = await this.adopt(source, claudeUnbound.map(([, state2]) => ({ pid: state2.terminal.foregroundPid, notBefore: state2.terminal.createdMs })));
+            found2 = await this.adopt(source, claudeCandidates.map(([, state2]) => ({ pid: state2.terminal.foregroundPid, notBefore: state2.terminal.createdMs })));
           } catch {
             continue;
           }
-          for (const [pid, sessionId] of found) {
-            if (!hits.has(pid)) hits.set(pid, []);
-            hits.get(pid).push({ source, sessionId });
+          for (const [pid3, sessionId] of found2) {
+            if (!hits.has(pid3)) hits.set(pid3, []);
+            hits.get(pid3).push({ source, sessionId });
           }
         }
-        for (const [, state2] of claudeUnbound) {
-          const found = hits.get(state2.terminal.foregroundPid) || [];
-          if (found.length !== 1) {
-            if (found.length) state2.reason = "Several Claude Code profiles claim this process; no session is chosen.";
+        for (const [, state2] of claudeCandidates) {
+          const found2 = hits.get(state2.terminal.foregroundPid) || [];
+          if (found2.length !== 1) {
+            if (found2.length) state2.reason = "Several Claude Code profiles claim this process; no session is chosen.";
             continue;
           }
-          adopt(state2, found[0].source, found[0].sessionId);
+          await adopt(state2, found2[0].source, found2[0].sessionId);
         }
+      }
+      for (const [, state2] of candidates) {
+        const source = sources.find((s) => s.id === state2.sourceId);
+        if (!state2.session || !source) continue;
+        if (!groups.has(source.id)) groups.set(source.id, { source, identities: /* @__PURE__ */ new Map() });
+        groups.get(source.id).identities.set(sessionKey(state2.session), state2.session);
       }
       for (const group of groups.values()) try {
         await this.scanSource(group.source, [...group.identities.values()], { force });

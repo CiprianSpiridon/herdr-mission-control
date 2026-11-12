@@ -3,6 +3,7 @@ import copy
 import importlib.util
 import json
 import os
+import sqlite3
 from pathlib import Path
 import subprocess
 import tempfile
@@ -75,6 +76,35 @@ class CollectorTest(unittest.TestCase):
         self.assertIsNone(result["cursor"])
         wrong_host = dict(self.identity("actual-session"), machine="other")
         self.assertEqual(self.run_request(dict(self.request, operation="observe", identities=[wrong_host]))["code"], "INVALID_IDENTITY")
+
+    def test_codex_index_locates_exact_rollout_before_the_history_walk(self):
+        session = "11111111-1111-4111-8111-111111111111"
+        directory = self.sessions / "2026" / "11" / "12"
+        directory.mkdir(parents=True)
+        rollout = self.write("rollout.jsonl", [{"sessionId": session, "at": 1234}], directory)
+        with sqlite3.connect(self.root / "state_5.sqlite") as db:
+            db.execute("CREATE TABLE threads (id TEXT PRIMARY KEY, rollout_path TEXT)")
+            db.execute("INSERT INTO threads VALUES (?, ?)", (session, str(rollout)))
+        request = dict(self.request, operation="observe", identities=[self.identity(session)])
+        with patch.object(C.os, "scandir", side_effect=AssertionError("exact indexed sessions need no history walk")):
+            result = self.run_request(request)
+        self.assertEqual([v["identity"]["sessionId"] for v in result["data"]], [session])
+        self.assertEqual(result["scan"]["indexed"], 1)
+        self.assertFalse(result["truncated"])
+
+    def test_codex_index_cannot_override_the_file_identity_or_configured_roots(self):
+        session = "11111111-1111-4111-8111-111111111111"
+        other = self.write("other.jsonl", [{"sessionId": "another-session", "at": 1234}])
+        with sqlite3.connect(self.root / "state_5.sqlite") as db:
+            db.execute("CREATE TABLE threads (id TEXT PRIMARY KEY, rollout_path TEXT)")
+            db.execute("INSERT INTO threads VALUES (?, ?)", (session, str(other)))
+        request = dict(self.request, operation="observe", identities=[self.identity(session)])
+        self.assertEqual(self.run_request(request)["data"], [])
+        outside = self.root / "outside.jsonl"
+        outside.write_text(json.dumps({"sessionId": session, "at": 1234}) + "\n")
+        with sqlite3.connect(self.root / "state_5.sqlite") as db:
+            db.execute("UPDATE threads SET rollout_path = ? WHERE id = ?", (str(outside), session))
+        self.assertEqual(self.run_request(request)["data"], [])
 
     def test_no_parser_disabled_source_unknown_operation_or_root_read_nothing(self):
         self.write()
