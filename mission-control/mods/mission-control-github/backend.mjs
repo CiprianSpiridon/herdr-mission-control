@@ -393,6 +393,15 @@ async function requestJson(input, { allowedOrigin, headers = {}, method = "GET",
   fail2("UNTRUSTED_ORIGIN");
 }
 
+// src/shared/utf8.js
+function utf8Bytes(value) {
+  if (!/[^\u0000-\u007f]/.test(value)) return value.length;
+  const twoByteUnits = value.length - value.replace(/[\u0080-\u07ff]/g, "").length;
+  const threeByteUnits = value.length - value.replace(/[\u0800-\uffff]/g, "").length;
+  const pairedUnits = value.length - value.replace(/[\ud800-\udbff][\udc00-\udfff]/g, "").length;
+  return value.length + twoByteUnits + 2 * threeByteUnits - pairedUnits;
+}
+
 // src/shared/tracker-model.js
 var TRACKER_GROUPS = ["todo", "inProgress", "done"];
 var messages2 = { INVALID_FILTER: "Choose an available board status filter.", INVALID_SCOPE: "Select a configured repository and tracker connection.", INVALID_BINDING: "The repository tracker binding is invalid.", INVALID_ISSUE: "The tracker returned an invalid issue; reload its source mapping.", INVALID_SNAPSHOT: "The tracker response does not match the requested scope.", STATUS_MAPPING_REQUIRED: "Choose an unambiguous source status mapping.", UNSUPPORTED_INTEGRATION_HOST: "CLI and stdio MCP integrations must run locally. Configure a local bridge or HTTPS MCP endpoint.", CONNECTION_CONFLICT: "This connection is already used elsewhere. Choose a new profile ID before changing it here." };
@@ -417,14 +426,6 @@ function sourceKind(source) {
   if (!trackerSources.includes(source)) fail3("INVALID_SCOPE");
   return source === "github-pr" ? "github" : source === "gitlab-mr" ? "gitlab" : source;
 }
-var utf8Bytes = (value) => {
-  let n = 0;
-  for (const c of value) {
-    const code = c.codePointAt(0);
-    n += code < 128 ? 1 : code < 2048 ? 2 : code < 65536 ? 3 : 4;
-  }
-  return n;
-};
 function json(value, code = "INVALID_SCOPE") {
   try {
     validateConfig({ v: 1, preferences: { tracker: value } });

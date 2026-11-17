@@ -1,10 +1,10 @@
 import {ConfigError} from './config.js';
+import {utf8Bytes as bytes} from './utf8.js';
 import {sessionIdentity,sessionKey,terminalKey,terminalIdentity,machineIdentity} from './session-identity.js';
 const clone=v=>JSON.parse(JSON.stringify(v));
 const fail=(code,message)=>{throw new ConfigError(code,message);};
 const text=(v,label,max=256)=>{if(typeof v!=='string'||!v||v.length>max||['__proto__','prototype','constructor'].includes(v)||/[\u0000-\u001f]/.test(v))fail('INVALID_BINDING',`Invalid ${label}`);return v;};
 const time=v=>typeof v==='number'&&Number.isFinite(v)&&v>=0;
-const bytes=value=>{let n=0;for(const c of value){const p=c.codePointAt(0);n+=p<128?1:p<2048?2:p<65536?3:4;}return n;};
 const empty=()=>({v:1,revision:0,proposals:{},terminals:{}});
 const proofKinds=new Set(['caller-session-id','resume-argv','pid-open-file','provider-handshake']);
 const conflict=e=>['STALE','CONFLICT','EAGAIN'].includes(e?.code)||/stale|contents?.*changed|expected.*match|compare.and.set/i.test(e?.message||'');

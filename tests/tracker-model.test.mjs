@@ -56,6 +56,16 @@ test('same-scope failure retains timestamped real cards; malformed pages and rep
   for(const value of [{...snapshot(),scope:makeScope(connection('personal'),binding('personal'))},{...snapshot(),data:[issue(),issue()]},{...snapshot(),cursor:'opaque-token',truncated:false},{...snapshot(),fetchedAt:NOW+6000},{...snapshot(),data:Array.from({length:1001},(_,i)=>issue(i+1))}])assert.throws(()=>validateSnapshot(value,s,{now:NOW}),TrackerModelError);
   const valid=validateSnapshot({...snapshot(),cursor:'opaque-token',truncated:true},s,{now:NOW});assert.equal(valid.truncated,true);
 });
+test('large snapshots retain the 8 MiB UTF-8 limit after item validation', () => {
+  const rows = Array.from({length: 200}, (_, i) => ({...issue(i + 1), body: 'é漢🙂'.repeat(600)}));
+  const value = snapshot(makeScope(), rows);
+  assert.ok(Buffer.byteLength(JSON.stringify(value)) > 1100000);
+  assert.equal(validateSnapshot(value, makeScope(), {now: NOW}).data.length, 200);
+  for (const row of rows) row.body = 'é'.repeat(30000);
+  assert.ok(Buffer.byteLength(JSON.stringify(value)) > 8 * 1024 * 1024);
+  assert.throws(() => validateSnapshot(value, makeScope(), {now: NOW}), error => error.code === 'INVALID_SNAPSHOT');
+});
+
 test('repo setup uses real CAS persistence and preserves other sources, profiles and machines',async t=>{
   const root=await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(),'mc-tracker-config-')));t.after(()=>fs.rm(root,{recursive:true,force:true}));await fs.mkdir(root+'/mission-control');const file=root+'/mission-control/config.json',initial=config();initial.connections['gh-work']={id:'gh-work',kind:'github',site:'https://github.com',credentialEnv:'GH_WORK_TOKEN'};initial.bindings[bindingKey(null,'/repos/client-portal')].github={connectionId:'gh-work',owner:'Acme',repo:'Web'};await fs.writeFile(file,JSON.stringify(initial));
   const io={appHome:()=>root,readTextFile:async p=>fs.readFile(p,'utf8'),writeTextFile:async(p,text,expected)=>{assert.equal(sync.readFileSync(p,'utf8'),expected);sync.writeFileSync(p,text);}};

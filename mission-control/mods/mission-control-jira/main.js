@@ -172,6 +172,15 @@ function resolveBinding(config, space) {
   return copy(selected);
 }
 
+// src/shared/utf8.js
+function utf8Bytes(value) {
+  if (!/[^\u0000-\u007f]/.test(value)) return value.length;
+  const twoByteUnits = value.length - value.replace(/[\u0080-\u07ff]/g, "").length;
+  const threeByteUnits = value.length - value.replace(/[\u0800-\uffff]/g, "").length;
+  const pairedUnits = value.length - value.replace(/[\ud800-\udbff][\udc00-\udfff]/g, "").length;
+  return value.length + twoByteUnits + 2 * threeByteUnits - pairedUnits;
+}
+
 // src/shared/tracker-model.js
 var TRACKER_GROUPS = ["todo", "inProgress", "done"];
 var messages = { INVALID_FILTER: "Choose an available board status filter.", INVALID_SCOPE: "Select a configured repository and tracker connection.", INVALID_BINDING: "The repository tracker binding is invalid.", INVALID_ISSUE: "The tracker returned an invalid issue; reload its source mapping.", INVALID_SNAPSHOT: "The tracker response does not match the requested scope.", STATUS_MAPPING_REQUIRED: "Choose an unambiguous source status mapping.", UNSUPPORTED_INTEGRATION_HOST: "CLI and stdio MCP integrations must run locally. Configure a local bridge or HTTPS MCP endpoint.", CONNECTION_CONFLICT: "This connection is already used elsewhere. Choose a new profile ID before changing it here." };
@@ -196,14 +205,6 @@ function sourceKind(source) {
   if (!trackerSources.includes(source)) fail2("INVALID_SCOPE");
   return source === "github-pr" ? "github" : source === "gitlab-mr" ? "gitlab" : source;
 }
-var utf8Bytes = (value) => {
-  let n = 0;
-  for (const c of value) {
-    const code = c.codePointAt(0);
-    n += code < 128 ? 1 : code < 2048 ? 2 : code < 65536 ? 3 : 4;
-  }
-  return n;
-};
 function json(value, code = "INVALID_SCOPE") {
   try {
     validateConfig({ v: 1, preferences: { tracker: value } });
@@ -1009,14 +1010,6 @@ var text4 = (v, label2, max = 256) => {
   return v;
 };
 var time = (v) => typeof v === "number" && Number.isFinite(v) && v >= 0;
-var bytes = (value) => {
-  let n = 0;
-  for (const c of value) {
-    const p = c.codePointAt(0);
-    n += p < 128 ? 1 : p < 2048 ? 2 : p < 65536 ? 3 : 4;
-  }
-  return n;
-};
 var empty = () => ({ v: 1, revision: 0, proposals: {}, terminals: {} });
 var proofKinds = /* @__PURE__ */ new Set(["caller-session-id", "resume-argv", "pid-open-file", "provider-handshake"]);
 var conflict2 = (e) => ["STALE", "CONFLICT", "EAGAIN"].includes(e?.code) || /stale|contents?.*changed|expected.*match|compare.and.set/i.test(e?.message || "");
@@ -1071,7 +1064,7 @@ function pruneBindings(draft, now2, { recoveryRecorded = [] } = {}) {
   return indexes(draft);
 }
 function capacity(d) {
-  if (Object.keys(d.proposals).length > 500 || bytes(JSON.stringify(d)) > 768 * 1024) fail7("BINDING_CAPACITY", "Session binding storage is full. Reconcile closed terminals or archive recovered requests; active mappings were preserved.");
+  if (Object.keys(d.proposals).length > 500 || utf8Bytes(JSON.stringify(d)) > 768 * 1024) fail7("BINDING_CAPACITY", "Session binding storage is full. Reconcile closed terminals or archive recovered requests; active mappings were preserved.");
 }
 function argvSessionProof({ capabilities, session, terminal, argv, kind, observedAt, sourceDigest }) {
   const s = sessionIdentity(session);
@@ -1100,7 +1093,7 @@ var BindingStore = class {
   async read() {
     const raw = await this.io.readTextFile(this.path);
     if (raw === null) return { raw, value: empty() };
-    if (typeof raw !== "string" || bytes(raw) > 768 * 1024) fail7("BINDING_CAPACITY", "Binding file exceeds its supported size");
+    if (typeof raw !== "string" || utf8Bytes(raw) > 768 * 1024) fail7("BINDING_CAPACITY", "Binding file exceeds its supported size");
     let data;
     try {
       data = JSON.parse(raw);
@@ -2312,15 +2305,15 @@ function mergePages(previous, next, scope, now2) {
   const rows = new Map(previous.data.map((item) => [issueIdentityKey(item), item]));
   for (const item of next.data) rows.set(issueIdentityKey(item), item);
   const data = [];
-  let bytes2 = 0, capped = false;
+  let bytes = 0, capped = false;
   for (const item of rows.values()) {
     const size = utf8Bytes(JSON.stringify(item));
-    if (data.length === 1e3 || bytes2 + size > 7 * 1024 * 1024) {
+    if (data.length === 1e3 || bytes + size > 7 * 1024 * 1024) {
       capped = true;
       break;
     }
     data.push(item);
-    bytes2 += size;
+    bytes += size;
   }
   const result = { ...next, data, fetchedAt: Math.min(previous.fetchedAt, next.fetchedAt) };
   if (capped) {

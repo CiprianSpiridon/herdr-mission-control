@@ -626,6 +626,15 @@ async function validateCheckout(shape, exec) {
   if (a !== b) fail5("CHECKOUT_MISMATCH", "The selected checkout belongs to a different canonical repository");
 }
 
+// src/shared/utf8.js
+function utf8Bytes(value) {
+  if (!/[^\u0000-\u007f]/.test(value)) return value.length;
+  const twoByteUnits = value.length - value.replace(/[\u0080-\u07ff]/g, "").length;
+  const threeByteUnits = value.length - value.replace(/[\u0800-\uffff]/g, "").length;
+  const pairedUnits = value.length - value.replace(/[\ud800-\udbff][\udc00-\udfff]/g, "").length;
+  return value.length + twoByteUnits + 2 * threeByteUnits - pairedUnits;
+}
+
 // src/shared/session-bindings.js
 var clone = (v) => JSON.parse(JSON.stringify(v));
 var fail6 = (code, message) => {
@@ -636,14 +645,6 @@ var text3 = (v, label2, max = 256) => {
   return v;
 };
 var time = (v) => typeof v === "number" && Number.isFinite(v) && v >= 0;
-var bytes = (value) => {
-  let n = 0;
-  for (const c of value) {
-    const p = c.codePointAt(0);
-    n += p < 128 ? 1 : p < 2048 ? 2 : p < 65536 ? 3 : 4;
-  }
-  return n;
-};
 var empty = () => ({ v: 1, revision: 0, proposals: {}, terminals: {} });
 var proofKinds = /* @__PURE__ */ new Set(["caller-session-id", "resume-argv", "pid-open-file", "provider-handshake"]);
 var conflict2 = (e) => ["STALE", "CONFLICT", "EAGAIN"].includes(e?.code) || /stale|contents?.*changed|expected.*match|compare.and.set/i.test(e?.message || "");
@@ -698,7 +699,7 @@ function pruneBindings(draft, now3, { recoveryRecorded = [] } = {}) {
   return indexes(draft);
 }
 function capacity(d) {
-  if (Object.keys(d.proposals).length > 500 || bytes(JSON.stringify(d)) > 768 * 1024) fail6("BINDING_CAPACITY", "Session binding storage is full. Reconcile closed terminals or archive recovered requests; active mappings were preserved.");
+  if (Object.keys(d.proposals).length > 500 || utf8Bytes(JSON.stringify(d)) > 768 * 1024) fail6("BINDING_CAPACITY", "Session binding storage is full. Reconcile closed terminals or archive recovered requests; active mappings were preserved.");
 }
 function argvSessionProof({ capabilities, session, terminal: terminal3, argv, kind, observedAt, sourceDigest }) {
   const s = sessionIdentity(session);
@@ -727,7 +728,7 @@ var BindingStore = class {
   async read() {
     const raw = await this.io.readTextFile(this.path);
     if (raw === null) return { raw, value: empty() };
-    if (typeof raw !== "string" || bytes(raw) > 768 * 1024) fail6("BINDING_CAPACITY", "Binding file exceeds its supported size");
+    if (typeof raw !== "string" || utf8Bytes(raw) > 768 * 1024) fail6("BINDING_CAPACITY", "Binding file exceeds its supported size");
     let data;
     try {
       data = JSON.parse(raw);
@@ -1805,14 +1806,6 @@ var freeze = (v) => {
 var clockOf = (io) => io.clock ? io.clock() : Date.now();
 var plain = (v) => v !== null && typeof v === "object" && !Array.isArray(v);
 var time2 = (v) => Number.isSafeInteger(v) && v >= 0;
-var utf8 = (value) => {
-  let n = 0;
-  for (const c of value) {
-    const p = c.codePointAt(0);
-    n += p < 128 ? 1 : p < 2048 ? 2 : p < 65536 ? 3 : 4;
-  }
-  return n;
-};
 var reserved = /* @__PURE__ */ new Set(["__proto__", "prototype", "constructor"]);
 var text6 = (v, label2, max = 256) => {
   if (typeof v !== "string" || !v || v.length > max || reserved.has(v) || /[\u0000-\u001f\u007f]/.test(v)) fail8("INVALID_CLOSED", `Invalid ${label2}`);
@@ -1992,7 +1985,7 @@ function boundRecords(d, now3) {
 }
 function fit(next) {
   let body = JSON.stringify(next) + "\n";
-  while (utf8(body) > LIMITS.bytes) {
+  while (utf8Bytes(body) > LIMITS.bytes) {
     const hosts = Object.values(next.hosts).filter((h) => Object.keys(h.tabs).length).sort((a, b) => Object.keys(b.tabs).length - Object.keys(a.tabs).length);
     if (hosts.length) {
       const h = hosts[0], ids = Object.keys(h.tabs);
@@ -2022,7 +2015,7 @@ var ClosedJournal = class {
   async read() {
     const raw = await this.io.readTextFile(this.path);
     if (raw === null) return { raw, value: emptyJournal() };
-    if (typeof raw !== "string" || utf8(raw) > LIMITS.bytes + 65536) fail8("INVALID_CLOSED", "Closed-tab history exceeds its supported size; the original file was kept unchanged.");
+    if (typeof raw !== "string" || utf8Bytes(raw) > LIMITS.bytes + 65536) fail8("INVALID_CLOSED", "Closed-tab history exceeds its supported size; the original file was kept unchanged.");
     let data;
     try {
       data = JSON.parse(raw);
@@ -3101,14 +3094,6 @@ var freeze3 = (v) => {
   return v;
 };
 var plain3 = (v) => v !== null && typeof v === "object" && !Array.isArray(v);
-var utf82 = (value) => {
-  let n = 0;
-  for (const c of value) {
-    const p = c.codePointAt(0);
-    n += p < 128 ? 1 : p < 2048 ? 2 : p < 65536 ? 3 : 4;
-  }
-  return n;
-};
 var isConflict4 = (e) => ["STALE", "CONFLICT", "EAGAIN"].includes(e?.code) || /stale|snapshot|contents?.*changed|expected.*match|compare.and.set/i.test(e?.message || "");
 var known = (e) => e instanceof TabNamesError || e instanceof TabServiceError;
 var randomId2 = (prefix2) => prefix2 + "-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 10);
@@ -3127,7 +3112,7 @@ var TabNameStore = class {
   async read() {
     const raw = await this.io.readTextFile(this.path);
     if (raw === null) return { raw, value: emptyTabNames() };
-    if (typeof raw !== "string" || utf82(raw) > NAME_LIMITS.bytes + 65536) throw new TabNamesError("TAB_NAMES_CAPACITY", "Tab names exceed their supported size; the original file was kept unchanged.");
+    if (typeof raw !== "string" || utf8Bytes(raw) > NAME_LIMITS.bytes + 65536) throw new TabNamesError("TAB_NAMES_CAPACITY", "Tab names exceed their supported size; the original file was kept unchanged.");
     let data;
     try {
       data = JSON.parse(raw);
@@ -3143,7 +3128,7 @@ var TabNameStore = class {
       draft.revision++;
       if (!Number.isSafeInteger(draft.revision)) fail10("TAB_NAMES_CAPACITY", "Tab names revision exhausted.");
       const next = validateTabNames(draft), body = JSON.stringify(next) + "\n";
-      if (utf82(body) > NAME_LIMITS.bytes) fail10("TAB_NAMES_CAPACITY", "Tab names cannot fit their size limit.");
+      if (utf8Bytes(body) > NAME_LIMITS.bytes) fail10("TAB_NAMES_CAPACITY", "Tab names cannot fit their size limit.");
       if (raw === null) await this.io.ensureDirectory?.(this.path.slice(0, this.path.lastIndexOf("/")));
       try {
         await this.io.writeTextFile(this.path, body, raw);

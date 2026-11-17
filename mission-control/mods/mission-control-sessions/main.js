@@ -168,6 +168,15 @@ async function updateConfig(io, edit, { attempts: attempts2 = 4 } = {}) {
   throw new ConfigError("CONFLICT", "Mission Control settings changed repeatedly; reload and retry. No stale update was applied.");
 }
 
+// src/shared/utf8.js
+function utf8Bytes(value) {
+  if (!/[^\u0000-\u007f]/.test(value)) return value.length;
+  const twoByteUnits = value.length - value.replace(/[\u0080-\u07ff]/g, "").length;
+  const threeByteUnits = value.length - value.replace(/[\u0800-\uffff]/g, "").length;
+  const pairedUnits = value.length - value.replace(/[\ud800-\udbff][\udc00-\udfff]/g, "").length;
+  return value.length + twoByteUnits + 2 * threeByteUnits - pairedUnits;
+}
+
 // src/shared/session-identity.js
 var IdentityError = class extends Error {
   constructor(code, message) {
@@ -230,14 +239,6 @@ var text2 = (v, label2, max = 256) => {
   return v;
 };
 var time = (v) => typeof v === "number" && Number.isFinite(v) && v >= 0;
-var bytes = (value) => {
-  let n = 0;
-  for (const c of value) {
-    const p = c.codePointAt(0);
-    n += p < 128 ? 1 : p < 2048 ? 2 : p < 65536 ? 3 : 4;
-  }
-  return n;
-};
 var empty = () => ({ v: 1, revision: 0, proposals: {}, terminals: {} });
 var proofKinds = /* @__PURE__ */ new Set(["caller-session-id", "resume-argv", "pid-open-file", "provider-handshake"]);
 var conflict2 = (e) => ["STALE", "CONFLICT", "EAGAIN"].includes(e?.code) || /stale|contents?.*changed|expected.*match|compare.and.set/i.test(e?.message || "");
@@ -292,7 +293,7 @@ function pruneBindings(draft, now3, { recoveryRecorded = [] } = {}) {
   return indexes(draft);
 }
 function capacity(d) {
-  if (Object.keys(d.proposals).length > 500 || bytes(JSON.stringify(d)) > 768 * 1024) fail3("BINDING_CAPACITY", "Session binding storage is full. Reconcile closed terminals or archive recovered requests; active mappings were preserved.");
+  if (Object.keys(d.proposals).length > 500 || utf8Bytes(JSON.stringify(d)) > 768 * 1024) fail3("BINDING_CAPACITY", "Session binding storage is full. Reconcile closed terminals or archive recovered requests; active mappings were preserved.");
 }
 function argvSessionProof({ capabilities, session: session2, terminal, argv, kind, observedAt, sourceDigest }) {
   const s = sessionIdentity(session2);
@@ -321,7 +322,7 @@ var BindingStore = class {
   async read() {
     const raw = await this.io.readTextFile(this.path);
     if (raw === null) return { raw, value: empty() };
-    if (typeof raw !== "string" || bytes(raw) > 768 * 1024) fail3("BINDING_CAPACITY", "Binding file exceeds its supported size");
+    if (typeof raw !== "string" || utf8Bytes(raw) > 768 * 1024) fail3("BINDING_CAPACITY", "Binding file exceeds its supported size");
     let data;
     try {
       data = JSON.parse(raw);
@@ -1439,14 +1440,6 @@ function agentProcess(foreground, children = []) {
 
 // src/shared/telemetry.js
 var REFRESH_STALE_MS = 9e4;
-var bytes2 = (value) => {
-  let size = 0;
-  for (const character of value) {
-    const n = character.codePointAt(0);
-    size += n < 128 ? 1 : n < 2048 ? 2 : n < 65536 ? 3 : 4;
-  }
-  return size;
-};
 var fail5 = (code, message) => {
   throw Object.assign(Error(message), { code });
 };
@@ -1543,19 +1536,19 @@ var TelemetryBridge = class {
   async collector() {
     if (this.code) return this.code;
     const code = await this.io.readTextFile(this.io.appHome() + "/mods/" + this.mod + "/collector.py");
-    if (typeof code !== "string" || !code.length || bytes2(code) > 65536) fail5("COLLECTOR_UNAVAILABLE", "This mod has no valid self-contained bounded collector.");
+    if (typeof code !== "string" || !code.length || utf8Bytes(code) > 65536) fail5("COLLECTOR_UNAVAILABLE", "This mod has no valid self-contained bounded collector.");
     this.code = code;
     return code;
   }
   async request(source, { operation = "observe", identities = [], cursor, roots, limit = 50 } = {}) {
     const request = { v: 1, operation, source, ...identities.length ? { identities } : {}, ...cursor ? { cursor } : {}, ...roots ? { roots } : {}, limit };
     const serialized = JSON.stringify(request);
-    if (bytes2(serialized) > 65536) fail5("REQUEST_TOO_LARGE", "The metadata request exceeds its bounded size.");
+    if (utf8Bytes(serialized) > 65536) fail5("REQUEST_TOO_LARGE", "The metadata request exceeds its bounded size.");
     const code = await this.collector();
     if (this.closed) fail5("CLOSED", "Telemetry view was closed.");
     const result = await this.io.exec("python3", ["-c", code, serialized], { on: source.machine });
     if (result.code !== 0) fail5("HOST_UNAVAILABLE", "The destination machine could not run its read-only Python collector.");
-    if (typeof result.stdout !== "string" || bytes2(result.stdout) > 524288) fail5("RESPONSE_TOO_LARGE", "The metadata response exceeds its bounded size.");
+    if (typeof result.stdout !== "string" || utf8Bytes(result.stdout) > 524288) fail5("RESPONSE_TOO_LARGE", "The metadata response exceeds its bounded size.");
     let response;
     try {
       response = JSON.parse(result.stdout);
@@ -1577,7 +1570,7 @@ var TelemetryBridge = class {
     let current = [];
     for (const identity of identities) {
       const next = [...current, identity], request = { v: 1, operation: "observe", source, identities: next, roots, limit: 50 };
-      if (next.length > 50 || bytes2(JSON.stringify(request)) > 64e3) {
+      if (next.length > 50 || utf8Bytes(JSON.stringify(request)) > 64e3) {
         if (!current.length) fail5("REQUEST_TOO_LARGE", "The exact session scope cannot fit a bounded collector request.");
         batches.push(current);
         current = [identity];
@@ -1628,11 +1621,11 @@ var TelemetryBridge = class {
     const unique = /* @__PURE__ */ new Map();
     for (const p of processes) if (!unique.has(p.pid)) unique.set(p.pid, { pid: p.pid, notBefore: p.notBefore });
     const request = { v: 1, operation: "adopt", source, pids: [...unique.values()].slice(0, 64) }, asked = new Set(request.pids.map((p) => p.pid)), serialized = JSON.stringify(request);
-    if (bytes2(serialized) > 65536) fail5("REQUEST_TOO_LARGE", "The adoption request exceeds its bounded size.");
+    if (utf8Bytes(serialized) > 65536) fail5("REQUEST_TOO_LARGE", "The adoption request exceeds its bounded size.");
     const code = await this.collector();
     if (this.closed) fail5("CLOSED", "Telemetry view was closed.");
     const result = await this.io.exec("python3", ["-c", code, serialized], { on: source.machine });
-    if (result.code !== 0 || typeof result.stdout !== "string" || bytes2(result.stdout) > 65536) fail5("HOST_UNAVAILABLE", "The destination machine could not run its read-only Python collector.");
+    if (result.code !== 0 || typeof result.stdout !== "string" || utf8Bytes(result.stdout) > 65536) fail5("HOST_UNAVAILABLE", "The destination machine could not run its read-only Python collector.");
     let response;
     try {
       response = JSON.parse(result.stdout);
@@ -1646,7 +1639,7 @@ var TelemetryBridge = class {
   }
   async full(address, machine2) {
     const local = localTerminalAddress(address, machine2), result = await this.io.exec("hc", ["get", local, "--json"], { on: machine2 });
-    if (result.code !== 0 || typeof result.stdout !== "string" || bytes2(result.stdout) > 1048576) fail5("TERMINAL_UNAVAILABLE", "The exact terminal generation is unavailable on its machine.");
+    if (result.code !== 0 || typeof result.stdout !== "string" || utf8Bytes(result.stdout) > 1048576) fail5("TERMINAL_UNAVAILABLE", "The exact terminal generation is unavailable on its machine.");
     let raw;
     try {
       raw = JSON.parse(result.stdout);

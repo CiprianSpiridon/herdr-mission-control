@@ -1,4 +1,6 @@
 import {bindingKey,canonicalRepoPath,gitlabProjectPath,resolveBinding,updateConfig,validateConfig} from './config.js';
+import {utf8Bytes} from './utf8.js';
+export {utf8Bytes} from './utf8.js';
 
 export const TRACKER_GROUPS=['todo','inProgress','done'];
 const messages={INVALID_FILTER:'Choose an available board status filter.',INVALID_SCOPE:'Select a configured repository and tracker connection.',INVALID_BINDING:'The repository tracker binding is invalid.',INVALID_ISSUE:'The tracker returned an invalid issue; reload its source mapping.',INVALID_SNAPSHOT:'The tracker response does not match the requested scope.',STATUS_MAPPING_REQUIRED:'Choose an unambiguous source status mapping.',UNSUPPORTED_INTEGRATION_HOST:'CLI and stdio MCP integrations must run locally. Configure a local bridge or HTTPS MCP endpoint.',CONNECTION_CONFLICT:'This connection is already used elsewhere. Choose a new profile ID before changing it here.'};
@@ -13,7 +15,6 @@ const date=v=>typeof v==='number'&&Number.isFinite(v)&&Math.abs(v)<=864000000000
 const clone=v=>JSON.parse(JSON.stringify(v));
 const trackerSources=['jira','github','github-pr','gitlab','gitlab-mr'];
 function sourceKind(source){if(!trackerSources.includes(source))fail('INVALID_SCOPE');return source==='github-pr'?'github':source==='gitlab-mr'?'gitlab':source;}
-export const utf8Bytes=value=>{let n=0;for(const c of value){const code=c.codePointAt(0);n+=code<128?1:code<2048?2:code<65536?3:4;}return n;};
 function json(value,code='INVALID_SCOPE'){try{validateConfig({v:1,preferences:{tracker:value}});}catch{fail(code);}}
 function stable(value){if(Array.isArray(value))return '['+value.map(stable).join(',')+']';if(object(value))return '{'+Object.keys(value).sort().map(k=>JSON.stringify(k)+':'+stable(value[k])).join(',')+'}';return JSON.stringify(value);}
 /** Native-safe URL origin normalization; Node transport does full URL parsing. */

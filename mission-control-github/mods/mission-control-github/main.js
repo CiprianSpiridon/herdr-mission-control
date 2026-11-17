@@ -172,6 +172,15 @@ function resolveBinding(config, space) {
   return copy(selected);
 }
 
+// src/shared/utf8.js
+function utf8Bytes(value) {
+  if (!/[^\u0000-\u007f]/.test(value)) return value.length;
+  const twoByteUnits = value.length - value.replace(/[\u0080-\u07ff]/g, "").length;
+  const threeByteUnits = value.length - value.replace(/[\u0800-\uffff]/g, "").length;
+  const pairedUnits = value.length - value.replace(/[\ud800-\udbff][\udc00-\udfff]/g, "").length;
+  return value.length + twoByteUnits + 2 * threeByteUnits - pairedUnits;
+}
+
 // src/shared/tracker-model.js
 var TRACKER_GROUPS = ["todo", "inProgress", "done"];
 var messages = { INVALID_FILTER: "Choose an available board status filter.", INVALID_SCOPE: "Select a configured repository and tracker connection.", INVALID_BINDING: "The repository tracker binding is invalid.", INVALID_ISSUE: "The tracker returned an invalid issue; reload its source mapping.", INVALID_SNAPSHOT: "The tracker response does not match the requested scope.", STATUS_MAPPING_REQUIRED: "Choose an unambiguous source status mapping.", UNSUPPORTED_INTEGRATION_HOST: "CLI and stdio MCP integrations must run locally. Configure a local bridge or HTTPS MCP endpoint.", CONNECTION_CONFLICT: "This connection is already used elsewhere. Choose a new profile ID before changing it here." };
@@ -196,14 +205,6 @@ function sourceKind(source) {
   if (!trackerSources.includes(source)) fail2("INVALID_SCOPE");
   return source === "github-pr" ? "github" : source === "gitlab-mr" ? "gitlab" : source;
 }
-var utf8Bytes = (value) => {
-  let n = 0;
-  for (const c of value) {
-    const code = c.codePointAt(0);
-    n += code < 128 ? 1 : code < 2048 ? 2 : code < 65536 ? 3 : 4;
-  }
-  return n;
-};
 function json(value, code = "INVALID_SCOPE") {
   try {
     validateConfig({ v: 1, preferences: { tracker: value } });
@@ -990,14 +991,6 @@ var text4 = (v, label2, max = 256) => {
   return v;
 };
 var time = (v) => typeof v === "number" && Number.isFinite(v) && v >= 0;
-var bytes = (value) => {
-  let n = 0;
-  for (const c of value) {
-    const p = c.codePointAt(0);
-    n += p < 128 ? 1 : p < 2048 ? 2 : p < 65536 ? 3 : 4;
-  }
-  return n;
-};
 var empty = () => ({ v: 1, revision: 0, proposals: {}, terminals: {} });
 var proofKinds = /* @__PURE__ */ new Set(["caller-session-id", "resume-argv", "pid-open-file", "provider-handshake"]);
 var conflict2 = (e) => ["STALE", "CONFLICT", "EAGAIN"].includes(e?.code) || /stale|contents?.*changed|expected.*match|compare.and.set/i.test(e?.message || "");
@@ -1052,7 +1045,7 @@ function pruneBindings(draft, now2, { recoveryRecorded = [] } = {}) {
   return indexes(draft);
 }
 function capacity(d) {
-  if (Object.keys(d.proposals).length > 500 || bytes(JSON.stringify(d)) > 768 * 1024) fail7("BINDING_CAPACITY", "Session binding storage is full. Reconcile closed terminals or archive recovered requests; active mappings were preserved.");
+  if (Object.keys(d.proposals).length > 500 || utf8Bytes(JSON.stringify(d)) > 768 * 1024) fail7("BINDING_CAPACITY", "Session binding storage is full. Reconcile closed terminals or archive recovered requests; active mappings were preserved.");
 }
 function argvSessionProof({ capabilities, session, terminal, argv, kind, observedAt, sourceDigest }) {
   const s = sessionIdentity(session);
@@ -1081,7 +1074,7 @@ var BindingStore = class {
   async read() {
     const raw = await this.io.readTextFile(this.path);
     if (raw === null) return { raw, value: empty() };
-    if (typeof raw !== "string" || bytes(raw) > 768 * 1024) fail7("BINDING_CAPACITY", "Binding file exceeds its supported size");
+    if (typeof raw !== "string" || utf8Bytes(raw) > 768 * 1024) fail7("BINDING_CAPACITY", "Binding file exceeds its supported size");
     let data;
     try {
       data = JSON.parse(raw);
@@ -2390,11 +2383,11 @@ var actionText = {
   fixChecks: ["Fix failing checks", "Investigate the reported failing checks and implement local code fixes without changing check status."]
 };
 function clip(value, maxBytes, maxChars = Infinity) {
-  let result = "", bytes2 = 0;
+  let result = "", bytes = 0;
   for (const c of value) {
     const size = utf8Bytes(c);
-    if (bytes2 + size > maxBytes || result.length + c.length > maxChars) break;
-    bytes2 += size;
+    if (bytes + size > maxBytes || result.length + c.length > maxChars) break;
+    bytes += size;
     result += c;
   }
   return result;
@@ -2654,7 +2647,7 @@ var GithubDataBridge = class {
       return { binding: e.selection.binding, scope: e.selection.scope, checkoutRoot: e.checkoutRoot, snapshot: e.cache.snapshot, loading: e.cache.pending, progressHint: e.progressHint };
     });
     const data = [], seen = /* @__PURE__ */ new Set(), errors = [...this.errors];
-    let bytes2 = 0, truncated = false, loading = 0;
+    let bytes = 0, truncated = false, loading = 0;
     for (const entry of bindings) {
       if (entry.loading || !entry.snapshot) loading++;
       if (entry.snapshot?.error) errors.push({ binding: entry.binding, error: entry.snapshot.error });
@@ -2663,12 +2656,12 @@ var GithubDataBridge = class {
       for (const [key3, item] of rows) {
         if (seen.has(key3)) continue;
         const size = utf8Bytes(JSON.stringify(item));
-        if (data.length === 1e3 || bytes2 + size > 7 * 1024 * 1024) {
+        if (data.length === 1e3 || bytes + size > 7 * 1024 * 1024) {
           truncated = true;
           continue;
         }
         seen.add(key3);
-        bytes2 += size;
+        bytes += size;
         data.push(item);
       }
     }
@@ -2928,15 +2921,15 @@ var GithubDataBridge = class {
     const rows = new Map(previous.data.map((p) => [this.itemKey(p), p]));
     for (const p of next.data) rows.set(this.itemKey(p), p);
     const data = [];
-    let bytes2 = 0, capped = false;
+    let bytes = 0, capped = false;
     for (const p of rows.values()) {
       const size = utf8Bytes(JSON.stringify(p));
-      if (data.length === 1e3 || bytes2 + size > 7 * 1024 * 1024) {
+      if (data.length === 1e3 || bytes + size > 7 * 1024 * 1024) {
         capped = true;
         break;
       }
       data.push(p);
-      bytes2 += size;
+      bytes += size;
     }
     const result = { ...next, data, fetchedAt: Math.min(previous.fetchedAt, next.fetchedAt) };
     if (capped) {
@@ -2953,10 +2946,10 @@ var GithubDataBridge = class {
   hasAbandonedLoad() {
     return !this.closed && this.visible.some((key3) => this.entries.has(key3) && this.abandonedLoad(this.entries.get(key3)));
   }
-  recoverAbandoned() {
-    return Promise.all(this.visible.filter((key3) => this.entries.has(key3) && this.abandonedLoad(this.entries.get(key3))).map((key3) => this.refreshEntry(this.entries.get(key3), { force: true })));
+  recoverAbandoned({ yieldTask } = {}) {
+    return Promise.all(this.visible.filter((key3) => this.entries.has(key3) && this.abandonedLoad(this.entries.get(key3))).map((key3) => this.refreshEntry(this.entries.get(key3), { force: true, yieldTask })));
   }
-  refreshEntry(entry, { force = false, loadMore = false } = {}) {
+  refreshEntry(entry, { force = false, loadMore = false, yieldTask } = {}) {
     if (!this.currentEntry(entry, entry.version)) return Promise.resolve(entry.cache.snapshot);
     if (this.abandonedLoad(entry)) {
       entry.pending = null;
@@ -2972,6 +2965,7 @@ var GithubDataBridge = class {
     const pending = (async () => {
       try {
         const reply = await this.request({ v: 1, operation: this.viewKind, connection: selection2.connection, binding: selection2.binding, ...loadMore ? { cursor: previous.cursor } : {} }, { isCurrent: current });
+        if (yieldTask) await yieldTask();
         if (current()) {
           entry.cache.accept(ticket, loadMore ? this.mergePages(previous, reply.snapshot, selection2.scope) : reply.snapshot, this.validators());
           this.reconcileOrigins();
@@ -2984,6 +2978,7 @@ var GithubDataBridge = class {
           entry.cache.fail(ticket, { code: safe.code, message: safe.message, ...safe.retryAfterMs !== void 0 ? { retryAt: this.clock() + safe.retryAfterMs } : {} });
         }
       } finally {
+        if (yieldTask) await yieldTask();
         if (entry.pending === pending) entry.pending = null;
         this.publish();
       }
@@ -2994,10 +2989,10 @@ var GithubDataBridge = class {
     this.publish();
     return pending;
   }
-  async refresh({ force = false, loadMore = false, binding } = {}) {
+  async refresh({ force = false, loadMore = false, binding, yieldTask } = {}) {
     if (this.closed) return this.value;
     const keys = binding ? [bindingKey(binding.machine, binding.repoRoot)] : [...this.visible];
-    await Promise.all(keys.filter((k) => this.visible.includes(k)).map((k) => this.refreshEntry(this.entries.get(k), { force, loadMore })));
+    await Promise.all(keys.filter((k) => this.visible.includes(k)).map((k) => this.refreshEntry(this.entries.get(k), { force, loadMore, yieldTask })));
     return this.value;
   }
   pullEntry(value) {
@@ -3245,16 +3240,16 @@ var PullBoardState = class {
     this.ready = null;
     return spawn(cx, async (taskCx) => {
       const current = () => !this.closed && this.requested === request, records = [], children = [], wanted = /* @__PURE__ */ new Set(), choices = /* @__PURE__ */ new Map();
-      let count = 0, bytes2 = 0, started = Date.now();
+      let count = 0, bytes = 0, started = Date.now();
       await taskCx.sleep(0);
       if (!current()) return;
       const yieldBatch = async (size) => {
         count++;
-        bytes2 += size;
-        if (count >= 8 || bytes2 >= 32768 || Date.now() - started >= 6) {
+        bytes += size;
+        if (count >= 8 || bytes >= 32768 || Date.now() - started >= 6) {
           await taskCx.sleep(0);
           count = 0;
-          bytes2 = 0;
+          bytes = 0;
           started = Date.now();
         }
         return current();
@@ -3568,7 +3563,7 @@ var MissionControlGithub = class extends View2 {
     this.syncFromWorld(cx, { force: true });
     this.timers.push(cx.timer.every(6e4, (eventCx) => this.syncFromWorld(eventCx, { force: true })));
     this.timers.push(cx.timer.every(5e3, (eventCx) => {
-      if (!this.closed && this.data.hasAbandonedLoad()) this.spawn(eventCx, () => this.data.recoverAbandoned());
+      if (!this.closed && this.data.hasAbandonedLoad()) this.spawn(eventCx, (taskCx) => this.data.recoverAbandoned({ yieldTask: () => taskCx.sleep(0) }));
     }));
     this.commandTask = cx.spawn(async (eventCx) => {
       while (!this.closed) {
@@ -3702,7 +3697,7 @@ var MissionControlGithub = class extends View2 {
       this.config = this.data.config;
       if (preferencesEpoch === this.preferencesEpoch) this.launchPreferences = this.config?.preferences.launch || {};
       for (const machine3 of new Set(this.data.view().bindings.map((b) => b.binding.machine))) this.discover(machine3, eventCx);
-      await this.data.refresh({ force });
+      await this.data.refresh({ force, yieldTask: () => eventCx.sleep(0) });
     });
   }
   launchReason(issue) {
@@ -4121,13 +4116,13 @@ var MissionControlGithub = class extends View2 {
     if (this.error) root.child(div5().id("github-action-error").px(12).py(7).text_size(11).text_color(t.blocked).child(this.error));
     if (this.info) root.child(div5().id("github-action-info").px(12).py(6).text_size(11).text_color(t.muted).child(this.info));
     if (this.role === "pulls") {
-      const props2 = { id: "github-pulls", mod: MOD, state: this.board, view: this.data.view(), preferences: this.launchPreferences ?? this.config?.preferences.launch ?? this.emptyPreferences, slots: this.slots, revision: JSON.stringify([this.toolRevision, this.pullLifetimeRevision, herdr.machines().map((m) => [m.name, m.layout]), this.resolved?.state ?? null, [...this.launching]]), toolsForMachine: (machine3) => this.tools.get(machineKey(machine3)) || [], detailState: (pull) => this.data.detailState(pull), slotFor: (_pull, _toolKey, validatedKey) => this.slots.get(validatedKey), launchReason: (pull) => this.pullReason(pull), onDetails: (pull, eventCx) => this.loadPullDetails(pull, eventCx), onOpen: (pull, url, eventCx) => this.openPullLink(pull, url, eventCx), onLaunch: (pull, action, key3, eventCx) => this.startPull(pull, action, key3, eventCx), onOptions: (pull, action, eventCx) => this.startPull(pull, action, void 0, eventCx, { options: true }), onRefresh: (eventCx) => this.syncFromWorld(eventCx, { force: true }), onScopeChange: (all, eventCx) => this.setScope(all, eventCx), onSetup: (binding, eventCx) => this.openSetup(binding, eventCx), onLoadMore: (eventCx) => this.spawn(eventCx, () => this.data.refresh({ loadMore: true })) };
+      const props2 = { id: "github-pulls", mod: MOD, state: this.board, view: this.data.view(), preferences: this.launchPreferences ?? this.config?.preferences.launch ?? this.emptyPreferences, slots: this.slots, revision: JSON.stringify([this.toolRevision, this.pullLifetimeRevision, herdr.machines().map((m) => [m.name, m.layout]), this.resolved?.state ?? null, [...this.launching]]), toolsForMachine: (machine3) => this.tools.get(machineKey(machine3)) || [], detailState: (pull) => this.data.detailState(pull), slotFor: (_pull, _toolKey, validatedKey) => this.slots.get(validatedKey), launchReason: (pull) => this.pullReason(pull), onDetails: (pull, eventCx) => this.loadPullDetails(pull, eventCx), onOpen: (pull, url, eventCx) => this.openPullLink(pull, url, eventCx), onLaunch: (pull, action, key3, eventCx) => this.startPull(pull, action, key3, eventCx), onOptions: (pull, action, eventCx) => this.startPull(pull, action, void 0, eventCx, { options: true }), onRefresh: (eventCx) => this.syncFromWorld(eventCx, { force: true }), onScopeChange: (all, eventCx) => this.setScope(all, eventCx), onSetup: (binding, eventCx) => this.openSetup(binding, eventCx), onLoadMore: (eventCx) => this.spawn(eventCx, (taskCx) => this.data.refresh({ loadMore: true, yieldTask: () => taskCx.sleep(0) })) };
       this.board.synchronize(props2, cx, (ownerCx, work) => this.spawn(ownerCx, work));
       return root.child(renderPullBoard(props2, cx));
     }
     const bindings = this.data.view().bindings, hints = [...new Set(bindings.map((b) => b.progressHint).filter(Boolean))];
     if (hints.length) root.child(h_flex5().id("github-progress-hint").px(12).py(5).gap(6).items_center().tooltip(hints.join("\n")).accessibility_label(hints.join("\n")).child(icon(MOD, "issue", 12).text_color(t.dim)).child(div5().flex_1().text_size(10).text_color(t.dim).child("In progress needs a status mapping.")).child(iconButton(MOD, "github-map-progress", "settings", "Configure status mapping", (_e, eventCx) => this.openSetup(bindings.find((b) => b.progressHint)?.binding, eventCx), { size: 24 })));
-    return root.child(renderIssueBoard({ id: "github-board", mod: MOD, state: this.board, view: this.data.view(), preferences: this.launchPreferences ?? this.config?.preferences.launch ?? {}, toolsForMachine: (machine3) => this.tools.get(machineKey(machine3)) || [], launchReason: (issue) => this.launchReason(issue), onOpenIssue: (issue, eventCx) => this.openIssue(issue, eventCx), onLaunch: (issue, key3, eventCx) => this.startIssue(issue, key3, eventCx), onOptions: (issue, eventCx) => this.startIssue(issue, void 0, eventCx, { options: true }), onRefresh: (_value, eventCx) => this.syncFromWorld(eventCx, { force: true }), onSetup: (binding, eventCx) => this.openSetup(binding, eventCx), onScopeChange: (all, eventCx) => this.setScope(all, eventCx), onLoadMore: (_value, eventCx) => this.spawn(eventCx, () => this.data.refresh({ loadMore: true })), onInvalid: (message, eventCx) => {
+    return root.child(renderIssueBoard({ id: "github-board", mod: MOD, state: this.board, view: this.data.view(), preferences: this.launchPreferences ?? this.config?.preferences.launch ?? {}, toolsForMachine: (machine3) => this.tools.get(machineKey(machine3)) || [], launchReason: (issue) => this.launchReason(issue), onOpenIssue: (issue, eventCx) => this.openIssue(issue, eventCx), onLaunch: (issue, key3, eventCx) => this.startIssue(issue, key3, eventCx), onOptions: (issue, eventCx) => this.startIssue(issue, void 0, eventCx, { options: true }), onRefresh: (_value, eventCx) => this.syncFromWorld(eventCx, { force: true }), onSetup: (binding, eventCx) => this.openSetup(binding, eventCx), onScopeChange: (all, eventCx) => this.setScope(all, eventCx), onLoadMore: (_value, eventCx) => this.spawn(eventCx, (taskCx) => this.data.refresh({ loadMore: true, yieldTask: () => taskCx.sleep(0) })), onInvalid: (message, eventCx) => {
       this.error = message;
       eventCx.notify();
     } }, cx));

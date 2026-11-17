@@ -13,6 +13,7 @@
 import {NameOwnership} from './name-ownership.js';
 import {ClosedJournal,LIMITS as CLOSED} from './closed-tabs.js';
 import {NAME_LIMITS,TabNamesError,emptyTabNames,validateTabNames,observeTab,reconcileTab,sweep,displayLabel,tabKey,normalizeMeta,mergeMeta} from './tab-names.js';
+import {utf8Bytes as utf8} from './utf8.js';
 
 export class TabServiceError extends Error {constructor(code,message){super(message);this.name='TabServiceError';this.code=code;}}
 const fail=(code,message)=>{throw new TabServiceError(code,message);};
@@ -21,7 +22,6 @@ export const SERVICE_LIMITS=Object.freeze({pollMs:3000,maxPollMs:60000,leaseMs:1
 const clone=v=>JSON.parse(JSON.stringify(v));
 const freeze=v=>{if(v&&typeof v==='object'&&!Object.isFrozen(v)){for(const c of Object.values(v))freeze(c);Object.freeze(v);}return v;};
 const plain=v=>v!==null&&typeof v==='object'&&!Array.isArray(v);
-const utf8=value=>{let n=0;for(const c of value){const p=c.codePointAt(0);n+=p<128?1:p<2048?2:p<65536?3:4;}return n;};
 const isConflict=e=>['STALE','CONFLICT','EAGAIN'].includes(e?.code)||/stale|snapshot|contents?.*changed|expected.*match|compare.and.set/i.test(e?.message||'');
 const known=e=>e instanceof TabNamesError||e instanceof TabServiceError;
 const randomId=prefix=>prefix+'-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,10);

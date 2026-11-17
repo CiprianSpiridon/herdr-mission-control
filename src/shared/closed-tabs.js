@@ -2,6 +2,7 @@ import {canonicalRepoPath} from './config.js';
 import {machineIdentity,sessionIdentity,localTerminalAddress} from './session-identity.js';
 import {BindingStore} from './session-bindings.js';
 import {NameOwnership} from './name-ownership.js';
+import {utf8Bytes as utf8} from './utf8.js';
 
 export class ClosedTabsError extends Error {constructor(code,message,recovery){super(message);this.name='ClosedTabsError';this.code=code;if(recovery)this.recovery=recovery;}}
 const fail=(code,message,recovery)=>{throw new ClosedTabsError(code,message,recovery);};
@@ -13,7 +14,6 @@ const freeze=v=>{if(v&&typeof v==='object'&&!Object.isFrozen(v)){for(const c of 
 const clockOf=io=>io.clock?io.clock():Date.now();
 const plain=v=>v!==null&&typeof v==='object'&&!Array.isArray(v);
 const time=v=>Number.isSafeInteger(v)&&v>=0;
-const utf8=value=>{let n=0;for(const c of value){const p=c.codePointAt(0);n+=p<128?1:p<2048?2:p<65536?3:4;}return n;};
 const reserved=new Set(['__proto__','prototype','constructor']);
 const text=(v,label,max=256)=>{if(typeof v!=='string'||!v||v.length>max||reserved.has(v)||/[\u0000-\u001f\u007f]/.test(v))fail('INVALID_CLOSED',`Invalid ${label}`);return v;};
 /** Titles and names are display text only: control characters collapse and length is bounded. */

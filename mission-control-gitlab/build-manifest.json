@@ -27,8 +27,8 @@
     "assets/sessions.svg": "40c70935bd80015005b85b9b42368e4dfdf44ac6a3392e2f6b7fd18a59159d9d",
     "assets/settings.svg": "c0d3295d7dc3261c7f6e9e6eb4217b044b834d680215ac1e38f9c1efb11b2dc9",
     "assets/spaces.svg": "01d3d618b27ef141c8251358657d7533abef2bbc40b447f53728c768fa4a593b",
-    "backend.mjs": "cfb18cece5ca52ad2d17a9a40028aca3687446ad424f469b72de1e3314387b86",
-    "main.js": "e4771aafa789e4a75ad414d2c98bbc0d0806f6a7d75a64cb16bcc57e447673af",
+    "backend.mjs": "1f3b1b1fe2c9491bfdf8a284b5897e958783b0d099bf4ef9620812bbca54f4c5",
+    "main.js": "23ee4355a1553c9f923b3c47876575bdf80d28bd12284e45b3dab36a2d21042f",
     "mod.json": "c6c8cd9a9ab8f0c13c762a69b23ce8f85062dc18302f328768855f1ef8ef4a2f",
     "NOTICE.md": "f20f37f2705da9d37b502d64fbe21f68f7db7280f83369013586be19e747c873"
   },
@@ -49,13 +49,14 @@
     "src/shared/launch-preferences.js": "c70132d68a264054de91a25704c44c7f6c6cb2e380c93f6807842bdca5558fd9",
     "src/shared/launch.js": "a022484143c160f3fcdb54963555e8b17f37da8aa2b51bc5fb30ac893a106155",
     "src/shared/name-ownership.js": "24f4e7060bffdb1559e76091039fc1b1e076095d72cc8b44c14596d8a37ae784",
-    "src/shared/session-bindings.js": "8ce735273c2d4e8ee9e63bed0036276d8afa69fc92f40c22fa30ddd10c815d99",
+    "src/shared/session-bindings.js": "ce6e6b1d01861aa04de7944bd534d0c3d9990110a245b0cf958f114666296055",
     "src/shared/session-identity.js": "9cb414ff020c4c49c66018f8146f41261975790a4d4349da18f278f60131617e",
     "src/shared/space-repo.js": "464ff46525dc00fd74813104bb9fcc770d10fef2eb366decc6f18125a6f62d07",
     "src/shared/tool-capabilities.js": "31bbf19a27d0621a8d758fdcb6d4f46a1788bd96d5d80331a938999df9012f05",
-    "src/shared/tracker-model.js": "ccff559b7b1f7160596e73fac10215d12eab265fb2b70fcf4c163216938ca66a",
+    "src/shared/tracker-model.js": "34b10816272c6be6d96fc585d9a06acc91ffd19755fd7551202191ab0b935515",
     "src/shared/tracker-transport.mjs": "e8e890a65ea03d883948068999b0b8c09c3702f15f73d335092e85fb9896a563",
     "src/shared/ui.js": "63653a7db2c610678b687fe0263aa078f9458336d411b5be4335cba2a4b8533b",
+    "src/shared/utf8.js": "622f8ed6f3869642ff67ca94791616d51cd008d291d4c4cba76f51b213970d9e",
     "src/shared/worktrees.js": "adcbcc9b10fc6f08f852bdeed9d8cd0e3dc6f0bdf8104c1ebca9dc9264f360d5"
   }
 }

@@ -57,6 +57,24 @@ async function fixture(t,{all=false,worktree=false,props={},configured=true}={})
   };
 }
 
+test('a 200-PR response over 1.1 MB settles loading and publishes every pull request', async t => {
+  const f = await fixture(t);
+  await f.flush();
+  f.flags.list = (_p, request) => Array.from({length: 200}, (_, i) => ({
+    ...pull(request.connection, request.binding, {number: i + 1}),
+    body: 'Description é漢🙂\n'.repeat(300),
+  }));
+  await f.view.data.refresh({force: true});
+  await f.flush();
+  const state = f.view.data.view();
+  assert.ok(Buffer.byteLength(JSON.stringify(state.data)) > 1100000);
+  assert.equal(state.state, 'ready');
+  assert.equal(state.loading, 0);
+  assert.equal(state.data.length, 200);
+  assert.equal(state.data.at(-1).key, 'GH-PR-200');
+  assert.ok(!strings(f.tree()).includes('Loading pull requests…'));
+});
+
 test('dedicated PR cards show actual authors, independent metadata, icons and source links without issue workflow headings',async t=>{
   const f=await fixture(t);await f.flush();assert.equal(f.view.role,'pulls');assert.equal(f.view.data.view().view,'pulls');assert.equal(f.view.resolved.worktreeRoot,f.linked);const row=f.row(),id=pullCardId('github-pulls',row);let tree=f.tree(),text=strings(tree);
   assert.equal(text.filter(v=>v==='Pull requests').length,1);assert.ok(text.includes('@alice'));assert.ok(!text.includes('To do'));assert.ok(!text.includes('In progress'));assert.ok(!text.includes('Claude Code'));for(const tool of ['claude','codex','grok'])assert.ok(findElement(tree,id+'-start-'+tool));assert.throws(()=>findElement(tree,id+'-start-kiro'));

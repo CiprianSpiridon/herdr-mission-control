@@ -9,10 +9,10 @@ import {QUOTA_STALE_MS,quotaKey,normalizeQuota,selectQuota} from './quota.js';
 import {hostFacts} from './restart-host.js';
 import {CODEX_LABEL,parseCodexLabel} from './codex-session-hook.js';
 import {agentProcess,argvSession,providerOf} from './restart-resume.js';
+import {utf8Bytes as bytes} from './utf8.js';
 /** Beyond every helper deadline: a refresh still pending this long was abandoned by the host. */
 export const REFRESH_STALE_MS=90000;
 
-const bytes=value=>{let size=0;for(const character of value){const n=character.codePointAt(0);size+=n<128?1:n<2048?2:n<65536?3:4;}return size;};
 const fail=(code,message)=>{throw Object.assign(Error(message),{code});};
 /** Herdr reports Claude Code's foreground command as `claude` (or a path to it, or its npm package). */
 const claudeForeground=raw=>{const argv=Array.isArray(raw?.foreground?.argv)?raw.foreground.argv.slice(0,4):[];return argv.some(a=>typeof a==='string'&&(/(^|\/)claude$/.test(a)||a.includes('/@anthropic-ai/claude-code/')));};

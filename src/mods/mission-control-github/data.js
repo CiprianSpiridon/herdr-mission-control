@@ -204,8 +204,8 @@ export class GithubDataBridge{
   // A ticket without its live load, or a load past every helper deadline, was abandoned by the host.
   abandonedLoad(entry){return entry.pending?this.clock()-entry.pendingAt>=STALE_LOAD_MS:entry.cache.pending;}
   hasAbandonedLoad(){return !this.closed&&this.visible.some(key=>this.entries.has(key)&&this.abandonedLoad(this.entries.get(key)));}
-  recoverAbandoned(){return Promise.all(this.visible.filter(key=>this.entries.has(key)&&this.abandonedLoad(this.entries.get(key))).map(key=>this.refreshEntry(this.entries.get(key),{force:true})));}
-  refreshEntry(entry,{force=false,loadMore=false}={}){
+  recoverAbandoned({yieldTask}={}){return Promise.all(this.visible.filter(key=>this.entries.has(key)&&this.abandonedLoad(this.entries.get(key))).map(key=>this.refreshEntry(this.entries.get(key),{force:true,yieldTask})));}
+  refreshEntry(entry,{force=false,loadMore=false,yieldTask}={}){
     if(!this.currentEntry(entry,entry.version))return Promise.resolve(entry.cache.snapshot);
     if(this.abandonedLoad(entry)){entry.pending=null;entry.cache.abandon();this.publish();}
     if(entry.pending)return entry.pending;const selection=copy(entry.selection),previous=entry.cache.snapshot,now=this.clock(),version=entry.version;
@@ -214,12 +214,15 @@ export class GithubDataBridge{
     const pending=(async()=>{
       try{
         const reply=await this.request({v:1,operation:this.viewKind,connection:selection.connection,binding:selection.binding,...(loadMore?{cursor:previous.cursor}:{})},{isCurrent:current});
+        // Response validation and cache validation must not share one native
+        // task slice for a large page. Recheck the captured scope after yielding.
+        if(yieldTask)await yieldTask();
         if(current()){entry.cache.accept(ticket,loadMore?this.mergePages(previous,reply.snapshot,selection.scope):reply.snapshot,this.validators());this.reconcileOrigins();if(reply.progressHint!==undefined)entry.progressHint=reply.progressHint;for(const[key,d]of this.details)if(d.entry===entry)this.details.delete(key);}
       }catch(error){if(current()){const safe=safeError(error);entry.cache.fail(ticket,{code:safe.code,message:safe.message,...(safe.retryAfterMs!==undefined?{retryAt:this.clock()+safe.retryAfterMs}:{})});}}
-      finally{if(entry.pending===pending)entry.pending=null;this.publish();}return entry.cache.snapshot;
+      finally{if(yieldTask)await yieldTask();if(entry.pending===pending)entry.pending=null;this.publish();}return entry.cache.snapshot;
     })();entry.pending=pending;entry.pendingAt=now;this.publish();return pending;
   }
-  async refresh({force=false,loadMore=false,binding}={}){if(this.closed)return this.value;const keys=binding?[bindingKey(binding.machine,binding.repoRoot)]:[...this.visible];await Promise.all(keys.filter(k=>this.visible.includes(k)).map(k=>this.refreshEntry(this.entries.get(k),{force,loadMore})));return this.value;}
+  async refresh({force=false,loadMore=false,binding,yieldTask}={}){if(this.closed)return this.value;const keys=binding?[bindingKey(binding.machine,binding.repoRoot)]:[...this.visible];await Promise.all(keys.filter(k=>this.visible.includes(k)).map(k=>this.refreshEntry(this.entries.get(k),{force,loadMore,yieldTask})));return this.value;}
   pullEntry(value){
     if(this.viewKind!=='pulls')fail('INVALID_REQUEST');const pull=validatePullRequest(value),key=bindingKey(pull.repoBinding.machine,pull.repoBinding.repoRoot),entry=this.entries.get(key);if(!entry||!this.visible.includes(key))fail('INVALID_SCOPE');
     try{validatePullRequest(pull,{scope:entry.selection.scope});}catch{fail('INVALID_SCOPE');}const found=this.indexedPulls(entry.cache.snapshot).get(pullIdentityKey(pull));if(!found||found.head.sha!==pull.head.sha||found.base.sha!==pull.base.sha)fail('INVALID_SCOPE');return {pull,entry};

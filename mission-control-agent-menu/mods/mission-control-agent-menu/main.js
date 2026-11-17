@@ -686,6 +686,15 @@ async function validateCheckout(shape, exec) {
   if (a !== b) fail5("CHECKOUT_MISMATCH", "The selected checkout belongs to a different canonical repository");
 }
 
+// src/shared/utf8.js
+function utf8Bytes(value) {
+  if (!/[^\u0000-\u007f]/.test(value)) return value.length;
+  const twoByteUnits = value.length - value.replace(/[\u0080-\u07ff]/g, "").length;
+  const threeByteUnits = value.length - value.replace(/[\u0800-\uffff]/g, "").length;
+  const pairedUnits = value.length - value.replace(/[\ud800-\udbff][\udc00-\udfff]/g, "").length;
+  return value.length + twoByteUnits + 2 * threeByteUnits - pairedUnits;
+}
+
 // src/shared/session-bindings.js
 var clone = (v) => JSON.parse(JSON.stringify(v));
 var fail6 = (code, message) => {
@@ -696,14 +705,6 @@ var text3 = (v, label2, max = 256) => {
   return v;
 };
 var time = (v) => typeof v === "number" && Number.isFinite(v) && v >= 0;
-var bytes = (value) => {
-  let n = 0;
-  for (const c of value) {
-    const p = c.codePointAt(0);
-    n += p < 128 ? 1 : p < 2048 ? 2 : p < 65536 ? 3 : 4;
-  }
-  return n;
-};
 var empty = () => ({ v: 1, revision: 0, proposals: {}, terminals: {} });
 var proofKinds = /* @__PURE__ */ new Set(["caller-session-id", "resume-argv", "pid-open-file", "provider-handshake"]);
 var conflict2 = (e) => ["STALE", "CONFLICT", "EAGAIN"].includes(e?.code) || /stale|contents?.*changed|expected.*match|compare.and.set/i.test(e?.message || "");
@@ -758,7 +759,7 @@ function pruneBindings(draft, now2, { recoveryRecorded = [] } = {}) {
   return indexes(draft);
 }
 function capacity(d) {
-  if (Object.keys(d.proposals).length > 500 || bytes(JSON.stringify(d)) > 768 * 1024) fail6("BINDING_CAPACITY", "Session binding storage is full. Reconcile closed terminals or archive recovered requests; active mappings were preserved.");
+  if (Object.keys(d.proposals).length > 500 || utf8Bytes(JSON.stringify(d)) > 768 * 1024) fail6("BINDING_CAPACITY", "Session binding storage is full. Reconcile closed terminals or archive recovered requests; active mappings were preserved.");
 }
 function argvSessionProof({ capabilities, session, terminal, argv, kind, observedAt, sourceDigest }) {
   const s = sessionIdentity(session);
@@ -787,7 +788,7 @@ var BindingStore = class {
   async read() {
     const raw = await this.io.readTextFile(this.path);
     if (raw === null) return { raw, value: empty() };
-    if (typeof raw !== "string" || bytes(raw) > 768 * 1024) fail6("BINDING_CAPACITY", "Binding file exceeds its supported size");
+    if (typeof raw !== "string" || utf8Bytes(raw) > 768 * 1024) fail6("BINDING_CAPACITY", "Binding file exceeds its supported size");
     let data;
     try {
       data = JSON.parse(raw);

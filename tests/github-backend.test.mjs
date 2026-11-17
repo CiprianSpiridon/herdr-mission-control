@@ -220,6 +220,31 @@ test('coalesced detail reads cannot borrow a released caller lease while another
 });
 
 // Herdr ends an overrunning continuation without catch/finally; its ticket must not show Loading for ever.
+test('native refresh yields between validation and publication without accepting a changed scope', async t => {
+  const f = await fixture(t), a = f.input(), other = f.input('work', 'other');
+  const config = configFor([a, other]), bridge = f.bridge({view: 'pulls'});
+  bridge.selectConfig(config, resolved(a));
+  let yields = 0;
+  await bridge.refresh({yieldTask: async () => { yields++; }});
+  assert.equal(yields, 2);
+  assert.equal(bridge.view().state, 'ready');
+
+  let release, paused = false;
+  const gate = new Promise(resolve => { release = resolve; });
+  const pending = bridge.refresh({force: true, yieldTask: async () => {
+    if (!paused) { paused = true; await gate; }
+  }});
+  await waitFor(() => paused);
+  bridge.selectConfig(config, resolved(other));
+  release();
+  await pending;
+  assert.equal(bridge.view().data.length, 0);
+  assert.equal(bridge.view().bindings[0].binding.repoRoot, other.binding.repoRoot);
+  await bridge.refresh();
+  assert.equal(bridge.view().state, 'ready');
+  assert.ok(bridge.view().data.every(row => row.repoBinding.repoRoot === other.binding.repoRoot));
+});
+
 test('a load the host ended mid-flight is reloaded and expired queue slots never block helpers',async t=>{
   const f=await fixture(t),r=f.input(),c=configFor([r]);await f.save(c);const b=f.bridge();b.selectConfig(c,resolved(r));
   const entry=[...b.entries.values()][0];assert.ok(entry.cache.begin());b.publish();assert.equal(b.view().state,'loading');assert.equal(b.hasAbandonedLoad(),true);
