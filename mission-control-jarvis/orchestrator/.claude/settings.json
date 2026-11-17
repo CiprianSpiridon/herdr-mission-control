@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(hc ls:*)",
+      "Bash(hc get:*)",
+      "Bash(hc read:*)",
+      "Bash(hc wait:*)",
+      "Bash(hc events:*)",
+      "Bash(herdr-app ls:*)",
+      "Bash(herdr-app status:*)",
+      "Bash(herdr-app commands:*)",
+      "Bash(git status:*)",
+      "Bash(git log:*)",
+      "Bash(git diff:*)",
+      "Bash(git worktree list:*)",
+      "Bash(gh pr list:*)",
+      "Bash(gh pr view:*)",
+      "Bash(gh pr checks:*)",
+      "Bash(\"$HOME/.config/herdr-app/mission-control/jarvis/bin/jarvis-text\":*)",
+      "Read(~/.config/herdr-app/mission-control/config.json)"
+    ],
+    "deny": [
+      "Edit(~/.config/herdr-app/mission-control/config.json)",
+      "Write(~/.config/herdr-app/mission-control/config.json)",
+      "Edit(~/.config/herdr-app/mission-control/space-icons.json)",
+      "Write(~/.config/herdr-app/mission-control/space-icons.json)",
+      "Bash(git push --force:*)",
+      "Bash(git push -f:*)"
+    ]
+  }
+}
